@@ -205,7 +205,7 @@ and applications over multiple transports.
 <br/>
 <a href="https://www.caduceus.es/en/download-mirth-connect/" target="web">Download</a> 
 <br/>
-<a href="https://www.nextgen.com/-/media/files/nextgen-connect/nextgen-connect-39-user-guide.pdf" target="web">User guide</a> 
+<a href="nextgen-connect-39-user-guide.pdf" target="lab">User guide</a> 
 <br/>
 
 
@@ -220,6 +220,17 @@ and applications over multiple transports.
 </tr>
 
 <tr><td> 
+<pre>
+To clear your Java cache in Windows:
+--------------------------------------------------------
+Click Start > Control Panel.
+Locate and double click the Java icon in the Control Panel.
+Click Settings under Temporary Internet Files.
+Click Delete Files.
+Select all boxes and click OK on Delete Temporary Files window.
+Click OK on Temporary Files Settings window.
+Click OK to close the Java Control Panel.
+</pre>
 </td>
 <td>
  
@@ -253,8 +264,9 @@ docker run --name conn -p8443:8443 nextgenhealthcare/connect:3.9
 
 <h3>Install on PC</h3>
 <pre>
+docker pull nextgenhealthcare/connect
 docker run --name natconn  -p8443:8443 -p7001:7001 nextgenhealthcare/connect:3.9
-docker run -p8443:8443 -p7001:7001  brandonstevens/mirth-connect
+docker run --name natconn1 -p8443:8443 -p7001:7001  brandonstevens/mirth-connect
 
 </pre>
 
