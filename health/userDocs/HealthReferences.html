@@ -196,8 +196,8 @@ div.imagedesc{
 <table style="width:98%">
 <tbody>	
 <tr>
-<td style="width:30%" >
-<h3>Mirth connect.</h3>
+<td style="width:60%" >
+<h3>What is Mirth Connect</h3> 
 Mirth Connect is an open source cross-platform HL7 interface engine that enables bi-directional sending of HL7 messages between systems 
 and applications over multiple transports.
 </td>
@@ -207,13 +207,8 @@ and applications over multiple transports.
 <br/>
 <a href="https://www.nextgen.com/-/media/files/nextgen-connect/nextgen-connect-39-user-guide.pdf" target="web">User guide</a> 
 <br/>
-<a href="http://www.mirthcorp.com/community/wiki/display/mirth/Example+Channel" target="web">Example Channel</a> 
-<br/>
-<a href="https://www.mirthcorp.com/community/wiki/pages/viewpage.action?pageId=38798954" target="web">FHIR Connector Extension (3.9)</a> 
-<br/>
-https://www.youtube.com/watch?v=sTkHtatz_0c
-<br/>
-cabolabs.com
+
+
 
 </td>
 </tr>
@@ -236,6 +231,162 @@ cabolabs.com
  </tbody>
 </table>
  </center> 
+ 
+<pre>
+https://www.hl7soup.com/
+
+https://www.youtube.com/watch?v=sTkHtatz_0c
+https://techno-soft.com/fhir-setup-on-mirth-connect.html/#:~:text=Find%20the%20FHIR%20zip%20file,FHIR%20Listener%20extension%20is%20installed.
+https://www.youtube.com/watch?v=WkBaRwVzkl4
+
+https://localhost:8443
+ 
+OTHER
+wget http://downloads.mirthcorp.com/mirthconnect-3.9.0.b2526-unix.tar.gz
+
+https://www.youtube.com/watch?v=Wm2Bqs3r0hI HL7 Tutorial: Mirth Connect and HL7 Soup Message Relay
+
+http://www.mirthcorp.com/community/wiki/display/mirthuserguidev1r7p1/TCP+Listener
+
+docker run --name conn -p8443:8443 nextgenhealthcare/connect:3.9
+</pre>
+
+<h3>Install on PC</h3>
+<pre>
+docker run --name natconn  -p8443:8443 -p7001:7001 nextgenhealthcare/connect:3.9
+docker run -p8443:8443 -p7001:7001  brandonstevens/mirth-connect
+
+</pre>
+
+<h3>Install on RaspberryPi</h3>
+Docker does not work
+<pre>
+https://www.youtube.com/watch?v=eh_ZMJsQ77g
+sudo -su root
+
+wget http://downloads.mirthcorp.com/mirthconnect-3.5.1.b194-unix.tar.gz
+
+--unzip mirth download (update filename as necessary)
+tar xvfz mirthconnect-3.5.1.b194-unix.tar.gz
+
+--copy mirth software to an appropriate folder
+mv Mirth\ Connect/ /opt/mirthconnect
+
+--cleanup download (update filename as necessary)
+rm mirthconnect-3.5.1.b194-unix.tar.gz
+
+--start mcservice
+/opt/mirthconnect/mcservice start
+bash mcservice start
+--verify status
+/opt/mirthconnect/mcservice status
+bash mcservice status
+
+-verify 8080 in broswer
+dg1.hdcbc.ca:8080
+
+--verify 8443 in broswer
+dg1.hdcbc.ca:8443
+</pre>
+
+<h2>Creating a Channel</h2>
+ <a href="https://cabolabs.com/" target="web">CaboLabs</a> 
+  <br/>
+<a href="https://cabolabs.com/education/" target="web">CaboLabs: Health Information Systems, Interoperability and Standards Online Training Program</a> 
+<br/>
+<a href="https://cabolabs.com/education/program_mirth_connect_workshop.pdf" target="web">program_mirth_connect_workshop.pdf</a>
+
+<br/>
+<a href="https://www.youtube.com/watch?v=sTkHtatz_0c" target="web">Mirth Connect creating and using a channel</a> 
+
+ <pre>
+ netstat -t
+ http://localhost:8089/sample/
+ curl --location --request POST 'http://localhost:8089/sample/' --header 'Content-Type: json' --form 'move=l'
+ 
+ logger.info(connectorMessage.getRawData())
+ 
+ curl -X POST "https://localhost:8443/api/channels/channelTcp1/messages?destinationMetaDataId=" -H "accept: application/xml" -H "Content-Type: text/plain" -d "msg2"
+ Code Template: Automatic Mirth Backup https://forums.mirthproject.io/forum/mirth-connect/support/16298-code-template-automatic-mirth-backup?t=217155 
+ Mirth (old, ma spiega) https://betaingegneria.it/howto/webservices/mirth/
+ PAblo https://www.linkedin.com/pulse/mirth-connect-download-install-run-pablo-pazos-gutierrez?articleId=6642952560405737472
+ Mirth Channel Overview BENE https://help.datica.com/hc/en-us/articles/115005322583-Mirth-Channel-Overview
+ http://wiki.patesco.ca/doku.php?id=hl7:mirth:intro
+ MIRTH CONNECT EXAMPLES ON DOCKER https://github.com/marlycormar/mirth-connect-channel-examples
+ 
+ </pre>
+ <h2>FHIR</h2>
+<a href="https://www.mirthcorp.com/community/wiki/pages/viewpage.action?pageId=38798954" target="web">FHIR Connector Extension (3.9)</a> 
+<br/>
+  <a href="https://www.youtube.com/watch?v=WkBaRwVzkl4" target="web">Install Mirth FHIR Extension</a>  
+  <br/>
+ <a href="http://www.mirthcorp.com/community/wiki/display/mirth/Example+Channel" target="web">Example Channel</a> 
+<br/>
+ <a href="https://techno-soft.com/fhir-setup-on-mirth-connect.html/#:~:text=Find%20the%20FHIR%20zip%20file,FHIR%20Listener%20extension%20is%20installed" target="web">
+TechnoSoft: FHIR Setup on Mirth Connect / NextGen Connect</a> 
+<br/>
+ <a href="http://www.mirthcorp.com/community/wiki/pages/viewpage.action?pageId=38798961" target="web">Mirth FHIR UserGuide</a>
+<br/>
+ 
+<pre><m>
+END-USER LICENSE AGREEMENT
+FOR
+FHIR CONNECTOR EXTENSION SOFTWARE
+IMPORTANT--READ CAREFULLY: This End-User License Agreement ("Agreement") is a legal contract between you (either an individual or a single business entity) and Quality Systems, Inc. (“QSI”) for the software product identified above, which includes computer software and, as applicable, associated media, printed materials, and "online" or electronic documentation (the "Software").
+
+BY CLICKING THE [ENTER] OR [ACCEPTED] ICON BELOW, OR BY INSTALLING, COPYING, OR OTHERWISE USING THE SOFTWARE, YOU AGREE TO BE BOUND BY THE TERMS OF THIS AGREEMENT, INCLUDING THE WARRANTY DISCLAIMERS, LIMITATIONS OF LIABILITY AND TERMINATION PROVISIONS BELOW. IF YOU DO NOT AGREE TO THE TERMS OF THIS AGREEMENT, DO NOT INSTALL OR USE THE SOFTWARE, AND EXIT NOW.
+
+Background
+QSI has produced a computer program for its own use and for the use of interested customers providing users an easy way to create and develop FHIR-compliant servers (the "Software"). The Software is provided by QSI to customers primarily as a convenience at this time. The terms of this Agreement will apply to your use of the Software, including any revisions or new releases QSI may provide you at any time.
+
+Terms
+License Grant
+QSI hereby grants to you, and you accept, a nonexclusive license to use the Software, provided in machine-readable, object-code form, only as authorized in this Agreement. No source code will be provided and/or made available to You.
+
+You agree that you will not assign, sublicense, transfer, pledge, lease, rent, or share your rights under this Agreement. You agree that you may not reverse assemble, reverse compile or otherwise translate the Software.
+
+You may not rent, lease or lend the Software.
+
+Upon loading the Software into your computer, you may retain, for backup purposes, one copy of the Software. Any copies of the Software or any related user documentation shall include QSI's copyright and other proprietary notices. Except as authorized under this paragraph, no copies of the Software or any portions thereof may be made by you or any person under your authority or control.
+
+License Fees
+The Software is provided without charge. Other fees, if any, are payable only as separately stipulated by QSI and agreed to, in writing, by Customer.
+
+Proprietary Rights
+The Software and related user documentation are proprietary products of QSI protected under U.S. copyright law. All right, title, and interest in and to the Software, including associated intellectual property rights, are and shall remain with QSI. This Agreement does not convey to you an interest in or to the Software, but only a limited right of use revocable in accordance with the terms of this Agreement.
+
+Feedback/Submissions
+You are asked to report any error or malfunction in the Software to QSI. Although QSI assumes no legal obligation with respect to your use of the Software, it is QSI's intent that errors and malfunctions will be addressed through reasonable corrective efforts based on priorities and available resources QSI may assign to such errors or malfunctions.
+
+Should you decide to transmit to QSI's Web site by any means or by any media any materials or other information (including, without limitation, ideas, concepts or techniques for new or improved services and products), whether as information, feedback, data, questions, comments, suggestions or the like, you agree such submissions are unrestricted and shall be deemed non-confidential and you automatically grant QSI and its assigns a nonexclusive, royalty-free, worldwide, perpetual, irrevocable license, with the right to sublicense, to use, copy, transmit, distribute, create derivative works of, display and perform the same.
+
+Term
+This Agreement is effective upon the earlier of your execution of this Agreement or your first use of the Software, and shall continue until terminated. QSI may terminate this Agreement upon 30 days prior notice at any time, or immediately in the event of any breach by you of any term hereof. Upon any termination, you agree to return to QSI the Software and all copies and portions thereof or certify permanent deletion of all copies of the Software within your control.
+
+No Warranties
+QSI provides no support for the Software.
+
+The Software is provided "AS IS, WHERE IS," without any representation or warranty whatsoever. QSI DOES NOT AND CANNOT WARRANT THE PERFORMANCE OR RESULTS YOU MAY OBTAIN BY USING THE SOFTWARE OR SUCH FILES. QSI MAKES NO WARRANTIES, EXPRESS OR IMPLIED, AS TO TITLE OR INFRINGEMENT OF THIRD-PARTY RIGHTS, MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE.
+
+Backward compatibility of future releases, if any, is not guaranteed.
+
+Please remember that any use of computers is subject to a likelihood of human and machine errors, omissions, delays and losses, including loss or corruption of data or media. You should adopt such measures as you believe proper to limit the impact of those problems, including backing up data and verifying the accuracy of input data; examining and confirming results prior to use; and adopting procedures to identify and correct errors and omissions, replace lost or damaged media, and reconstruct data.
+
+Some states or jurisdictions do not allow the exclusion or limitation of incidental, consequential or special damages, or the exclusion of implied warranties or limitations on how long a given warranty may last, so the above limitations may not apply to you.
+
+Governing Law
+This Agreement shall be governed by the laws of the State of California.
+
+U.S. Government Restricted Rights
+The Software and documentation are provided with RESTRICTED RIGHTS. Use, duplication, or disclosure by the Government is subject to restrictions as set forth in subparagraph (c)(1)(ii) of the Rights in Technical Data and Computer Software clause at DFARS 252.227-7013 or subparagraphs (c)(1) and (2) of the Commercial Computer Software -- Restricted Rights at 48 C.F.R. 52.227-19, as applicable.
+
+Miscellaneous
+In the event that any of the terms of this Agreement is or becomes or is declared to be invalid or void by any court or tribunal of competent jurisdiction, such term or terms shall be null and void and shall be deemed severed from this Agreement and all the remaining terms of this Agreement shall remain in full force and effect.
+
+THIS AGREEMENT IS THE COMPLETE AND EXCLUSIVE STATEMENT OF QSI'S OBLIGATIONS AND RESPONSIBILITIES TO YOU AND SUPERSEDES ANY OTHER PROPOSAL, REPRESENTATION, OR OTHER COMMUNICATION BY OR ON BEHALF OF QSI RELATING TO THE SUBJECT MATTER HEREOF.
+
+Accept and download
+</m></pre>
 
 
 
