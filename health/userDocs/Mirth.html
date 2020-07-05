@@ -201,19 +201,26 @@ div.imagedesc{
 Mirth Connect is an open source cross-platform HL7 interface engine that enables bi-directional sending of HL7 messages between systems 
 and applications over multiple transports.
 </td>
-<td><a href="http://wiki.patesco.ca/doku.php?id=hl7:mirth:tutorial" target="web">Mirth Connect Introduction and Tutorial</a> 
+<td><a href="http://wiki.patesco.ca/doku.php?id=hl7:mirth:tutorial" target="web">Mirth Connect Introduction and Tutorial (Patesco)</a> 
 <br/>
 <a href="https://www.caduceus.es/en/download-mirth-connect/" target="web">Download</a> 
 <br/>
 <a href="nextgen-connect-39-user-guide.pdf" target="lab">User guide</a> 
 <br/>
-
+<a href="https://www.youtube.com/watch?v=-CoTa7vhCEA" target="web">Introduction to the Mirth Connect Interface Engine VIDEO</a>
 
 
 </td>
 </tr>
 <tr><td>
- 
+The Mirth suite of products includes Mirth Connect, the flagship product that acts as a two way interface for healthcare messaging, <br/>
+Mirth Results, which collects, organizes and aggregates clinical data and can act as an EHR repository, <br/>
+Mirth Match, that provides an enterprise class Entity Identification Service, <br/>
+Mirth Mail, a directed exchange solution based on Nationwide Health Information Network (NwHIN) email paradigm specification, <br/>
+Mirth Care, a suite of components for Patient Centered Medical Homes and Accountable Care Organizations (ACO) , <br/>
+Mirth Appliances, turnkey integrated hardware and software solutions based on Mirth, <br/>
+and finally Mirth Test Drive for the clients to test different vendor applications for interoperability requirements before purchase.
+See   <a href="www.mirthcorp.com" target="lab">www.mirthcorp.com</a> 
 </td>
 <td> 
 </td>
@@ -260,6 +267,9 @@ https://www.youtube.com/watch?v=Wm2Bqs3r0hI HL7 Tutorial: Mirth Connect and HL7 
 http://www.mirthcorp.com/community/wiki/display/mirthuserguidev1r7p1/TCP+Listener
 
 docker run --name conn -p8443:8443 nextgenhealthcare/connect:3.9
+
+https://vigyanix.com/blog/mirth-connect-series-introduction/
+
 </pre>
 
 <h3>Install on PC</h3>
@@ -328,8 +338,63 @@ dg1.hdcbc.ca:8443
  
  </pre>
  
-  
+<h2>Certificati</h2>
 
+One big problem of the JRE is that it completelly ignores the Windows certificate stores. 
+Instead of using the windows certificate store it uses its own implementation. Java certificates are stored in a file called  
+<k>cacerts</k> located at  <k>C:\Program Files (x86)\Java\jre1.x.x_xxx\lib\security\</k>.
+You can open <k>javacpl.exe</k> to get a graphical overview about the content:
+<br/><br/>
+You will need to import a certificate to the Java Keystore if
+You are not using a SSL certificate that is signed by an authority trusted by Java.
+Use of a trusted certificate is preferred and recommended because using an untrusted certificate, 
+such as a self-signed certificate, will cause web services communication to fail with the 
+SSLHandshakeException error. 
+If you do opt to use an untrusted certificate, then you must import it into the Java keystore. 
+
+<pre>
+keytool -help
+keytool -list -keystore "C:\Program Files\Java\jre1.8.0_191\lib\security\jssecacerts"  -storepass changeit
+keytool -importcert -file
+
+"C:\Program Files\Java\jdk-11.0.1\bin\keytool" -importcert -file C:\Polarion\bundled\apache\conf\certificate.crt -alias labs.polarion.com -keystore "C:\Program Files\Java\jdk-11.0.1\lib\security\jssecacerts" -storepass changeit 
+"C:\Program Files\Java\jre1.8.0_191\bin" -importcert -file C:\Polarion\bundled\apache\conf\certificate.crt -alias l -keystore "C:\Program Files\Java\jre1.8.0_191\lib\security\jssecacerts" -storepass changeit 
+</pre>
+I can see that Mirth has a <k>truststore.jks</k> file and a <k>keystore.jks</k> file and that Mirth generates a certificate and encryption key 
+on startup that is held in the <k>keystore.jks</k> file.
+<br/><br/>
+Understand the difference between the <em>keystore</em> (in which you have the private key and cert you prove your own identity with) 
+ and the <em>trust store</em> (which determines who you trust) - and the fact that your own identity also has a 'chain' of trust to the root 
+ - which is separate from any chain to a root you need to figure out 'who' you trust.<br/><br/>
+From
+<a href="https://mkyong.com/webservices/jax-ws/suncertpathbuilderexception-unable-to-find-valid-certification-path-to-requested-target/" target="web">
+Mirth Connect creating and using a channel</a> we have a solution:
+
+<ol>
+<li>Get <a href="../../../it.unibo.qak.communicate/src/connQak/InstallCert.java" target="code">InstallCert.java</a></li>
+<li>Add Trusted Keystore by running: 
+<pre>java InstallCert localhost:8443</pre>
+and press <ks>1</ks> when ask for input. 
+It will add your localhost as a trusted keystore, and generates a file <k>jssecacerts</k>.</li>
+<li>Verify Trusted Keystore: Try run the InstallCert command again, the connection should be ok now.</li>
+<li>Copy the generated <a href="../../../it.unibo.qak.communicate/jssecacerts" target="code"><k>jssecacerts</k></a>
+ file to your $JAVA_HOME\jre\lib\security folder. For my Eclipse:
+ <pre><ks>jre1.8.0_191</ks>\lib\security </pre></li>
+<li>To check thta now Mirth works, run: 
+<a href="../../../it.unibo.qak.communicate/src/connQak/HttpClientTutorial.java" target="code"><k>HttpClientTutorial.java</k></a>
+</li>
+
+</ol>
+
+<pre>
+fetch('https://localhost:8443/api/channels', {
+  method: 'GET',
+  headers: {
+    'Content-type': 'application/x-www-form-urlencoded'
+  }
+})
+.then(console.log)
+</pre>
  <br/><br/>
 <table style="width:98%">
 <tbody>	
