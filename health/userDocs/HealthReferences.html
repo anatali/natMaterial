@@ -190,143 +190,83 @@ div.imagedesc{
 <div id="body">
 <h1>Health | References <font size="5"></font> </h1>
 
-<h2>Startup</h2>
-
- <center>
-<table style="width:98%">
-<tbody>	
-<tr>
-<td style="width:60%" >
-<h3>What is Mirth Connect</h3> 
-Mirth Connect is an open source cross-platform HL7 interface engine that enables bi-directional sending of HL7 messages between systems 
-and applications over multiple transports.
-</td>
-<td><a href="http://wiki.patesco.ca/doku.php?id=hl7:mirth:tutorial" target="web">Mirth Connect Introduction and Tutorial</a> 
-<br/>
-<a href="https://www.caduceus.es/en/download-mirth-connect/" target="web">Download</a> 
-<br/>
-<a href="nextgen-connect-39-user-guide.pdf" target="lab">User guide</a> 
-<br/>
-
-
-
-</td>
-</tr>
-<tr><td>
  
-</td>
-<td> 
-</td>
-</tr>
+ 
+ 
+  
 
-<tr><td> 
-<pre>
-To clear your Java cache in Windows:
---------------------------------------------------------
-Click Start > Control Panel.
-Locate and double click the Java icon in the Control Panel.
-Click Settings under Temporary Internet Files.
-Click Delete Files.
-Select all boxes and click OK on Delete Temporary Files window.
-Click OK on Temporary Files Settings window.
-Click OK to close the Java Control Panel.
-</pre>
+ <h2>HL7</h2>
+ 
+  <table style="width:98%">
+<tbody>	
+ <tr><td style="width:30%">Introduction
 </td>
 <td>
- 
+<a href="http://www.hl7.org/participate/toolsandresources.cfm?ref=nav" target="web">HL7 Tools & Resources</a><br/>
 
+<a href="http://www.hl7.org/participate/case-studies/index.cfm" target="web">Case studies</a>.<br/>
+</td>
+</tr>
+
+ <tr><td >Specification
+</td>
+<td>   <a href="https://www.hl7.org/implement/standards/product_brief.cfm?product_id=185" target="web">HL7 Version 2 Product Suite</a>.<br/>
+ <a href="https://www.hl7.org/implement/standards/product_brief.cfm?product_id=186" target="web">HL7 Version 3 Product Suite</a>.<br/>
+ The Version 3 Normative Edition represents a new approach to clinical information exchange based on a <em>model driven methodology</em>.<br/>
+ The V3 specification is built around subject domains that provide storyboard descriptions, trigger events, interaction designs, 
+ domain object models derived from the
+<a href="http://www.hl7.org/implement/standards/rim.cfm" target="web">HL7 Reference Information Model (RIM)</a>.
 
 </td>
 </tr>
+
+<tr><td>Examples
+</td>
+<td>
+The US federal government does EHR testing of HL7 content, so that's a good resource for HL7 examples,
+ although they only have HL7 2.5.1 (not 2.7 yet). Here's four sites that have respective data:
+<ul>
+<li>Immunization examples: <a href="https://hl7v2-iz-testing.nist.gov/mu-immunization/" target="web">mu-immunization</a>.<br/></li>
+<li>Syndromic Surveillance (ADTs): <a href="https://hl7v2-ss-testing.nist.gov/mu-syndromic/" target="web">mu-syndromic</a>.<br/></li>
+<li>Reportable Lab Results: <a href="https://hl7v2-elr-testing.nist.gov/mu-elr/" target="web">mu-elr</a>.<br/></li>
+<li>Lab Interfaces: <a href="https://hl7v2-lab-testing.nist.gov/mu-lab/" target="web">mu-lab</a><br/></li>
+</ul>
+Go to the tab that says "Documentation" and then the heading of "Test Case Documentation" and you can download a zip.   
+
+</td>
+</tr>
+
+
+
+
+
+ <tr><td >Forge HL7 V3 Generator
+</td>
+<td> <a href="https://gforge.hl7.org/gf/project/v3-generator/" target="web">HL7 V3 Generator</a> <br/>
+ <a href="https://gforge.hl7.org/gf/project/v3-generator/frs/" target="web">HL7 V3 Generator Releases</a> <br/>
+</td>
+</tr>
+
+<tr><td>HL7 V3 Publishing Tools
+</td>
+<td><a href=" https://gforge.hl7.org/gf/project/v3-publications/" target="web">V3 Publishing Tools</a> </td>
+</tr>
+
+<tr><td>Sample ER7 Messages
+</td>
+<td><a href="http://paml.github.io/SampleMessages.html" target="web">Sample ER7 Messages</a><br/>
+
+<a href="https://caristix.com/hl7-tools/test/generate-hl7-test-messages/" target="web">Caristix Test</a><br/>
+</td>
+</tr>
+
 
  </tbody>
 </table>
- </center> 
+
+
  
-<pre>
-https://www.hl7soup.com/
-
-https://www.youtube.com/watch?v=sTkHtatz_0c
-https://techno-soft.com/fhir-setup-on-mirth-connect.html/#:~:text=Find%20the%20FHIR%20zip%20file,FHIR%20Listener%20extension%20is%20installed.
-https://www.youtube.com/watch?v=WkBaRwVzkl4
-
-https://localhost:8443
  
-OTHER
-wget http://downloads.mirthcorp.com/mirthconnect-3.9.0.b2526-unix.tar.gz
-
-https://www.youtube.com/watch?v=Wm2Bqs3r0hI HL7 Tutorial: Mirth Connect and HL7 Soup Message Relay
-
-http://www.mirthcorp.com/community/wiki/display/mirthuserguidev1r7p1/TCP+Listener
-
-docker run --name conn -p8443:8443 nextgenhealthcare/connect:3.9
-</pre>
-
-<h3>Install on PC</h3>
-<pre>
-docker pull nextgenhealthcare/connect
-docker run --name natconn  -p8443:8443 -p7001:7001 nextgenhealthcare/connect:3.9
-docker run --name natconn1 -p8443:8443 -p7001:7001  brandonstevens/mirth-connect
-
-</pre>
-
-<h3>Install on RaspberryPi</h3>
-Docker does not work
-<pre>
-https://www.youtube.com/watch?v=eh_ZMJsQ77g
-sudo -su root
-
-wget http://downloads.mirthcorp.com/mirthconnect-3.5.1.b194-unix.tar.gz
-
---unzip mirth download (update filename as necessary)
-tar xvfz mirthconnect-3.5.1.b194-unix.tar.gz
-
---copy mirth software to an appropriate folder
-mv Mirth\ Connect/ /opt/mirthconnect
-
---cleanup download (update filename as necessary)
-rm mirthconnect-3.5.1.b194-unix.tar.gz
-
---start mcservice
-/opt/mirthconnect/mcservice start
-bash mcservice start
---verify status
-/opt/mirthconnect/mcservice status
-bash mcservice status
-
--verify 8080 in broswer
-dg1.hdcbc.ca:8080
-
---verify 8443 in broswer
-dg1.hdcbc.ca:8443
-</pre>
-
-<h2>Creating a Channel</h2>
- <a href="https://cabolabs.com/" target="web">CaboLabs</a> 
-  <br/>
-<a href="https://cabolabs.com/education/" target="web">CaboLabs: Health Information Systems, Interoperability and Standards Online Training Program</a> 
-<br/>
-<a href="https://cabolabs.com/education/program_mirth_connect_workshop.pdf" target="web">program_mirth_connect_workshop.pdf</a>
-
-<br/>
-<a href="https://www.youtube.com/watch?v=sTkHtatz_0c" target="web">Mirth Connect creating and using a channel</a> 
-
- <pre>
- netstat -t
- http://localhost:8089/sample/
- curl --location --request POST 'http://localhost:8089/sample/' --header 'Content-Type: json' --form 'move=l'
- 
- logger.info(connectorMessage.getRawData())
- 
- curl -X POST "https://localhost:8443/api/channels/channelTcp1/messages?destinationMetaDataId=" -H "accept: application/xml" -H "Content-Type: text/plain" -d "msg2"
- Code Template: Automatic Mirth Backup https://forums.mirthproject.io/forum/mirth-connect/support/16298-code-template-automatic-mirth-backup?t=217155 
- Mirth (old, ma spiega) https://betaingegneria.it/howto/webservices/mirth/
- PAblo https://www.linkedin.com/pulse/mirth-connect-download-install-run-pablo-pazos-gutierrez?articleId=6642952560405737472
- Mirth Channel Overview BENE https://help.datica.com/hc/en-us/articles/115005322583-Mirth-Channel-Overview
- http://wiki.patesco.ca/doku.php?id=hl7:mirth:intro
- MIRTH CONNECT EXAMPLES ON DOCKER https://github.com/marlycormar/mirth-connect-channel-examples
- 
- </pre>
  <h2>FHIR</h2>
 <a href="https://www.mirthcorp.com/community/wiki/pages/viewpage.action?pageId=38798954" target="web">FHIR Connector Extension (3.9)</a> 
 <br/>
@@ -339,10 +279,44 @@ TechnoSoft: FHIR Setup on Mirth Connect / NextGen Connect</a>
 <br/>
  <a href="http://www.mirthcorp.com/community/wiki/pages/viewpage.action?pageId=38798961" target="web">Mirth FHIR UserGuide</a>
 <br/>
+<br/>
+
  
-<a href=https://www.hl7.org/fhir/patient-examples.html" target="web">Resource Patient - Examples</a>
- <br/>
+<a href="https://www.hl7.org/fhir/patient-examples.html" target="web">Resource Patient - Examples</a><br/>
+
+
+<a href="https://www.youtube.com/watch?v=INWxXJThIZE" target="web">Applicadia Clinical Reporting Demonstration - Video</a>
+
+ <h2>RIM</h2>
+ Now: <a href=" https://wiki.hl7.org/Application_Implementation_and_Design" target="web">Application Implementation and Design HL7 "User Group" </a>
+  <br/>
  
+   <br/>
+ <a href="http://www.hl7.org/implement/standards/rim.cfm" target="web">V3 RMIM Designer (in Visio)</a>
+  <br/> <br/>
+ <a href=" https://gforge.hl7.org/gf/project/visio-rmim-desi/" target="web">Tools for RIM based software development</a> <br/>
+<a href="https://wiki.hl7.org/Tools_for_RIM_based_software_development" target="web">Tools for RIM based software development</a> <br/>
+
+  <a href="http://www.openmapsw.com/" target="web">Open Mapping Software</a> (Transforms By Example-TBX )<br/>
+  <a href="http://www.openmapsw.com/TBE/TBEHealth.htm" target="web">Transforms By Example in Healthcare</a><br/>
+  <a href="https://github.com/robertworden/TBX-For-V2-and-FHIR" target="web">TBX-For-V2-and-FHIR</a>
+
+ <br/> <br/>
+ <a href="http://phitechnology.insielmercato.it/web/phi/phi-technology" target="web">phi TECHNOLOGY</a>
+  <br/>
+ <a href=" https://www.ringholm.com/docs/03100_en.htm" target="web">The RIMBAA Technology Matrix</a>
+  <br/>
+  
+<h2>CDA</h2>
+ <a href="https://wiki.hl7.org/Software_Implementation_of_CDA" target="web">Software Implementation of CDA</a>   <br/>
+ <a href=" https://wiki.hl7.org/Model_Interchange_Format" target="web">Model Interchange Format</a>    <br/>
+  <a href=" https://wiki.hl7.org/MIF_based_code_generation" target="web">MIF based code generation</a>
+   <br/>
+ There are some HL7 version 3 based projects that don't have a published set of MIFs - they only have normative XML schema. 
+ These projects mostly date from the early days of HL7 version 3, when MIF had not established itself as the metamodel expression used for HL7 version 3.   
+
+
+
 <h3>END-USER LICENSE AGREEMENT FOR FHIR CONNECTOR EXTENSION SOFTWARE</h3> 
 <!-- 
 <pre><m>
