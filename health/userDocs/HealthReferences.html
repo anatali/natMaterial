@@ -188,14 +188,16 @@ div.imagedesc{
     
 <body>
 <div id="body">
-<h1>Health | References <font size="5"></font> </h1>
+<h1>Health | References (in natmaterial\health)<font size="5"></font> </h1>
 
  
  <ul>
  
-<li><a href="http://htmlpreview.github.io/?https://github.com/anatali/natMaterial/blob/master/health/userDocs/Mirth.html" target="web"> 
-DISI - Mirth at work</a> (on <tt>natMaterial ...health/userDocs/</tt>)</li>
-<li><a href="http://htmlpreview.github.io/?https://github.com/anatali/natMicroservices/blob/master/it.unibo.hapi2.2/userDocs/HapiUsage.html" target="web"> 
+<li><a href="../../../Evolution/it.unibo.mirth.java/userDocs/MirthIntro.html" target="web"> 
+DISI - Mirth Intro</a> (on <tt>natMaterial  ...it.unibo.mirth.java/userDocs</tt>)</li>
+<li><a href="../../../Evolution/it.unibo.mirth.java/userDocs/MirthExperiments.html" target="web"> 
+DISI - Mirth experiments</a> (on <tt>natMaterial ...it.unibo.mirth.java/userDocs</tt>)</li>
+<li><a href="../../../Evolution/it.unibo.hapi2.2/userDocs/HapiUsage.html" target="web"> 
 DISI - HapiUsage.html</a> (on <tt>natMicroservices .... it.unibo.hapi2.2/userDocs/</tt>) </li>
    
 </ul>
@@ -254,6 +256,9 @@ Go to the tab that says "Documentation" and then the heading of "Test Case Docum
 </td>
 </tr>
 
+
+ 
+
 <tr><td>HL7 V3 Publishing Tools
 </td>
 <td><a href=" https://gforge.hl7.org/gf/project/v3-publications/" target="web">V3 Publishing Tools</a> </td>
@@ -271,30 +276,13 @@ Go to the tab that says "Documentation" and then the heading of "Test Case Docum
  </tbody>
 </table>
 
-
+ <h2>EHR (Electronic Health Record)</h2>
  
+ <h2>RIM (Reference Information Model)</h2>
+ Core concepts: entity, role, partecipation, act).<br/>
+ <img src="./img/RIMCoreConcepts.png" alt="RIMCoreConcepts.png" width="50%"  />
+ <br/>
  
- <h2>FHIR</h2>
-<a href="https://www.mirthcorp.com/community/wiki/pages/viewpage.action?pageId=38798954" target="web">FHIR Connector Extension (3.9)</a> 
-<br/>
-  <a href="https://www.youtube.com/watch?v=WkBaRwVzkl4" target="web">Install Mirth FHIR Extension</a>  
-  <br/>
- <a href="http://www.mirthcorp.com/community/wiki/display/mirth/Example+Channel" target="web">Example Channel</a> 
-<br/>
- <a href="https://techno-soft.com/fhir-setup-on-mirth-connect.html/#:~:text=Find%20the%20FHIR%20zip%20file,FHIR%20Listener%20extension%20is%20installed" target="web">
-TechnoSoft: FHIR Setup on Mirth Connect / NextGen Connect</a> 
-<br/>
- <a href="http://www.mirthcorp.com/community/wiki/pages/viewpage.action?pageId=38798961" target="web">Mirth FHIR UserGuide</a>
-<br/>
-<br/>
-
- 
-<a href="https://www.hl7.org/fhir/patient-examples.html" target="web">Resource Patient - Examples</a><br/>
-
-
-<a href="https://www.youtube.com/watch?v=INWxXJThIZE" target="web">Applicadia Clinical Reporting Demonstration - Video</a>
-
- <h2>RIM</h2>
  Now: <a href=" https://wiki.hl7.org/Application_Implementation_and_Design" target="web">Application Implementation and Design HL7 "User Group" </a>
   <br/>
  
@@ -312,7 +300,102 @@ TechnoSoft: FHIR Setup on Mirth Connect / NextGen Connect</a>
  <a href="http://phitechnology.insielmercato.it/web/phi/phi-technology" target="web">phi TECHNOLOGY</a>
   <br/>
  <a href=" https://www.ringholm.com/docs/03100_en.htm" target="web">The RIMBAA Technology Matrix</a>
+
+ 
+ 
+ <h2>FHIR (Fast Healthcare Interoperability Resources)</h2>
+ V3 based on RIM is often impratical in the real world. FHIR aims at using the best parts of RIM, while keeping complexity under control.
+ Moreover it is 'EHR agnostic'.
+ 
+ <h3>FHIR modules</h3>
+ <ol>
+ <li><k>Foundation</k></li>
+ <li><k>Implementer Support</k></li>
+ <li><k>Security & Privacy</k></li> 
+ <li><k>Conformance</k></li>
+ <li><k>Terminology</k></li> 
+ <li><k>Linked Data</k></li>
+ <li><k>Administration</k></li>
+ <li><k>Clinical</k></li> 
+ <li><k>Medications</k></li>
+ <li><k>Workflow</k></li>
+ <li><k>Financial</k></li> 
+ <li><k>Clinical reasining</k></li> 
+ </ol>
+ 
+ <h3>FHIR resources</h3>
+ The FHIR datamodel is being instantiated in a set of (nore than 150) modular Resources.<br/>
+ 
+ <table style="width:98%">
+<tbody>	
+<tr>
+<td style="width:50%" >  <img src="./img/FHIRResources1.png" alt="FHIRResources1.png" width="100%"  />
+</td>
+<td>  <img src="./img/FHIRResources2.jpg" alt="FHIRResources2.jpg" width="100%"  />
+</td>
+</tr>
+<tr><td>
+</td>
+<td></td>
+</tr>
+ </tbody>
+</table>
+ <br/><br/>
+
+
+ <table style="width:98%">
+<tbody>	
+<tr>
+<td style="width:50%" >
+<a href="http://clinfhir.com/" target="web">clinFHIR Launcher by David Hay</a> (<ks>DA VEDERE!!!</ks>)<br/>  
+<pre>
+Bundle.entry.resource.where(resourceType='Condition') 
+Bundle.entry.resource.where(resourceType='Condition').code.coding.display
+</pre>
+<a href="http://hl7.org/fhirpath/" target="web">FHIRPath (Normative Release)</a><br/>  
+<a href="https://fhirblog.com/2017/08/16/fhirpath/" target="web">FHIRPath Hay blob</a><br/>  <br/>  
+<a href="https://wiki.hl7.org/Publicly_Available_FHIR_Servers_for_testing" target="web">Publicly Available FHIR Servers for testing</a><br/>   
+<a href="https://hapifhir.io/" target="web">HAPI-FHIR library</a>,&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://github.com/jamesagnew/hapi-fhir" target="web">hapi-fhir GIT by James Agnew</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="http://hapi.fhir.org/" target="web">http://hapi.fhir.org/</a> (DEMO using public FHIR server UHN_HAPI Server - R4 FHIR)
+<br/>  
+ 
+</td>
+
+<td > <br/><br/>
+ <a href="https://www.mirthcorp.com/community/wiki/pages/viewpage.action?pageId=38798954" target="web">FHIR Connector Extension (3.9)</a> 
+<br/>
+  <a href="https://www.youtube.com/watch?v=WkBaRwVzkl4" target="web">Install Mirth FHIR Extension</a>  
   <br/>
+ <a href="http://www.mirthcorp.com/community/wiki/display/mirth/Example+Channel" target="web">Example Channel</a> 
+<br/>
+ <a href="https://techno-soft.com/fhir-setup-on-mirth-connect.html/#:~:text=Find%20the%20FHIR%20zip%20file,FHIR%20Listener%20extension%20is%20installed" target="web">
+TechnoSoft: FHIR Setup on Mirth Connect / NextGen Connect</a> 
+<br/>
+ <a href="http://www.mirthcorp.com/community/wiki/pages/viewpage.action?pageId=38798961" target="web">Mirth FHIR UserGuide</a>
+<br/>
+<br/>
+
+<a href="https://www.hl7.org/fhir/patient-examples.html" target="web">Resource Patient - Examples</a><br/>
+<a href="https://www.youtube.com/watch?v=INWxXJThIZE" target="web">Applicadia Clinical Reporting Demonstration - Video</a>
+
+</td>
+
+
+</tr>
+<tr><td>
+</td>
+<td></td>
+</tr>
+ </tbody>
+</table>
+ <br/><br/>
+
+  
+ 
+ 
+
+ 
   
 <h2>CDA</h2>
  <a href="https://wiki.hl7.org/Software_Implementation_of_CDA" target="web">Software Implementation of CDA</a>   <br/>
@@ -322,7 +405,10 @@ TechnoSoft: FHIR Setup on Mirth Connect / NextGen Connect</a>
  There are some HL7 version 3 based projects that don't have a published set of MIFs - they only have normative XML schema. 
  These projects mostly date from the early days of HL7 version 3, when MIF had not established itself as the metamodel expression used for HL7 version 3.   
 
+<h2>DICOM (Digital Imaging and Communication in Medicine)</h2>
 
+<h2>IHE (Integrating Healthcare Enterprise)</h2>
+ 
 
 <h3>END-USER LICENSE AGREEMENT FOR FHIR CONNECTOR EXTENSION SOFTWARE</h3> 
 <!-- 
