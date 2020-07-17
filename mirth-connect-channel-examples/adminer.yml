@@ -1,0 +1,11 @@
+# adminar by AN
+version: '3.1'
+
+services:
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8018:8080
+      
