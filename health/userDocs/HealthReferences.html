@@ -345,10 +345,17 @@ Go to the tab that says "Documentation" and then the heading of "Test Case Docum
  </tbody>
 </table>
  
-<h3>FHIR References</h3>
+ <h3>FHIR References</h3>
  <div class="remark">
-<a href="https://hapifhir.io/hapi-fhir/apidocs/hapi-fhir-structures-r4/" target="webcode">FHIR HAPI</a><br/>
-<a href="https://fhir-drills.github.io/fhir-api.html" target="webcode">FHIR HAPI Tutorials</a><br/> 
+ <a href="http://hl7.org/fhir/R4/index.html" target="webcode">FHIR</a> &nbsp; &nbsp; &nbsp; 
+ <a href="http://hl7.org/fhir/R4/documentation.html" target="webcode">Documentation Index </a>&nbsp; &nbsp; 
+<a href="http://hl7.org/fhir/R4/comparison-v2.html" target="webcode">HL7 v2 Similarities and Differences </a><br/><br/>
+<a href="https://hapifhir.io/hapi-fhir/apidocs/hapi-fhir-structures-r4/" target="webcode">FHIR HAPI</a> &nbsp; &nbsp; 
+<a href="https://fhir-drills.github.io/fhir-api.html" target="webcode">FHIR HAPI Tutorials</a> <br/> <br/> 
+<!--
+<a href="https://github.com/microsoft/FHIR-Converter" target="webcode">FHIR Converter</a> 
+(released to open source : <ks>HL7 v2 to FHIR</ks> on Thursday March 6th, <ks>C-CDA to FHIR</ks> June 12th, 2020)<br/> 
+<a href="https://www.hl7tofhir.com/HL7/mapping" target="webcode">Redix Converter</a> --> 
 <k>MIRTH</k>: &nbsp; &nbsp; 
 <a href="http://www.mirthcorp.com/community/wiki/pages/viewpage.action?pageId=38798961" target="webcode">FHIR Mirth UserGuide</a>
 &nbsp; &nbsp; &nbsp; &nbsp;
@@ -359,7 +366,8 @@ FHIR Mirth</a>
 &nbsp; &nbsp; &nbsp; &nbsp;
 <a href="https://localhost:8443/api/" target="webcode">client API</a>
 &nbsp; &nbsp; &nbsp; &nbsp;
-<a href="https://web.archive.org/web/20181120184304/https://wso2.com/project/mashup/0.2/docs/e4xquickstart.html" target="webcode">E4X Quick Start Guide</a>
+<a href="https://web.archive.org/web/20181120184304/https://wso2.com/project/mashup/0.2/docs/e4xquickstart.html" target="webcode">
+E4X Quick Start Guide</a>
 <br/><br/> 
 
 <table style="width:98%">
@@ -470,6 +478,30 @@ TechnoSoft: FHIR Setup on Mirth Connect / NextGen Connect</a>
 <h2>CCD (CONTINUITY OF CARE)</h2>
  <a href="https://www.spheregen.com/parsing-continuity-of-care-ccd-using-mirth-and-mdht/" target="web">PARSING CCD USING MIRTH AND MDHT</a>   <br/>
  
+ 
+ <h2>Tools</h2>
+ From <a href="https://blog.deerwalk.com/blog/blog/comparison-of-hl7-interface-engine" target="web">Comparison of HL7 Interface Engine</a>:
+ <ul>
+<li>HL7 is an ad hoc standard open to all those that develop healthcare data processing systems. 
+It tries to address the problems caused by different types of healthcare data available within and 
+across healthcare institutions all around the world by standardizing data interchange between these institutions.
+</li>
+<li>There are various tools out there that can be used to implement an HL7 interface engine, but the three tools that grabbed our attention the most were 
+Mirth, Iguana and HAPI with Hibernate.<br/>
+
+
+ 
+</li>
+<li><k>Mirth</k> is a general tool for implementing an HL7 interface. It is an open source cross platform tool using HL7 API (HAPI)
+<img src="./img/mirthFlow-2.png" alt="mirthFlow-2.png" width="70%"  /><br/>
+The greatest strength of Mirth lies in the fact that it makes the implementation of a data transformation engine modular.
+</li>
+<li><k>Iguana</k> is tool similar to Mirth. It has similar user interface and features however despite all the similarities Mirth 
+is free to use and Iguana is not.</li>
+<li><k>Hibernate with HAPI</k> (HL7 API) gave us the most flexibility but it also required tremendous amount of work, 
+as we would have to configure Hibernate ourselves, handle sending the messages over LLP ourselves and 
+handle the responses received by ourselves. As this added considerable overhead, we abandoned this approach.</li>
+ </ul>
  
 <h3>END-USER LICENSE AGREEMENT FOR FHIR CONNECTOR EXTENSION SOFTWARE</h3> 
 <!-- 
