@@ -406,8 +406,35 @@ Si ricorda la legenda:
 <h4>Oggetti + REST calls</h4>
 <img src="./img/itelDisiHealthArch0.png" alt="itelDisiHealthArch0.png" width="80%"><br/>
 
-See 
-<a href="https://www.w3schools.com/html/html5_serversentevents.asp" target="confluence">HTML Server-Sent Events(SSE) API</a>
+<h3>Problemi FONDAMENTALI DA DISCUTERE</h3>
+<ol>
+<li>Cosa intendiamo esattamente per interazione REST?</li>
+<li>Come viene introdotto il concetto di <k>risorsa</k> implicato dalla interazione REST</li>
+<li>Una chiamata REST sincrona pone grossi problemi, ben noti. In cosa consiste una chiamata <k>REST asincrona</k>?</li>
+<li>In che modo e' organizzato un server REST quando deve gestire una chiamata asincrona?</li>
+<li>Le <a href="https://cloud.google.com/healthcare" target="web">API Cloud Healthcare</a> che sembrano
+usare le <a href="https://en.wikipedia.org/wiki/GRPC" target="web">gRPC</a>
+(si veda anche <a href="https://cloud.google.com/endpoints/docs/grpc/about-grpc" target="web">
+Google Cloud Endpoints for gRPC</a>) possono rappresentare uno standard accettabile per la interoperabilita'
+tra diversi <m><ks>CentriHealth</ks></m>? 
+</li>
+<li>In che modo un server REST <k>notifica informazioni</k> ai client(browser)?:<br/>
+<ul>
+<li>Usa <a href="hhttps://en.wikipedia.org/wiki/WebSocket" target="web">websockets</a> ( wikipedia) </li>
+<li>Usa <a href="https://www.w3schools.com/html/html5_serversentevents.asp" target="web">
+HTML Server-Sent Events(SSE) API</a>. Si veda anche 
+<a href="https://en.wikipedia.org/wiki/Server-sent_events" target="web">Server-sent events</a> ( wikipedia)
+</li>
+<li>Usa un broker <a href="https://it.wikipedia.org/wiki/MQTT" target="web">MQTT</a> ( wikipedia)</li>
+<li>Usa <a href="https://en.wikipedia.org/wiki/WebSub" target="web">WebSub</a> ( wikipedia) </li>
+
+<li>
+ 
+</ul>
+</li>
+</ol>
+ 
+
 <br/><br/>
 
 <h4>Attori + REST calls</h4>
