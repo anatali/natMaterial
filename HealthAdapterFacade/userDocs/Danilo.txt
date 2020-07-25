@@ -1,0 +1,31 @@
+Si tratta di un semplice sistema di controlli successivi sulla
+qualità/fruibilità di un progetto software.
+
+Vengono posti quesiti successivi, del tipo:
+"è stata assegnata una licenza"
+"è stato descritto come contribuire creando bug report"
+"sono stati in piedi meccanismi di testing"
+La risposta ad alcuni di essi viene fornita automaticamente dal tool.
+Ad altri va risposto manualmente fornendo dei link. Le risposte
+vengono inquadrate in un sistema a punti. Il punteggio finale indica
+il grado di fruibilità per terzi del progetto, e genera un badge che è
+possibile inserire nella documentazione.
+
+L'ho trovato utile perché consente di avere una checklist passo-passo
+delle varie piccole attività che portano un prodotto software da
+"codice zippato buttato su un server" a "manufatto utilizzabile da
+altri ricercatori".
+
+Con tutti i limiti di tempo, ho deciso di applicarlo gradualmente ai
+vari software di cui sono autore / gestore.
+Mi sembrava interessante condividerlo con voi, visto che spesso le
+nostre attività hanno come by-product artefatti eseguibili (siano essi
+applicazioni o esperimenti).
+
+https://bestpractices.coreinfrastructure.org/
+https://github.com/rsp/cii-best-practices-badge
+
+L'ho applicato a questo progettino che ho:
+https://github.com/DanySK/upgradle/
+ottenendo questo risultato:
+https://bestpractices.coreinfrastructure.org/projects/3803
