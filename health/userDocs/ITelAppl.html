@@ -241,12 +241,13 @@ in cui è installato il <m><ks>Core Itel</ks></m> e  un insieme di <m><ks>Prodot
 
 <li><m><ks>Paziente</ks></m>: una persona modellata usando (un <k>sottoinsieme ???</k>  di) 
 <a href="https://www.hl7.org/fhir/patient.html" target="webcode">FHIR Patient</a>, che vive in una determiata <m><ks>Area Geografica</ks></m>
-ed e' associato ad uno (o <k>più ???</k>) <m><ks>CentroHealth</ks></m>  </li>
+ed e' associato ad un (o <k>più ???</k>) <m><ks>CentroHealth</ks></m>  </li>
 
 <li><m><ks>CentroHealth</ks></m>: una struttura specializzata, entro una precisa <m><ks>Area Geografica</ks></m>,
 che si occupa dei dati e dello stato di salute del <m><ks>Paziente</ks></m></li>
 
-<li><m><ks>Enrollment</ks></m>: iscrizione di un paziente nel <m><ks>CentroBase</ks></m></li>
+<li><m><ks>Enrollment</ks></m>: iscrizione nel <m><ks>CentroBase</ks></m> di un paziente <k>già associato</k> 
+a un (o <k>più ???</k>) <m><ks>CentroHealth</ks></m></li>
 
 <li><m><ks>Operatore</ks></m>: un agente (<i>Medico, Infermiere, Admin</i>) che utilizza il <m><ks>CentroBase</ks></m>
 associato a un (o <k>sottoinsiente ???</k>) di <m><ks>Paziente-enrolled</ks></m> </li>
@@ -268,7 +269,8 @@ Come <k>Operatore</k>
 <li>poter inviare/ricevere dati a/da  uno o più <m><ks>CentroHealth</ks></m> associati al paziente</li>
 <li>ricevere notifiche su modifiche del <m><ks>Piano terapeutico</ks></m> del <m><ks>Paziente</ks></m> da parte di un <m><ks>CentroHealth</ks></m></li>
 <li>inviare notifiche su modifiche del <m><ks>Piano terapeutico</ks></m> al <m><ks>Paziente</ks></m>  </li>
-<li>gestire un <m><ks>ValoreMisurato</ks></m> effettuato dal <m><ks>Paziente</ks></m>. In particolare:  <k>todo ...</k> </li>
+<li>monitorare un <m><ks>ValoreMisurato</ks></m> effettuato dal <m><ks>Paziente</ks></m> e/o il suo storico
+e operare di conseguenza, anche inviando notifiche </li>
 
 
 
@@ -277,12 +279,13 @@ Come <k>Operatore</k>
 Come <k>paziente</k>:
 
 <ol>
+ 
 <li>ricevere supporto alla realizzazione di un <m><ks>Piano terapeutico</ks></m></li>
 <li>ricevere notifiche su modifche del <m><ks>Piano terapeutico</ks></m></li>
 <li>avere supporto per ottenere (via <a href="https://it.wikipedia.org/wiki/Bluetooth" target="web">Bluetooth</a>) 
 un <m><ks>ValoreMisurato</ks></m> e inviarlo al <m><ks>CentroBase</ks></m> </li>
 
-<li></li>
+<li>effettuare un <ks>teleconsulto</ks></li>
 
 </ol> 
 
@@ -294,7 +297,7 @@ Si veda:
 ITel : Requisiti</a></li>
 <li><a href="https://dev-itel.atlassian.net/wiki/spaces/NEXTAGORA/pages/112263181/Sm+rtEven+-+Punti+Fissi" target="confluence">
 ITel : Sm@rtEven Punti+Fissi</a></li>
-<li></li>
+
 </ul>
 
 
@@ -303,7 +306,7 @@ ITel : Sm@rtEven Punti+Fissi</a></li>
 <tr>
 <td style="width:50%">
  
-Telemedicina ( Amministratore - Operatore )<br/>
+<ks>Telemedicina</ks> ( Amministratore - Operatore )<br/>
 <k>Amministratore</k>:
 <ul>
 <li>Gestione Utenti</li>
@@ -317,12 +320,14 @@ Telemedicina ( Amministratore - Operatore )<br/>
 <li>Creazione report</li>
 <li>Strumenti</li>
 </ul>
-<k>Operatore</k>: tutto tranne creare utenti
-</li>
+<k>Operatore</k>: tutto tranne creare utenti<br/>
+<br/> 
+ 
+<ks>Teleconsulto</ks>
 </td>
 <td>
+Altri moduli (out if DISI scope)
 <ul>
-<li>Teleconsulto</li>
 <li>Sm@rtC6</li>
 <li>Sm@rtWelcome</li>
 <li>Sm@rtReady</li>
@@ -341,27 +346,78 @@ Telemedicina ( Amministratore - Operatore )<br/>
 
 
 <h2>Requirements: <m><ks>ProdottoDiContesto</ks></m> HEALTH</h2> 
+La modularizzazione di Nestagora ha portato alla opportunità di incapsulare entro il <m><ks>ProdottoDiContesto</ks></m> 
+denominato <a href="https://bitbucket.org/itelunibo/workspace/projects/HDA" target="confluence">
+<k>Health Data Adapter</k></a> il problema della interazione con l'insieme di <tt>N>=1</tt> 
+<m><ks>CentroHealth</ks></m> cui è associato un paziente.
+<br/><br/>
+L'assunzione è che le informazioni scambiate da ITel con un <m><ks>CentroHealth</ks></m> siano codificate in modo standard tramite:
 
+<ul>
+<li>scambio di dati <a href="https://www.hl7.org/implement/standards/product_brief.cfm?product_id=185" target="web">HL7 Version 2</a></li>
+<li>scambio di informazioni espresse in <a href="http://hl7.org/fhir/R4/index.html" target="webcode">FHIR</a></li>
+</ul>
 
- 
+Le informazioni scambiate da ITel  con <k>Health Data Adapter</k></a> sono codificate usando  un sottoinsieme di
+<a href="http://hl7.org/fhir/R4/index.html" target="webcode">FHIR</a>.<br/>
+
+Qui sotto
+(si veda <a href="https://dev-itel.atlassian.net/wiki/spaces/UNIBO/pages/142737409/FHIR+-+Itel+Scope" target="confluence">ITel-scope</a>)
+sono evidenziati in giallo i concetti centrali e sottolineati in verde concetti secondari ma comunque di interesse ITel.<br/><br/>
+
+<img src="./img/FHIR-ITel.png" alt="FHIR-ITel.png" width="80%"><br/>
+ Per i dettagli sui <k>Domini di riferimento</k> si veda:
+<a href="https://dev-itel.atlassian.net/wiki/spaces/UNIBO/pages/142737409/FHIR+-+Itel+Scope" target="confluence">FHIR - Itel Scope</a>
 
 <h2>Requirement analysis</h2>
-<div class="remark">
- 
-</div>
+
+<ol>
+<li>Le richieste provenienti da Itel verso <a href="https://bitbucket.org/itelunibo/workspace/projects/HDA" target="confluence">
+<k>Health Data Adapter</k></a> dovrebbero contenere indicazioni sul <m><ks>CentroHealth</ks></m> implicato nella richiesta o
+contenere informazioni da cui dedurre quale <m><ks>CentroHealth</ks></m> consultare.
+</li>
+<li>...</li>
+</ol>
 
 <h2>Problem analysis</h2>
+Come premessa e' opportuno consultare la discussione sui <i>Modelli di interazione</i> presentata in:
+
+<a href="https://dev-itel.atlassian.net/wiki/spaces/UNIBO/pages/142704775/Health+-+Interazione" target="confluence">Health - Interazione</a>.
+<br/><br/>
+
+Prime osservazioni pssono essere:
+<ul>
+<li>Sostituire un oggetto con un <k>attore</k> non implica ancora l'insorgere di grosse problematiche relative ai sistemi distribuiti.
+Tutto può avveire ancora su base locale con interazioni scambio di messaggi tra <k>oggetti attivi</k>, ciascuno dotato
+di una <k>input queue</k>. In questo modo si evitano a priori problemi legati all'suo di di memoria comune.
+</li>
+<li>Attualmente il DISI utilizza attori basati su <k>Kotlin</k> che implicano meno librerie e sembrano anche più performanti rispetto ad attori
+Akka. Si noti che Kotlin sta diventando il linguaggio di riferimento per applicazini su Android.
+</li>
+<li>
+Si ricorda che si possono attivare migliaia di attori poichè gli attori sono gestiti con schemi 'a coroutine'.</li>
+
+</ul>
 
 <h3>Logical architecture</h3>
+Si ricorda la legenda:
+<img src="./img/components.png" alt="components.png" width="30%"  />
+
+<h4>Oggetti + REST calls</h4>
 <img src="./img/itelDisiHealthArch0.png" alt="itelDisiHealthArch0.png" width="80%"><br/>
 
 See 
 <a href="https://www.w3schools.com/html/html5_serversentevents.asp" target="confluence">HTML Server-Sent Events(SSE) API</a>
+<br/><br/>
+
+<h4>Attori + REST calls</h4>
+
+<img src="./img/itelDisiHealthArch1.png" alt="itelDisiHealthArch1.png" width="80%"><br/>
 <br/>
 <h2>Test plans</h2> 
  
 <h2>Project</h2> 
-
+<h4>Riferimenti al 24/07</h4>
 <ul>
 <li> <a href="https://dev-itel.atlassian.net/wiki/spaces/NEXTAGORA/pages/50298891/Documentazione+Architetturale" target="confluence">
 ITel : Architettura</a></li>
