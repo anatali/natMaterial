@@ -17,12 +17,12 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	//implementation 'org.springframework.boot:spring-boot-starter-security'		//exclude while developing
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+	//implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	testImplementation('org.springframework.boot:spring-boot-starter-test') {
-		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-	}
+	//testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		//exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	//}
 	testImplementation 'io.projectreactor:reactor-test'
 	//testImplementation 'org.springframework.security:spring-security-test'
 }

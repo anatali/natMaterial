@@ -224,30 +224,47 @@ DISI - HapiFhirUsage.html</a> (on <tt>natMicroservices .... it.unibo.mirth.java/
 (<tt><ks>Options</ks>:Packaging=Jar, Java=8</tt>), <m><ks>Dependencies</ks></m>:
 <hr/>
 <ul>
-<li><bc>Spring Web</bc>  </li>
-<li><bc>Thymeleaf</bc> </li>
 <li><bc>Spring Boot DevTools</bc> </li>
+<li><bc>Spring WebFlux</bc> <m><kc>//Reactive </kc></m> </li>
+<li><bc>Spring Web</bc>   <m><kc>//Conventional: Not used at the moment</kc></m></li>
+<li><bc>Thymeleaf</bc> 	  <m><kc>//Not used for m2m interaction</kc></m></li>
 <li><bc>Spring Security</bc>                 <m><kc>//Not used at the moment</kc></m></li>
-<li><bc>Spring WebFlux</bc>  </li>
-<li><bc>Spring Redis</bc>  (just to remember ... )</li>
+<li><bc>Spring Redis</bc>  <m><kc>//just to remember ... </kc></m></li>
 </ul>
 <hr/> 
     
  </li>
 <li>Click on <k>Generate</k>, unzip the generated file into your working dir and update 
 <a href="../build.gradle" target="code">build.gradle</a> and 
-<a href="../src/main/resources/application.properties" target="code">application.properties</a> (port=<k>8081</k>)<br/> <br/
+<a href="../src/main/resources/application.properties" target="code"><ks>application.properties</ks></a> (port=<k>8081</k>):
+<ul>
+<li>Set some logo for human-to-machine (<k>h2m</k>) interaction and for machine-to-machine (<k>m2m</k>) interaction</li>
+<li>Enable/Disable security</li>
+<li>Set endpoint management</li>
+<li>Enables <tt>spring.jmx</tt></li>
+</ul>
+ 
 </li>
 
 <li>Use <a href="http://patorjk.com/software/taag"  target="code">patorjk.com/software/taag</a>
 to change the logo in file <a href="../src/main/resources/banner.txt"  target="code">banner.txt</a><br/> <br/></li>
-<li>Define in <tt>templates</tt> a page: <a href="../src/main/resources/templates/welcome.html"  target="code">welcome.html</a><br/> <br/></li>
-<li>Define a controller: 
-<a href="../src/main/java/it/unibo/HealthAdapterFacade/HumanInterfaceController.java"  target="code">HumanInterfaceController.java</a>
-<br/> <br/></li>
+<li>Define in <tt>templates</tt> a GUI page: <a href="../src/main/resources/templates/welcome.html"  target="code">
+welcome.html</a> for <k>h2m</k> interaction <br/><br/></li>
+<li>Define 
+<ul>
+<li>a 'conventional' controller: 
+<a href="../src/main/java/it/unibo/HealthAdapterFacade/HumanInterfaceController.java"  target="code">
+HumanInterfaceController.java</a> to be used with <bc>Spring Web</bc> and <bc>Thymeleaf</bc></li>
+<li>a RestController
+(see <a href="https://dzone.com/articles/build-reactive-rest-apis-with-spring-webflux"  target="web">
+Build Reactive REST APIs With Spring WebFlux </a>):
+<a href="../src/main/java/it/unibo/HealthAdapterFacade/MachineInterfaceController.java"  target="code">
+MachineInterfaceController.java</a> to be used with <bc>Spring WebFlux</bc> for m2m interaction.</li>
+</ul>
+</li>
  
-<li>Run <a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthAdapterFacadeApplication.java" target="code">HealthAdapterFacadeApplication.java</a>
-and then <tt>localhost:8081</tt>
+<li>Run <a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthAdapterFacadeApplication.java" target="code">
+HealthAdapterFacadeApplication.java</a>, <tt>localhost:8081</tt> and <tt>JConsole</tt>
 <br/> <br/>
  
 </li>

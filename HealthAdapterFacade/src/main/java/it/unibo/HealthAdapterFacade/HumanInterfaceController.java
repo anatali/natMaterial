@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  
 @Controller 
 public class HumanInterfaceController { 
-     @Value("${spring.application.name}")
+     @Value("${human.logo}")
      String appName;
     
     Set<String> robotMoves = new HashSet<String>(); 
@@ -22,8 +22,9 @@ public class HumanInterfaceController {
     }
 
   String applicationModelRep="waiting";
-
-  @GetMapping("/") 		 
+ 
+  
+  //@GetMapping("/") 		  //DONE BY THE MachineInterfaceController
   public String entry(Model model) {
 	   //System.out.println("------------------- HumanInterfaceController homePage " + model  );
        model.addAttribute("appName", appName);
