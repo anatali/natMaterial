@@ -29,11 +29,11 @@ public class MachineInterfaceController {
   
   //http://localhost:8081 
   //curl http://localhost:8081 		//OK -> HealthItelDisi : welcome to m2m interaction   | now I'm waiting ...
-  @GetMapping("/") 		 
-  public String entry(Model model) {
-	  System.out.println("------------------- MachineInterfaceController homePage model=" + model  ); //-> model={}
-      return logo + applicationModelRep;	//just a string, no more a view ...
-  } 
+//  @GetMapping("/") 		 
+//  public String entry(Model model) {
+//	  System.out.println("------------------- MachineInterfaceController homePage model=" + model  ); //-> model={}
+//      return logo + applicationModelRep;	//just a string, no more a view ...
+//  } 
       
   //http://localhost:8081/model?id=abc
   //curl http://localhost:8081/model?id=abc		//OK -> MachineInterfaceController id = abc fooId=abc

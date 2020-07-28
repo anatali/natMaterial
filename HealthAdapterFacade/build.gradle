@@ -1,19 +1,22 @@
+ 
 plugins {
 	id 'org.springframework.boot' version '2.3.2.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'java'
 	id 'eclipse'		//Added by AN
 }
+ 
 
 group = 'it.unibo'
 version = '1.1.0'			//Modified by AN	
-sourceCompatibility = '8'	//Modified by AN
+sourceCompatibility = '1.8'	//Modified by AN
 
 repositories {
 	mavenCentral()
 }
 
 dependencies { 
+testCompile group: 'junit', name: 'junit', version: '4.12'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	//implementation 'org.springframework.boot:spring-boot-starter-security'		//exclude while developing
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
