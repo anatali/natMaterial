@@ -366,8 +366,14 @@ Qui sotto
 sono evidenziati in giallo i concetti centrali e sottolineati in verde concetti secondari ma comunque di interesse ITel.<br/><br/>
 
 <img src="./img/FHIR-ITel.png" alt="FHIR-ITel.png" width="80%"><br/>
+
+<div class="remark">
  Per i dettagli sui <k>Domini di riferimento</k> si veda:
 <a href="https://dev-itel.atlassian.net/wiki/spaces/UNIBO/pages/142737409/FHIR+-+Itel+Scope" target="confluence">FHIR - Itel Scope</a>
+</div>
+
+ 
+
 
 <h2>Requirement analysis</h2>
 
@@ -409,15 +415,13 @@ Si ricorda la legenda:
 <h3>Problemi FONDAMENTALI DA DISCUTERE</h3>
 <ol>
 <li>Cosa intendiamo esattamente per interazione REST?</li>
-<li>Come viene introdotto il concetto di <k>risorsa</k> implicato dalla interazione REST</li>
-<li>Una chiamata REST sincrona pone grossi problemi, ben noti. In cosa consiste una chiamata <k>REST asincrona</k>?</li>
-<li>In che modo e' organizzato un server REST quando deve gestire una chiamata asincrona?</li>
-<li>Le <a href="https://cloud.google.com/healthcare" target="web">API Cloud Healthcare</a> che sembrano
-usare le <a href="https://en.wikipedia.org/wiki/GRPC" target="web">gRPC</a>
-(si veda anche <a href="https://cloud.google.com/endpoints/docs/grpc/about-grpc" target="web">
-Google Cloud Endpoints for gRPC</a>) possono rappresentare uno standard accettabile per la interoperabilita'
-tra diversi <m><ks>CentriHealth</ks></m>? 
-</li>
+<li>Quando e perche' si introduce una interazione REST tra elementi (anche all'interno di <m><ks>Core-Itel</ks></m>?) 
+al posto di una procedure call tra oggetti?</li>
+<li>Interazione REST sono considerate necessarie nella interazione tra <m><ks>Core-Itel</ks></m> e 'mondo esterno' 
+(adapter, ><m><ks>CentroHealth</ks></m>, etc)?</li>
+<li>Quando, perche' e come viene introdotto il concetto di <k>Risorsa</k> implicato dalla interazione REST?</li>
+<li>Una chiamata <em>REST sincrona</em> (call con attesa di risposta) pone grossi problemi, ben noti. In cosa consiste una chiamata <k>REST asincrona</k>?</li>
+<li>In che modo e' <k>organizzato un server REST</k> quando deve gestire una chiamata asincrona?</li>
 <li>In che modo un server REST <k>notifica informazioni</k> ai client(browser)?:<br/>
 <ul>
 <li>Usa <a href="hhttps://en.wikipedia.org/wiki/WebSocket" target="web">websockets</a> ( wikipedia) </li>
@@ -428,22 +432,128 @@ HTML Server-Sent Events(SSE) API</a>. Si veda anche
 <li>Usa un broker <a href="https://it.wikipedia.org/wiki/MQTT" target="web">MQTT</a> ( wikipedia)</li>
 <li>Usa <a href="https://en.wikipedia.org/wiki/WebSub" target="web">WebSub</a> ( wikipedia) </li>
 
-<li>
+<li>...</li>
  
 </ul>
 </li>
 </ol>
- 
+In prospettiva ci si può porre le seguente domanda:<br/><br/>
+
+<li>Le <a href="https://cloud.google.com/healthcare" target="web">API Cloud Healthcare</a> che sembrano
+usare le <a href="https://en.wikipedia.org/wiki/GRPC" target="web">gRPC</a>
+(si veda anche <a href="https://cloud.google.com/endpoints/docs/grpc/about-grpc" target="web">
+Google Cloud Endpoints for gRPC</a>) potrebbero rappresentare uno standard accettabile per la interoperabilita'
+tra diversi <m><ks>CentriHealth</ks></m>? Oppure vanno trattate come 'soluzioni proprietarie' non-standard?.
+</li>
+<hr/>
+Riportiamo qui di seguito alcuni appunti su concetti ben noti sui quali e' pero' opportuno concordare
+al fine di impostare al meglio una architettura logica di progetto.
+
+<h3>Dai dati ai Domini modellati da RISORSE</h3>
+L'adozione di REST come paradigma di interazione implica che un servizio RESTful sia organizzato intorno
+a un dominio espresso da un insieme di Risorse, ciascuna raggiungibile con un opportuno URI.
+<br/><br/>
+La definizione del paradigma e' data dalla tesi di Roy Fielding nel 2000, 
+<a href="https://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm" target="web">Architectural
+Styles and the Design of Network-based Software Architectures</a>, discussa presso l’Universita' della
+California, ad Irvine.
+<br/><br/>
+I  REST non sono necessariamente legati al Web, ma dal momento che il Web ha tutto quello che serve per essere considerata una
+piattaforma di elaborazione distribuita secondo i principi REST, non sono necessarie altre
+sovrastrutture per realizzare quello che è il Web programmabile. Il che è una dichiarazione di
+aperto antagonismo ai Web Service basati su SOAP.
+
+<h4>Principi REST</h4>
+<ul>
+<li>Identificazione delle risorse</li>
+<li>Utilizzo esplicito dei metodi HTTP</li>
+<li>Risorse autodescrittive</li>
+<li>Collegamenti tra risorse</li>
+<li>Comunicazione senza stato</li>
+</ul>
+<h4>Risorse</h4>
+Per <k>Risorsa</k> si intende un qualsiasi elemento oggetto di elaborazione, ad esempio un <i>Paziente</i>, un <i>PianoTerapeutico</i>.
+Per fare un parallelo con la programmazione ad oggetti possiamo dire che una risorsa puo' essere assimilata ad una istanza di una classe.
+<br/>
+Una risorsa deve essere identificata univocamente attraverso un URI. Ad esempio:
+<pre>http://www.itel.com/pazienti/1234
+http://www.itel.com/pianoterapuetico?codfiscpaziente=...	
+</pre>
+
+Nel progettare un Web Service in modalità REST e' utile evitare l’uso di verbi negli URI ma limitarsi ad utilizzare nomi, 
+ricordandosi che un URI identifica una risorsa.<br/><br/>
+
+REST stabilisce una mappatura uno a uno tra le tipiche operazioni
+CRUD (creazione, lettura, aggiornamento, eliminazione di una risorsa) e i metodi HTTP.
+<pre>
+<b>Metodo HTTP          Operazione CRUD              Descrizione</b>
+POST                 Create                       Crea una nuova risorsa
+GET                  Read                         Ottiene una risorsa esistente
+PUT                  Update                       Aggiorna una risorsa o ne modifica lo stato
+DELETE               Delete                       Elimina una risorsa
+</pre>
+
+Il corpo di una richiesta HTTP con metodi PUT e POST e' pensato per il trasferimento della rappresentazione di una risorsa 
+e non per eseguire chiamate remote o altre attività simili.
+
+<h4>Rappresentazione delle Risorse</h4>
+Le risorse sono concettualmente separate dalle rappresentazioni restituite al client. 
+<br/><br/>
+I principi REST non pongono nessun vincolo sulle modalita' di rappresentazione di una risorsa.<br/>
+Di fatto, però, è opportuno utilizzare formati il più possibile standard in modo da
+semplificare l’interazione con i client. Inoltre, sarebbe opportuno prevedere rappresentazioni
+multiple di una risorsa, per soddisfare client di tipo diverso.
+<br/><br/>
+La possibilità di rappresentazioni multiple produce alcuni benefici pratici: ad esempio, se abbiamo
+un output sia HTML, sia XML/Json, possiamo consumare il servizio sia con un’applicazione sia con un
+comune browser. In altre parole, seguendo i principi REST nel progettare un’applicazione Web è
+possibile costruire sia una Web API che una Web UI.
+
+<br/><br/>
+Il tipo di rappresentazione inviata dal Web Service al client è indicato nella stessa risposta HTTP
+tramite un tipo <k>MIME</k>, così come avviene nella classica comunicazione tra Web server e browser.
+Un client a sua volta ha la possibilità di richiedere una risorsa in uno specifico formato sfruttando
+l’attributo Accept di una richiesta HTTP di tipo GET.
+
+
+<h4>Collegamenti tra risorse</h4>
+Un altro vincolo dei principi REST consiste nella necessita' che le risorse siano tra loro messe in
+relazione tramite <em>link ipertestuali</em>. Questo principio e' anche noto come <k>HATEOAS</k> 
+(<i>Hypermedia As The Engine Of Application State</i>), e pone l'accento sulle modalità di gestione
+dello stato dell’applicazione.
+<br/><br/>
+In sostanza, tutto quello che un client deve sapere su una risorsa e sulle risorse ad essa correlate
+deve essere contenuto nella sua rappresentazione o deve essere accessibile tramite collegamenti
+ipertestuali.
+
+
+<h4>Comunicazione stateless</h4>
+
+La comunicazione stateless, non vuol dire che un’applicazione non deve avere stato. 
+La responsabilità della gestione dello stato
+dell’applicazione non deve essere conferita al server, ma rientra nei compiti del client.
+<br/><br/>
+Con una comunicazione senza stato è possibile creare cluster di server che
+possono rispondere ai client senza vincoli sulla sessione corrente, ottimizzando le prestazioni
+globali dell’applicazione. 
+
+
+<!--Si veda <a href="https://www.html.it/pag/19596/i-principi-dellarchitettura-restful/" target="web">principi della architettura restful</a> -->
+
 
 <br/><br/>
 
 <h4>Attori + REST calls (cambio di paradigma)</h4>
+L'adozione di interazioni REST significa avere sostituito oggetti con servizi e procedure-call con 
+operazioni (asincrone) di message-passing. Siamo alle soglie di una cambio di paradigma nella costruzione del software
+che costituisce il passo iniziale verso il mondo dei microservizi.
+
 
 <img src="./img/itelDisiHealthArch1.png" alt="itelDisiHealthArch1.png" width="80%"><br/>
 <br/>
 <h2>Test plans</h2> 
  
-<h2>Project</h2> 
+<h2>PROGETTO</h2> 
 <h4>Riferimenti al 24/07</h4>
 <ul>
 <li> <a href="https://dev-itel.atlassian.net/wiki/spaces/NEXTAGORA/pages/50298891/Documentazione+Architetturale" target="confluence">
@@ -455,11 +565,11 @@ ITel : Multitenancy & Access Control</a></li>
 <li> <a href="https://dev-itel.atlassian.net/wiki/spaces/NEXTAGORA/pages/131497985/Architettura+Security" target="confluence">
 ITel : Security</a></li>
 
-<li>
-
-
-</li>
+ 
 </ul>
+
+Per impostare un prima architettura di progetto, crediamo sia opportuno chiarire bene prima di tutto il senso della transizione da
+Nestagora a Smart@even e poi delienare un quadro di riferimento legato alle interazioni in  Smart@even.<br/><br/>
 <img src="./img/nestagora.png" alt="nestagora.png" width="80%"><br/>
 <img src="./img/smart@even.png" alt="smart@even.png" width="80%"><br/>
 
@@ -493,10 +603,17 @@ da entrambe le parti e/o se entrambe le parti possono richiedere messaggi solici
 In tutti gli altri casi </li>
 </ul>
   
-<h3>Dai dati ai domini modellati da Resources</h3>
-L'adozione di REST come paradigma di interazione implica che un servizio RESTful sia organizzato intorno
-a un dominio espresso da un insieme di risorse, ciascuna raggiungibile con un opportuno URL.
 
+
+
+
+
+
+
+
+<!--
+http://htmlpreview.github.io/?https://github.com/anatali/natMaterial/blob/master/health/userDocs/ITelAppl.html
+-->
 <h2>Testing</h2> 
  
 <h2>Deployment</h2> 
