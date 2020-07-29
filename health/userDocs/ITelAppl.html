@@ -437,7 +437,7 @@ HTML Server-Sent Events(SSE) API</a>. Si veda anche
 
 <br/><br/>
 
-<h4>Attori + REST calls</h4>
+<h4>Attori + REST calls (cambio di paradigma)</h4>
 
 <img src="./img/itelDisiHealthArch1.png" alt="itelDisiHealthArch1.png" width="80%"><br/>
 <br/>
@@ -463,7 +463,39 @@ ITel : Security</a></li>
 <img src="./img/nestagora.png" alt="nestagora.png" width="80%"><br/>
 <img src="./img/smart@even.png" alt="smart@even.png" width="80%"><br/>
 
- 
+<h3>Interazioni nel mondo HL7</h3>
+Lo standard di comunicazione HL7 prevede due possibili tipi di interazione, 
+indipendemente dal modello del contenuto informativo scambiato nel messaggio (modellato sempre secondo HL7). In particolare:
+
+<ul>
+<li><h4>comunicazione UNSOLICITED</h4>
+definisce un’interfaccia che consente di inviare un messaggio HL7 (dispatch) senza che questo sia stato richiesto su un canale TCP/IP ad hoc.
+la comunicazione e' monodirezionale, dalla sorgente del messaggio al sistema interessato a ricevere aggiornamenti/informazioni
+</li>
+<li><h4>comunicazione SOLICITED</h4>
+definisce un’interfaccia che prevede un’interazione in modalita' request-response
+il sistema richiedente invia un messaggio HL7 <k>QRY</k> e il ricevente risponde con un messaggio codificato in HL7. 
+Alcuni esempi: <tt>ADT, ORM, ORU, CD</tt>
+</li>
+</ul>
+
+
+Indipendentemente dal meccanismo di comunicazione scelto, il protocollo HL7 può prevedere l’invio o meno 
+di un <k>ACK</k> relativo ad ogni invio di messaggio/richiesta (protocollo <k>MLLP</k> su TCP/IP). 
+<br/><br/>
+L’invio dell’<k>ACK</k> non rende la comunicazione 'bidirezionale' (secondo quanto specifica HL7). 
+Piu' precisamente:
+<ul>
+<li><h4>comunicazione BIDIREZIONALE</h4>
+se e solo se tra due sistemi possono essere inviati messaggi unsolicited 
+da entrambe le parti e/o se entrambe le parti possono richiedere messaggi solicited (via <k>QRY</k>)</li>
+<li><h4>comunicazione MONODIREZIONALE</h4>
+In tutti gli altri casi </li>
+</ul>
+  
+<h3>Dai dati ai domini modellati da Resources</h3>
+L'adozione di REST come paradigma di interazione implica che un servizio RESTful sia organizzato intorno
+a un dominio espresso da un insieme di risorse, ciascuna raggiungibile con un opportuno URL.
 
 <h2>Testing</h2> 
  
@@ -487,7 +519,7 @@ ITel : Security</a></li>
 </div>  
 
 <div style="background-color:rgba(86, 56, 253, 0.9); width:60%;text-align:left;color:white">
-By AN - DISI antonio.natali@unibo.it  
+By AC - AN - AR | DISI Unibo  
 <!-- <img src="./img/emiglio.png" alt="mbot" width="15%" height="15%"> -->
 </div> 
 </body>
