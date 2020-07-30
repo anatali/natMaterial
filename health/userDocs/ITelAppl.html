@@ -188,7 +188,7 @@ div.imagedesc{
     
 <body>
 <div id="top">
-<h1>ITel applications<font size="5"></font> </h1>
+<h1>DISI | ITel Healthcare<font size="5"></font> </h1>
 </div>  
 
 <div class="body"> 
@@ -202,6 +202,8 @@ div.imagedesc{
 <!-- PROTECTED
 <li><a href="http://htmlpreview.github.io/?https://bitbucket.org/itelunibo/overviewrepo/src/master/it.unibo.itel/userDocs/3-LogicalArch/HDA_Disi.html" target="web"> 
 overviewrepo/src/master/it.unibo.itel/userDocs/3-LogicalArch/HDA_Disi.html</a></li>
+ <li><a href="http://htmlpreview.github.io/?https://github.com/anatali/natMaterial/blob/master/health/userDocs/ITelAppl.html" target="web"> 
+DISI - ITel applications</a>  </li>
 -->
 <li><a href="../../it.unibo.hapi2.2/userDocs/HapiUsage.html" target="web"> DISI - HapiUsage</a> (on <tt>.it.unibo.hapi2.2/userDocs/</tt>)</li>
 
@@ -213,9 +215,9 @@ DISI - HealthReferences.html</a> (on natMaterial/health/userDocs/)</li>
 
 </ul>
   
- 
+
 <h2>Overview</h2>
-Sm@rtEven ha due tipi di UML-actors:
+<a href="#Sm@rtEven">Sm@rtEven</a>  ha due tipi di UML-actors:
 <ul>
 <li><k>Operatore</k><br/>  
 Un agente specializzato (ad es. un medico) che accede mediante
@@ -229,28 +231,90 @@ Terminologia:
 <ul>
 <li><m><ks>Area Geografica</ks></m>: una zona del mondo (con un proprio <m><ks>TimeZone</ks></m> ) </li>
 
-<li><m><ks>Core-Itel</ks></m>: nucleo sempre presente in ogni installazione ITel: si veda
+<li><m><ks>EHR </ks></m> (Electronic Health Record): 
+si veda <a href="https://www.aafp.org/practice-management/health-it/product/intro.html" target="web">
+Introduction to Electronic Health Records</a>  
+ </li>
+ 
+<li><m><ks>EHR/M</ks></m> (Electronic Health Records Management): 
+si veda  <a href="https://www.hilarispublisher.com/open-access/electronic-health-record-management-expectations-issues-and-challenges-2157-7420-1000265.pdf" target="web">
+Electronic Health Record Management: Expectations, Issues, and Challenges (pdf)</a>
+ </li>
+
+
+<li><m><ks>Nestagora</ks></m>: denominazione della vecchia versione della piattaforma Itel</li>
+
+<li><m><ks>Sm@rtSuite </ks></m>: denominazione della nuova versione della piattaforma Itel </li>
+
+<li><m><ks>Sm@rtEven</ks></m>: prodotto ITel con <a href="#Sm@rtEven">funzionalita'</a> di gestione dei pazienti nel dominio Health 
+supportato della piattaforma (vecchia e nuova) Itel.
+ </li>
+
+<li><m><ks>Core-Itel</ks></m>: nucleo sempre presente in ogni installazione <m><ks>Sm@rtEven </ks></m>: si veda
 <a href="https://dev-itel.atlassian.net/wiki/spaces/NEXTAGORA/pages/9568259/Modellazione+del+CORE" target="webcode">
 ITel: Modellazione del CORE</a></li>
 
-<li><m><ks>CentroBase</ks></m>: la struttura, entro una precisa <m><ks>Area Geografica</ks></m>, 
-in cui è installato il <m><ks>Core Itel</ks></m> e  un insieme di <m><ks>ProdottoDiContesto</ks></m></li>
+<li><m><ks>CentroBase</ks></m>: la struttura (cliente), entro una precisa <m><ks>Area Geografica</ks></m> , 
+in cui viene installato (il <m><ks>Core Itel</ks></m> di) <m><ks>Sm@rtSuite </ks></m> unitamente a 
+ <a href="#Sm@rtEven">Sm@rtEven</a> un set di <m><ks>ProdottoDiContesto</ks></m>.<br/>
+In futuro un <m><ks>CentroBase</ks></m> potrebbe anche essere concepito come un centro-servizi in Cloud.
+</li>
 
 <li><m><ks>ProdottoDiContesto</ks></m> (ex adapter): un 'modulo' installabile nel <m><ks>CentroBase</ks></m> 
-(o forse anche <k>remoto ???</k>) che fornisce servizi specializzati in un certo dominio applicativo (ad es. HealtCare)</li>
+(o forse anche <k>remoto ???</k>) che fornisce servizi specializzati in un certo dominio applicativo 
+(ad es. interazioni con <m><ks>CentroHealth</ks></m>)</li>
 
-<li><m><ks>Paziente</ks></m>: una persona modellata usando (un <k>sottoinsieme ???</k>  di) 
-<a href="https://www.hl7.org/fhir/patient.html" target="webcode">FHIR Patient</a>, che vive in una determiata <m><ks>Area Geografica</ks></m>
-ed e' associato ad un (o <k>più ???</k>) <m><ks>CentroHealth</ks></m>  </li>
+<li><m><ks>CentroHealth</ks></m>: una struttura specializzata che si occupa dei dati e dello stato di salute 
+del <m><ks>Paziente</ks></m>.
+<div class="remark">
+<k>DISCUSSIONE 29/07/2020</k>: al momento si puo' ipotizzare che:
+<ul>
+<li>Un <m><ks>CentroBase</ks></m> sia sempre associato a un solo <m><ks>CentroHealth</ks></m></li>
+<li>Un <m><ks>CentroHealth</ks></m> viene visto da Itel attraverso la mediazione di un <em>partner</em>, quale 
+ad esempio <a href="https://www.dedalus.eu/" target="web">Dedalus</a></li>
+<li>Il partner fornisce accessi agli <m><ks>EHR</ks></m> nascondendo a Itel i dettagli di uso di <m><ks>EHR/M</ks></m> </li>
+<li>Itel concorda con il <em>partner</em> le modalità di interazione con il <m><ks>CentroHealth</ks></m>. 
+	<ul>
+	<li>Di solito accede a un server via <tt>HTTPS/TCP</tt>; il server (denominato qui <m><ks>CHFacade</ks></m>) può fungere da Facade  
+	verso altri servizi interni, che risultano nascosti a Itel. </li>
+	<li>I dati da scambiare con la <m><ks>CHFacade</ks></m> sono definiti da Itel, per cui il <em>partner</em> provvede a dotare la Facade
+	di opportuni adapter.</li>
+	<li><m><ks>Sm@rtEven </ks></m> potrebbe operare 'in modo autonomo', senza la
+necessita' di interagire con <m><ks>CHFacade</ks></m> gestito da un <em>partner</em>.  
+In questo caso si puo' pensare alla esistenza di un <m><ks>CentroHealth</ks></m> 'interno'.</li>
+	</ul>
+</li>
+</ul>
+</div>
+<hr/>
+</li>
+ 
+<li><m><ks>Paziente</ks></m>: una persona modellata usando (un <k>sottoinsieme???</k> di) 
+<a href="https://www.hl7.org/fhir/patient.html" target="webcode">FHIR Patient</a>, 
+che vive in una determinata <m><ks>Area Geografica</ks></m>
+ed e' noto al <m><ks>CentroHealth</ks></m> associato al <m><ks>CentroBase</ks></m>.
+  </li>
+  
+<li><m><ks>Operatore</ks></m>: un agente (<i>Medico, Infermiere, Admin</i>) 
+associato a un (o <k>sotto???</k>) insieme  di <m><ks>Paziente<ks></m> 
+che utilizza/gestisce il <m><ks>CentroBase</ks></m> </li>
 
-<li><m><ks>CentroHealth</ks></m>: una struttura specializzata, entro una precisa <m><ks>Area Geografica</ks></m>,
-che si occupa dei dati e dello stato di salute del <m><ks>Paziente</ks></m></li>
+<li><m><ks>Enrollment</ks></m>: iscrizione nel <m><ks>CentroBase</ks></m> di un paziente.
+<div class="remark">
+<k>DISCUSSIONE 29/07/2020</k>:  Un <m><ks>Enrollment</ks></m> può essere iniziato dal <m><ks>CHFacade</ks></m>. Ad esempio,
+uno schema in atto (con <a href="https://www.dedalus.eu/" target="web">Dedalus</a>) e' il seguente:
+<ol>
+<li><m><ks>CHFacade</ks></m> notifica (via <tt>POST</tt>) un nuovo paziente al <m><ks>CentroBase</ks></m> </li>
+<li>Il <m><ks>CentroBase</ks></m>  ricava ulteriori dati del paziente consultando un centro anagrafico regionale </li>
+<li>Il <m><ks>CentroBase</ks></m>  invia un <tt>ack</tt> al <m><ks>CHFacade</ks></m> </li>
+<li><m><ks>CHFacade</ks></m> invia un piano terapeutico relativo a un paziente al <m><ks>CentroBase</ks></m></li>
+<li>...</li>
+</ol> 
+Ovviamente e' anche possibile che un <m><ks>Enrollment</ks></m> sia iniziato da un <m><ks>Operatore</ks></m> del <m><ks>CentroBase</ks></m>.
+</div>
+ 
+</li>
 
-<li><m><ks>Enrollment</ks></m>: iscrizione nel <m><ks>CentroBase</ks></m> di un paziente <k>già associato</k> 
-a un (o <k>più ???</k>) <m><ks>CentroHealth</ks></m></li>
-
-<li><m><ks>Operatore</ks></m>: un agente (<i>Medico, Infermiere, Admin</i>) che utilizza il <m><ks>CentroBase</ks></m>
-associato a un (o <k>sottoinsiente ???</k>) di <m><ks>Paziente-enrolled</ks></m> </li>
 
 <li><m><ks>HealthDevice</ks></m>: un dispositivo capace di effettuare misure (glicemia, pressione, etc) su un paziente</li>
 
@@ -262,34 +326,7 @@ associato a un (o <k>sottoinsiente ???</k>) di <m><ks>Paziente-enrolled</ks></m>
 </li>
 </ul>
 
-<h3>User stories: operatore</h3>
-Come <k>Operatore</k> 
-<ol>
-<li>poter introdurre/eliminare <m><ks>Enrollment</ks></m> di un paziente </li>
-<li>poter inviare/ricevere dati a/da  uno o più <m><ks>CentroHealth</ks></m> associati al paziente</li>
-<li>ricevere notifiche su modifiche del <m><ks>Piano terapeutico</ks></m> del <m><ks>Paziente</ks></m> da parte di un <m><ks>CentroHealth</ks></m></li>
-<li>inviare notifiche su modifiche del <m><ks>Piano terapeutico</ks></m> al <m><ks>Paziente</ks></m>  </li>
-<li>monitorare un <m><ks>ValoreMisurato</ks></m> effettuato dal <m><ks>Paziente</ks></m> e/o il suo storico
-e operare di conseguenza, anche inviando notifiche </li>
-
-
-
-</ol> 
-<h3>User stories: paziente</h3>
-Come <k>paziente</k>:
-
-<ol>
- 
-<li>ricevere supporto alla realizzazione di un <m><ks>Piano terapeutico</ks></m></li>
-<li>ricevere notifiche su modifche del <m><ks>Piano terapeutico</ks></m></li>
-<li>avere supporto per ottenere (via <a href="https://it.wikipedia.org/wiki/Bluetooth" target="web">Bluetooth</a>) 
-un <m><ks>ValoreMisurato</ks></m> e inviarlo al <m><ks>CentroBase</ks></m> </li>
-
-<li>effettuare un <ks>teleconsulto</ks></li>
-
-</ol> 
-
-<h3>User stories: Sm@rtEven</h3>
+<h3 id="Sm@rtEven">User stories: Sm@rtEven</h3>
 Si veda:
 <ul>
 <li><a href="https://miro.com/app/board/o9J_kt4wisk=/" target="confluence">ITel : Mappa funzioni SamrtSuite</a></li>
@@ -344,6 +381,35 @@ Altri moduli (out if DISI scope)
 </table>
  
 
+<h3>User stories: operatore</h3>
+Come <k>Operatore</k> 
+<ol>
+<li>poter introdurre/eliminare <m><ks>Enrollment</ks></m> di un paziente </li>
+<li>poter inviare/ricevere dati a/da  uno o più <m><ks>CentroHealth</ks></m> associati al paziente</li>
+<li>ricevere notifiche su modifiche del <m><ks>Piano terapeutico</ks></m> del <m><ks>Paziente</ks></m> da parte di un <m><ks>CentroHealth</ks></m></li>
+<li>inviare notifiche su modifiche del <m><ks>Piano terapeutico</ks></m> al <m><ks>Paziente</ks></m>  </li>
+<li>monitorare un <m><ks>ValoreMisurato</ks></m> effettuato dal <m><ks>Paziente</ks></m> e/o il suo storico
+e operare di conseguenza, anche inviando notifiche </li>
+
+
+
+</ol> 
+<h3>User stories: paziente</h3>
+Come <k>paziente</k>:
+
+<ol>
+ 
+<li>ricevere supporto alla realizzazione di un <m><ks>Piano terapeutico</ks></m></li>
+<li>ricevere notifiche su modifche del <m><ks>Piano terapeutico</ks></m></li>
+<li>avere supporto per ottenere (via <a href="https://it.wikipedia.org/wiki/Bluetooth" target="web">Bluetooth</a>) 
+un <m><ks>ValoreMisurato</ks></m> e inviarlo al <m><ks>CentroBase</ks></m> </li>
+
+<li>effettuare un <ks>teleconsulto</ks></li>
+
+</ol> 
+
+
+
 
 <h2>Requirements: <m><ks>ProdottoDiContesto</ks></m> HEALTH</h2> 
 La modularizzazione di Nestagora ha portato alla opportunità di incapsulare entro il <m><ks>ProdottoDiContesto</ks></m> 
@@ -381,6 +447,10 @@ sono evidenziati in giallo i concetti centrali e sottolineati in verde concetti 
 <li>Le richieste provenienti da Itel verso <a href="https://bitbucket.org/itelunibo/workspace/projects/HDA" target="confluence">
 <k>Health Data Adapter</k></a> dovrebbero contenere indicazioni sul <m><ks>CentroHealth</ks></m> implicato nella richiesta o
 contenere informazioni da cui dedurre quale <m><ks>CentroHealth</ks></m> consultare.
+<div class="remark">
+<k>DISCUSSIONE 29/07/2020</k>:  Si esclude questo caso, in quanto un paziente che afferisce <m><ks>CentroBase</ks></m>
+e' automaticamente associato al suo unico <m><ks>CentroHealth</ks></m>.
+</div>
 </li>
 <li>...</li>
 </ol>
@@ -471,6 +541,32 @@ aperto antagonismo ai Web Service basati su SOAP.
 <li>Collegamenti tra risorse</li>
 <li>Comunicazione senza stato</li>
 </ul>
+
+<!-- 
+JPA are nothing but POJOs representing data that can be persisted to the database
+https://medium.com/@codespeaks/build-restful-services-with-spring-boot-2-x-in-few-steps-95c895a7abf5
+per un esempio si veda https://github.com/letcodespeak/custsomer-service 
+In customer-service folder, run mvnw spring-boot:run to start the application
+<pre>
+Find all customers
+curl -s -G http://localhost:8088/restapi/customers | python -m json.tool
+Find all customers with sorting
+curl -s -G http://localhost:8088/restapi/customers?sort=customerId,desc | python -m json.tool
+Find all accounts of one customer
+curl -s -G http://localhost:8088/restapi/customers/1/accounts | json_pp
+Add a new customer Iris
+curl -s -H "Content-Type: application/json;accept: application/json" -X POST -d '{"customerName": "Iris Zhang","dateofBirth": "1985-03-16","phoneNumber": "+610452623738"}' http://localhost:8088/restapi/customers/ | json_pp
+Add an account of customer Iris
+curl -s -H "Content-Type: application/json;accept: application/json" -X POST -d '{"accountNumber": 30981069,"accountName": "gold plus","balance": 12000,"openingDate": "2016-05-16"}' http://localhost:8088/restapi/customers/3/accounts | json_pp
+Update the new customer Iris
+curl -s -H "Content-Type: application/json;accept: application/json" -X PUT -d '{"customerName": "Iris Wong","dateofBirth": "1985-03-16","phoneNumber": "+610452623738"}' http://localhost:8088/restapi/customers/3 | json_pp 
+Update the account of customer Iris
+curl -s -H "Content-Type: application/json;accept: application/json" -X PUT -d '{"accountNumber": 30981069,"accountName": "silver plus","balance": 12000,"openingDate": "2016-05-16"}' http://localhost:8088/restapi/customers/3/accounts/30981069 | json_pp
+Delete the customer Iris and all linked accounts
+curl -s -i -H "Content-Type: application/json;accept: application/json" -X DELETE  http://localhost:8088/restapi/customers/3/
+</pre>
+-->
+
 <h4>Risorse</h4>
 Per <k>Risorsa</k> si intende un qualsiasi elemento oggetto di elaborazione, ad esempio un <i>Paziente</i>, un <i>PianoTerapeutico</i>.
 Per fare un parallelo con la programmazione ad oggetti possiamo dire che una risorsa puo' essere assimilata ad una istanza di una classe.
@@ -569,9 +665,38 @@ ITel : Security</a></li>
 </ul>
 
 Per impostare un prima architettura di progetto, crediamo sia opportuno chiarire bene prima di tutto il senso della transizione da
-Nestagora a Smart@even e poi delienare un quadro di riferimento legato alle interazioni in  Smart@even.<br/><br/>
-<img src="./img/nestagora.png" alt="nestagora.png" width="80%"><br/>
-<img src="./img/smart@even.png" alt="smart@even.png" width="80%"><br/>
+Nestagora a Smartsuite e poi delienare un quadro di riferimento legato alle interazioni in  Sm@rteven. 
+<h3>Sm@rteven su Nestagora</h3>
+<table style="width:100%" border="1">
+<tr>
+<td style="width:30%">Versione iniziale errata
+<img src="./img/nestagorasmarteven.png" alt="nestagorasmarteven.png" width="100%"><br/>
+</td>
+<td>Versione dopo DISCUSSIONE 29/07<br/>
+<img src="./img/nestagorasmartevenreviewed.png" alt="nestagorasmartevenreviewed.png" width="100%"><br/>
+
+
+</td>
+</tr>
+</table>
+
+<h3>Sm@rtEven su Sm@rtSuite</h3>
+
+<table style="width:100%" border="1">
+<tr>
+<td style="width:30%">Versione iniziale proposta
+<img src="./img/Sm@rtEven.png" alt="Sm@rtEven.png" width="100%"><br/>
+</td>
+<td>Versione dopo DISCUSSIONE 29/07<br/>
+<img src="./img/smartevenreviewed.png" alt="smartevenreviewed.png" width="100%"><br/>
+
+
+
+</td>
+</tr>
+</table>
+
+
 
 <h3>Interazioni nel mondo HL7</h3>
 Lo standard di comunicazione HL7 prevede due possibili tipi di interazione, 
