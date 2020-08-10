@@ -191,85 +191,37 @@ div.imagedesc{
 <h1>HealthAdapterFacade | Project overview</h1>
 
 <h2>References</h2>
+ 
 <ul>
 <li><a href="https://dev-itel.atlassian.net/wiki/spaces/NEXTAGORA/overview" target="web">Confluence space: Nextagora</a> </li>
 <li><a href="https://dev-itel.atlassian.net/wiki/spaces/UNIBO/overview" target="web">Confluence space: UNIBO</a> </li>
 <li><a href="https://bitbucket.org/itelunibo/workspace/projects/" target="web">Projects on bitbucket</a> </li>
+<!--
 <li><a href="https://bitbucket.org/itelunibo/overviewrepo/src/master/it.unibo.itel/userDocs/3-LogicalArch/HDA_Disi.html" target="web">HDA_Disi.html (overviewrepo)</a> </li>
+-->
 <hr/>
-
+<li><a href="../../../Evolution/it.unibo.hapi2.2/userDocs/HapiUsage.html" target="web"> DISI - HapiUsage</a> (on <tt>.it.unibo.hapi2.2/userDocs/</tt>)</li>
+<li><a href="../../../natMaterial/health/userDocs/HealthReferences.html" target="web"> 
+DISI - HealthReferences.html</a> (on natMaterial/health/userDocs/)</li>
+<li><a href="../../../Evolution/it.unibo.mirth.java/userDocs/MirthExperiments.html" target="web"> DISI - MirthExperiments</a> (on <tt>.health/userDocs/</tt>)</li>
 </ul>
- 
-<ul>
-<li><a href="http://htmlpreview.github.com/?https://github.com/anatali/natmaterial/blob/master/health/userDocs/HealthReferences.html" target="web"> 
-DISI - HealthReferences.html</a> (on <tt>natmaterial .... health/userDocs/</tt>) </li>
-<li><a href="http://htmlpreview.github.com/?https://github.com/anatali/natmaterial/blob/master/health/userDocs/HealthReferences.html" target="web">DISI - HealthReferences.html </a></li>
- <li><a href="./MirthIntro.html" target="web"> 
-DISI - MirthIntro.html</a> (on <tt>natMicroservices .... it.unibo.mirth.java/userDocs/MirthExperiments.html/</tt>) </li>
-<li><a href="http://htmlpreview.github.com/?https://github.com/anatali/natmaterial/blob/master/it.unibo.hapi2.2/userDocs/HapiUsage.html" target="web"> 
-DISI - HapiUsage.html</a> (on <tt>natMicroservices .... it.unibo.hapi2.2/userDocs/</tt>) </li>
-<li><a href="http://htmlpreview.github.com/?https://github.com/anatali/natmaterial/blob/master/it.unibo.mirth.java/userDocs/HapiFhirUsage.html" target="web"> 
-DISI - HapiFhirUsage.html</a> (on <tt>natMicroservices .... it.unibo.mirth.java/userDocs/</tt>) </li>
-</ul>
- 
- 
-
 <!-- http://192.168.1.244/debug/clip.html -->
 
-<h2>Start-up</h2>
- 
+<h2>Workflow</h2>
+ Con riferimento alla terminologia introdotta in <a href="../../health/userDocs/ITelAppl.html" target="web">ITelAppl.html</a>:
 <ol>
-<li>Connect to <a href="https://start.spring.io/">https://start.spring.io/</a> </li>
-<li>Select <tt>Gradle Project, Java</tt>, <tt><ks>Group=</ks>it.unibo</tt>, <tt><ks>Artifact=</ks>HealthAdapterFacade</tt>
-(<tt><ks>Options</ks>:Packaging=Jar, Java=8</tt>), <m><ks>Dependencies</ks></m>:
-<hr/>
-<ul>
-<li><bc>Spring Boot DevTools</bc> </li>
-<li><bc>Spring WebFlux</bc> <m><kc>//Reactive </kc></m> </li>
-<li><bc>Spring Web</bc>   <m><kc>//Conventional: Not used at the moment</kc></m></li>
-<li><bc>Thymeleaf</bc> 	  <m><kc>//Not used for m2m interaction</kc></m></li>
-<li><bc>Spring Security</bc>                 <m><kc>//Not used at the moment</kc></m></li>
-<li><bc>Spring Redis</bc>  <m><kc>//just to remember ... </kc></m></li>
-</ul>
-<hr/> 
-    
- </li>
-<li>Click on <k>Generate</k>, unzip the generated file into your working dir and update 
-<a href="../build.gradle" target="code">build.gradle</a> and 
-<a href="../src/main/resources/application.properties" target="code"><ks>application.properties</ks></a> (port=<k>8081</k>):
-<ul>
-<li>Set some logo for human-to-machine (<k>h2m</k>) interaction and for machine-to-machine (<k>m2m</k>) interaction</li>
-<li>Enable/Disable security</li>
-<li>Set endpoint management</li>
-<li>Enables <tt>spring.jmx</tt></li>
-</ul>
- 
-</li>
+<li>REST API per chiedere a <em>CentroHealth</em> FHIR dati su paziente e piano terapeutico</li>
+<li>Componente per ricevere update da <em>CentroHealth</em> FHIR su paziente e su piano terapeutico </li>
+<li></li>
+<li>Eseguire <a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthAdapterFacadeApplication.java" target="code">
+HealthAdapterFacadeApplication.java</a>, <tt>localhost:8081</tt> and <tt>JConsole</tt></li>
+</ol> 
 
-<li>Use <a href="http://patorjk.com/software/taag"  target="code">patorjk.com/software/taag</a>
-to change the logo in file <a href="../src/main/resources/banner.txt"  target="code">banner.txt</a><br/> <br/></li>
-<li>Define in <tt>templates</tt> a GUI page: <a href="../src/main/resources/templates/welcome.html"  target="code">
-welcome.html</a> for <k>h2m</k> interaction <br/><br/></li>
-<li>Define 
-<ul>
-<li>a 'conventional' controller: 
-<a href="../src/main/java/it/unibo/HealthAdapterFacade/HumanInterfaceController.java"  target="code">
-HumanInterfaceController.java</a> to be used with <bc>Spring Web</bc> and <bc>Thymeleaf</bc></li>
-<li>a RestController
-(see <a href="https://dzone.com/articles/build-reactive-rest-apis-with-spring-webflux"  target="web">
-Build Reactive REST APIs With Spring WebFlux </a>):
-<a href="../src/main/java/it/unibo/HealthAdapterFacade/MachineInterfaceController.java"  target="code">
-MachineInterfaceController.java</a> to be used with <bc>Spring WebFlux</bc> for m2m interaction.</li>
-</ul>
-</li>
- 
-<li>Run <a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthAdapterFacadeApplication.java" target="code">
-HealthAdapterFacadeApplication.java</a>, <tt>localhost:8081</tt> and <tt>JConsole</tt>
-<br/> <br/>
- 
-</li>
 
-</ol>
+<br/> <br/> 
+ 
+ 
+ 
 
  
 
