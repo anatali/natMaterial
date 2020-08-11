@@ -24,7 +24,7 @@ SPRING BASIC
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	//implementation 'org.springframework.boot:spring-boot-starter-security'		//exclude while developing
 /*
-	???
+	To remember Redis ...
 */
 	//implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
@@ -49,6 +49,17 @@ MONGODB
 */
     compile 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
 	compile 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
+
+/*
+FHIR
+*/
+	compile 'ca.uhn.hapi.fhir:hapi-fhir-base:5.0.2'
+	compile 'ca.uhn.hapi.fhir:hapi-fhir-structures-r4:5.0.2'
+	compile 'ca.uhn.hapi.fhir:hapi-fhir-structures-dstu2:5.0.2'
+	compile 'ca.uhn.hapi.fhir:hapi-fhir-structures-dstu3:5.0.2'
+	compile group: 'ca.uhn.hapi.fhir', name: 'org.hl7.fhir.r4', version: '5.0.12'
+ 	compile group: 'ca.uhn.hapi.fhir', name: 'hapi-fhir-client', version: '5.0.2'
+
 
 
 /*

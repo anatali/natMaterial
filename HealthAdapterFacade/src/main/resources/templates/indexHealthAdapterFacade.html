@@ -1,0 +1,65 @@
+<html xmlns:th="http://www.thymeleaf.org"> 
+<head>
+	<title>Welcome</title>
+ 	<link href="/disi.css" rel="stylesheet">
+ 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+ </head>
+<body>
+<h1>AdapterFacade GUI</h1>
+<p>Salve, questo e' il front-end per <i>ProdottoDiContesto</i>: 
+ <b><span th:text="${appName}">Field to be set by some HI controller</span></b><br/>
+<span th:text="${outField}"><p>Field to be set by some HI controller</p></span> 
+
+ 
+
+ <h4>OutputArea</h4>
+<div><textarea id="messages" cols="80" rows="10" readonly="readonly"></textarea></div>
+ 
+ <h4>InputArea</h4>
+<div>
+Patient id: <input id="patientid" type="text" size="20" autofocus/> 
+    <button onclick="sendDelete()">Delete</button>  <br/>
+    <button onclick="search()">Search AliceBologna</button>
+</div>
+ 
+ </p>
+ 
+ 
+ 
+ <script>
+    var  messagesOutput = document.getElementById("messages");
+
+     function searchAlways() {
+             // Connect to the server
+            eventSource = new EventSource("/search");
+            // Receive messages
+            eventSource.onmessage = function (event) {
+                messagesOutput.value += event.data + '\r';
+            };
+            eventSource.onerror = function (e) {
+                console.log("EventSource failed: " + e);
+            };  	  	
+    }
+    
+    function search(){
+    	console.log("search " );
+        fetch("/search", {method: "GET" }).then(function () {
+        	console.log("search done" );
+        });               
+    }
+
+    function sendDelete() {
+    	userNameInput  = document.getElementById("patientid");
+         var message   =  userNameInput.value;
+    	console.log("sendDelete "+ message);
+        fetch("/delete", {method: "POST", body: message}).then(function () {
+            //userNameInput.value = "";
+            userNameInput.focus();
+        });           
+    }
+
+
+</script>
+ 
+</body>
+</html>
