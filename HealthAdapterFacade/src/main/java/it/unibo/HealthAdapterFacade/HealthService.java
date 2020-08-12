@@ -26,13 +26,19 @@ import ca.uhn.fhir.rest.client.api.IGenericClient;
 
 @Service
 public class HealthService {
+	
+	public static final String createPatientUri  ="/createPatient";
+	public static final String searchPatientUri  ="/searchPatient";
+	public static final String readResourceUri   ="/readResource";
+	public static final String deleteResourceUri ="/deleteResource";
+	
 	private String serverBase = "https://hapi.fhir.org/baseR4"; //"http://localhost:9001/r4"; //"https://hapi.fhir.org/baseR4";  http://localhost:9001/r4
 	private FhirContext ctx = FhirContext.forR4();
 	// Create a client. See https://hapifhir.io/hapi-fhir/docs/client/generic_client.html
-	private IGenericClient client = ctx.newRestfulGenericClient(serverBase);
+//	private IGenericClient client = ctx.newRestfulGenericClient(serverBase);
 
 	public String search_for_patients_named(String name) {
-//		IGenericClient client = ctx.newRestfulGenericClient(serverBase);
+		IGenericClient client = ctx.newRestfulGenericClient(serverBase);
 
 		org.hl7.fhir.r4.model.Bundle results = client
 			.search()
@@ -41,24 +47,31 @@ public class HealthService {
 			.returnBundle(org.hl7.fhir.r4.model.Bundle.class)
 			.execute();
 
-		System.out.println("First page: ");
+ 		System.out.println("First page: ");
 		String res = ctx.newXmlParser().encodeResourceToString(results);
-		System.out.println(res);
-
-		return res;
-//		// Load the next page (???)
-//		org.hl7.fhir.r4.model.Bundle nextPage = client
-//			.loadPage()
-//			.next(results)
-//			.execute();
-//
-//		System.out.println("Next page: ");
-//		System.out.println(ctx.newXmlParser().encodeResourceToString(nextPage));
+ 		//System.out.println(res);
+		// Load the next page (???)
+ 		try {
+			org.hl7.fhir.r4.model.Bundle nextPage = client
+				.loadPage()
+				.next(results)
+				.execute();
+			if( nextPage != null ) {
+				System.out.println("Next page: ");
+				String res1 = ctx.newXmlParser().encodeResourceToString(nextPage);
+				return res1;
+			}else  return res;
+ 		}catch( Exception e) {
+ 			System.out.println("WARNING: " + e.getMessage() );
+ 			return res;
+ 		}
 
 	}
 	
 	
 	public void delete_patient(String id) {
+		// Create a client. See https://hapifhir.io/hapi-fhir/docs/client/generic_client.html
+ 		IGenericClient client = ctx.newRestfulGenericClient(serverBase);
 		System.out.println("delete_patient id=" + id);
 		try {
 		MethodOutcome response = client
@@ -69,7 +82,8 @@ public class HealthService {
 				// outcome may be null if the server didn't return one
 				OperationOutcome outcome = (OperationOutcome) response.getOperationOutcome();
 				if (outcome != null) {
-				   System.out.println("delete_patient outcome=" + outcome.getIssueFirstRep().getDetails().getCodingFirstRep().getCode());
+				   //System.out.println("delete_patient outcome=" + outcome.getIssueFirstRep().getDetails().getCodingFirstRep().getCode());
+				   System.out.println("delete_patient outcome=" + outcome.getIssueFirstRep().getDetails() );
 				}else { 
 					System.out.println("delete_patient outcome is null" );
 				}
@@ -80,6 +94,8 @@ public class HealthService {
 	
 	public Long create_patient() {
 		try {
+	    // Create a client. See https://hapifhir.io/hapi-fhir/docs/client/generic_client.html
+	 	IGenericClient client = ctx.newRestfulGenericClient(serverBase);
 		// Create a patient
 		Patient newPatient = new Patient();
 		// Populate the patient with fake information
@@ -95,7 +111,7 @@ public class HealthService {
 		newPatient.setGender(Enumerations.AdministrativeGender.MALE);
 		newPatient.setBirthDateElement(new DateType("2015-11-18"));
 
-		System.out.println("Created patient : " + newPatient.getBirthDateElement() );
+		System.out.println("Created patient : " +  newPatient ); //newPatient.getBirthDateElement()
 		// Create a client
 //	 	IGenericClient client = ctx.newRestfulGenericClient(serverBase);
 		// Create the resource on the server
@@ -116,7 +132,8 @@ public class HealthService {
 	
 	
 	public String read_a_resource(Long id) { 
-// 		IGenericClient client = ctx.newRestfulGenericClient(serverBase);
+		// Create a client. See https://hapifhir.io/hapi-fhir/docs/client/generic_client.html
+ 		IGenericClient client = ctx.newRestfulGenericClient(serverBase);
 
 		Patient patient;
 		try { 
