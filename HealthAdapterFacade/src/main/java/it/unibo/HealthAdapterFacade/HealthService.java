@@ -57,6 +57,17 @@ public class HealthService {
 				.setValue("987654321");
 		newPatient.setGender(Enumerations.AdministrativeGender.FEMALE);
 		newPatient.setBirthDateElement(new DateType("2000-11-18"));
+ 
+		newPatient
+			.addAddress()
+				.setCity("Bologna")
+				.setCountry("Italy")
+				.setText("some text");
+//		newPatient
+//			.addChild("AnnaBologna");
+		newPatient
+			.addTelecom()
+			.setValue("Contact Unibo");
 
 		System.out.println("Created patient : " +  newPatient ); //newPatient.getBirthDateElement()
 		// Create a client
@@ -141,8 +152,8 @@ public class HealthService {
 		Patient patient;
 		try { 
  			patient       = client.read().resource(Patient.class).withId(id).execute();
- 			patient.
- 			System.out.println(patient.toString()); 
+ 			
+ 			System.out.println( "Birth date="+patient.getBirthDate().toString() ); 
  			String string = ctx.newXmlParser().setPrettyPrint(true).encodeResourceToString(patient);
  			//System.out.println(string);
  			return  string;

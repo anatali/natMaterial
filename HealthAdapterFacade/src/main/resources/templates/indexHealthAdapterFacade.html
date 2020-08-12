@@ -42,13 +42,13 @@
     }
     
     function readResource(){
-      	$("i.infoArea").text(  "reading ..." );	
-    	$("pre.resultArea").text(  "" );
+     	$("pre.resultArea").text(  "" );
     	var patientid = document.getElementById("patientid").value;
+      	$("i.infoArea").text(  "reading " + patientid + " ... ");	
     	//alert( patientid  );
 		$.get("readResource/"+patientid, function(data){	 
   				$("pre.resultArea").text(  data );
-     			$("i.infoArea").text(  "read done" );	
+     			$("i.infoArea").text(  "read " + patientid + " done" );	
  		});  
     }
 
@@ -94,17 +94,46 @@
 <h1>AdapterFacade GUI</h1>
 
 <h2>References</h2>
+<m>
 <ul>
+
+<li><a href="https://www.hl7.org/fhir/R4/patient.html" target="web">FHIR 8.1 Resource Patient - Content</a>: 
+fornisce la specifica della risorsa e le sue rappresentazioni XML, UML, Json, etc
+</li>
+
+<li><a href="https://www.hl7.org/fhir/R4/search.html" target="web">FHIR 3.1.1 Search</a>: 
+describes the FHIR search framework
+</li>
+
+ 
+<li><a href="https://hapifhir.io/hapi-fhir/docs/appendix/javadocs.html" target="web">FHIR Api docs</a>
+&nbsp;&nbsp;
+<a href="https://hapifhir.io/hapi-fhir/apidocs/hapi-fhir-structures-r4/undefined/org/hl7/fhir/r4/model/Patient.html" target="web">
+FHIR Patient docs</a>
+</li>
+
 <li><a href="http://htmlpreview.github.com/?https://github.com/anatali/natmaterial/blob/master/health/userDocs/HealthReferences.html" target="web"> 
 DISI - HealthReferences.html</a> (on <tt>natmaterial .... health/userDocs/</tt>) </li>
-
-<li><a href="http://htmlpreview.github.com/?https://github.com/anatali/natmaterial/blob/master/it.unibo.hapi2.2/userDocs/HapiUsage.html" target="web"> 
-DISI - HapiUsage.html</a> (on <tt>natMicroservices .... it.unibo.hapi2.2/userDocs/</tt>) </li>
 
 <li><a href="http://htmlpreview.github.com/?https://github.com/anatali/natmaterial/blob/master/health/userDocs/HapiFhirUsage.html" target="web"> 
 DISI - HapiFhirUsage.html</a> (on <tt>natMicroservices .... it.unibo.mirth.java/userDocs/</tt>) </li>
 </ul>
+</m> 
+<!--
+ <pre>
+ https://nhsconnect.github.io/CareConnectAPI/design.html
+ https://nhsconnect.github.io/CareConnectAPI/build_patient_server.html
+ https://nhsconnect.github.io/CareConnectAPI/build_ri_install.html
  
+ http://www.interopsante.org/offres/doc_inline_src/412/W12.pdf
+ https://wiki.hl7.org/Open_Source_FHIR_implementations
+ https://cloud.google.com/healthcare/docs/how-tos/fhir-resources
+ https://www.hl7.org/fhir/R4/patient.html  SPEC
+ 
+ https://github.com/synthetichealth/synthea https://academic.oup.com/jamia/article/25/3/230/4098271
+  </pre>
+--> 
+<hr/> 
 <h3>State: <i class="infoArea"></i></h3> 
 
 
@@ -123,9 +152,24 @@ Patient ident: <input id="patientid" type="text" size="15" autofocus/>
 <pre class="resultArea"><span th:text="${outField}">waiting ... </span></i></pre>
 
  </p>
- 
- 
- 
- 
+
+
+<h2>Usage</h2> 
+<ol>
+<li>Insert a name (e.g. AliceBologna) and create a patient. Look at the <k>id</k> given as result in State</li>
+<li>Search all the patients with the given name. Look at the OutputArea</li>
+<li>Read the patient with the given <k>id</k>. Look at the OutputArea</li>
+<li>Delete the patient  with the given <k>id</k></li>
+</ol>
+
+<h2>Explanation</h2> 
+See  <a href="http://htmlpreview.github.com/?https://github.com/anatali/natmaterial/blob/master/HealthAdapterFacade/userDocs/HealthAdapterFacade.html" target="web"> 
+DISI - HealthAdapterFacade.html</a> (on <tt>natmaterial .... HealthAdapterFacade/userDocs/</tt>)
+
+<br/><br/>
+Puo' essere anche utile  guardare il progetto:
+
+<a href="https://nhsconnect.github.io/CareConnectAPI/design.html" target="web">Care Connect RESTful APIs (by NHS Digital and INTEROPen community)</a>
+
 </body>
 </html>

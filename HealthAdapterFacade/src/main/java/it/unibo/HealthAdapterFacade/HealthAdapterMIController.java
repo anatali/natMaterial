@@ -26,10 +26,10 @@ public class HealthAdapterMIController {
      public String create( @RequestBody String name ) {
    	    System.out.println("------------------- HealthAdapterMIController createPatient " + name  );	    
    	    Long id = healthService.create_patient( name );	
-   	    String answer = healthService.read_a_resource(id) ;  
-   	    System.out.println("------------------- HealthAdapterMIController createPatient answer= " + answer  );	
-   	    //model.addAttribute("outField", answer);
-        return answer;	
+   	    if( id == 0 ) return "createError";	
+//   	    String answer = healthService.read_a_resource(id) ;  
+//   	    System.out.println("------------------- HealthAdapterMIController createPatient answer= " + answer  );	
+        return ""+id; //answer;	
      } 
 
      @PostMapping( HealthService.deleteResourceUri ) 
