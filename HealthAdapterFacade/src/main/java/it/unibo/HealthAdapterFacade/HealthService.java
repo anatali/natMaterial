@@ -141,9 +141,11 @@ public class HealthService {
 		Patient patient;
 		try { 
  			patient       = client.read().resource(Patient.class).withId(id).execute();
+ 			patient.
+ 			System.out.println(patient.toString()); 
  			String string = ctx.newXmlParser().setPrettyPrint(true).encodeResourceToString(patient);
  			//System.out.println(string);
- 			return string;
+ 			return  string;
 		} catch ( Exception e) {	//ResourceNotFoundException
 			System.out.println("Resource " + id + " ERROR " + e.getMessage());
 			return "<resource><text>Resource " + id + "</text><text>" +  e.getMessage() +"</text></resource>";

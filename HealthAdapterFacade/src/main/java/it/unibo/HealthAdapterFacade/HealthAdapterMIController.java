@@ -27,8 +27,9 @@ public class HealthAdapterMIController {
    	    System.out.println("------------------- HealthAdapterMIController createPatient " + name  );	    
    	    Long id = healthService.create_patient( name );	
    	    String answer = healthService.read_a_resource(id) ;  
+   	    System.out.println("------------------- HealthAdapterMIController createPatient answer= " + answer  );	
    	    //model.addAttribute("outField", answer);
-        return answer;
+        return answer;	
      } 
 
      @PostMapping( HealthService.deleteResourceUri ) 

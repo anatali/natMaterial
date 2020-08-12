@@ -1,6 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org"> 
 <head>
-	<title>Welcome</title>
+	<title>HealthAdapterFacadeGUI</title>
  	<link href="/disi.css" rel="stylesheet">
  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -53,12 +53,14 @@
     }
 
 	//See https://www.html.it/pag/66525/fetch-api/
+	//https://www.javascripture.com/Response - replacement for XMLHttpRequest (https://www.javascripture.com/XMLHttpRequest).
      function createPatient() {
     	var patientid = document.getElementById("patientname").value;
       	$("i.infoArea").text(  "creating patient ... " + patientid );	
         fetch("/createPatient", {method: "POST", body: patientid}).then(function (response) {
         	if (response.ok) {
-      			return response.text();
+        		console.log(  "creation done of " +  patientid + "  " + response );
+      			return response.text() ;		// 
       		}}).then( function (id) {
       			$("i.infoArea").text(  "creation done of " +  patientid + " id=" + id);	
       		});
@@ -71,10 +73,12 @@
         var message   =  userNameInput.value;
     	//console.log("sendDelete "+ message);
     	$("i.infoArea").text(  "deleting ..." );	
-        fetch("/deleteResource", {method: "POST", body: message}).then(function () {
-            userNameInput.value = "";
-            userNameInput.focus();
-            $("i.infoArea").text(  "deletion "+ message + " done" );	
+        fetch("/deleteResource", {method: "POST", body: message}).then(function (response) {
+        	if (response.ok) {
+	            //userNameInput.value = "";
+	            userNameInput.focus();
+	            $("i.infoArea").text(  "deletion "+ message + " done" );	
+            }
         });           
     }
 
@@ -89,7 +93,17 @@
 
 <h1>AdapterFacade GUI</h1>
 
- 
+<h2>References</h2>
+<ul>
+<li><a href="http://htmlpreview.github.com/?https://github.com/anatali/natmaterial/blob/master/health/userDocs/HealthReferences.html" target="web"> 
+DISI - HealthReferences.html</a> (on <tt>natmaterial .... health/userDocs/</tt>) </li>
+
+<li><a href="http://htmlpreview.github.com/?https://github.com/anatali/natmaterial/blob/master/it.unibo.hapi2.2/userDocs/HapiUsage.html" target="web"> 
+DISI - HapiUsage.html</a> (on <tt>natMicroservices .... it.unibo.hapi2.2/userDocs/</tt>) </li>
+
+<li><a href="http://htmlpreview.github.com/?https://github.com/anatali/natmaterial/blob/master/health/userDocs/HapiFhirUsage.html" target="web"> 
+DISI - HapiFhirUsage.html</a> (on <tt>natMicroservices .... it.unibo.mirth.java/userDocs/</tt>) </li>
+</ul>
  
 <h3>State: <i class="infoArea"></i></h3> 
 

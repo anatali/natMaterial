@@ -1,0 +1,598 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+ 
+<style type="text/css">
+body
+{
+    margin-left:  30px;
+    margin-right: 30px;
+};
+
+P
+{
+    font-family: Tahoma;
+    font-size: 10pt;
+};
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #545454;
+    background-color: transparent;
+}
+
+a:hover {
+    background-color: #cccccc;
+}
+
+
+hr {
+    clear: both;
+    height: 1px;
+    color: #242424;
+    background-color: transparent;
+}
+
+h1, h2, h3 {
+    color: #242424;
+    clear: left;
+    font: 100% Tahoma, Helvetica, Arial, sans-serif;
+    margin-bottom: 0.5em;
+    padding-top: 0.5em;
+	border-radius: 10px;
+	padding: 5px;
+}
+
+top {
+	width: 100%;
+}
+
+
+#i {
+    color: #ff1010;
+}
+tt{
+	font-family: "Arial";
+    font-size: 80%;
+	color: #006600;
+}
+em{
+	font-family: "Arial";
+    font-size: 80%;
+	font-weight: bold;
+	border-style:solid;
+	border-color: #abe876;
+    color: #1632cc;
+}
+bc{
+	font-family: "Arial";
+	font-size: 80%;
+	font-weight: bold;
+    color: #990000;
+	background-color: #fcf8c7;
+}
+ks{
+	font-family: "Arial";
+	font-weight: bold;
+    color: #0000CD	;
+	 
+}
+kc{
+	font-family: "Arial";
+	font-weight: bold;
+    color: #008000	;
+	 
+}
+pre{
+	font-family: "Consolas";
+	font-size: 85%;
+	background-color: #f5f5f5;
+	border: 1.5px solid silver;
+	padding: 5px;
+}
+m{
+	font-family: "Helvetica";
+	line-height: 100%;
+ 	font-size: 75%;
+}
+div.body{
+	width: 700px;
+    font-size: 15px;
+}
+k{
+    color: #990000;
+	font-weight: bold;
+}
+h1 {
+    font-size: 150%;
+    background-color: #b2c0ff;
+	padding: 10px; 
+}
+
+h2 {
+    background-color: #9ed8ff;
+    font-size: 130%;
+}
+
+h3 {
+	background-color: #e6ccff;
+    font-size: 100%;
+}
+h4 {
+    background-color: #C0F0E0;
+    font-size: 100%;
+	width: 95%;
+	border-radius: 5px;
+	padding: 2px;
+}
+h5 {
+    background-color: #d5ffb0;
+    font-size: 100%;
+	
+}    
+div.req{
+	background-color: #d9ffb3;
+    font-size: 18px;
+	width: 700px;
+    border: 3px solid green;
+    padding: 15px;
+    margin: 10px;
+}       
+div.remark{
+	background-color: #E3F2FD;	
+    border: 1.5px solid #d5f2ed;
+    padding: 15px;
+    margin: 10px;
+	border-radius: 25px;
+}  
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+} 
+
+ol, ul, li {
+  margin: 0;
+  margin-left: 10px;
+  padding: 0;
+  padding-bottom: 5px;
+}     
+
+table, th, td {
+	border: 1px solid black;
+}
+
+img {
+	border: 1.5px solid #d5f2ed
+	
+}
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #545454;
+    background-color: transparent;
+}
+
+div.wrapdesc{
+	width: 90%;
+	margin: auto;
+}
+
+div.imagedesc{
+	width: 85%;
+	margin: auto;
+}
+</style>
+    
+<head>
+   
+<title>HapiFhirUsage</title></head>
+    
+<body>
+<div id="body">
+<h1>HapiFhirUsage | References and examples (in natmicroservices) <font size="5"></font> </h1>
+<ul>
+<li><a href="https://dev-itel.atlassian.net/wiki/spaces/NEXTAGORA/overview" target="web">Confluence space: Nextagora</a> </li>
+<li><a href="https://dev-itel.atlassian.net/wiki/spaces/UNIBO/overview" target="web">Confluence space: UNIBO</a> </li>
+<li><a href="https://bitbucket.org/itelunibo/workspace/projects/" target="web">Projects on bitbucket</a> </li>
+<li><a href="https://bitbucket.org/itelunibo/overviewrepo/src/master/it.unibo.itel/userDocs/3-LogicalArch/HDA_Disi.html" target="web">HDA_Disi.html (overviewrepo)</a> </li>
+<hr/>
+<!-- PROTECTED
+<li><a href="http://htmlpreview.github.io/?https://bitbucket.org/itelunibo/overviewrepo/src/master/it.unibo.itel/userDocs/3-LogicalArch/HDA_Disi.html" target="web"> 
+overviewrepo/src/master/it.unibo.itel/userDocs/3-LogicalArch/HDA_Disi.html</a></li>
+-->
+<li><a href="../../it.unibo.hapi2.2/userDocs/HapiUsage.html" target="web"> DISI - HapiUsage</a> (on <tt>.it.unibo.hapi2.2/userDocs/</tt>)</li>
+
+ 
+<li><a href="../../../natMaterial/health/userDocs/HealthReferences.html" target="web"> 
+DISI - HealthReferences.html</a> (on natMaterial/health/userDocs/)</li>
+ 
+<li><a href="../../it.unibo.mirth.java/userDocs/MirthExperiments.html" target="web"> DISI - MirthExperiments</a> (on <tt>.health/userDocs/</tt>)</li>
+
+</ul>
+<!--
+<h2>User story</h2>
+<div class="remark">
+As a Developer,  I want to be able to access health data in a protocol-independent way,  so that I can more easily integrate with existing health care systems.
+<br/>
+Example: access health data in various HL7 formats (and others) in a uniform way.
+<hr/>
+</div>
+-->
+
+<h2>The HapiFhir world</h2>
+<k>Fast Healthcare Interoperability Resources</k> (<a href="https://fhir.org/" target="web"><em>FHIR</em></a>, pronounced "fire") 
+ is a standard describing data formats and elements (known as "resources") 
+ and an application programming interface (API) for exchanging electronic health records 
+ (<a href="https://www.hl7.org/implement/standards/product_brief.cfm?product_id=269" target="web"><em>EHR</em></a>). 
+ The standard was created by the Health Level Seven International (HL7) health-care standards organization.<br/><br/>
+<br/>
+
+<table style="width:98%">
+<tbody>	
+ <tr><td style="width:35%">HL7 FHIR Specification
+</td>
+<td><a href="https://www.hl7.org/fhir/" target="web">https://www.hl7.org/fhir/</a>  
+<em>Look here to find JavaDocs for the Messages, DataTypes</em>. 
+See also <a href="../../../natmaterial/health/userDocs/HealthReferences.html#FHIRresources" target="web">FHIRresources</a><br/>
+<a href="https://wiki.hl7.org/Publicly_Available_FHIR_Servers_for_testing" target="web">Publicly Available FHIR Servers for testing</a>  
+ </td>
+</tr>
+
+<tr><td >HAPI FHIR<br/>
+</td>
+<td> 
+	<!-- <a href="http://hapi.fhr.org/" target="web">hapi.fhr.org</a><br/> -->
+	<a href="https://github.com/hapifhir" target="web">hapifhir FHIR GITHUB</a><br/>
+<pre>
+compile 'ca.uhn.hapi.fhir:hapi-fhir-base:5.0.2'
+compile 'ca.uhn.hapi.fhir:hapi-fhir-structures-r4:5.0.2'
+compile group: 'ca.uhn.hapi.fhir', name: 'org.hl7.fhir.r4', version: '5.0.12'
+compile group: 'ca.uhn.hapi.fhir', name: 'hapi-fhir-client', version: '5.0.2'
+</pre>
+</td>
+</tr>
+
+<tr><td>Quick reference<br/>
+ 
+</td>
+<td>   
+<a href="https://hapifhir.io/hapi-fhir/docs/" target="web">homepage for the HAPI-FHIR library</a><br/>
+<a href="https://hapifhir.io/hapi-fhir/docs/introduction/versions.html" target="web">FHIR and HAPI FHIR Versions</a><br/>
+<a href="https://hapi.fhir.org/" target="web">HAPI public FHIR server UHN_HAPI Server (R4 FHIR)</a><br/>
+  <a href="https://hapifhir.io/hapi-fhir/docs" target="web"><ks>HAPI - FHIR Table of Contents</ks></a><br/>
+  <ul>
+  <li><a href="https://hapifhir.io/hapi-fhir/docs/model/parsers.html" target="web">Parsers and Serializers</a></li>
+  <li><a href="https://hapifhir.io/hapi-fhir/docs/client/" target="web">Client Introduction</a>&nbsp;&nbsp;
+  <a href="https://github.com/FirelyTeam/fhirstarters/tree/master/java/hapi-fhirstarters-client-skeleton/" target="web"><k>HAPI FHIR - Client Starter</k></a>
+  &nbsp;&nbsp; check:<a href="http://hapi.fhir.org/baseR4/Patient/example" target="web">http://hapi.fhir.org/baseR4/Patient/example</a>
+  <br/></li>
+  <li><a href="https://hapifhir.io/hapi-fhir/docs/server_plain/" target="web">HAPI FHIR Server Introduction</a></li>
+  <li><a href="https://hapifhir.io/hapi-fhir/docs/server_jpa/" target="web">JPA Server Introduction</a></li>
+  <li><a href="https://hapifhir.io/hapi-fhir/docs/appendix/javadocs.html" target="web">HAPI - FHIR Javadocs</a></li>
+  </ul>
+ 
+</td>
+</tr>
+
+<tr><td>TestPanel
+</td>
+<td>  
+<a href="http://clinfhir.com/" target="web">clin FHIR launcher</a> (Hay Resource Reference PATH)<br/>
+</td>
+</tr>
+
+ <td> 
+</td>
+<td>
+</td>
+</tr>
+
+
+<tr><td>
+</td>
+<td> </td>
+</tr>
+
+
+
+ </tbody>
+</table>
+
+<h2>Examples </h2> 
+<table style="width:98%">
+<tbody>	
+<tr>
+<td style="width:40%" >
+<a href="../src/it/unibo/usepublicserver/TestOperations.java" target="code">TestOperations.java</a><br/>
+Example taken from <a href="https://github.com/FirelyTeam/fhirstarters/tree/master/java/hapi-fhirstarters-client-skeleton/" target="web">
+GITHUB FirelyTeam/fhirstarters</a><br/> 
+</td>
+<td>
+<pre>
+read_a_resource()
+search_for_patients_named_test()
+create_patient()
+</pre>
+</td>
+</tr>
+<tr><td>
+</td>
+<td></td>
+</tr>
+ </tbody>
+</table>
+ <br/><br/>
+ 
+<h3>Examples using testing server <a href="https://hapi.fhir.org/" target="web">https://hapi.fhir.org/baseR4</a></h3> 
+<table style="width:98%">
+<tbody>	
+<tr>
+<td style="width:30%" >
+<a href="../src/it/unibo/usepublicserver/TestOperations.java" target="code">TestOperations.java</a><br/>
+</td>
+<td>
+<pre>
+read_a_resource()			ok
+search_for_patients_named_test()	ok
+create_patient()	<k>"bobBologna"</k> <kc>got ID: http://hapi.fhir.org/baseR4/Patient/1391883/_history/1</kc>, <kc>"id": "1391823"</kc>
+<a href="http://hapi.fhir.org/baseR4/Patient/1391883" target="testserver">http://hapi.fhir.org/baseR4/Patient/1391883</a> 
+<a href="http://hapi.fhir.org/baseR4/Patient?name=BobBologna" target="testserver">http://hapi.fhir.org/baseR4/Patient?name=BobBologna</a><br/>
+</pre>
+
+ 
+</td>
+</tr>
+<tr><td>
+</td>
+<td></td>
+</tr>
+ </tbody>
+</table>
+
+<h3>Examples using MHIR channel <a href="../channels/FHIR Listener.xml" target="web">FHIR Listener.xml</a></h3> 
+<pre>
+fhirDBDatabaseType	postgres	
+fhirDBDriver	org.postgresql.Driver	
+fhirDBMaxRetries	5	
+fhirDBPassword	solita	
+fhirDBUrl	jdbc:postgresql://localhost:5432/postgres	
+fhirDBUsername	postgres	
+</pre>
+ <a href="../../../natmaterial/fhir-example-channels/channels" target="web">fhir-example-channels/channels</a> 
+ (in natmaterial: a repository of sample channels, code template libraries, and transformers that can be used with the 
+FHIR Connector Extension)<br/><br/>
+
+<table style="width:98%">
+<tbody>	
+<tr>
+<td style="width:30%" >
+<a href="../src/it/unibo/usepublicserver/TestOperations.java" target="code">TestOperations.java</a><br/>
+</td>
+<td>
+The channel requires 
+<ul>
+<li><a href="https://www.postgresql.org/" target="code"><ks>postgres</ks></a> (<tt>docker pull postgres</tt>
+on <a href="https://hub.docker.com/_/postgres" target="code">dockerhub postgres</a>).<br/> See 
+<a href="http://www.mirthcorp.com/community/wiki/display/mirth/Setting+Up+Mirth+Using+PostgreSQL" target="code">Setting Up Mirth Using PostgreSQL</a> and
+<a href="http://40.85.141.130/docs/Mirth%20and%20PostgreSQL%20-%20Installation%20and%20Configuration.htm" target="code">Mirth Connect and PostgreSQL</a><br/>
+</li>
+<li><a href="https://www.microsoft.com/en-us/sql-server/sql-server-downloads" target="code">sqlserver</a>
+(<tt>docker pull mcr.microsoft.com/mssql/server</tt>
+on <a href="https://hub.docker.com/_/microsoft-mssql-server" target="code">dockerhub Microsoft SQL Server</a> ) </li>
+</ul>
+ 
+
+
+</td>
+</tr>
+<tr><td>
+</td>
+<td></td>
+</tr>
+ </tbody>
+</table>
+
+<h3>Note</h3>
+
+<ol>
+<li>Gli esempi che usano il server di prova <k>https://hapi.fhir.org/baseR4</k> funzionano. Si veda
+<a href="../src/it/unibo/usepublicserver/TestOperations.java" target="code">TestOperations.java</a></li>
+<li>Gli stessi esempi sul canale MIRTH <a href="../channels/Example - FHIR Listener (3.9.0).xml" target="code">
+Example - FHIR Listener (3.9.0).xml</a> vanno fatti.<br/>
+http://localhost:9001/r4/metadata<br/>
+http://localhost:9001/r4/Patient/42a88258-2b0a-4203-8419-15b4921b7f41/_history/1<br/>
+ 
+# The type of database server (postgres, sqlserver).fhirDBDatabaseType = postgres# The JDBC Driver class to use whe
+
+http://javadocs.mirthcorp.com/connect/3.9.0/user-api/ <br/>
+http://javadocs.mirthcorp.com/connect/3.9.0/user-api/com/mirth/connect/server/userutil/DatabaseConnection.html <br/>
+</li>
+<li></li>
+<li></li>
+</ol>
+
+ 
+ 
+ <h2>FHIR and MIRTH</h2>
+ <a href="https://www.mirthcorp.com/community/wiki/pages/viewpage.action?pageId=38798954" target="web">FHIR Connector Extension (3.9)</a> 
+ <br/>
+  <a href="https://www.youtube.com/watch?v=WkBaRwVzkl4" target="web">Install Mirth FHIR Extension</a>  
+  <br/>
+ <a href="hhttp://www.mirthcorp.com/community/wiki/pages/viewpage.action?pageId=38798957" target="web">Example Channel R4</a> 
+<br/>
+ <a href="https://techno-soft.com/fhir-setup-on-mirth-connect.html/#:~:text=Find%20the%20FHIR%20zip%20file,FHIR%20Listener%20extension%20is%20installed" target="web">
+TechnoSoft: FHIR Setup on Mirth Connect / NextGen Connect</a> 
+<br/>
+ <a href="http://www.mirthcorp.com/community/wiki/pages/viewpage.action?pageId=38798961" target="web">Mirth FHIR UserGuide</a>
+<br/>
+<br/>
+
+ 
+<a href="https://www.hl7.org/fhir/patient-examples.html" target="web">Resource Patient - Examples</a><br/>
+
+
+<a href="https://www.youtube.com/watch?v=INWxXJThIZE" target="web">Applicadia Clinical Reporting Demonstration - Video</a>
+
+<h2>HL7 version 3</h2>
+ <a href="https://www.hl7.org/implement/standards/product_brief.cfm?product_id=186" target="web">HL7 Version 3 Product Suite</a>.<br/>
+ 
+ The Version 3 Normative Edition represents a new approach to clinical information exchange based on a <em>model driven methodology</em> 
+ that produces messages and electronic documents expressed in <tt>XML syntax</tt>. <br/><br/>
+ The V3 specification is built around <em>subject domains</em> that provide 
+ storyboard descriptions, trigger events, interaction designs, domain object models derived from the 
+  <a href="https://www.hl7.org/implement/standards/product_brief.cfm?product_id=77" target="web">HL7 Version 3: Reference Information Model (<em>RIM</em>)</a>, 
+ hierarchical message descriptors (HMDs) and a prose description of each element. <br/><br/>
+ Implementation of these domains further depends upon a non-normative V3 Guide and normative specifications for: 
+ data types; the XML technical specifications (ITS) or message wire format; message and control "wrappers", and transport protocols.
+
+ 
+ <h2>RIM</h2>
+ RIMBAA, now: <a href=" https://wiki.hl7.org/Application_Implementation_and_Design" target="web">Application Implementation and Design HL7 "User Group" </a>
+  <br/>
+ 
+   <br/>
+ <a href="http://www.hl7.org/implement/standards/rim.cfm" target="web">V3 RMIM Designer (in Visio)</a>
+  <br/> <br/>
+ <a href=" https://gforge.hl7.org/gf/project/visio-rmim-desi/" target="web">Tools for RIM based software development</a> <br/>
+<a href="https://wiki.hl7.org/Tools_for_RIM_based_software_development" target="web">Tools for RIM based software development</a> <br/>
+
+  <a href="http://www.openmapsw.com/" target="web">Open Mapping Software</a> (Transforms By Example-TBX )<br/>
+  <a href="http://www.openmapsw.com/TBE/TBEHealth.htm" target="web">Transforms By Example in Healthcare</a><br/>
+  <a href="https://github.com/robertworden/TBX-For-V2-and-FHIR" target="web">TBX-For-V2-and-FHIR</a>
+
+ <br/> <br/>
+ <a href="http://phitechnology.insielmercato.it/web/phi/phi-technology" target="web">phi TECHNOLOGY</a>
+  <br/>
+ <a href=" https://www.ringholm.com/docs/03100_en.htm" target="web">The RIMBAA Technology Matrix</a>
+  <br/>
+  
+<h2>CDA</h2>
+ <a href="https://wiki.hl7.org/Software_Implementation_of_CDA" target="web">Software Implementation of CDA</a>   <br/>
+ <a href=" https://wiki.hl7.org/Model_Interchange_Format" target="web">Model Interchange Format</a>    <br/>
+  <a href=" https://wiki.hl7.org/MIF_based_code_generation" target="web">MIF based code generation</a>
+   <br/>
+ There are some HL7 version 3 based projects that don't have a published set of MIFs - they only have normative XML schema. 
+ These projects mostly date from the early days of HL7 version 3, when MIF had not established itself as the metamodel expression used for HL7 version 3.   
+
+
+
+<h3>END-USER LICENSE AGREEMENT FOR FHIR CONNECTOR EXTENSION SOFTWARE</h3> 
+<!-- 
+<pre><m>
+END-USER LICENSE AGREEMENT FOR FHIR CONNECTOR EXTENSION SOFTWARE
+IMPORTANT--READ CAREFULLY: This End-User License Agreement ("Agreement") is a legal contract between you (either an individual or a single business entity) 
+and Quality Systems, Inc. (“QSI”) for the software product identified above, which includes computer software and, as applicable, 
+associated media, printed materials, and "online" or electronic documentation (the "Software").
+
+BY CLICKING THE [ENTER] OR [ACCEPTED] ICON BELOW, OR BY INSTALLING, COPYING, OR OTHERWISE USING THE SOFTWARE, 
+YOU AGREE TO BE BOUND BY THE TERMS OF THIS AGREEMENT, INCLUDING THE WARRANTY DISCLAIMERS, LIMITATIONS OF LIABILITY 
+AND TERMINATION PROVISIONS BELOW. IF YOU DO NOT AGREE TO THE TERMS OF THIS AGREEMENT, DO NOT INSTALL OR USE THE SOFTWARE, AND EXIT NOW.
+
+Background
+QSI has produced a computer program for its own use and for the use of interested customers providing users an easy way to create 
+and develop FHIR-compliant servers (the "Software"). The Software is provided by QSI to customers primarily as a convenience at this time. 
+The terms of this Agreement will apply to your use of the Software, including any revisions or new releases QSI may provide you at any time.
+
+Terms
+License Grant
+QSI hereby grants to you, and you accept, a nonexclusive license to use the Software, provided in machine-readable, object-code form, 
+only as authorized in this Agreement. No source code will be provided and/or made available to You.
+
+You agree that you will not assign, sublicense, transfer, pledge, lease, rent, or share your rights under this Agreement. 
+You agree that you may not reverse assemble, reverse compile or otherwise translate the Software.
+
+You may not rent, lease or lend the Software.
+
+Upon loading the Software into your computer, you may retain, for backup purposes, one copy of the Software. 
+Any copies of the Software or any related user documentation shall include QSI's copyright and other proprietary notices. 
+Except as authorized under this paragraph, no copies of the Software or any portions thereof may be made by you or any person under your authority or control.
+
+License Fees
+The Software is provided without charge. Other fees, if any, are payable only as separately stipulated by QSI and agreed to, in writing, by Customer.
+
+Proprietary Rights
+The Software and related user documentation are proprietary products of QSI protected under U.S. copyright law. 
+All right, title, and interest in and to the Software, including associated intellectual property rights, are and shall remain with QSI. 
+This Agreement does not convey to you an interest in or to the Software, but only a limited right of use revocable in accordance with the terms of this Agreement.
+
+Feedback/Submissions
+You are asked to report any error or malfunction in the Software to QSI. Although QSI assumes no legal obligation with respect to your use of the Software, 
+it is QSI's intent that errors and malfunctions will be addressed through reasonable corrective efforts based on priorities 
+and available resources QSI may assign to such errors or malfunctions.
+
+Should you decide to transmit to QSI's Web site by any means or by any media any materials or other information 
+(including, without limitation, ideas, concepts or techniques for new or improved services and products), 
+whether as information, feedback, data, questions, comments, suggestions or the like, you agree such submissions are unrestricted 
+and shall be deemed non-confidential and you automatically grant QSI and its assigns a nonexclusive, royalty-free, worldwide, 
+perpetual, irrevocable license, with the right to sublicense, to use, copy, transmit, distribute, create derivative works of, display and perform the same.
+
+Term
+This Agreement is effective upon the earlier of your execution of this Agreement or your first use of the Software, 
+and shall continue until terminated. QSI may terminate this Agreement upon 30 days prior notice at any time, or immediately in the event of any breach by you of any term hereof. Upon any termination, you agree to return to QSI the Software and all copies and portions thereof or certify permanent deletion of all copies of the Software within your control.
+
+No Warranties
+QSI provides no support for the Software.
+
+The Software is provided "AS IS, WHERE IS," without any representation or warranty whatsoever. 
+QSI DOES NOT AND CANNOT WARRANT THE PERFORMANCE OR RESULTS YOU MAY OBTAIN BY USING THE SOFTWARE OR SUCH FILES. 
+QSI MAKES NO WARRANTIES, EXPRESS OR IMPLIED, AS TO TITLE OR INFRINGEMENT OF THIRD-PARTY RIGHTS, MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE.
+
+Backward compatibility of future releases, if any, is not guaranteed.
+
+Please remember that any use of computers is subject to a likelihood of human and machine errors, omissions, delays and losses, 
+including loss or corruption of data or media. You should adopt such measures as you believe proper to limit the impact of those problems, 
+including backing up data and verifying the accuracy of input data; examining and confirming results prior to use; and adopting procedures to identify and correct errors and omissions, replace lost or damaged media, and reconstruct data.
+
+Some states or jurisdictions do not allow the exclusion or limitation of incidental, consequential or special damages, 
+or the exclusion of implied warranties or limitations on how long a given warranty may last, so the above limitations may not apply to you.
+
+Governing Law
+This Agreement shall be governed by the laws of the State of California.
+
+U.S. Government Restricted Rights
+The Software and documentation are provided with RESTRICTED RIGHTS. Use, duplication, or disclosure by the Government 
+is subject to restrictions as set forth in subparagraph (c)(1)(ii) of the Rights in Technical Data and Computer Software clause 
+at DFARS 252.227-7013 or subparagraphs (c)(1) and (2) of the Commercial Computer Software -- Restricted Rights at 48 C.F.R. 52.227-19, as applicable.
+
+Miscellaneous
+In the event that any of the terms of this Agreement is or becomes or is declared to be invalid or void by any court or tribunal 
+of competent jurisdiction, such term or terms shall be null and void and shall be deemed severed from this Agreement and all the remaining 
+terms of this Agreement shall remain in full force and effect.
+
+THIS AGREEMENT IS THE COMPLETE AND EXCLUSIVE STATEMENT OF QSI'S OBLIGATIONS AND RESPONSIBILITIES TO YOU AND SUPERSEDES ANY OTHER PROPOSAL, 
+REPRESENTATION, OR OTHER COMMUNICATION BY OR ON BEHALF OF QSI RELATING TO THE SUBJECT MATTER HEREOF.
+
+Accept and download
+</m></pre>
+
+-->
+
+
+ <br/><br/>
+<table style="width:98%">
+<tbody>	
+<tr>
+<td style="width:50%" >
+</td>
+<td>
+</td>
+</tr>
+<tr><td>
+</td>
+<td></td>
+</tr>
+ </tbody>
+</table>
+ <br/><br/>
+ </div>    
+
+ 
+
+<div style="background-color:rgba(86, 56, 253, 0.9); width:100%;text-align:center;font-size:small;color:white">
+By AN Unibo-DISI  
+</div> 
+
+</body>
+</html>
+
+
+ 
