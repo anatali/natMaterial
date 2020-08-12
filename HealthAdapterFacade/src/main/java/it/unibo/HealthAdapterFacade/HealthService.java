@@ -37,6 +37,46 @@ public class HealthService {
 	// Create a client. See https://hapifhir.io/hapi-fhir/docs/client/generic_client.html
 //	private IGenericClient client = ctx.newRestfulGenericClient(serverBase);
 
+	
+	
+	public Long create_patient(String name) {
+		try {
+	    // Create a client. See https://hapifhir.io/hapi-fhir/docs/client/generic_client.html
+	 	IGenericClient client = ctx.newRestfulGenericClient(serverBase);
+		// Create a patient
+		Patient newPatient = new Patient();
+		// Populate the patient with fake information
+		newPatient
+			.addName()
+				.setFamily("Unibo")
+				.addGiven(name)
+				.addGiven("ToUnderstand");
+		newPatient
+			.addIdentifier()
+				.setSystem("http://it.unibo/disi")
+				.setValue("987654321");
+		newPatient.setGender(Enumerations.AdministrativeGender.FEMALE);
+		newPatient.setBirthDateElement(new DateType("2000-11-18"));
+
+		System.out.println("Created patient : " +  newPatient ); //newPatient.getBirthDateElement()
+		// Create a client
+//	 	IGenericClient client = ctx.newRestfulGenericClient(serverBase);
+		// Create the resource on the server
+		MethodOutcome outcome = client
+			.create()
+			.resource(newPatient)
+			.execute();
+		// Log the ID that the server assigned
+		IIdType id = outcome.getId();
+		Long idVal = id.getIdPartAsLong();
+		System.out.println("Created patient, got ID: " + id + " value=" + idVal );
+		return idVal;
+	} catch ( Exception e) {	//ResourceNotFoundException
+		System.out.println("create_patient ERROR " + e.getMessage() );
+		return 0L;
+	}
+	}
+	
 	public String search_for_patients_named(String name) {
 		IGenericClient client = ctx.newRestfulGenericClient(serverBase);
 
@@ -47,7 +87,7 @@ public class HealthService {
 			.returnBundle(org.hl7.fhir.r4.model.Bundle.class)
 			.execute();
 
- 		System.out.println("First page: ");
+ 		//System.out.println("First page: ");
 		String res = ctx.newXmlParser().encodeResourceToString(results);
  		//System.out.println(res);
 		// Load the next page (???)
@@ -92,43 +132,6 @@ public class HealthService {
  		}
 	}
 	
-	public Long create_patient() {
-		try {
-	    // Create a client. See https://hapifhir.io/hapi-fhir/docs/client/generic_client.html
-	 	IGenericClient client = ctx.newRestfulGenericClient(serverBase);
-		// Create a patient
-		Patient newPatient = new Patient();
-		// Populate the patient with fake information
-		newPatient
-			.addName()
-				.setFamily("Unibo")
-				.addGiven("AliceBologna")
-				.addGiven("Q");
-		newPatient
-			.addIdentifier()
-				.setSystem("http://acme.org/mrn")
-				.setValue("987654321");
-		newPatient.setGender(Enumerations.AdministrativeGender.MALE);
-		newPatient.setBirthDateElement(new DateType("2015-11-18"));
-
-		System.out.println("Created patient : " +  newPatient ); //newPatient.getBirthDateElement()
-		// Create a client
-//	 	IGenericClient client = ctx.newRestfulGenericClient(serverBase);
-		// Create the resource on the server
-		MethodOutcome outcome = client
-			.create()
-			.resource(newPatient)
-			.execute();
-		// Log the ID that the server assigned
-		IIdType id = outcome.getId();
-		Long idVal = id.getIdPartAsLong();
-		System.out.println("Created patient, got ID: " + id + " value=" + idVal );
-		return idVal;
-	} catch ( Exception e) {	//ResourceNotFoundException
-		System.out.println("create_patient ERROR " + e.getMessage() );
-		return 0L;
-	}
-	}
 	
 	
 	public String read_a_resource(Long id) { 
@@ -143,7 +146,7 @@ public class HealthService {
  			return string;
 		} catch ( Exception e) {	//ResourceNotFoundException
 			System.out.println("Resource " + id + " ERROR " + e.getMessage());
-			return "";
+			return "<resource><text>Resource " + id + "</text><text>" +  e.getMessage() +"</text></resource>";
 		}
 
 	}

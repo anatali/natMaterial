@@ -4,36 +4,10 @@
  	<link href="/disi.css" rel="stylesheet">
  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
- </head>
-<body onload="started()">
 
-
-<h1>AdapterFacade GUI</h1>
-
- 
- 
-<h3>State: <i class="infoArea"></i></h3> 
-
-
-<h4>InputArea</h4>
-<div>
-    <button onclick="createPatient()">Create AliceBologna</button>
-<!-- Patient name: <input id="patientname" type="text" size="15" autofocus/> -->
-    <button onclick="searchPatient()">Search AliceBologna</button>
-Patient id: <input id="patientid" type="text" size="15" autofocus/> 
-    <button onclick="readResource()">Read</button> <button onclick="deleteResource()">Delete</button>  <br/>
-</div>
-
-
-<h4>OutputArea <button onclick="cleanOutputArea()">Clean</button></h4> 
-<pre class="resultArea"><span th:text="${outField}">waiting ... </span></i></pre>
-
- </p>
- 
- 
- <script>
+  <script>
     var  messagesOutput = document.getElementById("messages");
-    
+     
     function started(){
     	$("i.infoArea").text(  "application started" );
     }
@@ -56,9 +30,10 @@ Patient id: <input id="patientid" type="text" size="15" autofocus/>
     }
     
     function searchPatient(){
-      	$("i.infoArea").text(  "searching ..." );	
+     	var patientid = document.getElementById("patientname").value;
+      	$("i.infoArea").text(  "searching ..." + patientid );	
     	$("pre.resultArea").text(  "" );
-		$.get("searchPatient", function(data){	//calls MI?	HI will return the page ...
+		$.get("searchPatient/"+patientid, function(data){	//calls MI?	HI will return the page ...
  			 //$(document).ready(function(){
   				$("pre.resultArea").text(  data );
  			 //});
@@ -69,17 +44,25 @@ Patient id: <input id="patientid" type="text" size="15" autofocus/>
     function readResource(){
       	$("i.infoArea").text(  "reading ..." );	
     	$("pre.resultArea").text(  "" );
-		$.get("readResource", function(data){	 
+    	var patientid = document.getElementById("patientid").value;
+    	//alert( patientid  );
+		$.get("readResource/"+patientid, function(data){	 
   				$("pre.resultArea").text(  data );
      			$("i.infoArea").text(  "read done" );	
  		});  
     }
 
+	//See https://www.html.it/pag/66525/fetch-api/
      function createPatient() {
-      	$("i.infoArea").text(  "creating ..." );	
-        fetch("/createPatient", {method: "POST", body: "AliceBologna"}).then(function () {
-      		$("i.infoArea").text(  "creation done" );	
-         });           
+    	var patientid = document.getElementById("patientname").value;
+      	$("i.infoArea").text(  "creating patient ... " + patientid );	
+        fetch("/createPatient", {method: "POST", body: patientid}).then(function (response) {
+        	if (response.ok) {
+      			return response.text();
+      		}}).then( function (id) {
+      			$("i.infoArea").text(  "creation done of " +  patientid + " id=" + id);	
+      		});
+         
     }
  
  
@@ -97,6 +80,37 @@ Patient id: <input id="patientid" type="text" size="15" autofocus/>
 
 
 </script>
+
+ </head>
+ 
+
+<body onload=started()>
+
+
+<h1>AdapterFacade GUI</h1>
+
+ 
+ 
+<h3>State: <i class="infoArea"></i></h3> 
+
+
+<h4>InputArea</h4>
+<div>
+Patient name: <input id="patientname" type="text" size="15" autofocus/>  
+    <button onclick="createPatient()">Create</button>
+    <button onclick="searchPatient()">Search</button>
+<br/><br/>
+Patient ident: <input id="patientid" type="text" size="15" autofocus/> 
+    <button onclick="readResource()">Read</button> <button onclick="deleteResource()">Delete</button>  <br/>
+</div>
+
+
+<h4>OutputArea <button onclick="cleanOutputArea()">Clean</button></h4> 
+<pre class="resultArea"><span th:text="${outField}">waiting ... </span></i></pre>
+
+ </p>
+ 
+ 
  
  
 </body>
