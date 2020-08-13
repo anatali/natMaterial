@@ -200,6 +200,7 @@ div.imagedesc{
 <li><a href="https://bitbucket.org/itelunibo/overviewrepo/src/master/it.unibo.itel/userDocs/3-LogicalArch/HDA_Disi.html" target="web">HDA_Disi.html (overviewrepo)</a> </li>
 -->
 <hr/>
+<li><a href="https://hapifhir.io/hapi-fhir/apidocs/hapi-fhir-base/index-all.html" target="web">FHIR Api docs</a></li>
 <li><a href="https://www.hl7.org/fhir/R4/patient.html" target="web">FHIR 8.1 Resource Patient - Content</a>
 </li>
 </ul>
@@ -264,8 +265,18 @@ http://localhost:8081/actuator/env
 
 <h3>Uso della applicazione</h3>
 <ul>
-<li><a href="../src/main/java/it/unibo/Clients/WebClientExample.java" target="code">WebClientExample.java</a></li>
-<li></li>
+<li><a href="../src/main/java/it/unibo/HealthAdapterFacade/FhirServiceClient.java" target="code">FhirServiceClient.java</a>:
+basato sul client fornito <tt>ca.uhn.fhir.rest.client.api.IGenericClient</tt> dalla libreria FHIR usato 
+da <a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthService.java" target="code">HealthService.java</a> interno
+alla applicazione
+</li>
+<li><a href="../src/main/java/it/unibo/HealthAdapter/Clients/HealthAdapterHttpClient.java" target="code">HealthAdapterHttpClient.java</a>:
+basato su  <tt>java.net.HttpURLConnection</tt> a su <tt>org.json</tt> realizza una convenzionale interazione HTTP
+</li>
+<li><a href="../src/main/java/it/unibo/HealthAdapter/Clients/WebClientExample.java" target="code">WebClientExample.java</a>:
+basato sul WebClient reattivo <tt> org.springframework.web.reactive.function.client.WebClient</tt> fornito da Spring
+</li>
+
 <li></li>
 </ul>
 <br/> <br/> 

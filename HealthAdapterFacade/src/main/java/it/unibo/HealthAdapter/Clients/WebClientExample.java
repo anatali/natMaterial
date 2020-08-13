@@ -1,10 +1,8 @@
-package it.unibo.Clients;
+package it.unibo.HealthAdapter.Clients;
 
 import java.io.IOException;
 import java.time.Duration;
-
 import org.springframework.web.reactive.function.client.WebClient;
-
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
