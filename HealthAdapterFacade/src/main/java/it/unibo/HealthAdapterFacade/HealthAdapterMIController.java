@@ -60,9 +60,11 @@ public class HealthAdapterMIController {
         return res;
      } 
      
-     @GetMapping( HealthService.readResourceUri+"/{id}" )	 
-     public String readresource(  @PathVariable(value = "id") Long resourceId ) {      	    
-   	    System.out.println("------------------- HealthAdapterMIController readresource  id= " + resourceId + "usejson=" + usejson );
+     @GetMapping( HealthService.readResourceUri+"/{id}{format}" )	 
+     public String readresource(  
+    		 @PathVariable( value ="format") String format,
+    		 @PathVariable( value = "id"   ) Long resourceId ) {      	    
+   	    System.out.println("----- HealthAdapterMIController readresource  id= " + resourceId + " format=" + format + " usejson=" + usejson );
     	String res = healthService.read_a_resource( resourceId, usejson );
         return res;
      } 
