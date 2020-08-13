@@ -200,6 +200,10 @@ div.imagedesc{
 <li><a href="https://bitbucket.org/itelunibo/overviewrepo/src/master/it.unibo.itel/userDocs/3-LogicalArch/HDA_Disi.html" target="web">HDA_Disi.html (overviewrepo)</a> </li>
 -->
 <hr/>
+<li><a href="https://www.hl7.org/fhir/R4/patient.html" target="web">FHIR 8.1 Resource Patient - Content</a>
+</li>
+</ul>
+<!--
 <li><a href="../../../Evolution/it.unibo.hapi2.2/userDocs/HapiUsage.html" target="web"> DISI - HapiUsage</a> (on <tt>.it.unibo.hapi2.2/userDocs/</tt>)</li>
 <li><a href="../../../natMaterial/health/userDocs/HealthReferences.html" target="web"> 
 DISI - HealthReferences.html</a> (on natMaterial/health/userDocs/)</li>
@@ -207,20 +211,63 @@ DISI - HealthReferences.html</a> (on natMaterial/health/userDocs/)</li>
 DISI - HapiFhirUsage | References and examples (on Evolution/it.unibo.mirth.java/userDocs/)</li>
 
 <li><a href="../../../Evolution/it.unibo.mirth.java/userDocs/MirthExperiments.html" target="web"> DISI - MirthExperiments</a> (on <tt>.health/userDocs/</tt>)</li>
-</ul>
-<!-- http://192.168.1.244/debug/clip.html -->
 
-<h2>Workflow</h2>
- Con riferimento alla terminologia introdotta in <a href="../../health/userDocs/ITelAppl.html" target="web">ITelAppl.html</a>:
+ http://192.168.1.244/debug/clip.html -->
+
+<h2>Introduzione</h2>
+
+<img src="./img/smartevenreviewed.png" alt="smartevenreviewed.png" width="60%">
+<br/><br/>
+Con riferimento alla terminologia introdotta in <a href="../../health/userDocs/ITelAppl.html" target="web">ITelAppl.html</a>
+questo e' il primo prototipo per un <em>HeathProduct</em> il cui scopo e':
+
 <ol>
-<li>REST API per chiedere a <em>CentroHealth</em> FHIR dati su paziente e piano terapeutico</li>
+<li>fornire un insieme di (REST) API che permettano al <em>Core-Itel</em> di inviare informazioni al <em>CentroHealth FHIR</em>
+relativo a uno specifico <em>CentroBase </em>.  
+<li>fornire un componente capace di ricevere informazioni FHIR dal <em>CentroHealth</em> e trasmetterle al <em>Core-Itel</em>
+usando una interfaccia API fornita dal <em>Core-Itel</em> stesso.
+per chiedere a <em>CentroHealth</em> FHIR dati su paziente e piano terapeutico</li>
 <li>Componente per ricevere update da <em>CentroHealth</em> FHIR su paziente e su piano terapeutico </li>
-<li></li>
-<li>Eseguire <a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthAdapterFacadeApplication.java" target="code">
-HealthAdapterFacadeApplication.java</a>, <tt>localhost:8081</tt> and <tt>JConsole</tt></li>
 </ol> 
 
+Le informazioni da trasmettere/ricevere sono per ora limitate a un sottoinsieme di valori reltivi a 
+<a href="https://www.hl7.org/fhir/R4/patient.html" target="web">FHIR Patient</a>
 
+<h3>Attivazione della applicazione</h3>
+Eseguire <a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthAdapterFacadeApplication.java" target="code">
+HealthAdapterFacadeApplication.java</a>, <tt>localhost:8081</tt> (e attivare <tt>JConsole</tt>).
+
+<h3>Organizzazione della applicazione</h3>
+<ol>
+<li>Si tratta di una applicazione SpringBoot che usa WebFlux, SSE, etc. Si veda
+<a href="../build.gradle" target="code">build.gradle</a>
+</li>
+<li>La business logic e' definita nel <tt>@Service</tt> 
+<a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthService.java" target="code">HealthService.java</a>
+</li>
+<li>Il controller 
+<a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthAdapterHIController.java" target="code">HealthAdapterHIController.java</a>
+si occupa della interazione con un agente umano attraverso le presentazione di una pagina HTML
+</li>
+<li>Il REST controller 
+<a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthAdapterMIController.java" target="code">HealthAdapterMIController.java</a>
+si occupa della interazione machine-to-machine
+</li>
+<li>Sono disponibili endpoint di monitoring quali:
+<pre>
+http://localhost:8081/actuator/health
+http://localhost:8081/actuator/env
+...
+</pre>
+</li>
+</ol>
+
+<h3>Uso della applicazione</h3>
+<ul>
+<li><a href="../src/main/java/it/unibo/Clients/WebClientExample.java" target="code">WebClientExample.java</a></li>
+<li></li>
+<li></li>
+</ul>
 <br/> <br/> 
  
  

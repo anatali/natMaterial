@@ -52,6 +52,21 @@
  		});  
     }
 
+	//curl 'http://localhost:8082/actuator/health' -i -X GET
+	//https://www.w3schools.com/jsref/jsref_stringify.asp
+    function monitor( topic ){
+      	$("pre.resultArea").text(  "" );
+        $("i.infoArea").text(  "monitoring " + monitor  );	
+ 		$.get("/actuator/"+topic, function(data){	 
+ 				//data is a JSON object
+ 				//Object.getOwnPropertyNames(data)  => status, components
+ 				//Object.getOwnPropertyNames(data.components) => diskSpace,mongo,ping
+  				$("pre.resultArea").text(  JSON.stringify( data, null, 2 ) );	//['status', 'components'] is a replace filter
+     			$("i.infoArea").text(  "monitor " + topic +"  done" );	
+ 		});  
+ 	 
+     }
+
 	//See https://www.html.it/pag/66525/fetch-api/
 	//https://www.javascripture.com/Response - replacement for XMLHttpRequest (https://www.javascripture.com/XMLHttpRequest).
      function createPatient() {
@@ -98,7 +113,7 @@
 <ul>
 
 <li><a href="https://www.hl7.org/fhir/R4/patient.html" target="web">FHIR 8.1 Resource Patient - Content</a>: 
-fornisce la specifica della risorsa e le sue rappresentazioni XML, UML, Json, etc
+specifica della risorsa e sue rappresentazioni XML, UML, Json, etc
 </li>
 
 <li><a href="https://www.hl7.org/fhir/R4/search.html" target="web">FHIR 3.1.1 Search</a>: 
@@ -119,7 +134,7 @@ DISI - HealthReferences.html</a> (on <tt>natmaterial .... health/userDocs/</tt>)
 DISI - HapiFhirUsage.html</a> (on <tt>natMicroservices .... it.unibo.mirth.java/userDocs/</tt>) </li>
 </ul>
 </m> 
-<!--
+<!--  APPUNTI
  <pre>
  https://nhsconnect.github.io/CareConnectAPI/design.html
  https://nhsconnect.github.io/CareConnectAPI/build_patient_server.html
@@ -134,15 +149,12 @@ DISI - HapiFhirUsage.html</a> (on <tt>natMicroservices .... it.unibo.mirth.java/
   </pre>
 --> 
 <hr/> 
-<h3>State: <i class="infoArea"></i></h3> 
-
-
 <h4>InputArea</h4>
 <div>
 Patient name: <input id="patientname" type="text" size="15" autofocus/>  
     <button onclick="createPatient()">Create</button>
     <button onclick="searchPatient()">Search</button>
-<br/><br/>
+<br/>
 Patient ident: <input id="patientid" type="text" size="15" autofocus/> 
     <button onclick="readResource()">Read</button> <button onclick="deleteResource()">Delete</button>  <br/>
 </div>
@@ -152,15 +164,37 @@ Patient ident: <input id="patientid" type="text" size="15" autofocus/>
 <pre class="resultArea"><span th:text="${outField}">waiting ... </span></i></pre>
 
  </p>
+ <hr/>
+<h4>State: <i class="infoArea"></i></h4> 
 
 
 <h2>Usage</h2> 
+<m>
 <ol>
 <li>Insert a name (e.g. AliceBologna) and create a patient. Look at the <k>id</k> given as result in State</li>
 <li>Search all the patients with the given name. Look at the OutputArea</li>
 <li>Read the patient with the given <k>id</k>. Look at the OutputArea</li>
 <li>Delete the patient  with the given <k>id</k></li>
 </ol>
+
+</m>
+
+
+<h3>Monitoring</h3>
+<!--  CALL HTTP - ANSWER in OutputArea -->  
+<button onclick="monitor('health')">Health</button>  &nbsp;&nbsp;  
+<button onclick="monitor('env')">Env</button>  &nbsp;&nbsp;   
+<button onclick="monitor('beans')">Beans</button>  &nbsp;&nbsp;   
+<button onclick="monitor('mappings')">Mappings</button>  &nbsp;&nbsp;  
+<button onclick="monitor('metrics')">Metrics</button>  &nbsp;&nbsp;  
+<!--
+<li><a href="http://localhost:8081/actuator/health" target="web">health</a> 
+&nbsp;&nbsp;<a href="http://localhost:8081/actuator/env" target="web">env</a>
+&nbsp;&nbsp;<a href="http://localhost:8081/actuator/beans" target="web">beans</a> 
+&nbsp;&nbsp;<a href="http://localhost:8081/actuator/mappings" target="web">mappings</a> 
+&nbsp;&nbsp;<a href="http://localhost:8081/actuator/metrics" target="web">metrics</a> 
+&nbsp;&nbsp;</li>
+--> 
 
 <h2>Explanation</h2> 
 See  <a href="http://htmlpreview.github.com/?https://github.com/anatali/natmaterial/blob/master/HealthAdapterFacade/userDocs/HealthAdapterFacade.html" target="web"> 
