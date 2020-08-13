@@ -88,19 +88,24 @@ public class HealthService {
 	}
 	}
 	
-	public String search_for_patients_named(String name) {
+	public String search_for_patients_named(String name, boolean usejson) {
 		IGenericClient client = ctx.newRestfulGenericClient(serverBase);
-
 		org.hl7.fhir.r4.model.Bundle results = client
 			.search()
 			.forResource(Patient.class)
 			.where(Patient.NAME.matches().value(name))
 			.returnBundle(org.hl7.fhir.r4.model.Bundle.class)
 			.execute();
-
- 		//System.out.println("First page: ");
-		String res = ctx.newXmlParser().encodeResourceToString(results);
- 		//System.out.println(res);
+		//System.out.println("First page: ");
+		if( usejson ) {
+			String res = ctx.newJsonParser().setPrettyPrint(true).encodeResourceToString(results);
+			//System.out.println( res );
+			return res;
+		}else {
+			String res = ctx.newXmlParser().setPrettyPrint(true).encodeResourceToString(results);
+			return res;
+ 		}
+/*		
 		// Load the next page (???)
  		try {
 			org.hl7.fhir.r4.model.Bundle nextPage = client
@@ -112,10 +117,12 @@ public class HealthService {
 				String res1 = ctx.newXmlParser().encodeResourceToString(nextPage);
 				return res1;
 			}else  return res;
+
  		}catch( Exception e) {
  			System.out.println("WARNING: " + e.getMessage() );
  			return res;
  		}
+*/ 		
 
 	}
 	
@@ -145,41 +152,49 @@ public class HealthService {
 	
 	
 	
-	public String read_a_resource(Long id) { 
+	
+	/*
+	 * The FHIR client returns an object of type Patient that can be converted in XML or JSON
+	 * The FHIR server seems to return data in XML
+	 * curl http://localhost:8081/readResource/1432878 -i -X GET
+	 */
+	public String read_a_resource(Long id, boolean usejosn) { 
 		// Create a client. See https://hapifhir.io/hapi-fhir/docs/client/generic_client.html
  		IGenericClient client = ctx.newRestfulGenericClient(serverBase);
-
-		Patient patient;
-		try { 
- 			patient       = client.read().resource(Patient.class).withId(id).execute();
- 			
- 			System.out.println( "Birth date="+patient.getBirthDate().toString() ); 
- 			String string = ctx.newXmlParser().setPrettyPrint(true).encodeResourceToString(patient);
- 			//System.out.println(string);
- 			return  string;
+ 		try { 
+			Patient patient   = client.read().resource(Patient.class).withId(id).execute(); //Construct a read for the given resource type 
+ 			System.out.println( "HealthService patient name="+patient.getName().toString() ); 
+			if( usejosn ) {
+ 				String string     = ctx.newJsonParser().setPrettyPrint(true).encodeResourceToString(patient);
+ 				return  string;
+ 			}else {
+ 	 			String string = ctx.newXmlParser().setPrettyPrint(true).encodeResourceToString(patient);
+  	 			return  string;				
+ 			}
+			
 		} catch ( Exception e) {	//ResourceNotFoundException
-			System.out.println("Resource " + id + " ERROR " + e.getMessage());
+			System.out.println("HealthService Resource " + id + " ERROR " + e.getMessage());
 			return "<resource><text>Resource " + id + "</text><text>" +  e.getMessage() +"</text></resource>";
 		}
 
 	}
 
 	
-	public String prettyFormat(String input, int indent) {
-	    try {
-	        Source xmlInput = new StreamSource(new StringReader(input));
-	        StringWriter stringWriter = new StringWriter();
-	        StreamResult xmlOutput = new StreamResult(stringWriter);
-	        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-	        transformerFactory.setAttribute("indent-number", indent);
-	        Transformer transformer = transformerFactory.newTransformer(); 
-	        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-	        transformer.transform(xmlInput, xmlOutput);
-	        return xmlOutput.getWriter().toString();
-	    } catch (Exception e) {
-	    	System.out.println("prettyFormat ERROR " + e.getMessage());
-	    	return "";
- 	    }
-	}
+//	public String prettyFormat(String input, int indent) {
+//	    try {
+//	        Source xmlInput = new StreamSource(new StringReader(input));
+//	        StringWriter stringWriter = new StringWriter();
+//	        StreamResult xmlOutput = new StreamResult(stringWriter);
+//	        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+//	        transformerFactory.setAttribute("indent-number", indent);
+//	        Transformer transformer = transformerFactory.newTransformer(); 
+//	        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+//	        transformer.transform(xmlInput, xmlOutput);
+//	        return xmlOutput.getWriter().toString();
+//	    } catch (Exception e) {
+//	    	System.out.println("prettyFormat ERROR " + e.getMessage());
+//	    	return "";
+// 	    }
+//	}
 	
 }

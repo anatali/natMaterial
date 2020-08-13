@@ -35,7 +35,7 @@
     	$("pre.resultArea").text(  "" );
 		$.get("searchPatient/"+patientid, function(data){	//calls MI?	HI will return the page ...
  			 //$(document).ready(function(){
-  				$("pre.resultArea").text(  data );
+  				$("pre.resultArea").text( data  );  //JSON.stringify( data, null, 2 )
  			 //});
     	$("i.infoArea").text(  "searching done" );	
  		});  
@@ -47,20 +47,21 @@
       	$("i.infoArea").text(  "reading " + patientid + " ... ");	
     	//alert( patientid  );
 		$.get("readResource/"+patientid, function(data){	 
-  				$("pre.resultArea").text(  data );
+  				//$("pre.resultArea").text(  data );	
+  				$("pre.resultArea").text( data );			//JSON.stringify( data, null, 2 ) ALREADY DONE by HealthService
      			$("i.infoArea").text(  "read " + patientid + " done" );	
- 		});  
+ 		});  //, "json"
     }
 
-	//curl 'http://localhost:8082/actuator/health' -i -X GET
-	//https://www.w3schools.com/jsref/jsref_stringify.asp
+	//curl http://localhost:8081/actuator/health -i -X GET		=> JSON
     function monitor( topic ){
       	$("pre.resultArea").text(  "" );
         $("i.infoArea").text(  "monitoring " + monitor  );	
- 		$.get("/actuator/"+topic, function(data){	 
+ 		$.get("/actuator/"+topic, function(data){	 //data seems in JSON 
  				//data is a JSON object
  				//Object.getOwnPropertyNames(data)  => status, components
  				//Object.getOwnPropertyNames(data.components) => diskSpace,mongo,ping
+ 				//https://www.w3schools.com/jsref/jsref_stringify.asp
   				$("pre.resultArea").text(  JSON.stringify( data, null, 2 ) );	//['status', 'components'] is a replace filter
      			$("i.infoArea").text(  "monitor " + topic +"  done" );	
  		});  
@@ -149,6 +150,9 @@ DISI - HapiFhirUsage.html</a> (on <tt>natMicroservices .... it.unibo.mirth.java/
   </pre>
 --> 
 <hr/> 
+ 
+<h3>State: <i class="infoArea"></i></h3> 
+
 <h4>InputArea</h4>
 <div>
 Patient name: <input id="patientname" type="text" size="15" autofocus/>  
@@ -164,9 +168,7 @@ Patient ident: <input id="patientid" type="text" size="15" autofocus/>
 <pre class="resultArea"><span th:text="${outField}">waiting ... </span></i></pre>
 
  </p>
- <hr/>
-<h4>State: <i class="infoArea"></i></h4> 
-
+ 
 
 <h2>Usage</h2> 
 <m>
@@ -201,9 +203,10 @@ See  <a href="http://htmlpreview.github.com/?https://github.com/anatali/natmater
 DISI - HealthAdapterFacade.html</a> (on <tt>natmaterial .... HealthAdapterFacade/userDocs/</tt>)
 
 <br/><br/>
-Puo' essere anche utile  guardare il progetto:
+<m>
+Puo' essere anche utile guardare:
 
 <a href="https://nhsconnect.github.io/CareConnectAPI/design.html" target="web">Care Connect RESTful APIs (by NHS Digital and INTEROPen community)</a>
-
+</m>
 </body>
 </html>

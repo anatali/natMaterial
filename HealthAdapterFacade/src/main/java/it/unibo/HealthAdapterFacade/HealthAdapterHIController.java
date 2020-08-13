@@ -38,16 +38,14 @@ private final HealthService healthService;
 //        return Mono.just("indexHealthAdapterFacade"  );
 //  } 
 
-  @GetMapping("/search")	//NO MORE , produces=MediaType.TEXT_EVENT_STREAM_VALUE
-  public String search( Model model ) {
-	    System.out.println("------------------- HealthAdapterHIController search "    );
- 	    //healthService.read_a_resource("987654321");
-	    String res = healthService.search_for_patients_named("AliceBologna");
-	    String s   = healthService.prettyFormat(res,2); 
-	    //System.out.println( s );
-	    model.addAttribute("outField", s );
-	    return  "indexHealthAdapterFacade" ;
-  } 
+//  @GetMapping("/search")	//NO MORE , produces=MediaType.TEXT_EVENT_STREAM_VALUE
+//  public String search( Model model ) {
+//	    System.out.println("------------------- HealthAdapterHIController search "    );
+// 	    //healthService.read_a_resource("987654321");
+//	    String res = healthService.search_for_patients_named("AliceBologna", useJson);
+// 	    model.addAttribute("outField", res );
+//	    return  "indexHealthAdapterFacade" ;
+//  } 
   
 
 //  @GetMapping("/searchhhhh")

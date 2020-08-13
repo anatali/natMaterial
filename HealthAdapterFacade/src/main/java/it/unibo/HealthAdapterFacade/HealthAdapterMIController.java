@@ -19,6 +19,7 @@ import reactor.core.publisher.Mono;
 @RestController 	//annotates all the methods with @ResponseBody that embeds the return value in the body of HTTP answer
 public class HealthAdapterMIController { 
 	private final HealthService healthService;
+	private final boolean usejson = true;
 
      public HealthAdapterMIController(HealthService healthService) {this.healthService = healthService; }
 
@@ -53,19 +54,17 @@ public class HealthAdapterMIController {
      @GetMapping( HealthService.searchPatientUri+"/{name}" )	 
      public String searchpatient( @PathVariable(value = "name") String patientName ) { //
    	    System.out.println("------------------- HealthAdapterMIController searchPatient  " +  patientName  );
-    	String res = healthService.search_for_patients_named( patientName );
-   	    String s   = healthService.prettyFormat(res,2); 
+    	String res = healthService.search_for_patients_named( patientName, usejson );
+//   	    String s   = healthService.prettyFormat(res,2); 
    	    //System.out.println( s );
-        return s;
+        return res;
      } 
      
      @GetMapping( HealthService.readResourceUri+"/{id}" )	 
-     public String readresource(  @PathVariable(value = "id") Long resourceId ) {  
-   	    System.out.println("------------------- HealthAdapterMIController readresource  id= " + resourceId   );
-    	String res = healthService.read_a_resource( resourceId );
-   	    String s   = healthService.prettyFormat(res,2); 
-   	    //System.out.println( s );
-        return s;
+     public String readresource(  @PathVariable(value = "id") Long resourceId ) {      	    
+   	    System.out.println("------------------- HealthAdapterMIController readresource  id= " + resourceId + "usejson=" + usejson );
+    	String res = healthService.read_a_resource( resourceId, usejson );
+        return res;
      } 
      
   
