@@ -1,5 +1,7 @@
 package it.unibo.HealthAdapterFacade;
 
+import org.hl7.fhir.r4.model.Patient;
+
 public class HealthServiceHL7 implements HealthServiceInterface{
 
 	public HealthServiceHL7(String serverBase) {
@@ -7,7 +9,19 @@ public class HealthServiceHL7 implements HealthServiceInterface{
 	}
 
 	@Override
-	public Long create_patient(String name) {
+	public Long createPatientFromFile(String fileName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Long create_patient(Patient newPatient) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Long create_patient(String familyName,String name) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -29,5 +43,7 @@ public class HealthServiceHL7 implements HealthServiceInterface{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
 
 }

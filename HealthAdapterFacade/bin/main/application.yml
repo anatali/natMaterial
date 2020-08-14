@@ -1,6 +1,0 @@
-server:
-  port : 8081
-
-logging.level:
-  ROOT: INFO
-#  org.springframework: OFF    

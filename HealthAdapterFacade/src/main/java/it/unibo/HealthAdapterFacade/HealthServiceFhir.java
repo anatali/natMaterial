@@ -1,11 +1,16 @@
 package it.unibo.HealthAdapterFacade;
 
+import java.io.FileInputStream;
+
+import org.apache.commons.io.IOUtils;
 import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.DateType;
 import org.hl7.fhir.r4.model.Enumerations;
 import org.hl7.fhir.r4.model.OperationOutcome;
 import org.hl7.fhir.r4.model.Patient;
+
+import ca.uhn.fhir.parser.IParser;
 import ca.uhn.fhir.rest.api.MethodOutcome;
 
 
@@ -14,19 +19,54 @@ public class HealthServiceFhir implements HealthServiceInterface {
 	private FhirServiceClient fhirclient;	 
 	
 	public HealthServiceFhir(String serverBase) {
- 		System.out.println("HealthServiceFhir created for " + serverBase  );
 		fhirclient = new FhirServiceClient(serverBase,true);	//true => UseJson
+ 		System.out.println("HealthServiceFhir created for " + serverBase  );
 	}
 	 
-	public Long create_patient(String name) {
+	public Long createPatientFromFile(String fileName) {
 		try {
+			FileInputStream fis = new FileInputStream(fileName);
+		    String data         = IOUtils.toString(fis, "UTF-8");
+		    //System.out.println("createPatientFromFile data"+data );
+		    IParser parser      = fhirclient.getFhirContext().newJsonParser();
+		    Patient newPatient  = parser.parseResource(Patient.class, data);	
+	 		MethodOutcome outcome = fhirclient.create(newPatient);		
+			// Log the ID that the server assigned
+			IIdType id = outcome.getId();
+			Long idVal = id.getIdPartAsLong();
+			System.out.println("createPatientFromFile "+fileName+" got ID: " + id + " value=" + idVal );
+			return idVal;		
+		} catch (Exception e) {
+			System.out.println("createPatientFromFile ERROR"+ e.getMessage() );
+			return 0L;
+		}
+	}
+	
+	public Long create_patient( Patient newPatient) {
+		try {
+	 		MethodOutcome outcome = fhirclient.create(newPatient);		
+			// Log the ID that the server assigned
+			IIdType id = outcome.getId();
+			Long idVal = id.getIdPartAsLong();
+			System.out.println("Created patient, got ID: " + id + " value=" + idVal );
+			return idVal;		
+		} catch ( Exception e) {	//ResourceNotFoundException
+			System.out.println("create_patient ERROR " + e.getMessage() );
+			return 0L;
+		}
+	}
+	
+	public Long create_patient(String familyName, String name) {
+		try {
+			familyName = familyName == null ? "Unibo" : familyName;
+			
 	    // Create a client. See https://hapifhir.io/hapi-fhir/docs/client/generic_client.html
  		// Create a patient
 		Patient newPatient = new Patient();
 		// Populate the patient with fake information
 		newPatient
 			.addName()
-				.setFamily("Unibo")
+				.setFamily(familyName)
 				.addGiven(name)
 				.addGiven("ToUnderstand");
 		newPatient
@@ -47,13 +87,14 @@ public class HealthServiceFhir implements HealthServiceInterface {
 			.addTelecom()
 			.setValue("Contact Unibo");
 
-		System.out.println("Created patient : " +  newPatient ); //newPatient.getBirthDateElement()
- 		MethodOutcome outcome = fhirclient.create(newPatient);		
-		// Log the ID that the server assigned
-		IIdType id = outcome.getId();
-		Long idVal = id.getIdPartAsLong();
-		System.out.println("Created patient, got ID: " + id + " value=" + idVal );
-		return idVal;
+		System.out.println("Built patient : " +  newPatient ); //newPatient.getBirthDateElement()
+		return create_patient(newPatient );
+// 		MethodOutcome outcome = fhirclient.create(newPatient);		
+//		// Log the ID that the server assigned
+//		IIdType id = outcome.getId();
+//		Long idVal = id.getIdPartAsLong();
+//		System.out.println("Created patient, got ID: " + id + " value=" + idVal );
+//		return idVal;
 	} catch ( Exception e) {	//ResourceNotFoundException
 		System.out.println("create_patient ERROR " + e.getMessage() );
 		return 0L;

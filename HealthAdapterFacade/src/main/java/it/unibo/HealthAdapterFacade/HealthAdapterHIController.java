@@ -18,12 +18,12 @@ import reactor.netty.http.client.HttpClientRequest;
 public class HealthAdapterHIController { 
  
 
-private final HealthService healthService;
-private String healthcenter = "todo";
+//private final HealthService healthService;
+//private String healthcenter = "todo";
 
-	public HealthAdapterHIController( HealthService healthService ) {
-		this.healthService = healthService;
-	}
+//	public HealthAdapterHIController( HealthService healthService ) {
+//		this.healthService = healthService;
+//	}
 
   @GetMapping("/")
   public Publisher<String> entry(Model model) {

@@ -265,13 +265,16 @@ http://localhost:8081/actuator/env
 
 <h3>Uso della applicazione</h3>
 <ul>
-<li><a href="../src/main/java/it/unibo/HealthAdapterFacade/FhirServiceClient.java" target="code">FhirServiceClient.java</a>:
-basato sul client fornito <tt>ca.uhn.fhir.rest.client.api.IGenericClient</tt> dalla libreria FHIR usato 
-da <a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthService.java" target="code">HealthService.java</a> interno
-alla applicazione
+<li><a href="../src/main/java/it/unibo/HealthAdapterFacade/Pojo/HealthAdapterFacadeUsage.java" target="code">HealthAdapterFacadeUsage.java</a>:
+basato sulla business logic definita in  
+<a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthService.java" target="code">HealthService.java</a> usata come POJO al di fuori di
+SprinBoot. Questo POJO utilizza una istanza di 
+<a href="../src/main/java/it/unibo/HealthAdapterFacade/FhirServiceClient.java" target="code">FhirServiceClient.java</a>:
+basato sul client fornito da <tt>ca.uhn.fhir.rest.client.api.IGenericClient</tt> dalla libreria FHIR. 
 </li>
-<li><a href="../src/main/java/it/unibo/HealthAdapter/Clients/HealthAdapterHttpClient.java" target="code">HealthAdapterHttpClient.java</a>:
-basato su  <tt>java.net.HttpURLConnection</tt> a su <tt>org.json</tt> realizza una convenzionale interazione HTTP
+<hr/>
+<li><a href="../src/main/java/it/unibo/HealthAdapter/Clients/HealthHttpClient.java" target="code">HealthHttpClient.java</a>:
+che realizza una convenzionale interazione HTTP basandosi su  <tt>java.net.HttpURLConnection</tt> a su <tt>org.json</tt> 
 </li>
 <li><a href="../src/main/java/it/unibo/HealthAdapter/Clients/WebClientExample.java" target="code">WebClientExample.java</a>:
 basato sul WebClient reattivo <tt> org.springframework.web.reactive.function.client.WebClient</tt> fornito da Spring

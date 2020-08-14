@@ -20,9 +20,10 @@ public class HealthService {
 		buildHealthService( HealthCenterType.FHIR, "https://hapi.fhir.org/baseR4" );
 	}
 	
-	public void setHealthService(String choice, String serverAddr) { 
+	public HealthServiceInterface setHealthService(String choice, String serverAddr) { 
 		if( choice.equals("FHIR") ) buildHealthService( HealthCenterType.FHIR, serverAddr );
 		else if( choice.equals("HL7") ) buildHealthService( HealthCenterType.HL7, serverAddr );
+		return getdHealthService();
 	}
 
 	

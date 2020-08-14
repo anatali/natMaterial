@@ -35,7 +35,7 @@ public class HealthAdapterMIController {
      @PostMapping( HealthService.createPatientUri )
      public String create( @RequestBody String name ) {
    	    System.out.println("------------------- HealthAdapterMIController createPatient " + name  );	    
-   	    Long id = healthService.create_patient( name );	
+   	    Long id = healthService.create_patient( null, name );	
    	    if( id == 0 ) return "createError";	
 //   	    String answer = healthService.read_a_resource(id) ;  
 //   	    System.out.println("------------------- HealthAdapterMIController createPatient answer= " + answer  );	
