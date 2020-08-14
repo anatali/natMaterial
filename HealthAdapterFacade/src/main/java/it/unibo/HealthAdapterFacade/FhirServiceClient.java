@@ -12,15 +12,19 @@ import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 
 public class FhirServiceClient {
-	private String serverBase = "https://hapi.fhir.org/baseR4"; //"http://localhost:9001/r4"; //"https://hapi.fhir.org/baseR4";  http://localhost:9001/r4
-	private FhirContext ctx = FhirContext.forR4();
+	private String serverBase=""; //"http://localhost:9001/r4"; //"https://hapi.fhir.org/baseR4";  http://localhost:9001/r4
+	private FhirContext ctx ; //= FhirContext.forR4();
     // Create a client. See https://hapifhir.io/hapi-fhir/docs/client/generic_client.html
- 	IGenericClient client = ctx.newRestfulGenericClient(serverBase);
+ 	IGenericClient client ; //= ctx.newRestfulGenericClient(serverBase);
  	boolean useJson = true;
  	
- 	public FhirServiceClient(boolean useJson) {
- 		this.useJson = useJson;
- 	}
+ 	public FhirServiceClient(String serverBase, boolean useJson) {
+ 		this.serverBase = serverBase;
+ 		this.useJson    = useJson;
+ 		ctx             = FhirContext.forR4();
+ 		client          = ctx.newRestfulGenericClient(serverBase);
+		System.out.println("FhirServiceClient created for " + serverBase + " useJson=" + useJson);
+  	}
 
  	public MethodOutcome create( IDomainResource theResource ) {
  		try { 

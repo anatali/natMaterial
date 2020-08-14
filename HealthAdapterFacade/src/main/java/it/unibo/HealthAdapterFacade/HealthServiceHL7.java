@@ -1,0 +1,33 @@
+package it.unibo.HealthAdapterFacade;
+
+public class HealthServiceHL7 implements HealthServiceInterface{
+
+	public HealthServiceHL7(String serverBase) {
+		//fhirclient = new FhirServiceClient(serverBase,true);	//true => UseJson
+	}
+
+	@Override
+	public Long create_patient(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String search_for_patients_named(String name, boolean usejson) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void delete_patient(String id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String read_a_resource(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

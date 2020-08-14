@@ -3,4 +3,4 @@ server:
 
 logging.level:
   ROOT: INFO
-  org.springframework: OFF    
+#  org.springframework: OFF    

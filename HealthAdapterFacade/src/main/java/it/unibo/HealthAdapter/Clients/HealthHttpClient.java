@@ -6,7 +6,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import org.json.*;
 
-import it.unibo.HealthAdapterFacade.HealthService; 
+ 
  
 public class HealthHttpClient {
 
@@ -44,13 +44,14 @@ public class HealthHttpClient {
 	
 	public void callHealthAdapter() throws Exception {
 // 		String htmlPage   = get("https://hapi.fhir.org/baseR4"+HealthService.readResourceUri);					//html page
-		String answerJson = get("localhots:8081"+HealthService.readResourceUri+"?_format=json");		//content in json
-//		String answerXml  = get("https://hapi.fhir.org/baseR4/"+HealthService.readResourceUri+"?_format=xml");		//content in xml
+		String answerJson = get("http://localhost:8081/readResource/1433281");		// json
+ 		String answerXml  = get("http://localhost:8081/readResource/1433281?_format=xml");		//content in xml
 		
-		System.out.println("----------------- callHealthAdapter ----------------------");
-//		System.out.println(htmlPage);
-		System.out.println(answerJson);
-//		System.out.println(answerXml);		
+		System.out.println("----------------- callHealthAdapter ----------------------"); 
+ 		System.out.println(answerXml);
+  		JSONObject jo = new JSONObject(answerJson);
+ 		String prettyJson = jo.toString(4);
+		System.out.println(prettyJson);
 	}
 	public static void main(String[] args) throws Exception {
 		HealthHttpClient appl = new HealthHttpClient();

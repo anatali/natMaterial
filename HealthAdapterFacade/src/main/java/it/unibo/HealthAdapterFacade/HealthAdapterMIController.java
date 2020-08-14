@@ -1,6 +1,9 @@
 package it.unibo.HealthAdapterFacade;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.reactivestreams.Publisher;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -18,10 +22,15 @@ import reactor.core.publisher.Mono;
 
 @RestController 	//annotates all the methods with @ResponseBody that embeds the return value in the body of HTTP answer
 public class HealthAdapterMIController { 
-	private final HealthService healthService;
+	private HealthService healthServiceBuilder;
+ 	private HealthServiceInterface healthService;
 	private final boolean usejson = true;
 
-     public HealthAdapterMIController(HealthService healthService) {this.healthService = healthService; }
+	 @Autowired
+     public HealthAdapterMIController( HealthService healthServiceBuilder ) {
+		this.healthServiceBuilder = healthServiceBuilder;
+  		healthService = healthServiceBuilder.getdHealthService();
+     }
 
      @PostMapping( HealthService.createPatientUri )
      public String create( @RequestBody String name ) {
@@ -40,6 +49,23 @@ public class HealthAdapterMIController {
     	 return "delete Done" + id; 
      }
 
+     @PostMapping( HealthService.selectHealthCenterUri  ) 
+     public String select( @RequestBody String choichejson ) {	 //, @RequestParam("hct")String hct
+    	 System.out.println("------------------- HealthAdapterMIController select choiche="  + choichejson  );
+    	 try {
+			 JSONObject jo = new JSONObject(choichejson);
+			 String choice = (String) jo.get("argchoice");
+			 String addr   = (String) jo.get("argserveraddr");
+	    	 System.out.println("------------------- HealthAdapterMIController select choiche="  + choice + " addr=" + addr );
+	    	 healthServiceBuilder.setHealthService(choice,addr);
+	    	 return "select Done" + choice; 
+		} catch (JSONException e) {
+ 			String error = "select Done ERROR " + choichejson;
+ 			System.out.println("------------------- HealthAdapterMIController "  + error  );
+ 			return error; 
+		}
+     }
+    
 //     @GetMapping(path="/searchevent", produces=MediaType.TEXT_EVENT_STREAM_VALUE)	 
 //     public Flux<String> searchevent(  ) { //
 //   	    System.out.println("------------------- HealthAdapterHIController searchPatient "    );
@@ -60,12 +86,10 @@ public class HealthAdapterMIController {
         return res;
      } 
      
-     @GetMapping( HealthService.readResourceUri+"/{id}{format}" )	 
-     public String readresource(  
-    		 @PathVariable( value ="format") String format,
-    		 @PathVariable( value = "id"   ) Long resourceId ) {      	    
-   	    System.out.println("----- HealthAdapterMIController readresource  id= " + resourceId + " format=" + format + " usejson=" + usejson );
-    	String res = healthService.read_a_resource( resourceId, usejson );
+     @GetMapping( HealthService.readResourceUri+"/{id}" )	 
+     public String readresource(   @PathVariable( value = "id"   ) Long resourceId ) {      	    
+   	    System.out.println("----- HealthAdapterMIController readresource  id= " + resourceId  + " usejson=" + usejson );
+    	String res = healthService.read_a_resource( resourceId  );
         return res;
      } 
      
