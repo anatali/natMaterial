@@ -29,7 +29,7 @@ public class HealthAdapterMIController {
 	 @Autowired
      public HealthAdapterMIController( HealthService healthServiceBuilder ) {
 		this.healthServiceBuilder = healthServiceBuilder;
-  		healthService = healthServiceBuilder.getdHealthService();
+  		healthService             = healthServiceBuilder.getdHealthService();
      }
 
      @PostMapping( HealthService.createPatientUri )

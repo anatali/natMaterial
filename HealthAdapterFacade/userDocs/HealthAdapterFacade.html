@@ -201,6 +201,9 @@ div.imagedesc{
 -->
 <hr/>
 <li><a href="https://hapifhir.io/hapi-fhir/apidocs/hapi-fhir-base/index-all.html" target="web">FHIR Api docs</a></li>
+<li><a href="https://hapifhir.io/hapi-fhir/apidocs/hapi-fhir-structures-r4/index-all.html" target="web">FHIR Api structures docs</a></li>
+
+
 <li><a href="https://www.hl7.org/fhir/R4/patient.html" target="web">FHIR 8.1 Resource Patient - Content</a>
 </li>
 </ul>
@@ -283,10 +286,10 @@ La classe <a href="../src/main/java/it/unibo/HealthResource/PatientResource.java
 secondo la definzione FHIR
 
 <pre><m>Patient:	DomainResource
-  identifier 				: Identifier
+  identifier 				: Identifier		Element use:code,type:CodeableConcept,system:uri,value:string,period:Period,assigner:Reference
   active     				: boolean
-  name       				: HumanName				Element use,text,family,given,prefix,suffix,period
-  telecom    				: ContactPoint			Element system:code, value:string, use:code,rank:positiveInt,period:Period
+  name       				: HumanName			Element use,text,family,given,prefix,suffix,period
+  telecom    				: ContactPoint		Element system:code, value:string, use:code,rank:positiveInt,period:Period
   gender     				: code
   deceasedBoolean 		: boolean
   deceasedDateTime		: dateTime
@@ -333,6 +336,11 @@ http://localhost:8081/actuator/env
 </pre>
 </li>
 </ol>
+
+<h4>Using with curl</h4>
+<pre>
+curl http://localhost:8081/readResource/1432878 -i -X GET
+</pre>
 
 <h3 id="uso">Esempi di uso della applicazione da programmi (Java)</h3>
 <ul>

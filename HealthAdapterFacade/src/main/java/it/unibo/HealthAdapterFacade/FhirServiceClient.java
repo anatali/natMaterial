@@ -1,5 +1,6 @@
 package it.unibo.HealthAdapterFacade;
 
+import org.hl7.fhir.instance.model.api.IBaseOperationOutcome;
 /*
  * ------------------------------------------------------------------------
  * Utility to be used internally (within the HealthProduct or appl)
@@ -16,21 +17,22 @@ import org.hl7.fhir.r4.model.Patient;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
+import it.unibo.HealthResource.PatientResource;
 
 public class FhirServiceClient {
 	//private String serverBase=""; //"http://localhost:9001/r4"; //"https://hapi.fhir.org/baseR4";  http://localhost:9001/r4
-	private FhirContext ctx ;  
+	private FhirContext fhirctx ;  
     // Create a client. See https://hapifhir.io/hapi-fhir/docs/client/generic_client.html
  	IGenericClient client ; //= ctx.newRestfulGenericClient(serverBase);
   	
  	public FhirServiceClient( String serverBase ) {
-  		ctx             = FhirContext.forR4();
- 		client          = ctx.newRestfulGenericClient(serverBase);
+  		fhirctx         = PatientResource.fhirctx;  //to avoid redundant creation FhirContext.forR4();
+ 		client          = fhirctx.newRestfulGenericClient(serverBase);
 		System.out.println("FhirServiceClient created for " + serverBase  );
   	}
 
  	public FhirContext  getFhirContext() {
- 		return ctx; 		
+ 		return fhirctx; 		
  	}
  	
  	public MethodOutcome create( IBaseResource theResource ) {
@@ -105,13 +107,32 @@ public class FhirServiceClient {
 	 				.forResource( resourceClass  )
 	 				.where(Patient.NAME.matches().value(name))
 	 				.returnBundle(org.hl7.fhir.r4.model.Bundle.class)
-	 				.execute(); 
+	 				.execute();  
 	 		return results;
 		} catch ( Exception e) {	//ResourceNotFoundException
 			System.out.println("FhirServiceClient search " + name + " ERROR " + e.getMessage());
 			return null;
 		}
 	}
+ 	/*	TO UNDERSTAND	
+	// Load the next page (???)
+		try {
+		org.hl7.fhir.r4.model.Bundle nextPage = client
+			.loadPage()
+			.next(results)
+			.execute();
+		if( nextPage != null ) {
+			System.out.println("Next page: ");
+			String res1 = ctx.newXmlParser().encodeResourceToString(nextPage);
+			return res1;
+		}else  return res;
+
+		}catch( Exception e) {
+			System.out.println("WARNING: " + e.getMessage() );
+			return res;
+		}
+*/ 		
+
  	
 	public Bundle searchPatient( Class<Patient> resourceClass, String name) {
  	try { 
@@ -128,7 +149,7 @@ public class FhirServiceClient {
 	}
 	}
 	
-	public MethodOutcome delete(String className, String id) {
+	public IBaseOperationOutcome delete(String className, String id) {
  	try { 
 		MethodOutcome response = client
 		   .delete()
@@ -136,7 +157,7 @@ public class FhirServiceClient {
 		   .execute();
 		OperationOutcome outcome = (OperationOutcome) response.getOperationOutcome();
 		System.out.println("FhirServiceClient delete  outcome " + outcome);
-		return response;
+		return response.getOperationOutcome();
 	} catch ( Exception e) {	//ResourceNotFoundException
 		System.out.println("FhirServiceClient delete  ERROR " + e.getMessage());
 		return null;
@@ -151,16 +172,16 @@ public class FhirServiceClient {
  		else return cvtXml(theResource);
  	}
  	public String cvt( Bundle bundle,  boolean useJson ) {
- 		if( useJson ) return ctx.newJsonParser().setPrettyPrint(true).encodeResourceToString(bundle);
- 		else return ctx.newXmlParser().setPrettyPrint(true).encodeResourceToString(bundle);
+ 		if( useJson ) return fhirctx.newJsonParser().setPrettyPrint(true).encodeResourceToString(bundle);
+ 		else return fhirctx.newXmlParser().setPrettyPrint(true).encodeResourceToString(bundle);
  	}
 
  	public String cvtJson( IBaseResource theResource ) {
- 		return ctx.newJsonParser().setPrettyPrint(true).encodeResourceToString(theResource);
+ 		return fhirctx.newJsonParser().setPrettyPrint(true).encodeResourceToString(theResource);
  	}
 
  	public String cvtXml( IBaseResource theResource ) {
- 		return ctx.newXmlParser().setPrettyPrint(true).encodeResourceToString(theResource);
+ 		return fhirctx.newXmlParser().setPrettyPrint(true).encodeResourceToString(theResource);
  	}
 
 }
