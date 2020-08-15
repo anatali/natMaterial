@@ -216,14 +216,14 @@ DISI - HapiFhirUsage | References and examples (on Evolution/it.unibo.mirth.java
  http://192.168.1.244/debug/clip.html -->
 
 <h2>Introduzione</h2>
-Con riferimento alla terminologia introdotta in <a href="../../health/userDocs/ITelAppl.html" target="web">ITelAppl.html</a>
+Con riferimento alla terminologia introdotta in <a href="../../health/userDocs/ITelAppl.html" target="web">ITelAppl.html</a>,
 questo e' il primo prototipo per un <em>HeathProduct</em> il cui scopo e':
 
 <ol>
 <li>fornire un insieme di (REST) API che permettano al <em>Core-Itel</em> di inviare informazioni al <em>CentroHealth</em> (FHIR,Hl7,legacy)
-relativo a uno specifico <em>CentroBase</em> per chiedere dati su paziente e piano terapeutico. 
+relativo a uno specifico <em>CentroBase</em> per chiedere dati su paziente e piano terapeutico; 
  </li>
-<li>fornire un componente capace di ricevere informazioni su paziente e piano terapeutico dal <em>CentroHealth</em> (FHIR,Hl7,legacy)
+<li>fornire un componente capace di ricevere informazioni (su pazienti e piani terapeutici) dal <em>CentroHealth</em> (FHIR,Hl7,legacy)
 e trasmetterle al <em>Core-Itel</em> usando una interfaccia API fornita dal <em>Core-Itel</em> stesso.
 </li>
  </ol> 
@@ -258,6 +258,11 @@ Un componente che implementa questa interfaccia e'
 <a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthServiceFhir.java" target="code"><ks><m>HealthServiceFhir.java</ks></m></a>.
 Esso puo' essere utilizzato anche da una 'normale' applicazione Java; per un esempio si veda
 <a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthServiceFhirUsage.java" target="code"><ks><m>HealthServiceFhirUsage.java</ks></m></a>.
+<br/> 
+Un altro componente che implementa questa interfaccia  puo' essere
+<a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthServiceHL7.java" target="code"><ks><m>HealthServiceHL7.java</ks></m></a>,
+che e' stato prepearato con l'intento di interagire con server che ricevono/trasmettono dati in formato <tt>HL7</tt>.
+
 <br/><br/>
 Il componente <a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthService.java" target="code"><ks><m>HealthService.java</ks></m></a>  
 definisce i servizi resi disponibili attraverso le API REST che esso definisce mediante un insieme di costanti:
@@ -271,7 +276,7 @@ definisce i servizi resi disponibili attraverso le API REST che esso definisce m
 	public static final String selectHealthCenterUri ="<ks>/selectHealthCenter</ks>";
 </pre>
 
-Le informazioni da trasmettere/ricevere sono per ora limitate a un sottoinsieme di valori relativi a 
+Le informazioni da trasmettere/ricevere a centri FHIR sono per ora limitate a un sottoinsieme di valori relativi a 
 <a href="https://www.hl7.org/fhir/R4/patient.html" target="web">FHIR Patient</a>. 
 La classe <a href="../src/main/java/it/unibo/HealthResource/PatientResource.java" target="code"><ks><m>PatientResource.java</ks></m></a> 
 <em>andrebbe sviluppata</em> per permettere l'uso 'completo' di questo tipo di risorsa introducendo un set completo di argomenti
