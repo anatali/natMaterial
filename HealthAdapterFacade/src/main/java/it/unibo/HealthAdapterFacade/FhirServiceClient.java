@@ -20,7 +20,7 @@ import ca.uhn.fhir.rest.client.api.IGenericClient;
 import it.unibo.HealthResource.PatientResource;
 
 public class FhirServiceClient {
-	//private String serverBase=""; //"http://localhost:9001/r4"; //"https://hapi.fhir.org/baseR4";  http://localhost:9001/r4
+	//private String serverBase=""; //"http://localhost:9001/r4"; //"https://hapi.fhir.org/baseR4";  http://example.com/fhirBaseUrl
 	private FhirContext fhirctx ;  
     // Create a client. See https://hapifhir.io/hapi-fhir/docs/client/generic_client.html
  	IGenericClient client ; //= ctx.newRestfulGenericClient(serverBase);

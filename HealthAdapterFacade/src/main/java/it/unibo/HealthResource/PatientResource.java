@@ -1,27 +1,21 @@
 package it.unibo.HealthResource;
 import java.io.FileInputStream;
-import java.io.IOException;
+ 
 
-import org.apache.commons.io.IOUtils;
-import org.hl7.fhir.instance.model.api.IIdType;
+
+ 
 /*
  * ------------------------------------------------------------------------
  * Support class to handle data of the FHIR resource Patient
  * ------------------------------------------------------------------------
  */  
+import org.apache.commons.io.IOUtils;
 import org.hl7.fhir.r4.model.DateType;
 import org.hl7.fhir.r4.model.Enumerations;
 import org.hl7.fhir.r4.model.Patient;
-
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.parser.IParser;
-import ca.uhn.fhir.rest.api.MethodOutcome;
+ 
  
 
 public class PatientResource {
