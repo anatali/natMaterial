@@ -1,5 +1,10 @@
 package it.unibo.HealthAdapter.Clients;
-
+/*
+ * ------------------------------------------------------------------------
+ * Interacts with the HealthProduct or with the FHIR server
+ * by using the org.springframework.web.reactive.function.client.WebClient
+ * ------------------------------------------------------------------------
+ */
 import java.io.IOException;
 import java.time.Duration;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -11,7 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-public class WebClientExample {
+public class HealthWebClient {
 	private String hostaddr = "https://hapi.fhir.org/baseR4/";
 	WebClient webClient = WebClient
 	    	  .builder()
@@ -61,8 +66,12 @@ public class WebClientExample {
 		}
 	}
 	
+	
+	public void callHealthAdapter() throws Exception {}
+	public void callFhirServer() throws Exception {}
+	
     public static void main(String[] args) throws InterruptedException {
-     	WebClientExample appl = new WebClientExample();
+     	HealthWebClient appl = new HealthWebClient();
 //    	appl.searchPatient("1432878");
     	appl.searchPatientFlux("1432878");
     }

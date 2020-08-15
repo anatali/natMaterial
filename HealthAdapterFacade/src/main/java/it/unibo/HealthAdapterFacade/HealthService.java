@@ -1,5 +1,9 @@
 package it.unibo.HealthAdapterFacade;
-
+/*
+ * ------------------------------------------------------------------------
+ * Used by the RestController HealthAdapterMIController 
+ * ------------------------------------------------------------------------
+ */
 import org.springframework.stereotype.Service;
  
 
@@ -25,7 +29,6 @@ public class HealthService {
 		else if( choice.equals("HL7") ) buildHealthService( HealthCenterType.HL7, serverAddr );
 		return getdHealthService();
 	}
-
 	
 	public HealthServiceInterface getdHealthService() { return service; }
 	
@@ -38,24 +41,5 @@ public class HealthService {
 			default    : service =  new HealthServiceFhir( serverBase );
 		}		
 	}
- 	
- 
-	
-//	public String prettyFormat(String input, int indent) {
-//	    try {
-//	        Source xmlInput = new StreamSource(new StringReader(input));
-//	        StringWriter stringWriter = new StringWriter();
-//	        StreamResult xmlOutput = new StreamResult(stringWriter);
-//	        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-//	        transformerFactory.setAttribute("indent-number", indent);
-//	        Transformer transformer = transformerFactory.newTransformer(); 
-//	        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-//	        transformer.transform(xmlInput, xmlOutput);
-//	        return xmlOutput.getWriter().toString();
-//	    } catch (Exception e) {
-//	    	System.out.println("prettyFormat ERROR " + e.getMessage());
-//	    	return "";
-// 	    }
-//	}
 	
 }

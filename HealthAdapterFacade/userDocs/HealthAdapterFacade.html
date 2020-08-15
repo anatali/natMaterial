@@ -216,29 +216,95 @@ DISI - HapiFhirUsage | References and examples (on Evolution/it.unibo.mirth.java
  http://192.168.1.244/debug/clip.html -->
 
 <h2>Introduzione</h2>
-
-<img src="./img/smartevenreviewed.png" alt="smartevenreviewed.png" width="60%">
-<br/><br/>
 Con riferimento alla terminologia introdotta in <a href="../../health/userDocs/ITelAppl.html" target="web">ITelAppl.html</a>
 questo e' il primo prototipo per un <em>HeathProduct</em> il cui scopo e':
 
 <ol>
-<li>fornire un insieme di (REST) API che permettano al <em>Core-Itel</em> di inviare informazioni al <em>CentroHealth FHIR</em>
-relativo a uno specifico <em>CentroBase </em>.  
-<li>fornire un componente capace di ricevere informazioni FHIR dal <em>CentroHealth</em> e trasmetterle al <em>Core-Itel</em>
-usando una interfaccia API fornita dal <em>Core-Itel</em> stesso.
-per chiedere a <em>CentroHealth</em> FHIR dati su paziente e piano terapeutico</li>
-<li>Componente per ricevere update da <em>CentroHealth</em> FHIR su paziente e su piano terapeutico </li>
-</ol> 
+<li>fornire un insieme di (REST) API che permettano al <em>Core-Itel</em> di inviare informazioni al <em>CentroHealth</em> (FHIR,Hl7,legacy)
+relativo a uno specifico <em>CentroBase</em> per chiedere dati su paziente e piano terapeutico. 
+ </li>
+<li>fornire un componente capace di ricevere informazioni su paziente e piano terapeutico dal <em>CentroHealth</em> (FHIR,Hl7,legacy)
+e trasmetterle al <em>Core-Itel</em> usando una interfaccia API fornita dal <em>Core-Itel</em> stesso.
+</li>
+ </ol> 
 
-Le informazioni da trasmettere/ricevere sono per ora limitate a un sottoinsieme di valori reltivi a 
-<a href="https://www.hl7.org/fhir/R4/patient.html" target="web">FHIR Patient</a>
+<table style="width:98%">
+<tbody>	
+<tr>
+<td style="width:40%" ><img src="./img/smartevenreviewed.png" alt="smartevenreviewed.png" width="100%">
+</td>
+<td><img src="./img/healthproductinside.png" alt="healthproductinside.png" width="100%">
+</td>
+</tr>
+ </tbody>
+</table>
 
-<h3>Attivazione della applicazione</h3>
+
+<br/><br/>
+La business logic del prodotto e' definita da componenti che  implementano la interfaccia
+<a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthServiceInterface.java" target="code">
+<m><ks>HealthServiceInterface.java</ks></m></a>.  
+<pre>
+public interface HealthServiceInterface {
+	public Long create_patient( Patient newPatient );
+	public Long createPatientFromFile(String fileName );
+	public Long create_patient(String familyName,String name);
+	public String search_for_patients_named(String name, boolean usejson);
+	public void delete_patient(String id);
+	public String read_a_resource(Long id);
+}
+</pre>
+Un componente che implementa questa interfaccia e'
+<a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthServiceFhir.java" target="code"><ks><m>HealthServiceFhir.java</ks></m></a>.
+Esso puo' essere utilizzato anche da una 'normale' applicazione Java; per un esempio si veda
+<a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthServiceFhirUsage.java" target="code"><ks><m>HealthServiceFhirUsage.java</ks></m></a>.
+<br/><br/>
+Il componente <a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthService.java" target="code"><ks><m>HealthService.java</ks></m></a>  
+definisce i servizi resi disponibili attraverso le API REST che esso definisce mediante un insieme di costanti:
+<pre>
+	public static enum HealthCenterType{ FHIR, HL7, OTHER};
+	
+	public static final String createPatientUri      ="<ks>/createPatient</ks>";
+	public static final String searchPatientUri      ="<ks>/searchPatient</ks>";
+	public static final String readResourceUri       ="<ks>/readResource</ks>";
+	public static final String deleteResourceUri     ="<ks>/deleteResource</ks>";
+	public static final String selectHealthCenterUri ="<ks>/selectHealthCenter</ks>";
+</pre>
+
+Le informazioni da trasmettere/ricevere sono per ora limitate a un sottoinsieme di valori relativi a 
+<a href="https://www.hl7.org/fhir/R4/patient.html" target="web">FHIR Patient</a>. 
+La classe <a href="../src/main/java/it/unibo/HealthResource/PatientResource.java" target="code"><ks><m>PatientResource.java</ks></m></a> 
+<em>andrebbe sviluppata</em> per permettere l'uso 'completo' di questo tipo di risorsa introducendo un set completo di argomenti
+secondo la definzione FHIR
+
+<pre><m>Patient:	DomainResource
+  identifier 				: Identifier
+  active     				: boolean
+  name       				: HumanName				Element use,text,family,given,prefix,suffix,period
+  telecom    				: ContactPoint			Element system:code, value:string, use:code,rank:positiveInt,period:Period
+  gender     				: code
+  deceasedBoolean 		: boolean
+  deceasedDateTime		: dateTime
+  address         		: Address
+  maritalStatus   		: CodeableConcept		Element coding:Coding text:string
+  multipleBirthBoolean	: boolean
+  multipleBirthInteger    : integer
+  photo           		: Attachment
+  contact         		: BackboneElement 		Element (relationship:language:CodeableConcept,name:HumanName,
+  	 													telecom:ContactPoint,address:Address,gender:code, 
+                                                           organization:Reference,period:Period)
+  communication   		: BackboneElement 		Element (language:CodeableConcept,preferred:boolean)
+  generalPractitioner 	: Reference
+  managingOrganization 	: Reference
+  link            		: BackboneElement 		Element (other: Reference, type:Code
+</m>
+</pre>
+
+<h3>Attivazione della applicazione REST</h3>
 Eseguire <a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthAdapterFacadeApplication.java" target="code">
 HealthAdapterFacadeApplication.java</a>, <tt>localhost:8081</tt> (e attivare <tt>JConsole</tt>).
 
-<h3>Organizzazione della applicazione</h3>
+<h3>Organizzazione della applicazione REST</h3>
 <ol>
 <li>Si tratta di una applicazione SpringBoot che usa WebFlux, SSE, etc. Si veda
 <a href="../build.gradle" target="code">build.gradle</a>
@@ -263,29 +329,35 @@ http://localhost:8081/actuator/env
 </li>
 </ol>
 
-<h3 id="uso">Uso della applicazione</h3>
+<h3 id="uso">Esempi di uso della applicazione da programmi (Java)</h3>
 <ul>
-<li><a href="../src/main/java/it/unibo/HealthAdapterFacade/Pojo/HealthAdapterFacadeUsage.java" target="code">HealthAdapterFacadeUsage.java</a>:
-basato sulla business logic definita in  
-<a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthService.java" target="code">HealthService.java</a> usata come POJO al di fuori di
-SprinBoot. Questo POJO utilizza una istanza di 
+<li><a href="../src/main/java/it/unibo/HealthAdapterFacade/Pojo/HealthServiceFhirUsage.java" target="code">HealthServiceFhirUsage.java</a>:
+utilizza la business logic definita in  
+<a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthServiceFhir.java" target="code">HealthServiceFhir.java</a> 
+usata come POJO al di fuori di SprinBoot. Questo POJO utilizza una istanza di 
 <a href="../src/main/java/it/unibo/HealthAdapterFacade/FhirServiceClient.java" target="code">FhirServiceClient.java</a>:
 basato sul client fornito da <tt>ca.uhn.fhir.rest.client.api.IGenericClient</tt> dalla libreria FHIR. 
+</li>
+<li>
+<a href="../src/main/java/it/unibo/HealthAdapterFacade/Pojo/FhirServiceClientUsage.java" target="code">FhirServiceClientUsage.java</a>:
+utilizza il servizio fornito da 
+<a href="../src/main/java/it/unibo/HealthAdapterFacade/FhirServiceClient.java" target="code">FhirServiceClient.java</a>. 
+
 </li>
 <hr/>
 <li><a href="../src/main/java/it/unibo/HealthAdapter/Clients/HealthHttpClient.java" target="code">HealthHttpClient.java</a>:
 che realizza una convenzionale interazione HTTP basandosi su  <tt>java.net.HttpURLConnection</tt> a su <tt>org.json</tt> 
 </li>
-<li><a href="../src/main/java/it/unibo/HealthAdapter/Clients/WebClientExample.java" target="code">WebClientExample.java</a>:
-basato sul WebClient reattivo <tt> org.springframework.web.reactive.function.client.WebClient</tt> fornito da Spring
+<li><a href="../src/main/java/it/unibo/HealthAdapter/Clients/HealthWebClient.java" target="code">HealthWebClient.java</a>:
+basato sul WebClient reattivo <tt>org.springframework.web.reactive.function.client.WebClient</tt> fornito da Spring
 </li>
 
-<li></li>
+ 
 </ul>
 <br/> <br/> 
  
  
- 
+<!-- 
 
  
 
@@ -319,7 +391,7 @@ basato sul WebClient reattivo <tt> org.springframework.web.reactive.function.cli
  
  
  
-  
+-->  
 
  <br/><br/>
 <table style="width:98%">

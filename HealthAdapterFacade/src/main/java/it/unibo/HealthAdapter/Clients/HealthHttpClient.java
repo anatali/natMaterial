@@ -1,5 +1,10 @@
 package it.unibo.HealthAdapter.Clients;
-
+/*
+ * ------------------------------------------------------------------------
+ * Interacts with the HealthProduct or with the FHIR server
+ * by using the org.springframework.web.reactive.function.client.WebClient
+ * ------------------------------------------------------------------------
+ */
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;

@@ -1,14 +1,13 @@
 package it.unibo.HealthResource;
-
-import java.io.FileInputStream;
-
-import org.apache.commons.io.IOUtils;
+/*
+ * ------------------------------------------------------------------------
+ * Support class to handle data of the FHIR resource Patient
+ * ------------------------------------------------------------------------
+ */  
 import org.hl7.fhir.r4.model.DateType;
 import org.hl7.fhir.r4.model.Enumerations;
 import org.hl7.fhir.r4.model.Patient;
-
-import ca.uhn.fhir.context.FhirContext;
-import ca.uhn.fhir.parser.IParser;
+ 
 
 public class PatientResource {
 /*
@@ -35,17 +34,18 @@ public class PatientResource {
 *   link            		: BackboneElement 		Element (other: Reference, type:Code
 */
 	
-private final String familyNameDefault   = "Unibo";
-private final String givenNameDefault    = "Unknown";		
-
+private final String familyNameDefault         = "Unibo";
+private final String givenNameDefault          = "Unknown";		
+private final String businessIdSystemDefault   = "http://it.unibo/disi";
+private final String businessIdValueDefault    = "987654321";
 /*
  * CURRENT VALUES	
  */
-private String 	familyName  = null;
-private String 	giventName = null;  
-	
-
-//	private FhirContext ctx = FhirContext.forR4();
+private String 	familyName         = null;
+private String 	giventName         = null;  
+private String 	businessIdSystem   = null;  
+private String 	businessIdValue    = null;  
+ 
 
 /*
  * The Argument list should be as much complete as possible.
@@ -54,7 +54,8 @@ private String 	giventName = null;
 		
 		familyName = familyNameArg == null ? familyNameDefault : familyNameArg;
 		giventName = giventNameArg == null ? givenNameDefault : familyNameArg;
- 
+		businessIdSystem =  givenNameDefault  ;
+		businessIdValue  =  businessIdValueDefault;
 	}
 	
 
@@ -70,8 +71,8 @@ private String 	giventName = null;
 			//.addGiven("anothername");
 		newPatient
 			.addIdentifier()
-				.setSystem("http://it.unibo/disi")
-				.setValue("987654321");
+				.setSystem( businessIdSystem )
+				.setValue(  businessIdValue );
 		newPatient.setGender(Enumerations.AdministrativeGender.FEMALE);
 		newPatient.setBirthDateElement(new DateType("2000-11-18"));
 	

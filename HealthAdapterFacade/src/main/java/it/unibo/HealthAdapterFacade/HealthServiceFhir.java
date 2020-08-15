@@ -1,7 +1,12 @@
 package it.unibo.HealthAdapterFacade;
+/*
+ * ------------------------------------------------------------------------
+ * Provides a set of operations defined by the HealthServiceInterface  
+ * by using an instance of FhirServiceClient
+ * ------------------------------------------------------------------------
+ */
 
 import java.io.FileInputStream;
-
 import org.apache.commons.io.IOUtils;
 import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.Bundle;
@@ -9,17 +14,19 @@ import org.hl7.fhir.r4.model.DateType;
 import org.hl7.fhir.r4.model.Enumerations;
 import org.hl7.fhir.r4.model.OperationOutcome;
 import org.hl7.fhir.r4.model.Patient;
-
 import ca.uhn.fhir.parser.IParser;
 import ca.uhn.fhir.rest.api.MethodOutcome;
+import it.unibo.HealthResource.PatientResource;
 
 
 public class HealthServiceFhir implements HealthServiceInterface {
   	
+	private PatientResource patientresource = new PatientResource();
 	private FhirServiceClient fhirclient;	 
+	private boolean useJson = true;
 	
 	public HealthServiceFhir(String serverBase) {
-		fhirclient = new FhirServiceClient(serverBase,true);	//true => UseJson
+		fhirclient = new FhirServiceClient( serverBase );	//true => UseJson
  		System.out.println("HealthServiceFhir created for " + serverBase  );
 	}
 	 
@@ -43,21 +50,24 @@ public class HealthServiceFhir implements HealthServiceInterface {
 	}
 	
 	public Long create_patient( Patient newPatient) {
-		try {
-	 		MethodOutcome outcome = fhirclient.create(newPatient);		
-			// Log the ID that the server assigned
-			IIdType id = outcome.getId();
-			Long idVal = id.getIdPartAsLong();
-			System.out.println("Created patient, got ID: " + id + " value=" + idVal );
-			return idVal;		
-		} catch ( Exception e) {	//ResourceNotFoundException
-			System.out.println("create_patient ERROR " + e.getMessage() );
-			return 0L;
-		}
+		return fhirclient.createAndGetId(newPatient);
+//		try {
+//	 		MethodOutcome outcome = fhirclient.create(newPatient);		
+//			// Log the ID that the server assigned
+//			IIdType id = outcome.getId();
+//			Long idVal = id.getIdPartAsLong();
+//			System.out.println("Created patient, got ID: " + id + " value=" + idVal );
+//			return idVal;		
+//		} catch ( Exception e) {	//ResourceNotFoundException
+//			System.out.println("create_patient ERROR " + e.getMessage() );
+//			return 0L;
+//		}
 	}
 	
 	public Long create_patient(String familyName, String name) {
 		try {
+/*			
+			
 			familyName = familyName == null ? "Unibo" : familyName;
 			
 	    // Create a client. See https://hapifhir.io/hapi-fhir/docs/client/generic_client.html
@@ -86,15 +96,12 @@ public class HealthServiceFhir implements HealthServiceInterface {
 		newPatient
 			.addTelecom()
 			.setValue("Contact Unibo");
-
+*/
+		
+		Patient newPatient = patientresource.createFhirPatient(familyName,name);
 		System.out.println("Built patient : " +  newPatient ); //newPatient.getBirthDateElement()
 		return create_patient(newPatient );
-// 		MethodOutcome outcome = fhirclient.create(newPatient);		
-//		// Log the ID that the server assigned
-//		IIdType id = outcome.getId();
-//		Long idVal = id.getIdPartAsLong();
-//		System.out.println("Created patient, got ID: " + id + " value=" + idVal );
-//		return idVal;
+		
 	} catch ( Exception e) {	//ResourceNotFoundException
 		System.out.println("create_patient ERROR " + e.getMessage() );
 		return 0L;
@@ -104,7 +111,7 @@ public class HealthServiceFhir implements HealthServiceInterface {
 	public String search_for_patients_named(String name, boolean usejson) {
 		Bundle results = fhirclient.searchPatient( Patient.class, name );		
 		//System.out.println("First page: ");
-		String res = fhirclient.cvt(results);
+		String res = fhirclient.cvt(results, useJson);
 		return res;
 /*		
 		// Load the next page (???)
@@ -155,7 +162,7 @@ public class HealthServiceFhir implements HealthServiceInterface {
  				return "<resource><text>Resource " + id + "</text><text>resource not found</text></resource>";
  			} 			
  			System.out.println( "HealthService patient name="+patient.getName().toString() ); 			
- 			String res = fhirclient.cvt(patient);
+ 			String res = fhirclient.cvt(patient, useJson);
  			return res;			
 		} catch ( Exception e) {	//ResourceNotFoundException
 			System.out.println("HealthService Resource " + id + " ERROR " + e.getMessage());

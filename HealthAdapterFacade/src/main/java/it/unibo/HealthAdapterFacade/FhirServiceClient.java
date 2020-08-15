@@ -1,6 +1,12 @@
 package it.unibo.HealthAdapterFacade;
 
-import org.hl7.fhir.instance.model.api.IDomainResource;
+/*
+ * ------------------------------------------------------------------------
+ * Utility to be used internally (within the HealthProduct or appl)
+ * ------------------------------------------------------------------------
+ */
+import org.hl7.fhir.instance.model.api.IBaseResource;
+import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.DomainResource;
 import org.hl7.fhir.r4.model.IdType;
@@ -12,25 +18,22 @@ import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 
 public class FhirServiceClient {
-	private String serverBase=""; //"http://localhost:9001/r4"; //"https://hapi.fhir.org/baseR4";  http://localhost:9001/r4
+	//private String serverBase=""; //"http://localhost:9001/r4"; //"https://hapi.fhir.org/baseR4";  http://localhost:9001/r4
 	private FhirContext ctx ;  
     // Create a client. See https://hapifhir.io/hapi-fhir/docs/client/generic_client.html
  	IGenericClient client ; //= ctx.newRestfulGenericClient(serverBase);
- 	boolean useJson = true;
- 	
- 	public FhirServiceClient(String serverBase, boolean useJson) {
- 		this.serverBase = serverBase;
- 		this.useJson    = useJson;
- 		ctx             = FhirContext.forR4();
+  	
+ 	public FhirServiceClient( String serverBase ) {
+  		ctx             = FhirContext.forR4();
  		client          = ctx.newRestfulGenericClient(serverBase);
-		System.out.println("FhirServiceClient created for " + serverBase + " useJson=" + useJson);
+		System.out.println("FhirServiceClient created for " + serverBase  );
   	}
 
  	public FhirContext  getFhirContext() {
  		return ctx; 		
  	}
  	
- 	public MethodOutcome create( IDomainResource theResource ) {
+ 	public MethodOutcome create( IBaseResource theResource ) {
  		try { 
 			MethodOutcome outcome = client
 					.create()
@@ -43,6 +46,23 @@ public class FhirServiceClient {
 		}
  	}
  	
+ 	public Long createAndGetId( IBaseResource theResource ) {
+ 		try { 
+			MethodOutcome outcome = client
+					.create()
+					.resource(theResource)
+					.execute(); 
+			// Log the ID that the server assigned
+			IIdType id = outcome.getId();
+			Long idVal = id.getIdPartAsLong();
+			System.out.println("createAndGetId patient ID: " + id + " value=" + idVal );
+			return idVal;		
+		} catch ( Exception e) {	//ResourceNotFoundException
+			System.out.println("FhirServiceClient createAndGetId  ERROR " + e.getMessage());
+			return 0L;
+		}
+ 	}
+	
  	public DomainResource read( Class<DomainResource> resourceClass, Long id ) {
  		try { 
 	 		DomainResource resource   = client.read()
@@ -55,6 +75,16 @@ public class FhirServiceClient {
 			return null;
 		}
  	}
+ 	
+ 	public String readInJson( Class<DomainResource> resourceClass, Long id ) {
+ 		DomainResource r = read(resourceClass, id);
+ 		return cvtJson( r );
+ 	}
+ 	public String readInXml( Class<DomainResource> resourceClass, Long id ) {
+ 		DomainResource r = read(resourceClass, id);
+ 		return cvtXml( r );
+ 	}
+ 	
  	public Patient readPatient( Class<Patient> resourceClass, Long id ) {
  		try { 
 	 		Patient resource   = client.read()
@@ -116,21 +146,38 @@ public class FhirServiceClient {
 /*
  * CONVERSIONS	
  */
- 	public String cvt( IDomainResource theResource ) {
+ 	public String cvt( IBaseResource theResource,  boolean useJson ) {
  		if( useJson ) return cvtJson(theResource);
  		else return cvtXml(theResource);
  	}
- 	public String cvt( Bundle bundle ) {
+ 	public String cvt( Bundle bundle,  boolean useJson ) {
  		if( useJson ) return ctx.newJsonParser().setPrettyPrint(true).encodeResourceToString(bundle);
  		else return ctx.newXmlParser().setPrettyPrint(true).encodeResourceToString(bundle);
  	}
 
- 	public String cvtJson( IDomainResource theResource ) {
+ 	public String cvtJson( IBaseResource theResource ) {
  		return ctx.newJsonParser().setPrettyPrint(true).encodeResourceToString(theResource);
  	}
 
- 	public String cvtXml( IDomainResource theResource ) {
+ 	public String cvtXml( IBaseResource theResource ) {
  		return ctx.newXmlParser().setPrettyPrint(true).encodeResourceToString(theResource);
  	}
 
 }
+
+//public String prettyFormat(String input, int indent) {
+//try {
+//    Source xmlInput = new StreamSource(new StringReader(input));
+//    StringWriter stringWriter = new StringWriter();
+//    StreamResult xmlOutput = new StreamResult(stringWriter);
+//    TransformerFactory transformerFactory = TransformerFactory.newInstance();
+//    transformerFactory.setAttribute("indent-number", indent);
+//    Transformer transformer = transformerFactory.newTransformer(); 
+//    transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+//    transformer.transform(xmlInput, xmlOutput);
+//    return xmlOutput.getWriter().toString();
+//} catch (Exception e) {
+//	System.out.println("prettyFormat ERROR " + e.getMessage());
+//	return "";
+// }
+//}

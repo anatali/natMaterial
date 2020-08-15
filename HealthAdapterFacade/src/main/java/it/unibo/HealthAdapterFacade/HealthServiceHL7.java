@@ -1,5 +1,10 @@
 package it.unibo.HealthAdapterFacade;
-
+/*
+ * ------------------------------------------------------------------------
+ * Provides a set of operations defined by the HealthServiceInterface  
+ * by using ... TODO
+ * ------------------------------------------------------------------------
+ */
 import org.hl7.fhir.r4.model.Patient;
 
 public class HealthServiceHL7 implements HealthServiceInterface{
