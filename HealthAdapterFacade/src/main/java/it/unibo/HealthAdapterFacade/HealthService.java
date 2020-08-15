@@ -11,8 +11,13 @@ import org.springframework.stereotype.Service;
 public class HealthService {
 	
 	public static enum HealthCenterType{ FHIR, HL7, OTHER};
-	
-	public static final String createPatientUri  		="/createPatient";
+
+/*
+ * --------------------------------------------------------------------------
+ * WARNING: these URI are used in templates\indexHealthAdapterFacade.html	
+ * --------------------------------------------------------------------------
+ */
+	public static final String createPatientUri  		="/createPatient";  //
 	public static final String searchPatientUri  		="/searchPatient";
 	public static final String readResourceUri   		="/readResource";
 	public static final String deleteResourceUri 		="/deleteResource";

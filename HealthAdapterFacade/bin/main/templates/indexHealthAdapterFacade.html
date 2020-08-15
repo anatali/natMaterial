@@ -71,14 +71,14 @@
 	//See https://www.html.it/pag/66525/fetch-api/
 	//https://www.javascripture.com/Response - replacement for XMLHttpRequest (https://www.javascripture.com/XMLHttpRequest).
      function createPatient() {
-    	var patientid = document.getElementById("patientname").value;
-      	$("i.infoArea").text(  "creating patient ... " + patientid );	
-        fetch("/createPatient", {method: "POST", body: patientid}).then(function (response) {
+    	var patientname = document.getElementById("patientname").value;
+      	$("i.infoArea").text(  "creating patient ... " + patientname );	
+        fetch("/createPatient", {method: "POST", body: patientname}).then(function (response) {
         	if (response.ok) {
-        		console.log(  "creation done of " +  patientid + "  " + response );
+        		console.log(  "creation done of " +  patientname + "  " + response );
       			return response.text() ;		// 
       		}}).then( function (id) {
-      			$("i.infoArea").text(  "creation done of " +  patientid + " id=" + id);	
+      			$("i.infoArea").text(  "creation done of " +  patientname + " id=" + id);	
       		});
          
     }

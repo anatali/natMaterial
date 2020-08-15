@@ -33,20 +33,21 @@ public class HealthAdapterMIController {
      }
 
      @PostMapping( HealthService.createPatientUri )
-     public String create( @RequestBody String name ) {
+     //public String create( @RequestBody String name ) {
+     public Mono<String> create( @RequestBody String name ) {
    	    System.out.println("------------------- HealthAdapterMIController createPatient " + name  );	    
    	    Long id = healthService.create_patient( null, name );	
-   	    if( id == 0 ) return "createError";	
+   	    if( id == 0 ) return Mono.just("createError");	
 //   	    String answer = healthService.read_a_resource(id) ;  
 //   	    System.out.println("------------------- HealthAdapterMIController createPatient answer= " + answer  );	
-        return ""+id; //answer;	
+        return Mono.just(""+id); //answer;	
      } 
 
      @PostMapping( HealthService.deleteResourceUri ) 
      public String delete( @RequestBody String id ) {	 
     	 System.out.println("------------------- HealthAdapterMIController deleteResource id="  + id  );
-    	 healthService.delete_patient(id);
-    	 return "delete Done" + id; 
+    	 String res = healthService.delete_patient(id);
+    	 return res; 
      }
 
      @PostMapping( HealthService.selectHealthCenterUri  ) 

@@ -270,13 +270,13 @@ che e' stato prepearato con l'intento di interagire con server che ricevono/tras
 Il componente <a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthService.java" target="code"><ks><m>HealthService.java</ks></m></a>  
 definisce i servizi resi disponibili attraverso le API REST che esso definisce mediante un insieme di costanti:
 <pre>
-	public static enum HealthCenterType{ FHIR, HL7, OTHER};
-	
-	public static final String createPatientUri      ="<ks>/createPatient</ks>";
-	public static final String searchPatientUri      ="<ks>/searchPatient</ks>";
-	public static final String readResourceUri       ="<ks>/readResource</ks>";
-	public static final String deleteResourceUri     ="<ks>/deleteResource</ks>";
-	public static final String selectHealthCenterUri ="<ks>/selectHealthCenter</ks>";
+public static enum HealthCenterType{ FHIR, HL7, OTHER};
+<kc>WARNING: these URI are used in <k>templates\indexHealthAdapterFacade.html</k></kc>	
+public static final String createPatientUri      ="<ks>/createPatient</ks>";	//<kc>/patientname</kc>
+public static final String searchPatientUri      ="<ks>/searchPatient</ks>";	//<kc>/patientname</kc>
+public static final String readResourceUri       ="<ks>/readResource</ks>";	//<kc>/patientid</kc>
+public static final String deleteResourceUri     ="<ks>/deleteResource</ks>";	//<kc>/patientid</kc>
+public static final String selectHealthCenterUri ="<ks>/selectHealthCenter</ks>";	<m>//<kc>/{argchoice:FHIR, argserveraddr:https://hapi.fhir.org/baseR4}</kc></m>
 </pre>
 
 Le informazioni da trasmettere/ricevere a centri FHIR sono per ora limitate a un sottoinsieme di valori relativi a 
@@ -339,7 +339,11 @@ http://localhost:8081/actuator/env
 
 <h4>Using with curl</h4>
 <pre>
-curl http://localhost:8081/readResource/1432878 -i -X GET
+<em>Create</em>:	curl -d "param1=ElenaBologna" -H "Content-Type: application/x-www-form-urlencoded"  -X POST http://localhost:8081/createPatient
+curl -d "param1=ElenaBologna"   -X POST http://localhost:8081/createPatient
+<em>Read</em>:		curl http://localhost:8081/readResource/1432878 -i -X GET
+<em>Search</em>:	curl http://localhost:8081/searchPatient/1432878 -i -X GET
+<em>Delete</em>: 
 </pre>
 
 <h3 id="uso">Esempi di uso della applicazione da programmi (Java)</h3>
@@ -358,8 +362,11 @@ utilizza il servizio fornito da
 
 </li>
 <hr/>
-<li><a href="../src/main/java/it/unibo/HealthAdapter/Clients/HealthHttpClient.java" target="code">HealthHttpClient.java</a>:
-che realizza una convenzionale interazione HTTP basandosi su  <tt>java.net.HttpURLConnection</tt> a su <tt>org.json</tt> 
+<li><a href="../src/main/java/it/unibo/HealthAdapter/Clients/HttpClientHealthAdapter.java" target="code">HttpClientHealthAdapter.java</a>:
+che realizza una convenzionale interazione HTTP con HealthProduct basandosi su  <tt>java.net.HttpURLConnection</tt> a su <tt>org.json</tt> 
+</li>
+<li><a href="../src/main/java/it/unibo/HealthAdapter/Clients/HttpClientFhirServer.java" target="code">HttpClientFhirServer.java</a>:
+che realizza una convenzionale interazione HTTP con FHIR server basandosi su  <tt>java.net.HttpURLConnection</tt> a su <tt>org.json</tt> 
 </li>
 <li><a href="../src/main/java/it/unibo/HealthAdapter/Clients/HealthWebClient.java" target="code">HealthWebClient.java</a>:
 basato sul WebClient reattivo <tt>org.springframework.web.reactive.function.client.WebClient</tt> fornito da Spring

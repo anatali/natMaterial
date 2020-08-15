@@ -13,7 +13,8 @@ import org.json.*;
 
  
  
-public class HealthHttpClient {
+public class HttpClientFhirServer {
+	private String serverBase="https://hapi.fhir.org/baseR4"; 
 
 	//From https://www.baeldung.com/java-http-request
 	public String get(String uri) throws Exception {
@@ -59,7 +60,20 @@ public class HealthHttpClient {
 		System.out.println(prettyJson);
 	}
 	public static void main(String[] args) throws Exception {
-		HealthHttpClient appl = new HealthHttpClient();
+		HttpClientFhirServer appl = new HttpClientFhirServer();
+		System.out.println(" %%% CREATE ------------------------------");
+// 		Long id = appl.createPatient();		
+		System.out.println(" %%% READ  ------------------------------ ");
+//		appl.readPatient( id );
+		//appl.readPatient(1433281L);
+		System.out.println(" %%% SEARCH ----------------------------- ");
+//		appl.search(Patient.class, "ElenaBologna");
+ 		System.out.println(" %%% DELETE ----------------------------- ");
+//   		appl.deletePatient("Patient", id.toString() );
+		System.out.println(" %%% SEARCH ----------------------------- ");
+		
+		
+		
 //		appl.callFhirServer();
 		appl.callHealthAdapter();
 	}

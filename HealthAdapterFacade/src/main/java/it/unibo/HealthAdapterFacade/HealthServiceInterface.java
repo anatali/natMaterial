@@ -11,6 +11,6 @@ public interface HealthServiceInterface {
 	public Long createPatientFromFile(String fileName );
 	public Long create_patient(String familyName,String name);
 	public String search_for_patients_named(String name, boolean usejson);
-	public void delete_patient(String id);
+	public String delete_patient(String id);
 	public String read_a_resource(Long id);
 }

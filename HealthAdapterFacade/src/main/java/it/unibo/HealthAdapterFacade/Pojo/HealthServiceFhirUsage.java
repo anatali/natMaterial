@@ -1,22 +1,23 @@
 package it.unibo.HealthAdapterFacade.Pojo;
 /*
  * ------------------------------------------------------------------------
- * Utilizza un oggetto di tipo HealthServiceFhir
+ * Utilizza  HealthServiceFhir per interagire con CentroHealthFHIR
  * ------------------------------------------------------------------------
  */
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
-import org.apache.commons.io.IOUtils;
+ 
 import org.hl7.fhir.r4.model.Patient;
-import org.json.JSONObject;
 
-import ca.uhn.fhir.context.FhirContext;
-import ca.uhn.fhir.parser.IParser;
-import it.unibo.HealthAdapterFacade.HealthService;
 import it.unibo.HealthAdapterFacade.HealthServiceFhir;
 import it.unibo.HealthAdapterFacade.HealthServiceInterface;
+/*
+  	public Long create_patient( Patient newPatient );
+	public Long createPatientFromFile(String fileName );
+	public Long create_patient(String familyName,String name);
+	public String search_for_patients_named(String name, boolean usejson);
+	public void delete_patient(String id);
+	public String read_a_resource(Long id);
  
+ */
 
 public class HealthServiceFhirUsage {
  	
@@ -26,22 +27,51 @@ public class HealthServiceFhirUsage {
  	public HealthServiceFhirUsage() {
  		healthService = new HealthServiceFhir( serverBase ) ;	
   	}
-	public void createPatientFromFile( String fname ) {
+	public Long createPatientFromFile( String fname ) {
 		Long id = healthService.createPatientFromFile( fname );
 		System.out.println("createPatientFromFile id= " + id);
-		healthService.read_a_resource(  id);
+		return id;
+ 	}
+	public void readPatient(Long id)   {
+ 		String resjson  = healthService.read_a_resource(id);
+ 		System.out.println("readPatient " + resjson);
  	}
 	public void search(Long id) {
 		
 	}
-	public void search(String patientName) {
-		String answer = healthService.search_for_patients_named(patientName, true); //true=> usejson
-		System.out.println("FOUND for " + patientName);
-		System.out.println( answer );		
+	
+ 	public void searchPatient(String patientName) {
+		String answerjson = healthService.search_for_patients_named(patientName, true); //true=> usejson
+		System.out.println("searchPatient " + patientName);
+		System.out.println( answerjson );		
 	}
+ 	
+ 	public void delete_patient(String id) {
+ 		String res = healthService.delete_patient(id);
+		System.out.println("----------------- deletePatient result:" + res );
+ 	}
+	/*
+	 * Create, Read, Search, Delete	
+	 */	
 	public static void main( String[] args) {
 		HealthServiceFhirUsage appl = new HealthServiceFhirUsage();
-		//appl.search("ElenaBologna");
-		appl.createPatientFromFile( "src/main/java/it/unibo/HealthResource/PatientExample0json.txt" ) ;
-	}
+		
+		/* 		
+		System.out.println(" %%% CREATE ------------------------------");
+		String resourceFileName = "src/main/java/it/unibo/HealthResource/PatientExample0json.txt";
+ 		Long id = appl.createPatientFromFile( resourceFileName ) ;
+		
+		System.out.println(" %%% READ  ------------------------------ ");
+		appl.readPatient(id);
+//		appl.readPatient(1433281L);
+
+		System.out.println(" %%% SEARCH ----------------------------- ");
+		appl.searchPatient("PeterUniboBologna");
+		
+ 		System.out.println(" %%% DELETE ----------------------------- ");	
+ 		appl.delete_patient(  id.toString() );
+*/ 		
+ 		System.out.println(" %%% SEARCH ----------------------------- ");	
+		appl.searchPatient("PeterUniboBologna");
+ 	}
 }

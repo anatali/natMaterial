@@ -3,6 +3,7 @@ package it.unibo.HealthAdapterFacade;
  * ------------------------------------------------------------------------
  * Provides a set of operations defined by the HealthServiceInterface  
  * by using an instance of FhirServiceClient
+ * It is used by HealthService when the user selects FHIR
  * ------------------------------------------------------------------------
  */
 import org.hl7.fhir.instance.model.api.IBaseOperationOutcome;
@@ -56,23 +57,24 @@ public class HealthServiceFhir implements HealthServiceInterface {
 	
 	
 	@Override
-	public void delete_patient(String id) {
+	public String delete_patient(String id) {
 		System.out.println("delete_patient id=" + id);
 		IBaseOperationOutcome outcome = fhirclient.delete("Patient", id);
 		if (outcome != null) {
-			System.out.println("delete_patient outcome=" + ((OperationOutcome) outcome).getIssueFirstRep().getDetails() );
+			return "delete_patient outcome=" + ((OperationOutcome) outcome).getIssueFirstRep().getDetails() ;
 		}else { 
-			System.out.println("delete_patient outcome is null" );
+			return "delete_patient outcome is null" ;
 		}
  	}
 	
 	/*
-	 * curl http://localhost:8081/readResource/1432878 -i -X GET
+	 * curl http://localhost:8081/readResource/1435819 -i -X GET
 	 */
 	public String read_a_resource( Long id ) { 
 		Patient patient = fhirclient.readPatient(Patient.class, id);
-		if( patient == null ) {
-			return "<resource><text>Resource " + id + "</text><text>resource not found</text></resource>";
+		if( patient == null ) {			
+			//return "<resource><text>Resource " + id + "</text><text>resource not found</text></resource>";
+			return "{\"resourceType\":  \"Patient\", \"read\": \""+id+" NOT FOUND\"}";
 		} 			
 		System.out.println( "HealthService patient name="+patient.getName().toString() ); 			
 		String res = fhirclient.cvt(patient, useJson);

@@ -38,9 +38,9 @@ public class HealthServiceHL7 implements HealthServiceInterface{
 	}
 
 	@Override
-	public void delete_patient(String id) {
+	public String delete_patient(String id) {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 	@Override

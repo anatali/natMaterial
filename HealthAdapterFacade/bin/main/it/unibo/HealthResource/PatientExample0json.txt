@@ -32,7 +32,7 @@
       "use": "official",
       "family": "Chalmers",
       "given": [
-        "Peter",
+        "PeterUniboBologna",
         "James"
       ]
     },

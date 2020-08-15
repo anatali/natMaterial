@@ -1,7 +1,7 @@
 package it.unibo.HealthAdapterFacade.Pojo;
 /*
  * ------------------------------------------------------------------------
- * Utilizza un oggetto di tipo FhirServiceClient
+ * Utilizza FhirServiceClient per interagire con CentroHealthFHIR
  * ------------------------------------------------------------------------
  */
  
@@ -66,17 +66,20 @@ public class FhirServiceClientUsage {
 		}		
 	}
 	
-	
+/*
+ * Create, Read, Search, Delete	
+ */
 	public static void main(String[] args) throws Exception {
 		FhirServiceClientUsage appl = new FhirServiceClientUsage();
-//		System.out.println(" %%% CREATE ------------------------------");
-// 		Long id = appl.createPatient();		
+		System.out.println(" %%% CREATE ------------------------------");
+ 		Long id = appl.createPatient();		
 		System.out.println(" %%% READ  ------------------------------ ");
-		appl.readPatient(1433281L);
-//		System.out.println(" %%% SEARCH ----------------------------- ");
-//		appl.search(Patient.class, "ElenaBologna");
+		appl.readPatient( id );
+		//appl.readPatient(1433281L);
+		System.out.println(" %%% SEARCH ----------------------------- ");
+		appl.search(Patient.class, "ElenaBologna");
  		System.out.println(" %%% DELETE ----------------------------- ");
-   		appl.deletePatient("Patient","1433281");
+   		appl.deletePatient("Patient", id.toString() );
 		System.out.println(" %%% SEARCH ----------------------------- ");
 		appl.search(Patient.class, "ElenaBologna");
  	}
