@@ -39,13 +39,13 @@ public class HealthServiceFhir implements HealthServiceInterface {
 	@Override
 	public Long create_patient(String familyName, String name) {
 		try {
-		Patient newPatient = patientresource.createFhirPatient(familyName,name);
-		System.out.println("create_patient: " +  newPatient ); //newPatient.getBirthDateElement()
-		return create_patient(newPatient );		
-	} catch ( Exception e) {	//ResourceNotFoundException
-		System.out.println("create_patient ERROR " + e.getMessage() );
-		return 0L;
-	}
+			Patient newPatient = patientresource.createFhirPatient(familyName,name);
+			System.out.println("create_patient: " +  newPatient ); //newPatient.getBirthDateElement()
+			return create_patient(newPatient );		
+		} catch ( Exception e) {	//ResourceNotFoundException
+			System.out.println("create_patient ERROR " + e.getMessage() );
+			return 0L;
+		}
 	}
 	
 	@Override
@@ -58,13 +58,14 @@ public class HealthServiceFhir implements HealthServiceInterface {
 	
 	@Override
 	public String delete_patient(String id) {
-		System.out.println("delete_patient id=" + id);
-		IBaseOperationOutcome outcome = fhirclient.delete("Patient", id);
-		if (outcome != null) {
-			return "delete_patient outcome=" + ((OperationOutcome) outcome).getIssueFirstRep().getDetails() ;
-		}else { 
-			return "delete_patient outcome is null" ;
-		}
+		System.out.println("HealthServiceFhir delete for_patient id=" + id);
+		String outcome = fhirclient.delete("Patient", id);
+//		if (outcome != null) {
+//			return "delete_patient " + id + " done" ; //" outcome=" + ((OperationOutcome) outcome).getIssueFirstRep().getDetails() ;
+//		}else { 
+//			return "delete_patient " + id + "NOT done" ;
+//		}
+		return outcome;
  	}
 	
 	/*

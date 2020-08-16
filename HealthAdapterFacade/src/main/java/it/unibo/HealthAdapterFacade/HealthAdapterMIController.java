@@ -2,25 +2,27 @@ package it.unibo.HealthAdapterFacade;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.reactivestreams.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
  
 
 
 @RestController 	//annotates all the methods with @ResponseBody that embeds the return value in the body of HTTP answer
+/*
+ * Le risposte di questi metodi vanno ai programmi (come curl o HttpClientHealthAdapter )
+ * che effettuano una m2m interaction.
+ * Il codice Javascript di indexHealthAdapterFacade.html riceve una risposta alla sua invocazione POST
+ * e genera un messaggio di stato per l'utente umano.
+ */
 public class HealthAdapterMIController { 
 	private HealthService healthServiceBuilder;
  	private HealthServiceInterface healthService;
@@ -66,17 +68,6 @@ public class HealthAdapterMIController {
  			return error; 
 		}
      }
-    
-//     @GetMapping(path="/searchevent", produces=MediaType.TEXT_EVENT_STREAM_VALUE)	 
-//     public Flux<String> searchevent(  ) { //
-//   	    System.out.println("------------------- HealthAdapterHIController searchPatient "    );
-//    	    //healthService.read_a_resource("987654321");
-//   	    String res = healthService.search_for_patients_named("AliceBologna");
-//   	    String s   = healthService.prettyFormat(res,2); 
-//   	    //System.out.println( s );
-//   	    //model.addAttribute("outField", s );
-//           return Flux.create(sink -> {	sink.next( s  );   }  );     //sink.complete(); 
-//     } 
 
      @GetMapping( HealthService.searchPatientUri+"/{name}" )	 
      public String searchpatient( @PathVariable(value = "name") String patientName ) { //

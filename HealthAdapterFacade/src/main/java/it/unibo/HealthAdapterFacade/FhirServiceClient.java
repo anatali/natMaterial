@@ -149,19 +149,19 @@ public class FhirServiceClient {
 	}
 	}
 	
-	public IBaseOperationOutcome delete(String className, String id) {
- 	try { 
+	public String delete(String className, String id) {
+// 	try { 
 		MethodOutcome response = client
 		   .delete()
 		   .resourceById(new IdType(className, id))
 		   .execute();
-		OperationOutcome outcome = (OperationOutcome) response.getOperationOutcome();
-		System.out.println("FhirServiceClient delete  outcome " + outcome);
-		return response.getOperationOutcome();
-	} catch ( Exception e) {	//ResourceNotFoundException
-		System.out.println("FhirServiceClient delete  ERROR " + e.getMessage());
-		return null;
-	}
+//		OperationOutcome outcome = (OperationOutcome) response.getOperationOutcome();	
+		//See https://www.hl7.org/fhir/operationoutcome.html
+		return "FhirServiceClient delete terminated " + response;
+		//return response.getOperationOutcome();
+//	} catch ( Exception e) {	//ResourceNotFoundException
+//		return "FhirServiceClient delete  ERROR " + e.getMessage() ;		
+//	}
 	}
  	
 /*

@@ -5,14 +5,10 @@ package it.unibo.HealthAdapter.Clients;
  * by using the org.springframework.web.reactive.function.client.WebClient
  * ------------------------------------------------------------------------
  */
- 
- 
 public class HttpClientHealthAdapter {
  	private String serverBase 			= "http://localhost:8081"; 
  
  	public Long createPatient( String  name ) {
-//		String pjson = HttpFhirSupport.readPatientFromFileJson( fname );
-//		HttpFhirSupport.getPatientId(pjson);
 		String res = HttpFhirSupport.post( serverBase+"/createPatient", name, "plain/text; utf-8" );
  		System.out.println( "createPatient post res=" + res  );
 		return Long.parseLong( res );
@@ -49,7 +45,9 @@ public class HttpClientHealthAdapter {
 		System.out.println(" %%% SEARCH ----------------------------- ");
   		appl.searchPatient( "ElenaBologna" ); 
  		System.out.println(" %%% DELETE ----------------------------- ");
-  		appl.delete_patient( id.toString() );
-		System.out.println(" %%% SEARCH ----------------------------- ");
+   		appl.delete_patient( id.toString() );
+// 		appl.delete_patient( "1435899" );
+ 		System.out.println(" %%% SEARCH ----------------------------- ");
+   		appl.searchPatient( "ElenaBologna" ); 
  	}
 }

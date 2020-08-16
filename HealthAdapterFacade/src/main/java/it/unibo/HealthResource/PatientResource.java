@@ -63,16 +63,17 @@ public final static FhirContext fhirctx = FhirContext.forR4();
  */
 	private void setCurrentValues( String familyNameArg, String giventNameArg ) {
 		
-		familyName = familyNameArg == null ? familyNameDefault : familyNameArg;
-		giventName = giventNameArg == null ? givenNameDefault : familyNameArg;
+		familyName       = familyNameArg == null ? familyNameDefault : familyNameArg;
+		giventName       = giventNameArg == null ? givenNameDefault  : giventNameArg;
 		businessIdSystem =  givenNameDefault  ;
 		businessIdValue  =  businessIdValueDefault;
 	}
 	
 
 	public Patient createFhirPatient(String familyNameArg,String giventNameArg) {
-		
+		System.out.println("PatientResource createFhirPatient familyNameArg"+ familyNameArg + " giventNameArg=" + giventNameArg );
 		setCurrentValues( familyNameArg,  giventNameArg );
+		System.out.println("PatientResource createFhirPatient familyName"+ familyName + " giventName=" + giventName );
 		
 		Patient newPatient = new Patient();
 		newPatient

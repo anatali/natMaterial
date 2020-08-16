@@ -90,6 +90,7 @@
     	//console.log("sendDelete "+ message);
     	$("i.infoArea").text(  "deleting ..." );	
         fetch("/deleteResource", {method: "POST", body: message}).then(function (response) {
+        	//console.log( response );	//Response {type: "basic", url: "http://localhost:8081/deleteResource", redirected: false, status: 200, ok: true, …}
         	if (response.ok) {
 	            //userNameInput.value = "";
 	            userNameInput.focus();

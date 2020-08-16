@@ -337,11 +337,16 @@ http://localhost:8081/actuator/env
 </li>
 </ol>
 
-<h4>Using FHIR server with curl (tested ok)</h4>
+<h4>Using FHIR server with curl</h4>
+One publishes, one consumes. Your application publishes data to a consumer. 
+So you have a client (curl) that wants to consume data.
+To consume it, curl subscribes to a webflux stream and webflux delivers either one or many objects. 
+If its one object it delivers a Mono&lt;T> if it's many it delivers a Flux&lt;T>.
+<br/><br/>
 Inspired by <a href="https://cloud.google.com/healthcare/docs/how-tos/fhir-search" target="code">Cloud Healthcare API documentation</a>
 <pre>
 <em>Create</em>: <m>curl -d "@data.txt" -H "Content-Type: application/fhir+json; charset=utf-8" -X POST https://hapi.fhir.org/baseR4/Patient</m>
-<em>Read</em>:	 curl https://hapi.fhir.org/baseR4/Patient/1435884 -i -X GET 
+<em>Read</em>:	 curl https://hapi.fhir.org/baseR4/Patient/1435901 -i -X GET 
 <em>Search</em>: curl http://hapi.fhir.org/baseR4/Patient?family:exact=Smith -i -X GET
 <em>Delete</em>: curl http://hapi.fhir.org/baseR4/Patient/1435884 -i -X DELETE
  
@@ -349,13 +354,11 @@ Inspired by <a href="https://cloud.google.com/healthcare/docs/how-tos/fhir-searc
 
 <h4>Using HealthAdapterFacade with curl</h4>
 <pre>
-<em>Create</em>:	curl -d "param1=ElenaBologna" -H "Content-Type: application/x-www-form-urlencoded"  -X POST http://localhost:8081/createPatient
-curl -d "param1=ElenaBologna"   -X POST http://localhost:8081/createPatient
-
-
-<em>Read</em>:		curl http://localhost:8081/readResource/1432878 -i -X GET
-<em>Search</em>:	curl http://localhost:8081/searchPatient/1432878 -i -X GET
-<em>Delete</em>: 
+<em>Create</em>:	curl -d "ElenaBologna" -H "Content-Type: plain/text" -X POST http://localhost:8081/createPatient
+<m>Without -H: HealthAdapterMIController ERROR In a WebFlux application, form data is accessed via ServerWebExchange.getFormData().</m>
+<em>Read</em>:	curl http://localhost:8081/readResource/1435901 -i -X GET
+<em>Search</em>:	curl http://localhost:8081/searchPatient?family:exact=unibo -i -X GET
+<em>Delete</em>:	curl -d "1435901" -H "Content-Type: plain/text" http://localhost:8081/deleteResource -X POST 
 
 curl -d "@data.txt" -H "Authorization: Bearer $(gcloud auth application-default print-access-token)" -X POST https://healthcare.googleapis.com/v1/projects/PROJECT_ID/locations/LOCATION/datasets/DATASET_ID/fhirStores/FHIR_STORE_ID/fhir/Patient
 
