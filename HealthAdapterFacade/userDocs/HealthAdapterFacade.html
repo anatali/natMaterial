@@ -337,13 +337,46 @@ http://localhost:8081/actuator/env
 </li>
 </ol>
 
-<h4>Using with curl</h4>
+<h4>Using FHIR server with curl (tested ok)</h4>
+Inspired by <a href="https://cloud.google.com/healthcare/docs/how-tos/fhir-search" target="code">Cloud Healthcare API documentation</a>
+<pre>
+<em>Create</em>: <m>curl -d "@data.txt" -H "Content-Type: application/fhir+json; charset=utf-8" -X POST https://hapi.fhir.org/baseR4/Patient</m>
+<em>Read</em>:	 curl https://hapi.fhir.org/baseR4/Patient/1435884 -i -X GET 
+<em>Search</em>: curl http://hapi.fhir.org/baseR4/Patient?family:exact=Smith -i -X GET
+<em>Delete</em>: curl http://hapi.fhir.org/baseR4/Patient/1435884 -i -X DELETE
+ 
+</pre>
+
+<h4>Using HealthAdapterFacade with curl</h4>
 <pre>
 <em>Create</em>:	curl -d "param1=ElenaBologna" -H "Content-Type: application/x-www-form-urlencoded"  -X POST http://localhost:8081/createPatient
 curl -d "param1=ElenaBologna"   -X POST http://localhost:8081/createPatient
+
+
 <em>Read</em>:		curl http://localhost:8081/readResource/1432878 -i -X GET
 <em>Search</em>:	curl http://localhost:8081/searchPatient/1432878 -i -X GET
 <em>Delete</em>: 
+
+curl -d "@data.txt" -H "Authorization: Bearer $(gcloud auth application-default print-access-token)" -X POST https://healthcare.googleapis.com/v1/projects/PROJECT_ID/locations/LOCATION/datasets/DATASET_ID/fhirStores/FHIR_STORE_ID/fhir/Patient
+
+curl -X POST \
+    -H "Authorization: Bearer $(gcloud auth application-default print-access-token)" \
+    -H "Content-Type: application/fhir+json; charset=utf-8" \
+    --data "{
+      \"name\": [
+        {
+          \"use\": \"official\",
+          \"family\": \"Smith\",
+          \"given\": [
+            \"Darcy\"
+          ]
+        }
+      ],
+      \"gender\": \"female\",
+      \"birthDate\": \"1970-01-01\",
+      \"resourceType\": \"Patient\"
+    }" \
+    "https://healthcare.googleapis.com/v1/projects/PROJECT_ID/locations/LOCATION/datasets/DATASET_ID/fhirStores/FHIR_STORE_ID/fhir/Patient"
 </pre>
 
 <h3 id="uso">Esempi di uso della applicazione da programmi (Java)</h3>

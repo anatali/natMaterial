@@ -16,7 +16,7 @@
   } ],
   "name": [ {
     "family": "Unibo",
-    "given": [ "ElenaBologna", "ToUnderstand" ]
+    "given": [ "ElenaBologna", "Maria" ]
   } ],
   "telecom": [ {
     "value": "Contact Unibo"
