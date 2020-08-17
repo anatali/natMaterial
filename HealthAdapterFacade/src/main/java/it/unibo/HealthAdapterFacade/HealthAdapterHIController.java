@@ -32,6 +32,12 @@ public class HealthAdapterHIController {
        return Mono.just("indexHealthAdapterFacade"  );
   } 
   
+  @GetMapping("/react")
+  public Publisher<String> entryreact(Model model) {
+        return Mono.just("indexReact"  );
+  } 
+  
+  
 //  @GetMapping("/select/**")	//HTTP GET "/select?healthcenter=FHIR"
 //  //public Publisher<String> select(Model model, HttpClientRequest request ) { //, @PathVariable(value = "hct") String healthcenter
 //  public Publisher<String> select(Model model, @PathVariable(value = "?healthcenter=FHIR") String healthcenter ) { //

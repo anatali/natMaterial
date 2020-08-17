@@ -1,9 +1,6 @@
 package it.unibo.HealthResource;
 import java.io.FileInputStream;
  
-
-
- 
 /*
  * ------------------------------------------------------------------------
  * Support class to handle data of the FHIR resource Patient
@@ -128,8 +125,7 @@ public final static FhirContext fhirctx = FhirContext.forR4();
 		} catch ( Exception e) {
  			e.printStackTrace();
  			return null;
-		}
-		
+		}		
 	}
 
 }

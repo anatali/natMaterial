@@ -33,8 +33,8 @@ public class FhirServiceClientUsage {
 	}
 	
 	public void deletePatient( String resourceClassName, String id )  {
-		IBaseOperationOutcome outcome = client.delete(resourceClassName, id);  //does nothing if does not exists??
-		System.out.println("----------------- deletePatient outcome " + outcome.getFormatCommentsPost().size());
+		String outcome = client.delete(resourceClassName, id);  //does nothing if does not exists??
+		System.out.println("----------------- deletePatient   " + outcome );
 	}
 	
 	public void readPatient(Long id) throws Exception {

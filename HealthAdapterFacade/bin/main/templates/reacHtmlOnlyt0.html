@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<!--
+three scripts, the first two let us write React code in our JavaScripts,
+and the third, Babel, allows us to write JSX syntax and ES6 in older browsers.
+-->
+<script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+<body>
+
+<div id="root"></div>
+
+<script type="text/babel">
+class Hello extends React.Component {
+  render() {
+    return <div><h2>Hello from file with scripts</h2>
+    from component class <b style={{color: "red"}}>Hello</b> as jsx <br/>
+    in <tt>C:/Progetti/myreactappl/myfirstreact/src/reacHtmlOnlyt0.html</tt>
+    </div>
+   }
+}
+
+ReactDOM.render( <Hello />, document.getElementById('root') )
+//ReactDOM.render(<h2>Hello world inline</h2>, document.getElementById('root'));
+</script>
+
+</body>
+</html>

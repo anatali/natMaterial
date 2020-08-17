@@ -357,8 +357,8 @@ Inspired by <a href="https://cloud.google.com/healthcare/docs/how-tos/fhir-searc
 <em>Create</em>:	curl -d "ElenaBologna" -H "Content-Type: plain/text" -X POST http://localhost:8081/createPatient
 <m>Without -H: HealthAdapterMIController ERROR In a WebFlux application, form data is accessed via ServerWebExchange.getFormData().</m>
 <em>Read</em>:	curl http://localhost:8081/readResource/1435901 -i -X GET
-<em>Search</em>:	curl http://localhost:8081/searchPatient?family:exact=unibo -i -X GET
-<em>Delete</em>:	curl -d "1435901" -H "Content-Type: plain/text" http://localhost:8081/deleteResource -X POST 
+<em>Search</em>:	curl http://localhost:8081/searchPatient/ElenaBologna -i -X GET
+<em>Delete</em>:	curl -d "1435899" -H "Content-Type: plain/text" http://localhost:8081/deleteResource -X POST 
 
 curl -d "@data.txt" -H "Authorization: Bearer $(gcloud auth application-default print-access-token)" -X POST https://healthcare.googleapis.com/v1/projects/PROJECT_ID/locations/LOCATION/datasets/DATASET_ID/fhirStores/FHIR_STORE_ID/fhir/Patient
 
@@ -410,6 +410,31 @@ basato sul WebClient reattivo <tt>org.springframework.web.reactive.function.clie
 
  
 </ul>
+<br/> <br/> 
+<a href="http://www.healthintersections.com.au/FhirServer/" target="web">FHIR Tools Release Page:</a> <br/>
+<a href="https://wiki.hl7.org/index.php?title=FHIR_Notepad%2B%2B_Plugin_Documentation" target="web">FHIR Notepad++ Plugin Documentation</a> 
+Plugins > FHIR > View Toolbox<br/>
+<a href="https://confluence.hl7.org/" target="web">Confluence Pages of HL7</a>
+<br/> <br/> 
+<a href="https://smarthealthit.org/" target="web">SMART Health IT</a><br/>
+https://community.notepad-plus-plus.org/topic/17601/plugins-not-installing/8<br/>
+https://github.com/smart-on-fhir/fred.git<br/>
+
+<h2>React</h2>
+From <a href="https://www.w3schools.com/react/react_getstarted.asp/" target="web">w3schools.com React Getting Started</a> ,
+<a href="https://www.w3schools.com/react/" target="web">w3schools.com React Tutorial</a> 
+
+
+
+<pre>
+npm install -g create-react-app
+npx create-react-app myfirstreact
+cd myfirstreact
+npm start
+localhost:3000
+</pre>
+
+ 
 <br/> <br/> 
  
  
