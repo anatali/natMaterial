@@ -359,27 +359,9 @@ Inspired by <a href="https://cloud.google.com/healthcare/docs/how-tos/fhir-searc
 <em>Read</em>:	curl http://localhost:8081/readResource/1435901 -i -X GET
 <em>Search</em>:	curl http://localhost:8081/searchPatient/ElenaBologna -i -X GET
 <em>Delete</em>:	curl -d "1435899" -H "Content-Type: plain/text" http://localhost:8081/deleteResource -X POST 
-
+<!--
 curl -d "@data.txt" -H "Authorization: Bearer $(gcloud auth application-default print-access-token)" -X POST https://healthcare.googleapis.com/v1/projects/PROJECT_ID/locations/LOCATION/datasets/DATASET_ID/fhirStores/FHIR_STORE_ID/fhir/Patient
-
-curl -X POST \
-    -H "Authorization: Bearer $(gcloud auth application-default print-access-token)" \
-    -H "Content-Type: application/fhir+json; charset=utf-8" \
-    --data "{
-      \"name\": [
-        {
-          \"use\": \"official\",
-          \"family\": \"Smith\",
-          \"given\": [
-            \"Darcy\"
-          ]
-        }
-      ],
-      \"gender\": \"female\",
-      \"birthDate\": \"1970-01-01\",
-      \"resourceType\": \"Patient\"
-    }" \
-    "https://healthcare.googleapis.com/v1/projects/PROJECT_ID/locations/LOCATION/datasets/DATASET_ID/fhirStores/FHIR_STORE_ID/fhir/Patient"
+-->
 </pre>
 
 <h3 id="uso">Esempi di uso della applicazione da programmi (Java)</h3>
@@ -410,6 +392,9 @@ basato sul WebClient reattivo <tt>org.springframework.web.reactive.function.clie
 
  
 </ul>
+<!--
+
+APPUNTI
 <br/> <br/> 
 <a href="http://www.healthintersections.com.au/FhirServer/" target="web">FHIR Tools Release Page:</a> <br/>
 <a href="https://wiki.hl7.org/index.php?title=FHIR_Notepad%2B%2B_Plugin_Documentation" target="web">FHIR Notepad++ Plugin Documentation</a> 
@@ -419,11 +404,12 @@ Plugins > FHIR > View Toolbox<br/>
 <a href="https://smarthealthit.org/" target="web">SMART Health IT</a><br/>
 https://community.notepad-plus-plus.org/topic/17601/plugins-not-installing/8<br/>
 https://github.com/smart-on-fhir/fred.git<br/>
+-->
 
 <h2>React</h2>
 From <a href="https://www.w3schools.com/react/react_getstarted.asp/" target="web">w3schools.com React Getting Started</a> ,
 <a href="https://www.w3schools.com/react/" target="web">w3schools.com React Tutorial</a> 
-
+<br/><br/>
 Questa applicazione permette di costruire le pagine lato server e di aggiornarle in modo automatico quando cambiano.
 <pre>
 npm install -g create-react-app
@@ -432,48 +418,9 @@ cd myfirstreact
 npm start
 localhost:3000
 </pre>
-
- 
-<br/> <br/> 
- 
- 
-<!-- 
-
- 
+  
 
 
-
-
-
-
-<h2>...</h2>
- <br/><br/>
-
-<table style="width:98%">
-<tbody>	
-<tr>
-<td style="width:50%" >
-<h3>...</h3>
-<pre>
- </pre>
-</td>
-<td>
- <h3>Usage</h3>
- <div class="remark">
-<center>
-..</center>
-</div> 
-</td>
-</tr>
- </tbody>
-</table>
- <br/><br/>
- 
- 
- 
--->  
-
- <br/><br/>
 <table style="width:98%">
 <tbody>	
 <tr>
@@ -487,7 +434,7 @@ localhost:3000
  <br/><br/>
 </div>  
 
- 
+  <br/><br/>
 
 <div style="background-color:rgba(86, 56, 253, 0.9); width:100%;text-align:center;font-size:small;color:white">
 By AN Unibo-DISI  
