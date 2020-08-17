@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html>
-<!--
-three scripts, the first two let us write React code in our JavaScripts,
-and the third, Babel, allows us to write JSX syntax and ES6 in older browsers.
--->
-<script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
-<script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
-<script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+<head>
+	<link href="/disi.css" rel="stylesheet">
+	<!--
+	three scripts, the first two let us write React code in our JavaScripts,
+	and the third, Babel, allows us to write JSX syntax and ES6 in older browsers.
+	-->
+	<script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+	<script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+	<script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
 <body>
 
 <div id="root"></div>
@@ -14,9 +17,18 @@ and the third, Babel, allows us to write JSX syntax and ES6 in older browsers.
 <script type="text/babel">
 class Hello extends React.Component {
   render() {
-    return <div><h2>Hello from file with scripts</h2>
-    from component class <b style={{color: "red"}}>Hello</b> as jsx <br/>
-    in <tt>C:/Progetti/myreactappl/myfirstreact/src/reacHtmlOnlyt0.html</tt>
+    return <div>
+    <h2>Hello react page with scripts</h2>
+    Questa pagina e' costruita usando react a partire da un  componente di classe <b style={{color: "red"}}>Hello</b>.
+
+    <pre> class Hello extends React.Component </pre>
+ 
+    ed usando una notazione <em>JSX</em> (JavaScript XML).<br/> <br/>
+    Un file identico si trova in <tt>C:/Progetti/myreactappl/myfirstreact/src/</tt>. <br/>
+    
+    Qui si trova un progetto
+    che fornisce un generatore di pagina lato server come descritto in:<br/>
+    <a href="https://www.w3schools.com/react/" target="web">www.w3schools.com/react</a>
     </div>
    }
 }

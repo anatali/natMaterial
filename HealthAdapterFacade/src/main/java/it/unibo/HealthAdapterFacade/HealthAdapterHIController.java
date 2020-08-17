@@ -34,7 +34,7 @@ public class HealthAdapterHIController {
   
   @GetMapping("/react")
   public Publisher<String> entryreact(Model model) {
-        return Mono.just("indexReact"  );
+        return Mono.just("reacHtmlOnlyt0"  );
   } 
   
   
