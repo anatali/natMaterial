@@ -16,8 +16,11 @@ package it.unibo.HealthAdapterFacade;
  */
 import org.hl7.fhir.r4.model.Patient;
 
-public class HealthServiceHL7 implements HealthServiceInterface{
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
+public class HealthServiceHL7 implements HealthServiceInterface{
+ 
 	public HealthServiceHL7(String serverBase) {
 		//fhirclient = new FhirServiceClient(serverBase,true);	//true => UseJson
 	}
@@ -52,12 +55,27 @@ public class HealthServiceHL7 implements HealthServiceInterface{
 		return null;
 	}
 
+//	@Override
+//	public String read_a_resource(Long id) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+	
+/*
+* =============================================================================
+* ASYNCH	PART
+* =============================================================================
+*/
 	@Override
-	public String read_a_resource(Long id) {
+	public Flux<String> readPatientAsynch(Long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
+	public Mono<String> createPatientAsynch(String jsonStr) {
+ 		return null;
+	}
 
 
 }

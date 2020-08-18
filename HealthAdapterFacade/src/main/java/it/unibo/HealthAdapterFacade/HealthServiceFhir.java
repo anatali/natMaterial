@@ -6,11 +6,12 @@ package it.unibo.HealthAdapterFacade;
  * It is used by HealthService when the user selects FHIR
  * ------------------------------------------------------------------------
  */
-import org.hl7.fhir.instance.model.api.IBaseOperationOutcome;
+ 
 import org.hl7.fhir.r4.model.Bundle;
-import org.hl7.fhir.r4.model.OperationOutcome;
 import org.hl7.fhir.r4.model.Patient;
 import it.unibo.HealthResource.PatientResource;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 public class HealthServiceFhir implements HealthServiceInterface {
   	
@@ -51,7 +52,7 @@ public class HealthServiceFhir implements HealthServiceInterface {
 	@Override
 	public String search_for_patients_named(String name, boolean usejson) {
 		Bundle results = fhirclient.searchPatient( Patient.class, name );		
- 		String res     = fhirclient.cvt(results, useJson);
+ 		String res     = HealthService.cvt(results, useJson);
 		return res;
 	}
 	
@@ -71,14 +72,33 @@ public class HealthServiceFhir implements HealthServiceInterface {
 	/*
 	 * curl http://localhost:8081/readResource/1435819 -i -X GET
 	 */
-	public String read_a_resource( Long id ) { 
-		Patient patient = fhirclient.readPatient(Patient.class, id);
-		if( patient == null ) {			
-			//return "<resource><text>Resource " + id + "</text><text>resource not found</text></resource>";
-			return "{\"resourceType\":  \"Patient\", \"read\": \""+id+" NOT FOUND\"}";
-		} 			
-		System.out.println( "HealthService patient name="+patient.getName().toString() ); 			
-		String res = fhirclient.cvt(patient, useJson);
-		return res;			
+//	public String read_a_resource( Long id ) { 
+//		Patient patient = fhirclient.readPatient(Patient.class, id);
+//		if( patient == null ) {			
+//			//return "<resource><text>Resource " + id + "</text><text>resource not found</text></resource>";
+//			return "{\"resourceType\":  \"Patient\", \"read\": \""+id+" NOT FOUND\"}";
+//		} 			
+//		System.out.println( "HealthService patient name="+patient.getName().toString() ); 			
+//		String res = fhirclient.cvt(patient, useJson);
+//		return res;			
+//	}
+	
+	
+/*
+ * =============================================================================
+ * ASYNCH	PART
+ * =============================================================================
+ */
+ 	@Override
+	public Flux<String> readPatientAsynch(Long id) {
+ 		Flux<String> result = fhirclient.readPatient(id.toString());
+ 		System.out.println("HealthServiceFhir | readPatientAsynch result= " + result  );
+		return result;
 	}
+
+	@Override
+	public Mono<String> createPatientAsynch(String jsonStr) {
+ 		return null;
+	}
+
 }

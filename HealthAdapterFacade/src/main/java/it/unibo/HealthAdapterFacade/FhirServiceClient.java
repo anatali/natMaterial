@@ -13,20 +13,30 @@ import org.hl7.fhir.r4.model.DomainResource;
 import org.hl7.fhir.r4.model.IdType;
 import org.hl7.fhir.r4.model.OperationOutcome;
 import org.hl7.fhir.r4.model.Patient;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import it.unibo.HealthResource.PatientResource;
+import reactor.core.publisher.Flux;
 
 public class FhirServiceClient {
-	//private String serverBase=""; //"https://hapi.fhir.org/baseR4";  http://example.com/fhirBaseUrl
+	private String serverBase=""; //"https://hapi.fhir.org/baseR4";  http://example.com/fhirBaseUrl
 	private FhirContext fhirctx ;  
     // Create a client. See https://hapifhir.io/hapi-fhir/docs/client/generic_client.html
  	IGenericClient client ; //= ctx.newRestfulGenericClient(serverBase);
+	private WebClient webClient = WebClient
+	    	  .builder()
+//	    	  .filters(exchangeFilterFunctions -> {
+//	    	      exchangeFilterFunctions.add(logRequest());
+//	    	      exchangeFilterFunctions.add(logResponse());
+//	    	  })
+	    	  .build();
   	
  	public FhirServiceClient( String serverBase ) {
-  		fhirctx         = PatientResource.fhirctx;  //to avoid redundant creation FhirContext.forR4();
+ 		this.serverBase = serverBase;
+  		fhirctx         = HealthService.fhirctx;  //to avoid redundant creation FhirContext.forR4();
  		client          = fhirctx.newRestfulGenericClient(serverBase);
 		System.out.println("FhirServiceClient created for " + serverBase  );
   	}
@@ -80,11 +90,11 @@ public class FhirServiceClient {
  	
  	public String readInJson( Class<DomainResource> resourceClass, Long id ) {
  		DomainResource r = read(resourceClass, id);
- 		return cvtJson( r );
+ 		return HealthService.cvtJson( r );
  	}
  	public String readInXml( Class<DomainResource> resourceClass, Long id ) {
  		DomainResource r = read(resourceClass, id);
- 		return cvtXml( r );
+ 		return HealthService.cvtXml( r );
  	}
  	
  	public Patient readPatient( Class<Patient> resourceClass, Long id ) {
@@ -163,26 +173,42 @@ public class FhirServiceClient {
 //		return "FhirServiceClient delete  ERROR " + e.getMessage() ;		
 //	}
 	}
+	
+/*
+ * ASYNCH	
+ */
+	public Flux<String> readPatient(String id) {
+		String addr = serverBase+"/Patient/"+id;  
+    	System.out.println("FhirServiceClient | addr=" + addr);
+    	Flux<String> result = webClient.get()
+				.uri( addr )   
+                .retrieve() 
+                .bodyToFlux(String.class);
+    	//https://www.javatips.net/api/reactor-core-master/src/main/java/reactor/core/publisher/MonoFlatMapMany.java
+		//MonoFlatMapMany
+  		return result; 
+ 	}
+	
  	
 /*
  * CONVERSIONS	
  */
- 	public String cvt( IBaseResource theResource,  boolean useJson ) {
- 		if( useJson ) return cvtJson(theResource);
- 		else return cvtXml(theResource);
- 	}
- 	public String cvt( Bundle bundle,  boolean useJson ) {
- 		if( useJson ) return fhirctx.newJsonParser().setPrettyPrint(true).encodeResourceToString(bundle);
- 		else return fhirctx.newXmlParser().setPrettyPrint(true).encodeResourceToString(bundle);
- 	}
-
- 	public String cvtJson( IBaseResource theResource ) {
- 		return fhirctx.newJsonParser().setPrettyPrint(true).encodeResourceToString(theResource);
- 	}
-
- 	public String cvtXml( IBaseResource theResource ) {
- 		return fhirctx.newXmlParser().setPrettyPrint(true).encodeResourceToString(theResource);
- 	}
+// 	public String cvt( IBaseResource theResource,  boolean useJson ) {
+// 		if( useJson ) return cvtJson(theResource);
+// 		else return cvtXml(theResource);
+// 	}
+// 	public String cvt( Bundle bundle,  boolean useJson ) {
+// 		if( useJson ) return fhirctx.newJsonParser().setPrettyPrint(true).encodeResourceToString(bundle);
+// 		else return fhirctx.newXmlParser().setPrettyPrint(true).encodeResourceToString(bundle);
+// 	}
+//
+// 	public String cvtJson( IBaseResource theResource ) {
+// 		return fhirctx.newJsonParser().setPrettyPrint(true).encodeResourceToString(theResource);
+// 	}
+//
+// 	public String cvtXml( IBaseResource theResource ) {
+// 		return fhirctx.newXmlParser().setPrettyPrint(true).encodeResourceToString(theResource);
+// 	}
 
 }
 

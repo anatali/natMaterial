@@ -7,13 +7,13 @@ package it.unibo.HealthAdapterFacade.Pojo;
  
 import java.util.Iterator;
 import org.apache.commons.lang3.tuple.Pair;
-import org.hl7.fhir.instance.model.api.IBaseOperationOutcome;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Patient;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.util.BundleUtil;
 import it.unibo.HealthAdapterFacade.FhirServiceClient;
+import it.unibo.HealthAdapterFacade.HealthService;
 import it.unibo.HealthResource.PatientResource;
 
  
@@ -40,8 +40,8 @@ public class FhirServiceClientUsage {
 	public void readPatient(Long id) throws Exception {
  		Patient p    = client.readPatient(Patient.class, id ) ;	
 		if( p == null ) return;
-		String pJson = client.cvtJson( p );		
-		String pXml  = client.cvtXml( p );		
+		String pJson = HealthService.cvtJson( p );		
+		String pXml  = HealthService.cvtXml( p );		
 		System.out.println("----------------- patient " + id + " in json  ---- ");
 		System.out.println(pJson);
 		System.out.println("----------------- patient " + id + " in xml   ---- ");
@@ -52,7 +52,7 @@ public class FhirServiceClientUsage {
 	public void search( Class<Patient> resourceClass, String name ) throws Exception {
 		Bundle b                 = client.searchPatient(  resourceClass,  name );
 		FhirContext theContext   = client.getFhirContext();
- 		String bJson = client.cvtJson( b  );	
+ 		String bJson = HealthService.cvtJson( b  );	
  		Iterator<Pair<String, IBaseResource>>  iter = BundleUtil.getBundleEntryUrlsAndResources(theContext, b).iterator();
 		System.out.println("----------------- found bundle for " + name + "  ---- ");
 //		System.out.println(  bJson );

@@ -15,6 +15,49 @@
     function cleanOutputArea() {
     	$("pre.resultArea").text(  "" );
  	}
+
+/*
+---------------------------------------------------------------------
+ASYNCH PART
+---------------------------------------------------------------------
+*/ 	 	
+   function readPatient(){		//ASYNCH  /readPatient
+     	$("pre.resultArea").text(  "" );
+    	var patientid = document.getElementById("patientid").value;
+      	$("i.infoArea").text(  "reading " + patientid + " ... ");	
+    	//alert( patientid  );
+		$.get("readPatient/"+patientid, function(data){	  //data is a JSon string
+				var datajson= JSON.stringify( JSON.parse(data), null, 2 );
+   				$("pre.resultArea").text( datajson );	
+     			$("i.infoArea").text(  "read " + patientid + " done" );	
+ 		});  //, "json"
+    } 
+ 	
+	//See https://www.html.it/pag/66525/fetch-api/
+	//https://www.javascripture.com/Response - replacement for XMLHttpRequest (https://www.javascripture.com/XMLHttpRequest).
+     function createAPatient(  jsonStr ) {	//ASYNCH  /createPatient
+    	var patientjson = document.getElementById("patientjson").value;
+     	var patientobj  = JSON.parse(patientjson);
+        
+    	var patientname = patientobj.name[0].given[0];
+    	//alert( patientname );
+      	$("i.infoArea").text(  "creating patient ... " + patientname );	
+      	
+        fetch("/createPatient", {method: "POST", body: patientjson}).then(function (response) {
+        	if (response.ok) {
+        		console.log(  "creation done of " +  patientname + "  " + response );
+      			return response.text() ;		// 
+      		}}).then( function (id) {
+      			$("i.infoArea").text(  "creation done of " +  patientname + " id=" + id);	
+      		});
+         
+    }
+ 	
+/*
+---------------------------------------------------------------------
+OLD PART
+---------------------------------------------------------------------
+*/ 	
  	
      function searchEvent() {
      		messagesOutput.value =  '\r';
@@ -40,7 +83,7 @@
     	$("i.infoArea").text(  "searching done" );	
  		});  
     }
-    
+/*    
     function readResource(){
      	$("pre.resultArea").text(  "" );
     	var patientid = document.getElementById("patientid").value;
@@ -52,7 +95,8 @@
      			$("i.infoArea").text(  "read " + patientid + " done" );	
  		});  //, "json"
     }
-
+*/
+ 
 	//curl http://localhost:8081/actuator/health -i -X GET		=> JSON
     function monitor( topic ){
       	$("pre.resultArea").text(  "" );
@@ -202,12 +246,16 @@ Server address: <input id="serveraddr" type="text" size="35" value="https://hapi
 
 <h4>InputArea</h4>
 <div>
-Patient name: <input id="patientname" type="text" size="15" autofocus/>  
-    <button onclick="createPatient()">Create</button>
+Patient name: <input id="patientname" type="text" size="5" value="OLD" autofocus/>  
+Patient json: <input id="patientjson" type="text" size="85" 
+value='{"resourceType": "Patient", "name": [ { "family": "Unibo", "given": [ "ElenaBologna", "Maria" ] }]}' autofocus>  
+
+</input>
+    <button onclick="createAPatient()">Create</button>
     <button onclick="searchPatient()">Search</button>
 <br/>
 Patient ident: <input id="patientid" type="text" size="15" autofocus/> 
-    <button onclick="readResource()">Read</button> <button onclick="deleteResource()">Delete</button>  <br/>
+    <button onclick="readPatient()">Read</button> <button onclick="deleteResource()">Delete</button>  <br/>
 </div>
 
 

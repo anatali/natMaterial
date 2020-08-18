@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
  
 
@@ -24,6 +25,7 @@ import reactor.core.publisher.Mono;
  * e genera un messaggio di stato per l'utente umano.
  */
 public class HealthAdapterMIController { 
+	 
 	private HealthService healthServiceBuilder;
  	private HealthServiceInterface healthService;
 	private final boolean usejson = true;
@@ -32,58 +34,88 @@ public class HealthAdapterMIController {
      public HealthAdapterMIController( HealthService healthServiceBuilder ) {
 		this.healthServiceBuilder = healthServiceBuilder;
   		healthService             = healthServiceBuilder.getdHealthService();
+  		System.out.println("----- HealthAdapterMIController CREATED "   );
      }
 
-     @PostMapping( HealthService.createPatientUri )
+/*
+* -------------------------------------------------------------------------
+* ASYNCH PART  
+* -------------------------------------------------------------------------
+*/	 
+	 //https://projectreactor.io/2.x/reference/
+	 //https://projectreactor.io/docs/core/snapshot/reference/
+    @GetMapping( HealthService.readPatientUri+"/{id}" )	 
+    public Flux<String> readPatient(   @PathVariable( value = "id" ) Long resourceId ) {      	    
+  	    System.out.println("----- HealthAdapterMIController readpatient  id= " + resourceId  + " usejson=" + usejson );
+  	    Flux<String>  result = healthService.readPatientAsynch( resourceId  );
+  	    //System.out.println("----- HealthAdapterMIController readpatient result= " + result );
+ 	    return result;
+    } 
+	 
+    @PostMapping( HealthService.createPatientUri )
+     public Mono<String> createPatient( @RequestBody String jsonStr ) {
+  	    System.out.println("----- HealthAdapterMIController createPatient " + jsonStr  );	    
+  	    Mono<String> answer = healthService.createPatientAsynch(  jsonStr );	
+        return answer;
+    } 
+	 
+	 
+	 
+/*
+ * -------------------------------------------------------------------------
+ * OLD PART TO BE REFACTORED	 
+ * -------------------------------------------------------------------------
+ */
+     @PostMapping( HealthService.createPatientSynchUri )
      //public String create( @RequestBody String name ) {
-     public Mono<String> create( @RequestBody String name ) {
-   	    System.out.println("------------------- HealthAdapterMIController createPatient " + name  );	    
+     public Mono<String> createPatientSynch( @RequestBody String name ) {
+   	    System.out.println("----- HealthAdapterMIController createPatient " + name  );	    
    	    Long id = healthService.create_patient( null, name );	
    	    if( id == 0 ) return Mono.just("createError");	
 //   	    String answer = healthService.read_a_resource(id) ;  
-//   	    System.out.println("------------------- HealthAdapterMIController createPatient answer= " + answer  );	
+//   	    System.out.println("----- HealthAdapterMIController createPatient answer= " + answer  );	
         return Mono.just(""+id); //answer;	
      } 
 
      @PostMapping( HealthService.deleteResourceUri ) 
      public String delete( @RequestBody String id ) {	 
-    	 System.out.println("------------------- HealthAdapterMIController deleteResource id="  + id  );
+    	 System.out.println("----- HealthAdapterMIController deleteResource id="  + id  );
     	 String res = healthService.delete_patient(id);
     	 return res; 
      }
 
      @PostMapping( HealthService.selectHealthCenterUri  ) 
      public String select( @RequestBody String choichejson ) {	 //, @RequestParam("hct")String hct
-    	 System.out.println("------------------- HealthAdapterMIController select choiche="  + choichejson  );
+    	 System.out.println("----- HealthAdapterMIController select choiche="  + choichejson  );
     	 try {
 			 JSONObject jo = new JSONObject(choichejson);
 			 String choice = (String) jo.get("argchoice");
 			 String addr   = (String) jo.get("argserveraddr");
-	    	 System.out.println("------------------- HealthAdapterMIController select choiche="  + choice + " addr=" + addr );
+	    	 System.out.println("----- HealthAdapterMIController select choiche="  + choice + " addr=" + addr );
 	    	 healthServiceBuilder.setHealthService(choice,addr);
 	    	 return "select Done" + choice; 
 		} catch (JSONException e) {
  			String error = "select Done ERROR " + choichejson;
- 			System.out.println("------------------- HealthAdapterMIController "  + error  );
+ 			System.out.println("----- HealthAdapterMIController "  + error  );
  			return error; 
 		}
      }
 
      @GetMapping( HealthService.searchPatientUri+"/{name}" )	 
      public String searchpatient( @PathVariable(value = "name") String patientName ) { //
-   	    System.out.println("------------------- HealthAdapterMIController searchPatient  " +  patientName  );
+   	    System.out.println("----- HealthAdapterMIController searchPatient  " +  patientName  );
     	String res = healthService.search_for_patients_named( patientName, usejson );
 //   	    String s   = healthService.prettyFormat(res,2); 
    	    //System.out.println( s );
         return res;
      } 
      
-     @GetMapping( HealthService.readResourceUri+"/{id}" )	 
-     public String readresource(   @PathVariable( value = "id"   ) Long resourceId ) {      	    
-   	    System.out.println("----- HealthAdapterMIController readresource  id= " + resourceId  + " usejson=" + usejson );
-    	String res = healthService.read_a_resource( resourceId  );
-        return res;
-     } 
+//     @GetMapping( HealthService.readResourceUri+"/{id}" )	 
+//     public String readresource(   @PathVariable( value = "id"   ) Long resourceId ) {      	    
+//   	    System.out.println("----- HealthAdapterMIController readresource  id= " + resourceId  + " usejson=" + usejson );
+//    	String res = healthService.read_a_resource( resourceId  );
+//        return res;
+//     } 
      
   
     @ExceptionHandler 

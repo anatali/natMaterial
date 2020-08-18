@@ -255,6 +255,11 @@ public interface HealthServiceInterface {
 	public String search_for_patients_named(String name, boolean usejson);
 	public void delete_patient(String id);
 	public String read_a_resource(Long id);
+	
+<kc>/*
+ * ASYNCH
+ */</kc>	
+	public Flux<String> readPatientAsynch(Long id);
 }
 </pre>
 Un componente che implementa questa interfaccia e'

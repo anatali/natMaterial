@@ -37,17 +37,17 @@ public class HttpClientHealthAdapter {
  
 	public static void main(String[] args) throws Exception {
 		HttpClientHealthAdapter appl = new HttpClientHealthAdapter();
- 		System.out.println(" %%% CREATE ------------------------------");
-  		Long id = appl.createPatient( "ElenaBologna" );		
+// 		System.out.println(" %%% CREATE ------------------------------");
+//  		Long id = appl.createPatient( "ElenaBologna" );		
 		System.out.println(" %%% READ  ------------------------------ ");
- 		appl.readPatient( id );
-// 		appl.readPatient(1435799L);
-		System.out.println(" %%% SEARCH ----------------------------- ");
-  		appl.searchPatient( "ElenaBologna" ); 
- 		System.out.println(" %%% DELETE ----------------------------- ");
-   		appl.delete_patient( id.toString() );
-// 		appl.delete_patient( "1435899" );
- 		System.out.println(" %%% SEARCH ----------------------------- ");
-   		appl.searchPatient( "ElenaBologna" ); 
+// 		appl.readPatient( id );
+  		appl.readPatient(1436187L);
+//		System.out.println(" %%% SEARCH ----------------------------- ");
+//  		appl.searchPatient( "ElenaBologna" ); 
+// 		System.out.println(" %%% DELETE ----------------------------- ");
+//   		appl.delete_patient( id.toString() );
+//// 		appl.delete_patient( "1435899" );
+// 		System.out.println(" %%% SEARCH ----------------------------- ");
+//   		appl.searchPatient( "ElenaBologna" ); 
  	}
 }

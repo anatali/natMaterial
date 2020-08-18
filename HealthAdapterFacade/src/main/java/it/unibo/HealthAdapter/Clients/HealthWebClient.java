@@ -18,7 +18,7 @@ import reactor.core.publisher.Mono;
 
 public class HealthWebClient {
 	private String hostaddr = "https://hapi.fhir.org/baseR4/";
-	WebClient webClient = WebClient
+	private WebClient webClient = WebClient
 	    	  .builder()
 //	    	  .filters(exchangeFilterFunctions -> {
 //	    	      exchangeFilterFunctions.add(logRequest());
@@ -43,7 +43,7 @@ public class HealthWebClient {
 				.uri( addr )   
                 .retrieve()
                 .bodyToFlux(String.class);
-		System.out.println("WebClientExample | handle response ...");
+		System.out.println("searchPatientFlux | result1 ..." + result1 );
 		result1.subscribe(  
 			item  -> {strbuild.append(item); },
 			error -> System.out.println("result1 error= " + error ),
@@ -73,6 +73,6 @@ public class HealthWebClient {
     public static void main(String[] args) throws InterruptedException {
      	HealthWebClient appl = new HealthWebClient();
 //    	appl.searchPatient("1432878");
-    	appl.searchPatientFlux("1432878");
+    	appl.searchPatientFlux("1436187");
     }
 }

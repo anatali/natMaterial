@@ -12,6 +12,7 @@ import org.hl7.fhir.r4.model.Enumerations;
 import org.hl7.fhir.r4.model.Patient;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.parser.IParser;
+import it.unibo.HealthAdapterFacade.HealthService;
  
  
 
@@ -53,7 +54,7 @@ private String 	businessIdSystem   = null;
 private String 	businessIdValue    = null;  
  
 
-public final static FhirContext fhirctx = FhirContext.forR4();
+public final static FhirContext fhirctx = HealthService.fhirctx;
 
 /*
  * The Argument list should be as much complete as possible.
