@@ -73,7 +73,7 @@ public class HealthServiceHL7 implements HealthServiceInterface{
 	}
 
 	@Override
-	public Mono<String> createPatientAsynch(String jsonStr) {
+	public Flux<String> createPatientAsynch(String jsonStr) {
  		return null;
 	}
 

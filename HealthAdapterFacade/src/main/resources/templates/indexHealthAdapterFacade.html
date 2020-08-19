@@ -44,8 +44,10 @@ ASYNCH PART
         	if (response.ok) {
         		console.log(  "creation done of " +  patientname + "  " + response.type  ); //promise
       			return response.text() ;		// 
-      		}}).then( function (id) {
-      			$("i.infoArea").text(  "creation done of " +  patientname + " id=" + id);	
+      		}}).then( function (answer) { //answer is the json rep of the created resource
+      		     	var patientobj  = JSON.parse(answer);        
+    				var patientid   = patientobj.id;      		
+      			$("i.infoArea").text(  "creation done of " +  patientname + " id=" + patientid);	
       		});         
     }
  	function createAPatientFromFile(  fName ) {	//ASYNCH API-> /createPatient

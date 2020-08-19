@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import it.unibo.HealthResource.PatientResource;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
  
@@ -26,10 +28,11 @@ import reactor.core.publisher.Mono;
  */
 public class HealthAdapterMIController { 
 	 
+	private final boolean usejson = true;
 	private HealthService healthServiceBuilder;
  	private HealthServiceInterface healthService;
-	private final boolean usejson = true;
-
+	private PatientResource patientresource = new PatientResource();
+	
 	 @Autowired
      public HealthAdapterMIController( HealthService healthServiceBuilder ) {
 		this.healthServiceBuilder = healthServiceBuilder;
@@ -53,11 +56,23 @@ public class HealthAdapterMIController {
     } 
 	 
     @PostMapping( HealthService.createPatientUri )
-     public Mono<String> createPatient( @RequestBody String jsonStr ) {
+     public Flux<String> createPatient( @RequestBody String jsonStr ) {
   	    //System.out.println("----- HealthAdapterMIController createPatient " + jsonStr  );	    
-  	    Mono<String> answer = healthService.createPatientAsynch(  jsonStr );
-  	    //System.out.println("----- HealthAdapterMIController createPatient " + answer.block()  );	
-        return answer;
+    	final StringBuilder longstrbuilder = new StringBuilder();
+    	Flux<String> creationflux = healthService.createPatientAsynch(  jsonStr );
+    	return creationflux;
+//   		final StringBuilder answerbuild = new StringBuilder(); 
+//		System.out.println("HealthServiceFhir | createPatientAsynch BUILDS ANSWER ... "   );  
+//   		creationflux.subscribe( 				
+//   			item  -> { /*System.out.println("-> " + item);*/ answerbuild.append(item); },
+//			error -> System.out.println("error= " + error ),
+//			()    -> {  System.out.println("HealthServiceFhir | createPatientAsynch  ANSWER=" + answerbuild.toString()  );  
+//						String pid = patientresource.createFhirPatientFromJson( answerbuild.toString() ).getId();
+//						longstrbuilder.append( pid );
+//					 } 
+//		);
+   		//creationflux.blockLast();
+        //return Mono.just( "0" );
     } 
 	 
     @GetMapping( HealthService.searchResourcetUri+"/{jsonTemplate}" )	 

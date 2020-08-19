@@ -212,7 +212,7 @@ public class FhirServiceClient {
 //    	System.out.println("FhirServiceClient createAsynch  result= " + result);
 // 	}
 	public  Flux<String> createAsynch( String resJson  )  { 
-		String uri         = serverBase+"/Patient/";
+		String uri         = serverBase+"/Patient";
 		String contentType = "application/json";  //utf-8" "plain/text; utf-8"
 //		System.out.println( "post " + uri +" body=" + resJson + " contentType=" + contentType);
 		System.out.println( "createAsynch " + uri + " contentType=" + contentType);
