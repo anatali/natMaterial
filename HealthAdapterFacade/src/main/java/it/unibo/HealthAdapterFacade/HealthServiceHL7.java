@@ -77,5 +77,11 @@ public class HealthServiceHL7 implements HealthServiceInterface{
  		return null;
 	}
 
+	@Override
+	public Flux<String> searchResourceAsynch(String jsonTemplate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

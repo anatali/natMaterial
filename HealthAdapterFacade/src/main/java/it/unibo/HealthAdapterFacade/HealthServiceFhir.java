@@ -10,6 +10,7 @@ package it.unibo.HealthAdapterFacade;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Patient;
 import it.unibo.HealthResource.PatientResource;
+import it.unibo.HealthResource.SearchResourceUtility;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -91,14 +92,46 @@ public class HealthServiceFhir implements HealthServiceInterface {
  */
  	@Override
 	public Flux<String> readPatientAsynch(Long id) {
- 		Flux<String> result = fhirclient.readPatient(id.toString());
+ 		Flux<String> result = fhirclient.readPatientAsycnh(id.toString());
  		System.out.println("HealthServiceFhir | readPatientAsynch result= " + result  );
 		return result;
 	}
 
+	//@Override
+	public Mono<Long> todo( Patient newPatient ) {
+		Flux<String> creationflux = fhirclient.createAsynch( newPatient.toString()   );
+   		final StringBuilder strbuild = new StringBuilder(); 
+   		creationflux.subscribe( 				
+   			item  -> { /*System.out.println("-> " + item);*/ strbuild.append(item); },
+			error -> System.out.println("error= " + error ),
+			()    -> {  String s = patientresource.createFhirPatientFromJson( strbuild.toString() ).getId();
+						Long.parseLong(s);	//todo
+					 }
+		);
+   		return Mono.just( 0L );
+	}
+
 	@Override
 	public Mono<String> createPatientAsynch(String jsonStr) {
- 		return null;
+		Long id = 0L;
+		try {
+			System.out.println("createPatientAsynch: " +  jsonStr );  
+			Patient newPatient = patientresource.createFhirPatientFromJson( jsonStr );
+			System.out.println("createPatientAsynch: " +  newPatient );  
+			id = create_patient(newPatient );		//todo	
+		} catch ( Exception e) {	//ResourceNotFoundException
+			System.out.println("createPatientAsynch ERROR " + e.getMessage() );
+		}
+		return Mono.just( id.toString() );
+	}
+	
+	@Override
+	public Flux<String> searchResourceAsynch(String jsonTemplate) {
+		//Bundle results = fhirclient.searchPatient( Patient.class, name );		
+ 		//String res     = HealthService.cvt(results, useJson);
+		System.out.println("searchResourceAsynch " + jsonTemplate );
+		SearchResourceUtility.inspect( jsonTemplate );
+		return Flux.just("searchResourceAsynch wait a moment ...");
 	}
 
 }

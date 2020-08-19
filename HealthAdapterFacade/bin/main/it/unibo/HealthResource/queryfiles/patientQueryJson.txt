@@ -1,0 +1,6 @@
+{ "resourceType": "Patient", 
+  "family": "Unibo", 
+  "given":  "ElenaBologna", 
+  "gender": "female",
+  "address": { "city": "Bologna", "country": "Italy"} 
+} 

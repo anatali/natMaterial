@@ -21,8 +21,8 @@ public interface HealthServiceInterface {
 /*
  * ASYNCH
  */
-	public Flux<String> readPatientAsynch(Long id);   		   //output is JsonString
-	public Mono<String> createPatientAsynch(String jsonStr);   //input is JsonString
-
+	public Flux<String> readPatientAsynch(Long id);   		   		//output is JsonString
+	public Mono<String> createPatientAsynch(String jsonStr);   		//input is JsonString
+	public Flux<String> searchResourceAsynch(String jsonTemplate);
 
 }

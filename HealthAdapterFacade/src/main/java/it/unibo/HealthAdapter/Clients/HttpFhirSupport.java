@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.function.Consumer;
 
 import org.apache.commons.io.IOUtils;
 import org.hl7.fhir.r4.model.DomainResource;
@@ -19,6 +20,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.parser.IParser;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.FluxSink;
 
 public class HttpFhirSupport {
 	public final static FhirContext fhirctx = FhirContext.forR4();
@@ -26,7 +29,7 @@ public class HttpFhirSupport {
 	//From https://www.baeldung.com/java-http-request
 	public static String post(String uri, String body, String contentType )  { 
 		//contentType: "application/json; utf-8" "plain/text; utf-8"
-		System.out.println( "HttpClientHealthAdapter post " + uri +" body=" + body + " contentType=" + contentType);
+		System.out.println( "HttpFhirSupport post " + uri +" body=" + body + " contentType=" + contentType);
 		try {
 			URL url = new URL(uri);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -41,7 +44,7 @@ public class HttpFhirSupport {
 			os.write(input, 0, input.length);
 
 			int status = con.getResponseCode();
-			System.out.println( "HttpClientHealthAdapter post " + url +" status=" + status);
+			System.out.println( "HttpFhirSupport post " + url +" status=" + status);
 //read the answer			
 			BufferedReader in = new BufferedReader(
 			new InputStreamReader( con.getInputStream(), "utf-8"));
@@ -53,11 +56,59 @@ public class HttpFhirSupport {
 			in.close();
 			return response.toString();
 		}catch(Exception e) {
-			System.out.println( "HttpClientHealthAdapter post ERROR" +e.getMessage() );
+			System.out.println( "HttpFhirSupport post ERROR" +e.getMessage() );
  			return "";
-		}
-		
+		}		
 	}
+	
+	public static Flux<String> postAsynch(String uri, String body, String contentType )  { 
+		//contentType: "application/json; utf-8" "plain/text; utf-8"
+//		System.out.println( "HttpFhirSupport post " + uri +" body=" + body + " contentType=" + contentType);
+		System.out.println( "HttpFhirSupport postAsynch " + uri + " contentType=" + contentType);
+		try {
+			URL url = new URL(uri);
+			final HttpURLConnection con = (HttpURLConnection) url.openConnection();
+			con.setRequestMethod("POST");
+			con.setRequestProperty("Content-Type", contentType);
+ 			con.setRequestProperty("Accept", "application/json");
+			con.setDoOutput(true);
+			System.out.println( "HttpFhirSupport postAsynch " + url +" con=" + con);
+//create a flux for the body		 
+		 Flux<String> myflux = Flux.push( (Consumer<? super FluxSink<String>>) sink -> {
+		   new Thread() {
+			public void run() {
+				try {
+					//write the body
+		 			OutputStream os = con.getOutputStream();
+					byte[] input    = body.getBytes("utf-8");
+					os.write(input, 0, input.length);
+
+					int status = con.getResponseCode();
+					System.out.println( "HttpFhirSupport postAsynch " + url +" status=" + status);
+//READ THE ANSWER
+					BufferedReader in = new BufferedReader(new InputStreamReader( con.getInputStream(), "utf-8"));
+					String inputLine; 
+//					StringBuilder response = new StringBuilder();
+					while ((inputLine = in.readLine()) != null) {
+						//System.out.println( "HttpFhirSupport postAsynch inputLine " + inputLine );
+						sink.next( inputLine );
+					}//while
+					//in.close();	
+		 	  	    sink.complete();
+				}catch(Exception e) {
+					System.out.println( "HttpFhirSupport postAsynch thread ERROR:" +e.getMessage() );			
+				}		
+			}//run
+		   }.start();	
+		 });
+		 return myflux;
+		}catch(Exception e) {
+			System.out.println( "HttpFhirSupport post ERROR" +e.getMessage() );
+ 			return null;
+		}		
+	}
+
+	
 	//From https://www.baeldung.com/java-http-request
 	public static String get(String uri)  {
 		try {
@@ -65,7 +116,7 @@ public class HttpFhirSupport {
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setRequestMethod("GET");
 			int status = con.getResponseCode();
-			System.out.println( "HttpClientHealthAdapter get " + url +" status=" + status);
+			System.out.println( "HttpFhirSupport get " + url +" status=" + status);
 			
 			BufferedReader in = new BufferedReader(
 			new InputStreamReader(con.getInputStream()));

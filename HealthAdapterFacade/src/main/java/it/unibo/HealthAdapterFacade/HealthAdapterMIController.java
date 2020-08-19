@@ -54,11 +54,19 @@ public class HealthAdapterMIController {
 	 
     @PostMapping( HealthService.createPatientUri )
      public Mono<String> createPatient( @RequestBody String jsonStr ) {
-  	    System.out.println("----- HealthAdapterMIController createPatient " + jsonStr  );	    
-  	    Mono<String> answer = healthService.createPatientAsynch(  jsonStr );	
+  	    //System.out.println("----- HealthAdapterMIController createPatient " + jsonStr  );	    
+  	    Mono<String> answer = healthService.createPatientAsynch(  jsonStr );
+  	    //System.out.println("----- HealthAdapterMIController createPatient " + answer.block()  );	
         return answer;
     } 
 	 
+    @GetMapping( HealthService.searchResourcetUri+"/{jsonTemplate}" )	 
+    public Flux<String> searchresource( @PathVariable(value = "jsonTemplate") String jsonTemplate ) { //
+  	    System.out.println("----- HealthAdapterMIController searchresource  " +  jsonTemplate  );
+  	    return healthService.searchResourceAsynch(jsonTemplate);
+//  	    String s   = healthService.prettyFormat(res,2); 
+  	    //System.out.println( s );
+     } 
 	 
 	 
 /*
