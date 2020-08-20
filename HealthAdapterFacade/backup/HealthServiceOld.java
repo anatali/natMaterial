@@ -16,7 +16,7 @@ import ca.uhn.fhir.context.FhirContext;
  
 
 @Service
-public class HealthService {
+public class HealthServiceOld {
 	
 	public static enum HealthCenterType{ FHIR, HL7, OTHER};
 	public final static FhirContext fhirctx = FhirContext.forR4();
@@ -27,7 +27,11 @@ public class HealthService {
  */
 	public static final String selectHealthCenterUri    ="/selectHealthCenter";
 
- 
+	public static final String createPatientSynchUri  	="/createPatientSynch";  //
+	public static final String searchPatientUri  		="/searchPatientSynch";
+	public static final String readResourceSynchUri 	="/readResourceSynch";
+	public static final String deleteResourceSynchUri   ="/deleteResourceSynch";
+
 	public static final String createResourceUri   		="/createResource";
 	public static final String readResourceUri   		="/readResource";
 	public static final String searchResourcetUri  		="/searchResource";
@@ -53,15 +57,6 @@ public class HealthService {
 	 		return fhirctx.newXmlParser().setPrettyPrint(true).encodeResourceToString(theResource);
 	 	}
 	 	
-	 	public static String getResourceType( String resourceJsonStr ) {
- 			try {
-				JSONObject json = new JSONObject(resourceJsonStr);
-				return json.getString("resourceType");
-			} catch (JSONException e) {
-				return "" ;
- 			}	 			 		
-	 	}
-	 	
 	 	public static String prettyJson(String jsonStr) {
 	 		JSONObject json;
 			try {
@@ -77,7 +72,7 @@ public class HealthService {
  */
 	private HealthServiceInterface service;
 	
-	public HealthService() {	//Autoconfiguration, just to start ...		
+	public HealthServiceOld() {	//Autoconfiguration, just to start ...		
  		System.out.println("HealthService Autoconfiguration " );
 		buildHealthService( HealthCenterType.FHIR, "https://hapi.fhir.org/baseR4" );
 	}

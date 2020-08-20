@@ -1,6 +1,8 @@
 package it.unibo.HealthAdapterFacade;
 
- 
+import org.hl7.fhir.r4.model.Bundle;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -13,7 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
- 
+import reactor.core.publisher.Mono;
  
 
 
@@ -24,13 +26,16 @@ import reactor.core.publisher.Flux;
  * Il codice Javascript di indexHealthAdapterFacade.html riceve una risposta alla sua invocazione POST
  * e genera un messaggio di stato per l'utente umano.
  */
-public class HealthAdapterMIController { 
+public class HealthAdapterMIControllerOld { 
 	 
-	private final boolean usejson = true; 
+	private final boolean usejson = true;
+	private HealthService healthServiceBuilder;
  	private HealthServiceInterface healthService;
- 	
+//	private PatientResource patientresource = new PatientResource();
+	
 	 @Autowired
-     public HealthAdapterMIController( HealthService healthServiceBuilder ) {
+     public HealthAdapterMIControllerOld( HealthService healthServiceBuilder ) {
+		this.healthServiceBuilder = healthServiceBuilder;
   		healthService             = healthServiceBuilder.getdHealthService();
   		System.out.println("----- HealthAdapterMIController CREATED "   );
      }
@@ -39,17 +44,18 @@ public class HealthAdapterMIController {
 * =========================================================================
 * CRUD - ASYNCH PART  
 * =========================================================================
-*/	  
+*/	 
+	 
 		/*
 		-------------------------- 
 		CREATE
 		-------------------------- 
 		*/ 			 
 	    @PostMapping( HealthService.createResourceUri )
-	     public Flux<String> createResourceAsynch( @RequestBody String jsonStr ) {
+	     public Flux<String> createPatientAsynch( @RequestBody String jsonStr ) {
 	  	    //System.out.println("----- HealthAdapterMIController createPatientAsynch " + jsonStr  );	    
 	    	//final StringBuilder longstrbuilder = new StringBuilder();
-	    	Flux<String> creationflux = healthService.createResourceAsynch(  jsonStr );
+	    	Flux<String> creationflux = healthService.createPatientAsynch(  jsonStr );
 	    	return creationflux;
 	    } 
 
@@ -60,12 +66,10 @@ public class HealthAdapterMIController {
 	*/ 		 
 	 //https://projectreactor.io/2.x/reference/
 	 //https://projectreactor.io/docs/core/snapshot/reference/
-    @GetMapping( HealthService.readResourceUri+"/{id}&{resourceType}" )	 
-    public Flux<String> readResourceAsynch(   
-    		@PathVariable( value = "id" ) Long resourceId ,
-    		@PathVariable( value = "resourceType" ) String resourceType ) {      	    
+    @GetMapping( HealthService.readResourceUri+"/{id}" )	 
+    public Flux<String> readPatientAsynch(   @PathVariable( value = "id" ) Long resourceId ) {      	    
   	    System.out.println("----- HealthAdapterMIController readPatientAsynch  id= " + resourceId  + " usejson=" + usejson );
-  	    Flux<String>  result = healthService.readResourceAsynch( resourceType, resourceId  );	 
+  	    Flux<String>  result = healthService.readPatientAsynch( resourceId  );
   	    //System.out.println("----- HealthAdapterMIController readPatientAsynch result= " + result );
  	    return result;
     } 
@@ -103,11 +107,66 @@ public class HealthAdapterMIController {
     @DeleteMapping( HealthService.deleteResourceUri ) 
     public Flux<String> deleteResourceAsynch( @RequestBody String id ) {	 
    	 	System.out.println("----- HealthAdapterMIController deleteAResource id="  + id  );
-   	 	return healthService.deleteResourceAsynch("Patient", id);	//TODO
+   	 	return healthService.deleteResourceAsynch("Patient", id);
     }
     
     
-      
+/*
+ * -------------------------------------------------------------------------
+ * OLD PART  (SYNCH , TO BE REFACTORED IN ANY CASE)
+ * -------------------------------------------------------------------------
+ */
+     @PostMapping( HealthService.createPatientSynchUri )
+     //public String create( @RequestBody String name ) {
+     public Mono<String> createPatientSynch( @RequestBody String name ) {
+   	    System.out.println("----- HealthAdapterMIController createPatient " + name  );	    
+   	    Long id = healthService.create_patient( null, name );	
+   	    if( id == 0 ) return Mono.just("createError");	
+//   	    String answer = healthService.read_a_resource(id) ;  
+//   	    System.out.println("----- HealthAdapterMIController createPatient answer= " + answer  );	
+        return Mono.just(""+id); //answer;	
+     } 
+
+     @PostMapping( HealthService.deleteResourceUri ) 
+     public String delete( @RequestBody String id ) {	 
+    	 System.out.println("----- HealthAdapterMIController deleteResource id="  + id  );
+    	 String res = healthService.delete_patient(id);
+    	 return res; 
+     }
+
+     @PostMapping( HealthService.selectHealthCenterUri  ) 
+     public String select( @RequestBody String choichejson ) {	 //, @RequestParam("hct")String hct
+    	 System.out.println("----- HealthAdapterMIController select choiche="  + choichejson  );
+    	 try {
+			 JSONObject jo = new JSONObject(choichejson);
+			 String choice = (String) jo.get("argchoice");
+			 String addr   = (String) jo.get("argserveraddr");
+	    	 System.out.println("----- HealthAdapterMIController select choiche="  + choice + " addr=" + addr );
+	    	 healthServiceBuilder.setHealthService(choice,addr);
+	    	 return "select Done" + choice; 
+		} catch (JSONException e) {
+ 			String error = "select Done ERROR " + choichejson;
+ 			System.out.println("----- HealthAdapterMIController "  + error  );
+ 			return error; 
+		}
+     }
+
+     @GetMapping( HealthService.searchPatientUri+"/{name}" )	 
+     public String searchpatient( @PathVariable(value = "name") String patientName ) { //
+   	    System.out.println("----- HealthAdapterMIController searchPatient  " +  patientName  );
+    	String res = healthService.search_for_patients_named( patientName, usejson );
+//   	    String s   = healthService.prettyFormat(res,2); 
+   	    //System.out.println( s );
+        return res;
+     } 
+     
+//     @GetMapping( HealthService.readResourceUri+"/{id}" )	 
+//     public String readresource(   @PathVariable( value = "id"   ) Long resourceId ) {      	    
+//   	    System.out.println("----- HealthAdapterMIController readresource  id= " + resourceId  + " usejson=" + usejson );
+//    	String res = healthService.read_a_resource( resourceId  );
+//        return res;
+//     } 
+     
   
     @ExceptionHandler 
     public ResponseEntity<String> handle(Exception ex) {

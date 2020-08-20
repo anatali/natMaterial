@@ -234,20 +234,31 @@ e trasmetterle al <em>Core-Itel</em> usando una interfaccia API fornita dal <em>
 <table style="width:98%">
 <tbody>	
 <tr>
-<td style="width:40%" ><img src="./img/smartevenreviewed.png" alt="smartevenreviewed.png" width="100%">
+<td style="width:40%" >
+<img src="./img/smartevenreviewed.png" alt="smartevenreviewed.png" width="100%"><br/>
+Prima versione del prototipo:
+<img src="./img/healthproductinside.png" alt="healthproductinside.png" width="60%">
 </td>
-<td><img src="./img/healthproductinside.png" alt="healthproductinside.png" width="100%">
+<td>Versione dopo DISCUSSIONE 18/08 con JC<br/>
+<img src="./img/healthproductinside.png" alt="healthproductinside.png" width="100%">
 </td>
 </tr>
  </tbody>
 </table>
 
 
-<br/><br/>
+<h4>HealthServiceInterface.java</h4>
 La business logic del prodotto e' definita da componenti che  implementano la interfaccia
 <a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthServiceInterface.java" target="code">
 <m><ks>HealthServiceInterface.java</ks></m></a>.  
 <pre>
+<kc>//ASYNCH</kc>	
+	public Flux&lt;String> readPatientAsynch(Long id);   		   		 
+	public Flux&lt;String> createPatientAsynch(String jsonStr);   		 
+	public Flux&lt;String> searchResourceAsynch(String jsonTemplate);
+	public Flux&lt;String> deleteResourceAsynch( String resourceType, String id );
+}
+<!-- <m> //OLD
 public interface HealthServiceInterface {
 	public Long create_patient( Patient newPatient );
 	public Long createPatientFromFile(String fileName );
@@ -255,12 +266,7 @@ public interface HealthServiceInterface {
 	public String search_for_patients_named(String name, boolean usejson);
 	public void delete_patient(String id);
 	public String read_a_resource(Long id);
-	
-<kc>/*
- * ASYNCH
- */</kc>	
-	public Flux<String> readPatientAsynch(Long id);
-}
+</m>-->	
 </pre>
 Un componente che implementa questa interfaccia e'
 <a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthServiceFhir.java" target="code"><ks><m>HealthServiceFhir.java</ks></m></a>.
@@ -271,17 +277,18 @@ Un altro componente che implementa questa interfaccia  puo' essere
 <a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthServiceHL7.java" target="code"><ks><m>HealthServiceHL7.java</ks></m></a>,
 che e' stato prepearato con l'intento di interagire con server che ricevono/trasmettono dati in formato <tt>HL7</tt>.
 
-<br/><br/>
+<h4>HealthService.java</h4>
 Il componente <a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthService.java" target="code"><ks><m>HealthService.java</ks></m></a>  
-definisce i servizi resi disponibili attraverso le API REST che esso definisce mediante un insieme di costanti:
+specifica i servizi resi disponibili attraverso le API REST che esso definisce mediante un insieme di costanti:
 <pre>
 public static enum HealthCenterType{ FHIR, HL7, OTHER};
 <kc>WARNING: these URI are used in <k>templates\indexHealthAdapterFacade.html</k></kc>	
-public static final String createPatientUri      ="<ks>/createPatient</ks>";	//<kc>/patientname</kc>
-public static final String searchPatientUri      ="<ks>/searchPatient</ks>";	//<kc>/patientname</kc>
-public static final String readResourceUri       ="<ks>/readResource</ks>";	//<kc>/patientid</kc>
-public static final String deleteResourceUri     ="<ks>/deleteResource</ks>";	//<kc>/patientid</kc>
 public static final String selectHealthCenterUri ="<ks>/selectHealthCenter</ks>";	<m>//<kc>/{argchoice:FHIR, argserveraddr:https://hapi.fhir.org/baseR4}</kc></m>
+
+public static final String createPatientUri	="<ks>/createPatient</ks>";	//<kc>/patientname</kc>
+public static final String readPatientUri	="<ks>/readPatient</ks>";		//<kc>/patientid</kc>
+public static final String searchResourceUri	="<ks>/searchResource</ks>";	//<kc>/patientname</kc>
+public static final String deleteResourceUri	="<ks>/deleteResource</ks>";	//<kc>/patientid</kc>
 </pre>
 
 Le informazioni da trasmettere/ricevere a centri FHIR sono per ora limitate a un sottoinsieme di valori relativi a 

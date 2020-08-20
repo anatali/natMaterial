@@ -1,30 +1,15 @@
 package it.unibo.HealthAdapterFacade;
 
 import org.reactivestreams.Publisher;
-import org.springframework.http.MediaType;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.util.HtmlUtils;
-
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.netty.http.client.HttpClientRequest;
-
  
 @Controller 
 public class HealthAdapterHIController { 
  
-
-//private final HealthService healthService;
-//private String healthcenter = "todo";
-
-//	public HealthAdapterHIController( HealthService healthService ) {
-//		this.healthService = healthService;
-//	}
-
   @GetMapping("/")
   public Publisher<String> entry(Model model) {
 	   //System.out.println("------------------- HealthAdapterHIController homePage " + model  );

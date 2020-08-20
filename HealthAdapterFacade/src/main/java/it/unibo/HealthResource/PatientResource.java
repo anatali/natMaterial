@@ -128,5 +128,16 @@ public final static FhirContext fhirctx = HealthService.fhirctx;
  			return null;
 		}		
 	}
+	
+	public Patient createFhirResourceFromJson( String jsonrep ) {
+ 		try {
+ 		    IParser parserfhir = fhirctx.newJsonParser();
+		    Patient patient    = parserfhir.parseResource(Patient.class, jsonrep);	
+		    return patient;
+		} catch ( Exception e) {
+ 			e.printStackTrace();
+ 			return null;
+		}		
+	}
 
 }
