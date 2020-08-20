@@ -71,6 +71,14 @@ public class HealthService {
 				return "prettyJson ERROR for"+jsonStr;
  			}	 		
 	 	}
+	 	
+	 	public static void delay( int dt ) {
+	 		try {
+				Thread.sleep(dt);
+			} catch (InterruptedException e) {
+ 				e.printStackTrace();
+			}
+	 	}
 	
 /*
  * THE COMPONENT	

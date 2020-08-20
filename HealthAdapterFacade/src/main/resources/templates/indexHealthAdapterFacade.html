@@ -62,6 +62,7 @@ CREATE
         		console.log(  "creation from " +  fName + "  done response.type=" + response.type  ); //promise
       			return response.text() ;		// 
       		}}).then( function (answer) { //answer is the json rep of the created resource
+      			alert( answer );
       		    var resourceobj  = JSON.parse(answer);        
     			var resourceid   = resourceobj.id;      		
       			$("i.infoArea").text(  "creation done from " +  fName + " id=" + resourceid);	
