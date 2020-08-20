@@ -24,7 +24,12 @@ public class HealthServiceFhir implements HealthServiceInterface {
 		fhirclient = new FhirServiceClient( serverBase );	 
  		System.out.println("HealthServiceFhir created for " + serverBase  );
 	}
-	 
+	
+	/*
+	* =========================================================================
+	* CRUD - OLD PART  
+	* =========================================================================
+	*/	 	 
 	@Override
 	public Long createPatientFromFile(String fileName) {
 		Patient newPatient    = patientresource.createFhirPatientFromFileJson(fileName);  //parser.parseResource(Patient.class, data);	
@@ -90,13 +95,67 @@ public class HealthServiceFhir implements HealthServiceInterface {
  * ASYNCH	PART
  * =============================================================================
  */
+	
+	/*
+	-------------------------- 
+	CREATE
+	-------------------------- 
+	*/ 	
+	@Override
+	public Flux<String> createPatientAsynch(String jsonStr) {
+		Flux<String> creationflux  = fhirclient.createAsynch( jsonStr );
+		return creationflux;
+	}
+	
+	
+	/*
+	-------------------------- 
+	READ
+	-------------------------- 
+	*/ 	
  	@Override
 	public Flux<String> readPatientAsynch(Long id) {
- 		Flux<String> result = fhirclient.readPatientAsycnh(id.toString());
+ 		Flux<String> result = fhirclient.readPatientAsynch(id.toString());
  		System.out.println("HealthServiceFhir | readPatientAsynch result= " + result  );
 		return result;
 	}
+ 	
+	/*
+	-------------------------- 
+	SEARCH
+	-------------------------- 
+	*/ 	
+	@Override
+	public Flux<String> searchResourceAsynch(String jsonTemplate) {
+		//Bundle results = fhirclient.searchPatient( Patient.class, name );		
+ 		//String res     = HealthService.cvt(results, useJson);
+		System.out.println("HealthServiceFhir | searchResourceAsynch " + jsonTemplate );
+		String[] answer  = SearchResourceUtility.inspect( jsonTemplate );
+		if( answer[0] != null ) {
+			System.out.println("HealthServiceFhir | searchResourceAsynch resourceType:" + answer[0]  +" queryStr:" + answer[1] );
+			return fhirclient.searchResourceAsynch(answer[0], answer[1]);
+		}else return null;
+ 	}
+ 	
+	/*
+	-------------------------- 
+	UPDATE
+	-------------------------- 
+	*/ 	
+ 	
 
+	/*
+	-------------------------- 
+	DELETE
+	-------------------------- 
+	*/ 	
+	@Override
+	public Flux<String> deleteResourceAsynch( String resourceType, String id ){
+ 		Flux<String> result = fhirclient.deleteResourceAsynch(resourceType, id );
+ 		System.out.println("HealthServiceFhir | deleteResourceAsynch result= " + result  );
+		return result;
+	}
+ 	
 	//@Override
 //	public Mono<Long> todo( Patient newPatient ) {
 //		Flux<String> creationflux = fhirclient.createAsynch( newPatient.toString()   );
@@ -110,42 +169,6 @@ public class HealthServiceFhir implements HealthServiceInterface {
 //		);
 //   		return Mono.just( 0L );
 //	}
-
-	@Override
-	public Flux<String> createPatientAsynch(String jsonStr) {
-//		final StringBuilder longstrbuilder = new StringBuilder(); 
-//		try {
-//			System.out.println("HealthServiceFhir | createPatientAsynch: " +  jsonStr );  
-//			Patient newPatient = patientresource.createFhirPatientFromJson( jsonStr );
-//			System.out.println("createPatientAsynch: " +  newPatient );  
- 
-			Flux<String> creationflux       = fhirclient.createAsynch( jsonStr );
-			return creationflux;
-//	   		final StringBuilder answerbuild = new StringBuilder(); 
-//			System.out.println("HealthServiceFhir | createPatientAsynch BUILDS ANSWER ... "   );  
-//	   		creationflux.subscribe( 				
-//	   			item  -> { /*System.out.println("-> " + item);*/ answerbuild.append(item); },
-//				error -> System.out.println("error= " + error ),
-//				()    -> {  System.out.println("HealthServiceFhir | createPatientAsynch  ANSWER=" + answerbuild.toString()  );  
-//							String pid = patientresource.createFhirPatientFromJson( answerbuild.toString() ).getId();
-//							longstrbuilder.append( pid );
-//						 } 
-//			);
-//		} catch ( Exception e) {	//ResourceNotFoundException
-//			System.out.println("createPatientAsynch ERROR " + e.getMessage() );
-//			longstrbuilder.append("0");
-//		}
-//		System.out.println("createPatientAsynch ENDS with patientid=" + longstrbuilder.toString()  );  
-//		return Mono.just( longstrbuilder.toString() );
-	}
-	
-	@Override
-	public Flux<String> searchResourceAsynch(String jsonTemplate) {
-		//Bundle results = fhirclient.searchPatient( Patient.class, name );		
- 		//String res     = HealthService.cvt(results, useJson);
-		System.out.println("searchResourceAsynch " + jsonTemplate );
-		SearchResourceUtility.inspect( jsonTemplate );
-		return Flux.just("searchResourceAsynch wait a moment ...");
-	}
+ 	
 
 }

@@ -1,4 +1,5 @@
 package it.unibo.HealthAdapterFacade;
+import org.hl7.fhir.r4.model.Bundle;
 /*
  * ------------------------------------------------------------------------
  * Provides a set of operations  relted to the business logic
@@ -24,5 +25,6 @@ public interface HealthServiceInterface {
 	public Flux<String> readPatientAsynch(Long id);   		   		//output is JsonString
 	public Flux<String> createPatientAsynch(String jsonStr);   		//input is JsonString
 	public Flux<String> searchResourceAsynch(String jsonTemplate);
+	public Flux<String> deleteResourceAsynch( String resourceType, String id );
 
 }

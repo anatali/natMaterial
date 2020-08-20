@@ -6,6 +6,7 @@ package it.unibo.HealthAdapterFacade;
  * ------------------------------------------------------------------------
  */
 
+import org.hl7.fhir.r4.model.Bundle;
 /*
  * There's no canned process. 
  * The core problem is that segments are not naturally identified, and resources must be
@@ -80,6 +81,15 @@ public class HealthServiceHL7 implements HealthServiceInterface{
 	@Override
 	public Flux<String> searchResourceAsynch(String jsonTemplate) {
 		// TODO Auto-generated method stub
+		return null;
+	}
+	/*
+	-------------------------- 
+	DELETE
+	-------------------------- 
+	*/ 	
+	@Override
+	public Flux<String> deleteResourceAsynch( String resourceType, String id ){
 		return null;
 	}
 

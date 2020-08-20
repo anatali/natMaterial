@@ -1,19 +1,19 @@
 package it.unibo.HealthAdapterFacade;
 
+import org.hl7.fhir.r4.model.Bundle;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import it.unibo.HealthResource.PatientResource;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
  
@@ -31,7 +31,7 @@ public class HealthAdapterMIController {
 	private final boolean usejson = true;
 	private HealthService healthServiceBuilder;
  	private HealthServiceInterface healthService;
-	private PatientResource patientresource = new PatientResource();
+//	private PatientResource patientresource = new PatientResource();
 	
 	 @Autowired
      public HealthAdapterMIController( HealthService healthServiceBuilder ) {
@@ -41,52 +41,79 @@ public class HealthAdapterMIController {
      }
 
 /*
-* -------------------------------------------------------------------------
-* ASYNCH PART  
-* -------------------------------------------------------------------------
+* =========================================================================
+* CRUD - ASYNCH PART  
+* =========================================================================
 */	 
+	 
+		/*
+		-------------------------- 
+		CREATE
+		-------------------------- 
+		*/ 			 
+	    @PostMapping( HealthService.createPatientUri )
+	     public Flux<String> createPatientAsynch( @RequestBody String jsonStr ) {
+	  	    //System.out.println("----- HealthAdapterMIController createPatientAsynch " + jsonStr  );	    
+	    	//final StringBuilder longstrbuilder = new StringBuilder();
+	    	Flux<String> creationflux = healthService.createPatientAsynch(  jsonStr );
+	    	return creationflux;
+	    } 
+
+	/*
+	-------------------------- 
+	READ
+	-------------------------- 
+	*/ 		 
 	 //https://projectreactor.io/2.x/reference/
 	 //https://projectreactor.io/docs/core/snapshot/reference/
     @GetMapping( HealthService.readPatientUri+"/{id}" )	 
-    public Flux<String> readPatient(   @PathVariable( value = "id" ) Long resourceId ) {      	    
-  	    System.out.println("----- HealthAdapterMIController readpatient  id= " + resourceId  + " usejson=" + usejson );
+    public Flux<String> readPatientAsynch(   @PathVariable( value = "id" ) Long resourceId ) {      	    
+  	    System.out.println("----- HealthAdapterMIController readPatientAsynch  id= " + resourceId  + " usejson=" + usejson );
   	    Flux<String>  result = healthService.readPatientAsynch( resourceId  );
-  	    //System.out.println("----- HealthAdapterMIController readpatient result= " + result );
+  	    //System.out.println("----- HealthAdapterMIController readPatientAsynch result= " + result );
  	    return result;
     } 
 	 
-    @PostMapping( HealthService.createPatientUri )
-     public Flux<String> createPatient( @RequestBody String jsonStr ) {
-  	    //System.out.println("----- HealthAdapterMIController createPatient " + jsonStr  );	    
-    	final StringBuilder longstrbuilder = new StringBuilder();
-    	Flux<String> creationflux = healthService.createPatientAsynch(  jsonStr );
-    	return creationflux;
-//   		final StringBuilder answerbuild = new StringBuilder(); 
-//		System.out.println("HealthServiceFhir | createPatientAsynch BUILDS ANSWER ... "   );  
-//   		creationflux.subscribe( 				
-//   			item  -> { /*System.out.println("-> " + item);*/ answerbuild.append(item); },
-//			error -> System.out.println("error= " + error ),
-//			()    -> {  System.out.println("HealthServiceFhir | createPatientAsynch  ANSWER=" + answerbuild.toString()  );  
-//						String pid = patientresource.createFhirPatientFromJson( answerbuild.toString() ).getId();
-//						longstrbuilder.append( pid );
-//					 } 
-//		);
-   		//creationflux.blockLast();
-        //return Mono.just( "0" );
+	/*
+	-------------------------- 
+	SEARCH
+	-------------------------- 
+	*/ 		 
+    @GetMapping( HealthService.searchResourcetUri+"/{queryjson}" )	 
+    public Flux<String> searchResourceAsynch( @PathVariable(value = "queryjson") String queryjson ) { //
+  	    System.out.println("----- HealthAdapterMIController searchResourceAsynh  " +  queryjson  );
+   	    Flux<String>  b = healthService.searchResourceAsynch(queryjson);
+   	    if( b == null )  return Flux.just("sorry, error in searchResourceAsynch");
+   	    System.out.println("----- HealthAdapterMIController searchResourceAsynch b:" +  b  );
+//   	    b.subscribe(  
+//  				item  -> System.out.println("----- HealthAdapterMIController b" + item ) , 
+//  				error -> System.out.println("----- HealthAdapterMIController b ERROR= " + error ),
+//  				()    -> System.out.println("----- HealthAdapterMIController b done " )   
+//  		);	   	     
+  	    return b; //Flux.just("please wait ... "); 
     } 
-	 
-    @GetMapping( HealthService.searchResourcetUri+"/{jsonTemplate}" )	 
-    public Flux<String> searchresource( @PathVariable(value = "jsonTemplate") String jsonTemplate ) { //
-  	    System.out.println("----- HealthAdapterMIController searchresource  " +  jsonTemplate  );
-  	    return healthService.searchResourceAsynch(jsonTemplate);
-//  	    String s   = healthService.prettyFormat(res,2); 
-  	    //System.out.println( s );
-     } 
-	 
-	 
+
+    /*
+    -------------------------- 
+    UPDATE
+    -------------------------- 
+    */ 
+    
+    /*
+    -------------------------- 
+    DELETE
+    -------------------------- 
+    */ 
+    @DeleteMapping( HealthService.deleteResourceUri ) 
+    public Flux<String> deleteResourceAsynch( @RequestBody String id ) {	 
+   	 	System.out.println("----- HealthAdapterMIController deleteAResource id="  + id  );
+   	 	return healthService.deleteResourceAsynch("Patient", id);
+    }
+    
+    
 /*
  * -------------------------------------------------------------------------
- * OLD PART TO BE REFACTORED	 
+ * OLD PART  (SYNCH , TO BE REFACTORED IN ANY CASE)
  * -------------------------------------------------------------------------
  */
      @PostMapping( HealthService.createPatientSynchUri )

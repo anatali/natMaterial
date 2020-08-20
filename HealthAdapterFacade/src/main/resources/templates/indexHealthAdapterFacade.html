@@ -17,39 +17,17 @@
  	}
 
 /*
----------------------------------------------------------------------
-ASYNCH PART
----------------------------------------------------------------------
+====================================================================
+CRUD operations - ASYNCH PART   
+====================================================================
 */ 	 	
-   function readPatient(){		//ASYNCH  /readPatient
-     	$("pre.resultArea").text(  "" );
-    	var patientid = document.getElementById("patientid").value;
-      	$("i.infoArea").text(  "reading " + patientid + " ... ");	
-    	//alert( patientid  );
-		$.get("readPatient/"+patientid, function(data){	  //data is a JSon string
-				var datajson= JSON.stringify( JSON.parse(data), null, 2 );
-   				$("pre.resultArea").text( datajson );	
-     			$("i.infoArea").text(  "read " + patientid + " done" );	
- 		});  //, "json"
-    } 
- 	
-	//See https://www.html.it/pag/66525/fetch-api/
-	//https://www.javascripture.com/Response - replacement for XMLHttpRequest (https://www.javascripture.com/XMLHttpRequest).
-	function createAPatient(  jsonStr ) {	//ASYNCH  API-> /createPatient
-     	var patientobj  = JSON.parse(jsonStr);        
-    	var patientname = patientobj.name[0].given[0];
-    	alert( patientname );
-      	$("i.infoArea").text(  "creating patient ... " + patientname );	     	
-        fetch("/createPatient", {method: "POST", body: jsonStr}).then(function (response) {
-        	if (response.ok) {
-        		console.log(  "creation done of " +  patientname + "  " + response.type  ); //promise
-      			return response.text() ;		// 
-      		}}).then( function (answer) { //answer is the json rep of the created resource
-      		     	var patientobj  = JSON.parse(answer);        
-    				var patientid   = patientobj.id;      		
-      			$("i.infoArea").text(  "creation done of " +  patientname + " id=" + patientid);	
-      		});         
-    }
+
+/*
+-------------------------- 
+CREATE
+-------------------------- 
+*/
+
  	function createAPatientFromFile(  fName ) {	//ASYNCH API-> /createPatient
 		var jsonFileNames = document.getElementById("jsonFileName").files;	 
 		var fr=new FileReader(); 
@@ -62,26 +40,65 @@ ASYNCH PART
         } 		 
 		fr.readAsText( file, "UTF-8" ); 		 
 	}
-	
+
+	//See https://www.html.it/pag/66525/fetch-api/
+	//https://www.javascripture.com/Response - replacement for XMLHttpRequest (https://www.javascripture.com/XMLHttpRequest).
+	function createAPatient(  jsonStr ) {	//ASYNCH  API-> /createPatient
+     	var patientobj  = JSON.parse(jsonStr);        
+    	var patientname = patientobj.name[0].given[0];
+    	alert( patientname );
+      	$("i.infoArea").text(  "creating patient ... " + patientname );	     	
+        fetch("/createPatient", {method: "POST", body: jsonStr}).then(function (response) {
+        	if (response.ok) {
+        		console.log(  "creation done of " +  patientname + "  " + response.type  ); //promise
+      			return response.text() ;		// 
+      		}}).then( function (answer) { //answer is the json rep of the created resource
+      		    var patientobj  = JSON.parse(answer);        
+    			var patientid   = patientobj.id;      		
+      			$("i.infoArea").text(  "creation done of " +  patientname + " id=" + patientid);	
+      		});         
+    }
+    
+/*
+-------------------------- 
+READ
+-------------------------- 
+*/ 
+   function readAPatient(){		//ASYNCH  /readPatient
+     	$("pre.resultArea").text(  "" );
+    	var patientid = document.getElementById("patientid").value;
+      	$("i.infoArea").text(  "reading " + patientid + " ... ");	
+    	//alert( patientid  );
+		$.get("readPatient/"+patientid, function(data){	  //data is a JSon string
+				var datajson= JSON.stringify( JSON.parse(data), null, 2 );
+   				$("pre.resultArea").text( datajson );	
+     			$("i.infoArea").text(  "read " + patientid + " done" );	
+ 		});  //, "json"
+    } 
+ 	
+/*
+-------------------------- 
+SEARCH
+-------------------------- 
+*/ 	
 	/*
 	WARNING: 
 		1) createAPatient POST con body invia bene una stringa Json
 		2) searchResource GET non permette l'uso di [ ] nella stringa dei parametri
 	*/
-	function searchResource( jsonStr){		//ASYNCH API-> /searchResource
+	function searchAResource( queryjsonStr ){		//ASYNCH API-> /searchResource  GET
 		//alert(jsonStr);
-      	var patientobj   = JSON.parse(jsonStr);        
-    	var resourceType = patientobj.resourceType;		    //TODO: some other value commone to all resources
-   	    var resourceName = patientobj.given;					//TODO: some other value commone to all resources
-   	    //var jsonStrok    = JSON.stringify(patientobj);
-       	$("i.infoArea").text(  "searching ..." + resourceType + " name=" + resourceName );	 
+      	var patientobj   = JSON.parse(queryjsonStr);        
+    	var resourceType = patientobj.resourceType;		    //TODO: some other value common to all resources
+   	    var resourceName = patientobj.given;				//TODO: some other value common to all resources
+   	    //var jsonStrok  = JSON.stringify(patientobj);	/
+       	$("m.infoSearchArea").text(  queryjsonStr    ); 	 
     	$("pre.resultArea").text(  "" );
-		var path = '{"resourceType": "Patient", "name":  {"family":"Unibo", "given": [ "ElenaBologna", "Maria" ] }   }';
-  		
-		$.get("searchResource/"+jsonStr , function(data){	 
-  				$("pre.resultArea").text( data  );  //JSON.stringify( data, null, 2 )
-    		    $("i.infoArea").text(  "searching " + resourceType  + " done" );	
- 		}, "json");  	
+ 		$.get("searchResource/"+queryjsonStr , function(data){	 
+				var datajson= JSON.stringify( JSON.parse(data), null, 2 );
+   				$("pre.resultArea").text( datajson  );     
+    		    $("i.infoArea").text(  "search done" );	
+ 		} );  	//, "json"  //EXCLUDE, SINCE IT COULD BE just a string
  			
 /*
 		fetch("searchResource/"+address, {method: "GET", body: path})    //ERROR: GET CANNOT HAVE BODY
@@ -90,15 +107,16 @@ ASYNCH PART
 */
 }
 
-    function searchPatients(){
+    function searchAPatient(){
+   		//Read the patient query json file
 		var jsonSeachFileNames = document.getElementById("jsonFileName").files;	
 		var fr=new FileReader(); 
 		var file = jsonSeachFileNames[0];
   		//alert( file.size );
         fr.onload=function(evt){ 
-			var jsonStr = evt.target.result;
-			//alert(jsonStr);
-			searchResource(jsonStr);
+			var quaryjsonStr = evt.target.result;
+			//search 
+			searchAResource(quaryjsonStr);
         } 		 
 		fr.readAsText( file, "UTF-8" ); 		  //
 /*		
@@ -111,7 +129,34 @@ ASYNCH PART
  		});  
 */		
     }
-	
+
+/*
+-------------------------- 
+UDATE
+-------------------------- 
+*/ 	
+
+/*
+-------------------------- 
+DELETE
+-------------------------- 
+*/ 	
+    function deleteAResource() {		//ASYNCH API-> /deleteResource  DELETE or POST 
+    	userNameInput  = document.getElementById("patientid");
+        var message   =  userNameInput.value;
+    	//console.log("sendDelete "+ message);
+    	$("i.infoArea").text(  "deleting ..." );	
+        fetch("/deleteResource", {method: "POST", body: message}).then(function (response) {
+        	//console.log( response );	//Response {type: "basic", url: "http://localhost:8081/deleteResource", redirected: false, status: 200, ok: true, …}
+        	if (response.ok) {
+	            //userNameInput.value = "";
+	            userNameInput.focus();
+	            $("i.infoArea").text(  "deletion "+ message + " done" );	
+            }
+        });           
+    }
+
+
 /*
 ---------------------------------------------------------------------
 OLD PART
@@ -280,10 +325,8 @@ DISI - HapiFhirUsage.html</a> (on <tt>natMicroservices .... it.unibo.mirth.java/
 APPLICATION
 ****************************************************************************
 --> 
-
-
 <h3>State: <i class="infoArea"></i></h3> 
-
+<p>Search pattern: <m class="infoSearchArea" style="color:blue"></m></p> 
 <!-- GET "/select?healthcenter=FHIR"
 <form action="/select"> 
   <label for="healthcenter">Choose a healthcenter:</label>
@@ -302,27 +345,31 @@ Server address: <input id="serveraddr" type="text" size="35" value="https://hapi
 
 
 <h4>InputArea  </h4>
+<!-- FISRT ATTEMPTS
 <div>
 Patient name: <input id="patientname" type="text" size="10" value="ElenaBologna" autofocus/>  
 Patient json: <input id="patientjson" type="text" size="85" 
 value='{"resourceType": "Patient", "name": [ { "family": "Unibo", "given": [ "ElenaBologna", "Maria" ] }]}' autofocus>  
     <button onclick="createAPatient( document.getElementById('patientjson').value )">Create</button>  
     <button onclick="searchPatient()">Search</button>
-<br/>
-
-
+</div>
+--> 
+<div>
 Patient json FILE: <input type="file" id="jsonFileName" /> 	<!--value="PatientElenaJson.txt"-->
 	<button onclick="createAPatientFromFile(   )">Create</button>
-    <button onclick="searchPatients()">Search</button> 
+    <button onclick="searchAPatient()">Search</button> 
 <br/>
 
 Patient ident: <input id="patientid" type="text" size="15" autofocus/> 
-    <button onclick="readPatient()">Read</button> <button onclick="deleteResource()">Delete</button>  <br/>
+    <button onclick="readAPatient()">Read</button> 
+    <button onclick="deleteResource()">Delete</button>  <br/>
 </div>
 
- 
 
-<h4>OutputArea <button onclick="cleanOutputArea()">Clean</button></h4> 
+<!--
+----------------------------------------------------------------------------------
+-->
+ <h4>OutputArea <button onclick="cleanOutputArea()">Clean</button></h4> 
 <pre class="resultArea"><span th:text="${outField}">waiting ... </span></i></pre>
 
  </p>
@@ -335,7 +382,7 @@ Vi sono due modi di utilizzo:
 mediante le feature di monitoring.</li>
 <li>Lanciare una normale applicazione Java. Per questa modalita' si veda 
 <a href="http://htmlpreview.github.com/?https://github.com/anatali/natmaterial/blob/master/HealthAdapterFacade/userDocs/HealthAdapterFacade.html#uso" 
-target="web">DISI - HealthAdapterFacade.html</a> </li>
+target="web">DISI HealthAdapterFacade | Project description</a> </li>
  
 </ol>
 

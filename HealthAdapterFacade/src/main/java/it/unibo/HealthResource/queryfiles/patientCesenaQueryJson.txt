@@ -1,0 +1,3 @@
+{ "resourceType": "Patient", 
+  "address": { "city": "Cesena", "country": "Italy"} 
+} 
