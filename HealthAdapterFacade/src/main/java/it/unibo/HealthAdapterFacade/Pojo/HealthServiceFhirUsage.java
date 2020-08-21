@@ -73,7 +73,7 @@ public class HealthServiceFhirUsage {
   		currentResourceId = id;
 	}
 
-		public void createResourceFromFile( String fname ) {
+	public void createResourceFromFile( String fname ) {
 		String jsonRep      = HttpFhirSupport.readFromFileJson( fname );
 		Flux<String> answer = healthService.createResourceAsynch( jsonRep );
  		final StringBuilder strbuild = new StringBuilder();  
@@ -101,8 +101,8 @@ public class HealthServiceFhirUsage {
    		endOfJob( answer );
  	}
 
- 	public void deleteResource(  Long id ) {
- 		Flux<String> answer   = healthService.deleteResourceAsynch(   id.toString() );
+ 	public void deleteResource(  String resourceType, Long id ) {
+ 		Flux<String> answer   = healthService.deleteResourceAsynch(  resourceType, id.toString() );
  		endOfJob( answer );
  	}
 
@@ -140,9 +140,10 @@ public class HealthServiceFhirUsage {
 		appl.waitEndOfJob();
 */ 
 		System.out.println(" %%% DELETE  ------------------------------ ");
-		appl.deleteResource( appl.currentResourceId );	//
+		appl.currentResourceType = "Patient";
+		appl.deleteResource( appl.currentResourceType, appl.currentResourceId );	//
 		
-		HealthService.delay(3000);  //To avoid premature termination
+		HealthService.delay(2000);  //To avoid premature termination
 		
 //		System.out.println(" %%% END  ------------------------------ ");
 //		appl.currentJobDone = true;

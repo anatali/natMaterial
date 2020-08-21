@@ -14,7 +14,7 @@ public interface HealthServiceInterface {
 		public Flux<String> createResourceAsynch(String jsonStr);   		 
 		public Flux<String> searchResourceAsynch(String jsonTemplate);
 		public Flux<String> updateResourceAsynch( String newresourceJsonStr  );
-		public Flux<String> deleteResourceAsynch(  String id ); 
+		public Flux<String> deleteResourceAsynch( String resourceType, String id ); 
 
 /*
  *  SYNCH

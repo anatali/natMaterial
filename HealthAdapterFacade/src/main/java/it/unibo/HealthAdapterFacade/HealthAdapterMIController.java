@@ -14,9 +14,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
- 
- 
-
 
 @RestController 	//annotates all the methods with @ResponseBody that embeds the return value in the body of HTTP answer
 /*
@@ -113,9 +110,12 @@ public class HealthAdapterMIController {
     -------------------------- 
     */ 
     @DeleteMapping( HealthService.deleteResourceUri ) 
-    public Flux<String> deleteResourceAsynch( @RequestBody String id ) {	 
-   	 	System.out.println("----- HealthAdapterMIController deleteResourceAsynch id="  + id  );
-   	 	return healthService.deleteResourceAsynch( id );	 
+    public Flux<String> deleteResourceAsynch( @RequestBody String body ) {	
+    	String[] args = body.split("&");
+    	String   resourceType   = args[0];
+    	String   id   			= args[1];
+   	 	System.out.println("----- HealthAdapterMIController deleteResourceAsynch resourceType=" + resourceType + " id=" + id  );
+   	 	return healthService.deleteResourceAsynch( resourceType, id );	 
     }
       
     @ExceptionHandler 

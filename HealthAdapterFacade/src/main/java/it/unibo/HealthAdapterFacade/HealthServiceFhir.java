@@ -109,11 +109,11 @@ public class HealthServiceFhir implements HealthServiceInterface {
 	-------------------------- 
 	*/ 	
 	@Override
-	public Flux<String> deleteResourceAsynch( String id ){
+	public Flux<String> deleteResourceAsynch( String resourceType, String id ){
 		//Search the resourceType  
-		String resourceType = resources.get( id );
-		System.out.println("HealthServiceFhir | deleteResourceAsynch HAS FOUND resourceType = " + resourceType  );
-		if( resourceType == null ) return Flux.just("Sorry, resource with id=" + id + "not found");
+//		String resourceType = resources.get( id );
+//		System.out.println("HealthServiceFhir | deleteResourceAsynch HAS FOUND resourceType = " + resourceType  );
+//		if( resourceType == null ) return Flux.just("Sorry, resource with id=" + id + "not found");
  		Flux<String> result = fhirclient.deleteResourceAsynch(resourceType, id );
  		System.out.println("HealthServiceFhir | deleteResourceAsynch result= " + result  );
 		return result;

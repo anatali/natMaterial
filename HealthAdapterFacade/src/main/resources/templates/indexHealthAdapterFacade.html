@@ -81,7 +81,7 @@ CREATE SYNCH
         		console.log(  "creation from " +  fName + "  done response.type=" + response.type  ); //promise
       			return response.text() ;		// 
       		}}).then( function (answer) { //answer is the json rep of the created resource
-      			alert( answer );
+      			//alert( answer );
       			$("i.infoArea").text(  "creation done from " +  fName + " id=" + answer);	
       		});         
     }
@@ -99,9 +99,13 @@ READ
     	//alert( resourceType  );
 		$.get("readResource/"+resourceid+"&"+resourceType, function(data){	  //data is a JSon string
 				//alert(data);
-				var datajson= JSON.stringify( JSON.parse(data), null, 2 );
-   				$("pre.resultArea").text( datajson );	
-     			$("i.infoArea").text(  "read " + resourceid + " done" );	
+				try{
+					var datajson= JSON.stringify( JSON.parse(data), null, 2 );
+	   				$("pre.resultArea").text( datajson );	
+	     			$("i.infoArea").text(  "read " + resourceid + " done" );	
+     			}catch( e ){	//answer not json
+     				$("i.infoArea").text(  "read " + resourceid + " failure "   );
+     			}	
  		});  //, "json"
     } 
  	
@@ -202,9 +206,10 @@ DELETE
 -------------------------- 
 */ 	
     function deleteAResource() {		//ASYNCH API-> /deleteResource  DELETE or POST 
-    	input  = document.getElementById("resourceid");
-        var message   =  input.value;
-    	//console.log("sendDelete "+ message);
+        resourceType  = document.getElementById("resourcetype");
+    	input         = document.getElementById("resourceid");
+        var message   = resourceType.value + "&"+ input.value ;
+    	console.log("deleteAResource  "+ message);
     	$("i.infoArea").text(  "deleting ..." );	
         fetch("/deleteResource", {method: "DELETE", body: message}).then(function (response) {
         	//console.log( response );	//Response {type: "basic", url: "http://localhost:8081/deleteResource", redirected: false, status: 200, ok: true, …}
@@ -258,11 +263,6 @@ specifica della risorsa e sue rappresentazioni XML, UML, Json, etc
 <li><a href="https://www.hl7.org/fhir/R4/search.html" target="web">FHIR 3.1.1 Search</a>: 
 describes the FHIR search framework
 </li>
-
- 
-
-
-
  
 <li>
 <a href="https://hapifhir.io/hapi-fhir/apidocs/hapi-fhir-structures-r4/" target="web">HAPI FHIR Structures</a>: 

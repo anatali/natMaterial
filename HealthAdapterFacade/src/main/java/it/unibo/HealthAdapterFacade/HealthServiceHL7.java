@@ -42,7 +42,7 @@ public class HealthServiceHL7 implements HealthServiceInterface{
 	}
 
 	@Override
-	public Flux<String> deleteResourceAsynch(  String id ) {
+	public Flux<String> deleteResourceAsynch( String resourceType,  String id ) {
  		return null;
 	}
 

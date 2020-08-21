@@ -2,12 +2,10 @@ package it.unibo.HealthResource;
 
  
 import java.util.Iterator;
-
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.r4.model.Patient;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import ca.uhn.fhir.model.dstu2.resource.CarePlan;
 import ca.uhn.fhir.parser.IParser;
 import it.unibo.HealthAdapterFacade.HealthService;
