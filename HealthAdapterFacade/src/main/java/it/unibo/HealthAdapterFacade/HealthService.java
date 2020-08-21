@@ -30,7 +30,8 @@ public class HealthService {
  
 	public static final String createResourceUri   		="/createResource";
 	public static final String readResourceUri   		="/readResource";
-	public static final String searchResourcetUri  		="/searchResource";
+	public static final String searchResourceUri  		="/searchResource";
+	public static final String updateResourceUri  		="/updateResource";
 	public static final String deleteResourceUri 		="/deleteResource";
 	
 	/*

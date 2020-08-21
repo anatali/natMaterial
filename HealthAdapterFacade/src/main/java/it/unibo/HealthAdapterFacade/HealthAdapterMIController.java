@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
@@ -75,7 +76,7 @@ public class HealthAdapterMIController {
 	SEARCH
 	-------------------------- 
 	*/ 		 
-    @GetMapping( HealthService.searchResourcetUri+"/{queryjson}" )	 
+    @GetMapping( HealthService.searchResourceUri+"/{queryjson}" )	 
     public Flux<String> searchResourceAsynch( @PathVariable(value = "queryjson") String queryjson ) { //
   	    System.out.println("----- HealthAdapterMIController searchResourceAsynh  " +  queryjson  );
    	    Flux<String>  b = healthService.searchResourceAsynch(queryjson);
@@ -94,6 +95,12 @@ public class HealthAdapterMIController {
     UPDATE
     -------------------------- 
     */ 
+    @PutMapping( HealthService.updateResourceUri ) 
+    public Flux<String> updateResourceAsynch( @RequestBody String newResource ) {	 
+   	 	System.out.println("----- HealthAdapterMIController updateResourceAsynch newResource="  + newResource  );  	 	
+   	 	return healthService.updateResourceAsynch( newResource );	 
+   	 	//return Flux.just("wait a moment ...");
+    }
     
     /*
     -------------------------- 
@@ -102,7 +109,7 @@ public class HealthAdapterMIController {
     */ 
     @DeleteMapping( HealthService.deleteResourceUri ) 
     public Flux<String> deleteResourceAsynch( @RequestBody String id ) {	 
-   	 	System.out.println("----- HealthAdapterMIController deleteAResource id="  + id  );
+   	 	System.out.println("----- HealthAdapterMIController deleteResourceAsynch id="  + id  );
    	 	return healthService.deleteResourceAsynch("Patient", id);	//TODO
     }
     

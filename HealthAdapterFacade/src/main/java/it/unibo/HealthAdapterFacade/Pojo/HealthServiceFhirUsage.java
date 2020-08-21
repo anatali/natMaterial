@@ -1,14 +1,13 @@
-package it.unibo.HealthAdapterFacade.Pojo;
 /*
  * ------------------------------------------------------------------------
  * Utilizza  HealthServiceFhir per interagire con CentroHealthFHIR
  * ------------------------------------------------------------------------
  */
+package it.unibo.HealthAdapterFacade.Pojo;
  
-import org.hl7.fhir.r4.model.Patient;
+import java.io.IOException;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import it.unibo.HealthAdapter.Clients.HttpFhirSupport;
 import it.unibo.HealthAdapterFacade.HealthService;
 import it.unibo.HealthAdapterFacade.HealthServiceFhir;
@@ -69,7 +68,7 @@ public class HealthServiceFhirUsage {
  	}
  	
 	public void createResourceFromFile( String fname ) {
-		String jsonRep      = HttpFhirSupport.readPatientFromFileJson( fname );
+		String jsonRep      = HttpFhirSupport.readFromFileJson( fname );
 		Flux<String> answer = healthService.createResourceAsynch( jsonRep );
  		final StringBuilder strbuild = new StringBuilder();  
  		System.out.println("createResourceFromFile IS BUILDING THE ANSWER ... ");
@@ -90,30 +89,28 @@ public class HealthServiceFhirUsage {
  		endOfJob( answer );
  	}
 
-	
-/*	
- 	
- 	public void searchPatient(String patientName) {
-		String answerjson = healthService.search_for_patients_named(patientName, true); //true=> usejson
-		System.out.println("searchPatient " + patientName);
-		System.out.println( answerjson );		
-	}
- 	
- 	public void delete_patient(String id) {
- 		String res = healthService.delete_patient(id);
-		System.out.println("----------------- deletePatient result:" + res );
+ 	public void updateResourceFromFile( String fname, Long id ) {
+		String jsonRep      = HttpFhirSupport.readFromFileJson( fname );
+		Flux<String> answer = healthService.updateResourceAsynch(   jsonRep  );
+   		endOfJob( answer );
  	}
- 	*/
+
+ 	public void deleteResource( String resourceType, Long id ) {
+ 		Flux<String> answer   = healthService.deleteResourceAsynch(   resourceType,   id.toString() );
+ 		endOfJob( answer );
+ 	}
+
 	
 	
 	/*
 	 * CRUD - the callback hell
 	 */	
-	public static void main( String[] args) {
+	public static void main( String[] args) throws IOException {
 		HealthServiceFhirUsage appl = new HealthServiceFhirUsage();
-		String resourceFileName = "src/main/java/it/unibo/HealthResource/datafiles/PatientAlicejson.txt";
+		String resourceFileName       = "src/main/java/it/unibo/HealthResource/datafiles/PatientAlicejson.txt";
+		String updateResourceFileName = "src/main/java/it/unibo/HealthResource/datafiles/PatientAlicejsonUpdate.txt";
 		String queryStr         = "{ \"resourceType\": \"Patient\", \"address\": { \"city\": \"Cesena\", \"country\": \"Italy\" } }"; 
- 
+/* 
 		System.out.println(" %%% CREATE  ------------------------------ ");
 		appl.createResourceFromFile(resourceFileName);
 		while( appl.currentResourceId == null ) {
@@ -128,28 +125,16 @@ public class HealthServiceFhirUsage {
 		System.out.println(" %%% SEARCH  ------------------------------ ");
 		appl.searchResource( queryStr );
 		appl.waitEndOfJob();
-		
+*/		
 		System.out.println(" %%% UPDATE  ------------------------------ ");
-		
+		appl.updateResourceFromFile(updateResourceFileName, 1439336L);
+		appl.waitEndOfJob();
+/* 
 		System.out.println(" %%% DELETE  ------------------------------ ");
-		
-//		HealthService.delay(2500);	//TO avoid premature termination
-//		appl.readPatient(id);
-// 		appl.readPatient(1436187L);
-		/* 		
-		System.out.println(" %%% CREATE ------------------------------");
-		String resourceFileName = "src/main/java/it/unibo/HealthResource/PatientExample0json.txt";
- 		Long id = appl.createPatientFromFile( resourceFileName ) ;
-		
-
-		System.out.println(" %%% SEARCH ----------------------------- ");
-		appl.searchPatient("PeterUniboBologna");
-		
- 		System.out.println(" %%% DELETE ----------------------------- ");	
- 		appl.delete_patient(  id.toString() );
- 		
- 		System.out.println(" %%% SEARCH ----------------------------- ");	
-		appl.searchPatient("PeterUniboBologna");
-*/ 	
+		appl.deleteResource( appl.currentResourceType, appl.currentResourceId);	//
+*/		
+		HealthService.delay(3000);  //To avoid premature termination
+//		System.out.println(" %%% END  ------------------------------ ");
+//		appl.currentJobDone = true;
 		}
 }

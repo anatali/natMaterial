@@ -46,6 +46,11 @@ public class HealthServiceHL7 implements HealthServiceInterface{
  		return null;
 	}
 
+	@Override
+	public Flux<String> updateResourceAsynch( String newresourceJsonStr ) {
+ 		return null;
+	}
+
  
 	
 

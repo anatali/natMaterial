@@ -11,6 +11,8 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.function.Consumer;
+
+import org.hl7.fhir.r4.model.Patient;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;	
@@ -121,10 +123,11 @@ public class FhirServiceClient {
     UPDATE
     -------------------------- 
     */ 
- 	public Flux<String> updateResourceAsynch( String newresourceJsonStr ) {
+ 	// a Resource with an id element that has an identical value to the [id] in the URL.
+ 	public Flux<String> updateResourceAsynch( String resourceId, String newresourceJsonStr ) {
 		String resourceType = HealthService.getResourceType(newresourceJsonStr);  
 		System.out.println( "FhirServiceClient updateResourceAsynch resourceType=" + resourceType );
-		String addr = serverBase+"/"+resourceType;  
+		String addr = serverBase+"/"+resourceType+"/"+resourceId;  
     	System.out.println("FhirServiceClient | updateResourceAsynch addr=" + addr);
      	
 		Flux<String> result = webClient.put()

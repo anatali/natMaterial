@@ -20,6 +20,20 @@ import it.unibo.HealthAdapterFacade.HealthService;
  */
 public class SearchResourceUtility {
  
+	public static String[] getBasicInfo(String resjsonStr) {
+		String[] answer = new String[2];
+ 		try {
+			answer[0]           = null;
+			JSONObject resobj   = new JSONObject (resjsonStr );
+  			answer[0]           =  resobj.getString("resourceType");
+ 			answer[1]           =  resobj.getString("id");
+			System.out.println("SearchResourceUtility | getBasicInfo resourceType=" + answer[0] + " id="+answer[1] );
+			return answer;
+		} catch (JSONException e) {
+			System.out.println("SearchResourceUtility | inspect ERROR " + e.getMessage());
+		}
+ 		return answer;
+	}
 
 	public static String[] inspect(String queryjsonStr) {
 		System.out.println("SearchResourceUtility | inspect resourceType=" + queryjsonStr );
@@ -30,7 +44,8 @@ public class SearchResourceUtility {
 			System.out.println("SearchResourceUtility | inspect resourceType=" + resourceType );
 			answer[0]           = resourceType;
 			switch( resourceType ) {
-				case "Patient" : answer[1] = inspectPatient( resourceType, queryobj );  break;
+				case "Patient"  : answer[1] = inspectPatient( resourceType, queryobj );  break;
+				case "CarePlan" : answer[1] = inspectCarePlan( resourceType, queryobj );  break;
 				default        : { 
 					System.out.println("SearchResourceUtility | inspect resourceType UNKNONN"  );
 					answer[0]       = null;
@@ -56,7 +71,7 @@ public class SearchResourceUtility {
  				String key = keys.next();
 // 				System.out.println( "SearchResourceUtility | inspectPatient key=" + key);
  				switch( key ) {
- 					case "name" :   name   = queryobj.getString("given");break;
+ 					case "given"  : name   = queryobj.getString("given");break;
  					case "family" : family = queryobj.getString("family");break;
  					case "gender" : gender = queryobj.getString("gender");break;
 					case "address" : 
@@ -69,19 +84,48 @@ public class SearchResourceUtility {
  			}
 // WARNING: city,  country are not   search parameters
 	 		StringBuilder queryStr = new StringBuilder();
-	 		queryStr.append( "active" );
-	 		if(name != null) 	queryStr.append("&name="+name);
-	 		if(family != null)	queryStr.append("&family="+family);
-	 		if(gender != null) 	queryStr.append("&gender="+gender);
-	 		if(city != null) 	queryStr.append("&address="+city);
-	 		if(country != null)	queryStr.append("&address="+country);
+ 	 		if(name != null) 	updateQueryStr(queryStr, "given="+name);
+	 		if(family != null)	updateQueryStr(queryStr, "family="+family);
+	 		if(gender != null) 	updateQueryStr(queryStr, "gender="+gender);
+	 		if(city != null) 	updateQueryStr(queryStr, "address="+city);
+	 		if(country != null)	updateQueryStr(queryStr, "address="+country);
 	 		
 	 		   
 	 		return queryStr.toString(); 
 		} catch (Exception e) {
 			System.out.println("SearchResourceUtility | inspectPatient ERROR " + e.getMessage());
 			return null;
-		}
-		
+		}		
 	}
+	
+	private static void updateQueryStr( StringBuilder sb, String s) {
+		if( sb.length() == 0 ) sb.append(s); else sb.append("&"+s);		
+	}
+	public static String inspectCarePlan( String resourceType, JSONObject queryobj ) {
+		String status  	= null;
+		String intent  	= null;
+ 		try {
+ 			Iterator<String> keys = queryobj.keys();
+ 			while( keys.hasNext() ) {
+ 				String key = keys.next();
+// 				System.out.println( "SearchResourceUtility | inspectPatient key=" + key);
+ 				switch( key ) {
+ 					case "status"  : status = queryobj.getString("status");break;
+ 					case "intent"  : intent = queryobj.getString("intent");break;
+ 					default:
+ 				}
+ 			}//while
+ 			
+	 		StringBuilder queryStr = new StringBuilder();
+ 	 		if(status != null ) updateQueryStr(queryStr, "status="+status);
+	 		if(intent != null ) updateQueryStr(queryStr, "intent="+intent);
+	 		return queryStr.toString(); 
+			
+		} catch (Exception e) {
+			System.out.println("SearchResourceUtility | inspectPatient ERROR " + e.getMessage());
+			return null;
+		}		
+
+ 	}
+	
 }

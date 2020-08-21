@@ -69,7 +69,14 @@ public class HealthServiceFhir implements HealthServiceInterface {
 	UPDATE
 	-------------------------- 
 	*/ 	
- 	
+	@Override 
+	public Flux<String> updateResourceAsynch( String newresourceJsonStr ){
+		String[] answer  = SearchResourceUtility.getBasicInfo( newresourceJsonStr ); 
+ 		Flux<String> result = fhirclient.updateResourceAsynch( answer[1], newresourceJsonStr );
+ 		System.out.println("HealthServiceFhir | updateResourceAsynch result= " + result  );
+		return result;
+	}
+	
 
 	/*
 	-------------------------- 
@@ -78,6 +85,7 @@ public class HealthServiceFhir implements HealthServiceInterface {
 	*/ 	
 	@Override
 	public Flux<String> deleteResourceAsynch( String resourceType, String id ){
+		//Search the resource with given id and find its resourceType  TODO
  		Flux<String> result = fhirclient.deleteResourceAsynch(resourceType, id );
  		System.out.println("HealthServiceFhir | deleteResourceAsynch result= " + result  );
 		return result;

@@ -14,13 +14,13 @@ public class HttpClientFhirServer {
 
 
 	public Long createPatient( ) {
-		String pjson = HttpFhirSupport.readPatientFromFileJson( patientElenaJson );
+		String pjson = HttpFhirSupport.readFromFileJson( patientElenaJson );
 		String res   = HttpFhirSupport.post( serverBase+"/Patient", pjson, "application/json; utf-8" );
  		System.out.println( "createPatient post res=" + res  ); 		
 		return HttpFhirSupport.getPatientId(res);
  	}
 	public Flux<String> createPatientAsynch( ) {
-		String pjson = HttpFhirSupport.readPatientFromFileJson( patientElenaJson );
+		String pjson = HttpFhirSupport.readFromFileJson( patientElenaJson );
 		Flux<String> res   = HttpFhirSupport.postAsynch( serverBase+"/Patient", pjson, "application/json; utf-8" );
  		System.out.println( "createPatientAsynch post res=" + res  ); 		
 		return res;

@@ -153,7 +153,7 @@ public class HttpFhirSupport {
 	return result;
 	}
 
-	public static String readPatientFromFileJson(String fileName) {
+	public static String readFromFileJson(String fileName) {
 		try {			
 			FileInputStream fis = new FileInputStream(fileName);
 		    String data         = IOUtils.toString(fis, "UTF-8");
