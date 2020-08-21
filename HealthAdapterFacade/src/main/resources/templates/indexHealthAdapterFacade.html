@@ -45,7 +45,8 @@ CREATE
   		//alert( file.size );
         fr.onload=function(evt){ 
 			var jsonStr = evt.target.result;
-			createAResource(jsonFileNames[0].name, jsonStr);
+			//createAResource(jsonFileNames[0].name, jsonStr);				//ASYNCH
+			createAResourceSynch( jsonFileNames[0].name, jsonStr );			//SYNCH
         } 		 
 		fr.readAsText( file, "UTF-8" ); 		 
 	}
@@ -54,9 +55,8 @@ CREATE
 	//https://www.javascripture.com/Response - replacement for XMLHttpRequest (https://www.javascripture.com/XMLHttpRequest).
 	function createAResource(  fName, jsonStr ) {	//ASYNCH  API-> /createResource
      	var resourceobj  = JSON.parse(jsonStr);        
- //   	var resourcename = resourceobj.name[0].given[0];
-    	//alert( fName );
-      	$("i.infoArea").text(  "creating patient from ... " + fName );	     	
+     	//alert( fName );
+      	$("i.infoArea").text(  "creating resource from ... " + fName );	     	
         fetch("/createResource", {method: "POST", body: jsonStr}).then(function (response) {
         	if (response.ok) {
         		console.log(  "creation from " +  fName + "  done response.type=" + response.type  ); //promise
@@ -66,6 +66,23 @@ CREATE
       		    var resourceobj  = JSON.parse(answer);        
     			var resourceid   = resourceobj.id;      		
       			$("i.infoArea").text(  "creation done from " +  fName + " id=" + resourceid);	
+      		});         
+    }
+    
+/*
+-------------------------- 
+CREATE SYNCH
+-------------------------- 
+*/    function createAResourceSynch( fName, jsonStr ) { //SYNCH  API-> /createResourceSynch
+       	//alert( fName );
+      	$("i.infoArea").text(  "creating resource from ... " + fName );	     	
+        fetch("/createResourceSynch", {method: "POST", body: jsonStr}).then(function (response) {
+        	if (response.ok) {
+        		console.log(  "creation from " +  fName + "  done response.type=" + response.type  ); //promise
+      			return response.text() ;		// 
+      		}}).then( function (answer) { //answer is the json rep of the created resource
+      			alert( answer );
+      			$("i.infoArea").text(  "creation done from " +  fName + " id=" + answer);	
       		});         
     }
     
@@ -398,13 +415,10 @@ target="web">DISI HealthAdapterFacade | Project description</a> </li>
  
 </ol>
 
-<h3>Using the GUI</h3>
+<h3>Using the GUI (TODO) </h3>
 <m>
 <ol>
-<li>Insert a name (e.g. AliceBologna) and create a patient. Look at the <k>id</k> given as result in State</li>
-<li>Search all the patients with the given name. Look at the OutputArea</li>
-<li>Read the patient with the given <k>id</k>. Look at the OutputArea</li>
-<li>Delete the patient  with the given <k>id</k></li>
+ 
 </ol>
 
 </m>

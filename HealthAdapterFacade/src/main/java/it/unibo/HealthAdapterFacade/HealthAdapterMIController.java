@@ -36,23 +36,33 @@ public class HealthAdapterMIController {
   		System.out.println("----- HealthAdapterMIController CREATED "   );
      }
 
+	 
+/*
+ * =========================================================================
+ * CREATE - SYNCH PART  
+ * =========================================================================
+ */	 
+	 @PostMapping( HealthService.createResourceUriSynch )
+	 public Long createResourceSynch( @RequestBody String jsonStr ) {
+		 Long id = healthService.createResourceSynch(  jsonStr );
+		 return id;
+	 }
 /*
 * =========================================================================
 * CRUD - ASYNCH PART  
 * =========================================================================
 */	  
-		/*
-		-------------------------- 
-		CREATE
-		-------------------------- 
-		*/ 			 
-	    @PostMapping( HealthService.createResourceUri )
-	     public Flux<String> createResourceAsynch( @RequestBody String jsonStr ) {
-	  	    //System.out.println("----- HealthAdapterMIController createPatientAsynch " + jsonStr  );	    
-	    	//final StringBuilder longstrbuilder = new StringBuilder();
-	    	Flux<String> creationflux = healthService.createResourceAsynch(  jsonStr );
-	    	return creationflux;
-	    } 
+	/*
+	-------------------------- 
+	CREATE
+	-------------------------- 
+	*/ 			 
+	 @PostMapping( HealthService.createResourceUri )
+	public Flux<String> createResourceAsynch( @RequestBody String jsonStr ) {
+		 //System.out.println("----- HealthAdapterMIController createPatientAsynch " + jsonStr  );	    
+		 Flux<String> creationflux = healthService.createResourceAsynch(  jsonStr );
+		 return creationflux;
+	} 
 
 	/*
 	-------------------------- 
@@ -82,11 +92,6 @@ public class HealthAdapterMIController {
    	    Flux<String>  b = healthService.searchResourceAsynch(queryjson);
    	    if( b == null )  return Flux.just("sorry, error in searchResourceAsynch");
    	    System.out.println("----- HealthAdapterMIController searchResourceAsynch b:" +  b  );
-//   	    b.subscribe(  
-//  				item  -> System.out.println("----- HealthAdapterMIController b" + item ) , 
-//  				error -> System.out.println("----- HealthAdapterMIController b ERROR= " + error ),
-//  				()    -> System.out.println("----- HealthAdapterMIController b done " )   
-//  		);	   	     
   	    return b; //Flux.just("please wait ... "); 
     } 
 
@@ -110,12 +115,9 @@ public class HealthAdapterMIController {
     @DeleteMapping( HealthService.deleteResourceUri ) 
     public Flux<String> deleteResourceAsynch( @RequestBody String id ) {	 
    	 	System.out.println("----- HealthAdapterMIController deleteResourceAsynch id="  + id  );
-   	 	return healthService.deleteResourceAsynch("Patient", id);	//TODO
+   	 	return healthService.deleteResourceAsynch( id );	 
     }
-    
-    
       
-  
     @ExceptionHandler 
     public ResponseEntity<String> handle(Exception ex) {
     	HttpHeaders responseHeaders = new HttpHeaders();

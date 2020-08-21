@@ -19,7 +19,7 @@ public class HealthServiceFhirUsage {
  	
   	private HealthServiceInterface healthService;
   	private String serverBase="https://hapi.fhir.org/baseR4"; //"http://localhost:9001/r4"; //"https://hapi.fhir.org/baseR4";   
-  	private String currentResourceType = null;
+  	private String currentResourceType = "Patient";
   	private Long   currentResourceId   = null;
   	private boolean currentJobDone     = false;
   			
@@ -67,7 +67,13 @@ public class HealthServiceFhirUsage {
  		);			
  	}
  	
-	public void createResourceFromFile( String fname ) {
+	public void createResourceFromFileSynch( String fname ) {
+		String jsonRep      = HttpFhirSupport.readFromFileJson( fname );
+		Long id             = healthService.createResourceSynch( jsonRep );
+  		currentResourceId = id;
+	}
+
+		public void createResourceFromFile( String fname ) {
 		String jsonRep      = HttpFhirSupport.readFromFileJson( fname );
 		Flux<String> answer = healthService.createResourceAsynch( jsonRep );
  		final StringBuilder strbuild = new StringBuilder();  
@@ -95,8 +101,8 @@ public class HealthServiceFhirUsage {
    		endOfJob( answer );
  	}
 
- 	public void deleteResource( String resourceType, Long id ) {
- 		Flux<String> answer   = healthService.deleteResourceAsynch(   resourceType,   id.toString() );
+ 	public void deleteResource(  Long id ) {
+ 		Flux<String> answer   = healthService.deleteResourceAsynch(   id.toString() );
  		endOfJob( answer );
  	}
 
@@ -110,30 +116,34 @@ public class HealthServiceFhirUsage {
 		String resourceFileName       = "src/main/java/it/unibo/HealthResource/datafiles/PatientAlicejson.txt";
 		String updateResourceFileName = "src/main/java/it/unibo/HealthResource/datafiles/PatientAlicejsonUpdate.txt";
 		String queryStr         = "{ \"resourceType\": \"Patient\", \"address\": { \"city\": \"Cesena\", \"country\": \"Italy\" } }"; 
-/* 
+  
 		System.out.println(" %%% CREATE  ------------------------------ ");
-		appl.createResourceFromFile(resourceFileName);
-		while( appl.currentResourceId == null ) {
-	 		System.out.println("waiting for THE ANSWER ... ");
-			HealthService.delay(500);
-		}
+//		appl.createResourceFromFile(resourceFileName);
+//		//wait until the appl.currentResourceId is updated
+//		while( appl.currentResourceId == null ) { 
+//	 		System.out.println("waiting for THE ANSWER ... ");
+//			HealthService.delay(500);
+//		}
+		
+		appl.createResourceFromFileSynch(resourceFileName);		//updates appl.currentResourceId and stores the id
 		
 		System.out.println(" %%% READ    ------------------------------ ");
 		appl.readResource( appl.currentResourceId );
 		appl.waitEndOfJob();
- 		
+/* 		
 		System.out.println(" %%% SEARCH  ------------------------------ ");
 		appl.searchResource( queryStr );
 		appl.waitEndOfJob();
-*/		
+ 		
 		System.out.println(" %%% UPDATE  ------------------------------ ");
 		appl.updateResourceFromFile(updateResourceFileName, 1439336L);
 		appl.waitEndOfJob();
-/* 
+*/ 
 		System.out.println(" %%% DELETE  ------------------------------ ");
-		appl.deleteResource( appl.currentResourceType, appl.currentResourceId);	//
-*/		
+		appl.deleteResource( appl.currentResourceId );	//
+		
 		HealthService.delay(3000);  //To avoid premature termination
+		
 //		System.out.println(" %%% END  ------------------------------ ");
 //		appl.currentJobDone = true;
 		}

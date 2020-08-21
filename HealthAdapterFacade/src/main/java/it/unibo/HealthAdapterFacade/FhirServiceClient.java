@@ -12,11 +12,14 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.function.Consumer;
 
+import org.hl7.fhir.instance.model.api.IBaseResource;
+import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.Patient;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;	
 import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.FluxSink;
@@ -25,9 +28,8 @@ import reactor.core.publisher.Mono;
 
 public class FhirServiceClient {
 	private String serverBase=""; //"https://hapi.fhir.org/baseR4";  http://example.com/fhirBaseUrl
-	private FhirContext fhirctx ;  
-    // Create a client. See https://hapifhir.io/hapi-fhir/docs/client/generic_client.html
- 	IGenericClient client ; //= ctx.newRestfulGenericClient(serverBase);
+     // Create a client. See https://hapifhir.io/hapi-fhir/docs/client/generic_client.html
+ 	IGenericClient client = HealthService.fhirctx.newRestfulGenericClient(serverBase);
 
  /*
      REFERENCES:	
@@ -52,14 +54,9 @@ public class FhirServiceClient {
   	
  	public FhirServiceClient( String serverBase ) {
  		this.serverBase = serverBase;
-  		fhirctx         = HealthService.fhirctx;  //to avoid redundant creation FhirContext.forR4();
- 		client          = fhirctx.newRestfulGenericClient(serverBase);
-		System.out.println("FhirServiceClient created for " + serverBase  );
+ 		client = HealthService.fhirctx.newRestfulGenericClient(serverBase);
+ 		System.out.println("FhirServiceClient created for " + serverBase  );
   	}
-
- 	public FhirContext  getFhirContext() {
- 		return fhirctx; 		
- 	}
  	
 /*
 * =========================================================================
@@ -86,6 +83,24 @@ public class FhirServiceClient {
 		return	result;		
 		//return selfMadeAsynch( resourceType, "POST",   resJson );  //An old version, before to understand webClient
  	}
+	
+	//SYNCHRONOUS VERSION to get the id
+ 	public Long createSynch( IBaseResource theResource ) {
+ 		try { 
+			MethodOutcome outcome = client
+					.create()
+					.resource(theResource)
+					.execute(); 
+			// Log the ID that the server assigned
+			IIdType id = outcome.getId();
+			Long idVal = id.getIdPartAsLong();
+			System.out.println("FhirServiceClient | createSynch patient ID: " + id + " value=" + idVal );
+			return idVal;		
+		} catch ( Exception e) {	//ResourceNotFoundException
+			System.out.println("FhirServiceClient | createSynch  ERROR " + e.getMessage());
+			return 0L;
+		}
+ 	}	
 	
     /*
     -------------------------- 

@@ -25,9 +25,17 @@ public class HealthService {
  * WARNING: these URI are used in templates\indexHealthAdapterFacade.html	
  * --------------------------------------------------------------------------
  */
-	public static final String selectHealthCenterUri    ="/selectHealthCenter";
 
- 
+/*	
+ * SYNCH
+ */
+	public static final String selectHealthCenterUri    ="/selectHealthCenter";
+	public static final String createResourceUriSynch   ="/createResourceSynch";
+	
+	
+/*
+ * ASYNCH 
+ */
 	public static final String createResourceUri   		="/createResource";
 	public static final String readResourceUri   		="/readResource";
 	public static final String searchResourceUri  		="/searchResource";

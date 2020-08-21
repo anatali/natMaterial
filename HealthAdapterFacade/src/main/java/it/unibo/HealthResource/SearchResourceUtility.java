@@ -4,21 +4,51 @@ package it.unibo.HealthResource;
 import java.util.Iterator;
 
 import org.hl7.fhir.instance.model.api.IBaseResource;
-import org.hl7.fhir.r4.model.DomainResource;
 import org.hl7.fhir.r4.model.Patient;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.model.dstu2.resource.CarePlan;
 import ca.uhn.fhir.parser.IParser;
 import it.unibo.HealthAdapterFacade.HealthService;
+ 
 
 /*
  * Given a DomainResource template we must identify the specific resource type R
  * and inspect R for each specific ITel-ralated info
  */
 public class SearchResourceUtility {
+	
+	
+ 	public static IBaseResource createResourceFromJson( String resourceType, String jsonrep ) {
+// 		try {
+ 		    IParser parserfhir      = HealthService.fhirctx.newJsonParser();
+			switch( resourceType ) {
+				case "Patient"  : return parserfhir.parseResource(Patient.class, jsonrep); 
+				case "CarePlan" : return parserfhir.parseResource(CarePlan.class, jsonrep);
+				default        : { 
+					System.out.println("HealthServiceFhir | createResourceFromJson resourceType UNKNONN"  );
+					return null;
+ 				}
+			}
+//		} catch ( Exception e) {
+// 			e.printStackTrace();
+// 			return null;
+//		}		
+	}
+	
+	
+	public static IBaseResource buildResource(String resjsonStr) {
+		IBaseResource answer = null;
+ 		try {
+			JSONObject resobj   = new JSONObject (resjsonStr );	
+			String resourceType = resobj.getString("resourceType");
+			answer              = createResourceFromJson(resourceType, resjsonStr);
+		} catch (JSONException e) {
+			System.out.println("SearchResourceUtility | inspect ERROR " + e.getMessage());
+		}
+		return answer;
+	}
  
 	public static String[] getBasicInfo(String resjsonStr) {
 		String[] answer = new String[2];

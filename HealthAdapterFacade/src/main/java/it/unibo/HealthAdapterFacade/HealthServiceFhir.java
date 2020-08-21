@@ -7,19 +7,44 @@
  */
 package it.unibo.HealthAdapterFacade;
 
+import java.util.Hashtable;
+import org.hl7.fhir.instance.model.api.IBaseResource;
 import it.unibo.HealthResource.SearchResourceUtility;
 import reactor.core.publisher.Flux;
 
 
 public class HealthServiceFhir implements HealthServiceInterface {
   	
-	private FhirServiceClient fhirclient;	 
+	private FhirServiceClient fhirclient;	
+	/*
+	 * ----------------------------------------------------------------------------
+	 * WARNING: the sever becomes WITH STATE. 
+	 * It should be avoid here.
+	 * The state should be maintained in the ITelCore
+	 * ----------------------------------------------------------------------------
+	 */
+	private Hashtable<String,String> resources = new Hashtable<String,String>();  //id, type
 	
 	public HealthServiceFhir(String serverBase) {
 		fhirclient = new FhirServiceClient( serverBase );	 
  		System.out.println("HealthServiceFhir created for " + serverBase  );
 	}
 	
+
+/*
+ * =============================================================================
+ * SYNCH	PART
+ * =============================================================================
+ */	
+	//we store the resourceType for the created resource
+	@Override
+	public Long createResourceSynch(String jsonStr) {
+ 		IBaseResource resource = SearchResourceUtility.buildResource(  jsonStr );
+		Long id = fhirclient.createSynch( resource );
+		resources.put(id.toString(), resource.fhirType());
+		return id;
+	}
+
 /*
  * =============================================================================
  * ASYNCH	PART
@@ -36,7 +61,7 @@ public class HealthServiceFhir implements HealthServiceInterface {
 		Flux<String> creationflux  = fhirclient.createAsynch( jsonStr );
 		return creationflux;
 	}
-	
+		
 	/*
 	-------------------------- 
 	READ
@@ -84,8 +109,11 @@ public class HealthServiceFhir implements HealthServiceInterface {
 	-------------------------- 
 	*/ 	
 	@Override
-	public Flux<String> deleteResourceAsynch( String resourceType, String id ){
-		//Search the resource with given id and find its resourceType  TODO
+	public Flux<String> deleteResourceAsynch( String id ){
+		//Search the resourceType  
+		String resourceType = resources.get( id );
+		System.out.println("HealthServiceFhir | deleteResourceAsynch HAS FOUND resourceType = " + resourceType  );
+		if( resourceType == null ) return Flux.just("Sorry, resource with id=" + id + "not found");
  		Flux<String> result = fhirclient.deleteResourceAsynch(resourceType, id );
  		System.out.println("HealthServiceFhir | deleteResourceAsynch result= " + result  );
 		return result;
