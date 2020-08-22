@@ -21,6 +21,7 @@ public interface HealthServiceInterface {
  */
 		public Long   createResourceSynch(String jsonStr);
 		public String readResourceSynch(String resourceType,String id);   		   		 
+		public String searchResourceSynch(String queryjson);
 		public String updateResourceSynch( String newresourceJsonStr );   		   		 
 		public String deleteResourceSynch( String resourceType, String id ); 
 }

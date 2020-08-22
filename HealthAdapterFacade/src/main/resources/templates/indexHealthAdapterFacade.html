@@ -165,12 +165,13 @@ SEARCH
     	
    		// --------- search --------------------------------------------------
       	$("i.infoArea").text(  "searching  ... ");		
+      	//alert(queryjsonStr);
         fetch(apiname+"/"+queryjsonStr, {method: "GET"}).then(function (response) {
         	if (response.ok) {
         		console.log(  "read  done response.type=" + response.type  ); //promise
       			return response.text() ;		// 
       		}}).then( function (answer) { //answer is the json rep of the created resource
-      			showAnswer( "search", issynch, answer );
+      			showAnswer( "search", issynch, answer );	//answer is now a bundle ...
        		});         					
 	}
 	
@@ -327,16 +328,16 @@ Server address: <input id="serveraddr" type="text" size="35" value="https://hapi
 <h3>InputArea (SEARCH & CRUD operations) 
 <input id="synchchoice" type="checkbox"  name="synchchoice" value="asynch"><label for="synchchoice">SYNCH</label>
 </h3>
-<!-- SEARCH--> 
- 
+
+<!-- SEARCH --> 
 Search pattern: 
 <input id="searchpattern" type="text" 
 value='{ "resourceType":"Patient","given":"ElenaBologna","address":{"city":"Bologna","country":"Italy"}}' 
 style="color:blue;font-size:10px" size="100" autofocus/>
     <button onclick="searchAResource()">Search</button> 
 <br/><br/> 
-<!-- CRUD --> 
 
+<!-- CRUD --> 
 <table style="width:98%">
 <tbody>	
 <!--

@@ -58,6 +58,11 @@ public class HealthAdapterMIController {
 	 }
 
 //SEACRH SYNCH	 
+	 @GetMapping( HealthService.searchResourceUriSynch+"/{queryjson}" )	 
+	 public  String searchResourceSynch( @PathVariable(value = "queryjson") String queryjson ) {
+		String answer = healthService.searchResourceSynch(queryjson);
+		return answer;
+	 }
 	 
 //UPDATE SYNCH
 	@PutMapping( HealthService.updateResourceUriSynch ) 

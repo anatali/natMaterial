@@ -9,6 +9,7 @@ package it.unibo.HealthAdapterFacade;
 
 import java.util.Hashtable;
 import org.hl7.fhir.instance.model.api.IBaseResource;
+import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.DomainResource;
 
 import it.unibo.HealthResource.ResourceUtility;
@@ -55,6 +56,16 @@ public class HealthServiceFhir implements HealthServiceInterface {
 		DomainResource answer  = fhirclient.readResourceSynch( resource, id );
 		return HealthService.fhirctx.newJsonParser().setPrettyPrint(true).encodeResourceToString(answer);	
 	}
+	
+//	SEARCH
+	@Override
+	public String searchResourceSynch( String queryjsonTemplate ) {
+		String[] info  = ResourceUtility.inspect( queryjsonTemplate );
+		System.out.println("searchResourceSynch " + info[0]);
+		Bundle answer = fhirclient.searchResourceSynch(info[0], info[1]);
+		return HealthService.fhirctx.newJsonParser().setPrettyPrint(true).encodeResourceToString(answer);
+	}
+	
 	
 //	UPDATE	
 	@Override 

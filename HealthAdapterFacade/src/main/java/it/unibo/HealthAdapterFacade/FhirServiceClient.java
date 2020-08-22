@@ -10,9 +10,14 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Vector;
 import java.util.function.Consumer;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
+import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.DomainResource;
 import org.hl7.fhir.r4.model.IdType;
 import org.springframework.http.HttpHeaders;
@@ -83,6 +88,18 @@ public class FhirServiceClient {
 		return resource  ;
  	}
 
+//SEARCH
+ 	//http://localhost:8081/searchResourceSynch/%7B%20%22resourceType%22:%20%22Patient%22%20%7D
+ 	public Bundle searchResourceSynch( String resourceType, String queryStr) { 	
+ 		String searchUrl = serverBase+"/"+resourceType+"/?"+queryStr;	
+ 		System.out.println("FhirServiceClient | searchResourceSynch searchUrl=" + searchUrl);
+ 		Bundle response = client  //we are NOT using the fluent method calls to build the URL
+				   .search()			
+				   .byUrl(searchUrl)
+				   .returnBundle(Bundle.class)
+ 				   .execute();	
+ 		return response;
+ 	}
  	
 //UPDATE 
  	public String updateResourceSynch(   DomainResource newresource   ) {

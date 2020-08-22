@@ -67,6 +67,10 @@ public class HealthServiceHL7 implements HealthServiceInterface{
  		return null;
 	}
 
+	@Override
+	public String searchResourceSynch(String jsonTemplate) {
+ 		return null;
+	}
  
 	@Override
 	public String deleteResourceSynch(String resourceType, String id) {
@@ -77,6 +81,7 @@ public class HealthServiceHL7 implements HealthServiceInterface{
 	public String updateResourceSynch(String newresourceJsonStr) {
 		return null;
 	}
+
 	
 
  
