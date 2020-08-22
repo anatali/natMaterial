@@ -9,7 +9,9 @@ package it.unibo.HealthAdapterFacade;
 
 import java.util.Hashtable;
 import org.hl7.fhir.instance.model.api.IBaseResource;
-import it.unibo.HealthResource.SearchResourceUtility;
+import org.hl7.fhir.r4.model.DomainResource;
+
+import it.unibo.HealthResource.ResourceUtility;
 import reactor.core.publisher.Flux;
 
 
@@ -36,14 +38,42 @@ public class HealthServiceFhir implements HealthServiceInterface {
  * SYNCH	PART
  * =============================================================================
  */	
+//	CREATE
 	//we store the resourceType for the created resource
 	@Override
 	public Long createResourceSynch(String jsonStr) {
- 		IBaseResource resource = SearchResourceUtility.buildResource(  jsonStr );
+ 		IBaseResource resource = ResourceUtility.buildResource(  jsonStr );
 		Long id = fhirclient.createSynch( resource );
 		resources.put(id.toString(), resource.fhirType());
 		return id;
 	}
+	
+//	READ	
+	@Override 
+	public String readResourceSynch( String resourceType, String id ){
+		Class<? extends DomainResource> resource = ResourceUtility.getTheClass(  resourceType );
+		DomainResource answer  = fhirclient.readResourceSynch( resource, id );
+		return HealthService.fhirctx.newJsonParser().setPrettyPrint(true).encodeResourceToString(answer);	
+	}
+	
+//	UPDATE	
+	@Override 
+	public String updateResourceSynch( String newresourceJsonStr ){
+		String[] info  = ResourceUtility.getBasicInfo( newresourceJsonStr );
+		DomainResource newresource = ResourceUtility.buildResource(newresourceJsonStr, info[1]); //info[1]-> id to Inject 
+		String answer  = fhirclient.updateResourceSynch( newresource );
+		return answer;
+		
+	}
+	
+//	DELETE	
+	@Override
+	public String deleteResourceSynch( String resourceType, String id ){
+		String answer  = fhirclient.deleteResourceSynch( resourceType, id );
+		return answer;		
+	}
+	
+	
 
 /*
  * =============================================================================
@@ -82,7 +112,7 @@ public class HealthServiceFhir implements HealthServiceInterface {
 	@Override
 	public Flux<String> searchResourceAsynch(String jsonTemplate) {
 		System.out.println("HealthServiceFhir | searchResourceAsynch " + jsonTemplate );
-		String[] answer  = SearchResourceUtility.inspect( jsonTemplate );
+		String[] answer  = ResourceUtility.inspect( jsonTemplate );
 		if( answer[0] != null ) {
 			System.out.println("HealthServiceFhir | searchResourceAsynch resourceType:" + answer[0]  +" queryStr:" + answer[1] );
 			return fhirclient.searchResourceAsynch(answer[0], answer[1]);
@@ -96,7 +126,7 @@ public class HealthServiceFhir implements HealthServiceInterface {
 	*/ 	
 	@Override 
 	public Flux<String> updateResourceAsynch( String newresourceJsonStr ){
-		String[] answer  = SearchResourceUtility.getBasicInfo( newresourceJsonStr ); 
+		String[] answer  = ResourceUtility.getBasicInfo( newresourceJsonStr ); 
  		Flux<String> result = fhirclient.updateResourceAsynch( answer[1], newresourceJsonStr );
  		System.out.println("HealthServiceFhir | updateResourceAsynch result= " + result  );
 		return result;

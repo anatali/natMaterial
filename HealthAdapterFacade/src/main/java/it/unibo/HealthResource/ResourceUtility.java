@@ -3,10 +3,9 @@ package it.unibo.HealthResource;
  
 import java.util.Iterator;
 import org.hl7.fhir.instance.model.api.IBaseResource;
-import org.hl7.fhir.r4.model.Patient;
+import org.hl7.fhir.r4.model.*;
 import org.json.JSONException;
 import org.json.JSONObject;
-import ca.uhn.fhir.model.dstu2.resource.CarePlan;
 import ca.uhn.fhir.parser.IParser;
 import it.unibo.HealthAdapterFacade.HealthService;
  
@@ -15,11 +14,18 @@ import it.unibo.HealthAdapterFacade.HealthService;
  * Given a DomainResource template we must identify the specific resource type R
  * and inspect R for each specific ITel-ralated info
  */
-public class SearchResourceUtility {
+public class ResourceUtility {
+	
+	public static Class<? extends DomainResource> getTheClass(String resourceType) {
+		switch( resourceType ) {
+			case "CarePlan" : return CarePlan.class;
+			case "Patient"  : return Patient.class;
+			default: return null;
+		}
+	}
 	
 	
- 	public static IBaseResource createResourceFromJson( String resourceType, String jsonrep ) {
-// 		try {
+ 	public static DomainResource createResourceFromJson( String resourceType, String jsonrep ) {
  		    IParser parserfhir      = HealthService.fhirctx.newJsonParser();
 			switch( resourceType ) {
 				case "Patient"  : return parserfhir.parseResource(Patient.class, jsonrep); 
@@ -29,15 +35,11 @@ public class SearchResourceUtility {
 					return null;
  				}
 			}
-//		} catch ( Exception e) {
-// 			e.printStackTrace();
-// 			return null;
-//		}		
 	}
 	
 	
-	public static IBaseResource buildResource(String resjsonStr) {
-		IBaseResource answer = null;
+	public static DomainResource buildResource(String resjsonStr) {
+		DomainResource answer = null;
  		try {
 			JSONObject resobj   = new JSONObject (resjsonStr );	
 			String resourceType = resobj.getString("resourceType");
@@ -46,6 +48,19 @@ public class SearchResourceUtility {
 			System.out.println("SearchResourceUtility | inspect ERROR " + e.getMessage());
 		}
 		return answer;
+	}
+	public static DomainResource buildResource(String resjsonStr, String id) {
+		DomainResource resource = null;
+ 		try {
+			JSONObject resobj   = new JSONObject (resjsonStr );	
+			String resourceType = resobj.getString("resourceType");
+			resource            = createResourceFromJson(resourceType, resjsonStr);
+			//Inject the id
+			resource.setId( new IdType(resourceType, id) );
+		} catch (JSONException e) {
+			System.out.println("SearchResourceUtility | inspect ERROR " + e.getMessage());
+		}
+		return resource;
 	}
  
 	public static String[] getBasicInfo(String resjsonStr) {

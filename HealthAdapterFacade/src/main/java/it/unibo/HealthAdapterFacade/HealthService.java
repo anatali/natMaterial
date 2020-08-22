@@ -31,7 +31,9 @@ public class HealthService {
  */
 	public static final String selectHealthCenterUri    ="/selectHealthCenter";
 	public static final String createResourceUriSynch   ="/createResourceSynch";
-	
+	public static final String readResourceUriSynch     ="/readResourceSynch";
+	public static final String updateResourceUriSynch	="/updateResourceSynch";
+	public static final String deleteResourceUriSynch   ="/deleteResourceSynch";
 	
 /*
  * ASYNCH 

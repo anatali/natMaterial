@@ -10,8 +10,8 @@ public interface HealthServiceInterface {
 /*
 * ASYNCH: String are JsonString
 */
-		public Flux<String> readResourceAsynch(String resourceType,Long id);   		   		 
 		public Flux<String> createResourceAsynch(String jsonStr);   		 
+		public Flux<String> readResourceAsynch(String resourceType,Long id);   		   		 
 		public Flux<String> searchResourceAsynch(String jsonTemplate);
 		public Flux<String> updateResourceAsynch( String newresourceJsonStr  );
 		public Flux<String> deleteResourceAsynch( String resourceType, String id ); 
@@ -19,5 +19,9 @@ public interface HealthServiceInterface {
 /*
  *  SYNCH
  */
-		public Long createResourceSynch(String jsonStr);
+		public Long   createResourceSynch(String jsonStr);
+		public String readResourceSynch(String resourceType,String id);   		   		 
+		public String updateResourceSynch( String newresourceJsonStr );   		   		 
+		public String deleteResourceSynch( String resourceType, String id ); 
 }
+

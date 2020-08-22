@@ -26,7 +26,84 @@
             }
         });           		
 	}
-
+	
+/*
+====================================================================
+SYNCH or ASYNCH
+====================================================================
+*/	
+ 	function createAResourceFromFile(    ) {	 
+		var jsonFileNames = document.getElementById("jsonFileNameResource").files;	 
+		var fr=new FileReader(); 
+		var file = jsonFileNames[0];
+  		//alert( file.size );
+        fr.onload=function(evt){ 
+			var jsonStr = evt.target.result;
+			var issynch = document.getElementById("synchchoice").checked;
+			if( issynch ) createAResourceSynch( jsonFileNames[0].name, jsonStr );			//SYNCH
+			else createAResource(jsonFileNames[0].name, jsonStr);				//ASYNCH			
+        } 		 
+		fr.readAsText( file, "UTF-8" ); 		 
+	}
+	
+	function doDelete(issynch) { if( issynch) deleteAResourceSynch() ;  else deleteAResource(); }	
+	function doRead(issynch)   { if( issynch) readAResourceSynch() ;    else readAResource(); }	
+	
+/*
+====================================================================
+CRUD operations -  SYNCH    
+====================================================================
+*/	
+  
+//CREATE SYNCH
+   function createAResourceSynch( fName, jsonStr ) { //SYNCH  API-> /createResourceSynch
+       	//alert( fName );
+      	$("i.infoArea").text(  "creating resource from ... " + fName );	     	
+        fetch("/createResourceSynch", {method: "POST", body: jsonStr}).then(function (response) {
+        	if (response.ok) {
+        		console.log(  "creation from " +  fName + "  done response.type=" + response.type  ); //promise
+      			return response.text() ;		// 
+      		}}).then( function (answer) { //answer is the json rep of the created resource
+      			//alert( answer );
+      			$("i.infoArea").text(  "creation done from " +  fName + " id=" + answer);	
+      		});         
+    }
+    
+//READ SYNCH      
+	function readAResourceSynch(  ) { //SYNCH  API-> //readResourceSynch
+     	$("pre.resultArea").text(  "" );
+     	var resourceType = document.getElementById("resourcetype").value;
+    	var resourceid   = document.getElementById("resourceid").value;
+      	$("i.infoArea").text(  "reading " + resourceid + " ... ");	
+        fetch("/readResourceSynch/"+resourceid+"&"+resourceType, {method: "GET" }).then(function (response) {
+        	if (response.ok) {
+        		return response.text() ;		// 
+      		}}).then( function (answer) { //answer is the json rep alreay pretty of the created resource
+ 	     	    $("i.infoArea").text(  "read " + resourceid + " done synch" );	
+	     		$("pre.resultArea").text( answer );
+      		});         
+	} 
+    
+//DELETE SYNCH    
+    function deleteAResourceSynch(  ) { //SYNCH  API-> /deleteResourceSynch  DELETE
+        resourceType  = document.getElementById("resourcetype");
+    	id            = document.getElementById("resourceid");
+        var message   = resourceType.value + "&"+ id.value ;
+    	console.log("deleteAResourceSynch  "+ message);
+    	$("i.infoArea").text(  "deleting ..." + id.value );	
+    	 //See https://www.html.it/pag/66525/fetch-api/
+         fetch("/deleteResourceSynch", {method: "DELETE", body: message}).then( function (response) {
+        	if (response.ok) {
+        		console.log(  "deletion done response.type=" + response.type ); //basic 
+       		    console.log(  "deletion done response.url="  + response.url  ); //http://localhost:8081/deleteResourceSynch
+        		//console.log(  "deletion done response.type=" + response.text()  ); //ERROR: body stream is locked
+      			return response.text() ;	//restituisce una promise
+      		}}).then( function (answer) {  
+      			//console.log(  "deletion done answer=" + answer  );  
+      			$("i.infoArea").text(  answer);	
+      		});         
+    }   
+    
 /*
 ====================================================================
 CRUD operations - ASYNCH    
@@ -38,18 +115,6 @@ CRUD operations - ASYNCH
 CREATE
 -------------------------- 
 */
- 	function createAResourceFromFile(    ) {	//ASYNCH API-> /createPatient
-		var jsonFileNames = document.getElementById("jsonFileNameResource").files;	 
-		var fr=new FileReader(); 
-		var file = jsonFileNames[0];
-  		//alert( file.size );
-        fr.onload=function(evt){ 
-			var jsonStr = evt.target.result;
-			//createAResource(jsonFileNames[0].name, jsonStr);				//ASYNCH
-			createAResourceSynch( jsonFileNames[0].name, jsonStr );			//SYNCH
-        } 		 
-		fr.readAsText( file, "UTF-8" ); 		 
-	}
 
 	//See https://www.html.it/pag/66525/fetch-api/
 	//https://www.javascripture.com/Response - replacement for XMLHttpRequest (https://www.javascripture.com/XMLHttpRequest).
@@ -69,22 +134,7 @@ CREATE
       		});         
     }
     
-/*
--------------------------- 
-CREATE SYNCH
--------------------------- 
-*/    function createAResourceSynch( fName, jsonStr ) { //SYNCH  API-> /createResourceSynch
-       	//alert( fName );
-      	$("i.infoArea").text(  "creating resource from ... " + fName );	     	
-        fetch("/createResourceSynch", {method: "POST", body: jsonStr}).then(function (response) {
-        	if (response.ok) {
-        		console.log(  "creation from " +  fName + "  done response.type=" + response.type  ); //promise
-      			return response.text() ;		// 
-      		}}).then( function (answer) { //answer is the json rep of the created resource
-      			//alert( answer );
-      			$("i.infoArea").text(  "creation done from " +  fName + " id=" + answer);	
-      		});         
-    }
+
     
 /*
 -------------------------- 
@@ -102,9 +152,9 @@ READ
 				try{
 					var datajson= JSON.stringify( JSON.parse(data), null, 2 );
 	   				$("pre.resultArea").text( datajson );	
-	     			$("i.infoArea").text(  "read " + resourceid + " done" );	
+	     			$("i.infoArea").text(  "read " + resourceid + " done asynch" );	
      			}catch( e ){	//answer not json
-     				$("i.infoArea").text(  "read " + resourceid + " failure "   );
+     				$("i.infoArea").text(  "read asycnh " + resourceid + " failure "   );
      			}	
  		});  //, "json"
     } 
@@ -301,8 +351,9 @@ Server address: <input id="serveraddr" type="text" size="35" value="https://hapi
  
 
 
-<h3>InputArea (SEARCH & CRUD operations) </h3>
-
+<h3>InputArea (SEARCH & CRUD operations) 
+<input id="synchchoice" type="checkbox"  name="synchchoice" value="asynch"><label for="synchchoice">SYNCH</label>
+</h3>
 <!-- SEARCH--> 
  
 Search pattern: 
@@ -341,8 +392,9 @@ style="color:blue;font-size:10px" size="100" autofocus/>
 </td>
 <td>Resource ident: <input id="resourceid" type="text" size="10" autofocus/>
 </td>
-<td> <button onclick="readAResource()">Read </button> 
-    <button onclick="deleteAResource()">Delete</button> 
+<td> <button onclick="doRead( document.getElementById('synchchoice').checked )">Read </button> 
+       <button onclick="doDelete( document.getElementById('synchchoice').checked )">Delete</button>
+ 
 </td>
 </tr>
 

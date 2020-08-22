@@ -13,6 +13,8 @@ import java.net.URL;
 import java.util.function.Consumer;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
+import org.hl7.fhir.r4.model.DomainResource;
+import org.hl7.fhir.r4.model.IdType;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;	
@@ -25,20 +27,19 @@ import reactor.core.publisher.Mono;
 
 public class FhirServiceClient {
 	private String serverBase=""; //"https://hapi.fhir.org/baseR4";  http://example.com/fhirBaseUrl
-     // Create a client. See https://hapifhir.io/hapi-fhir/docs/client/generic_client.html
- 	IGenericClient client = HealthService.fhirctx.newRestfulGenericClient(serverBase);
-
- /*
-     REFERENCES:	
- 	 For WebClient, see https://howtodoinjava.com/spring-webflux/webclient-get-post-example/ 	
-	 In each method, the type of result  is MonoFlatMapMany, described in
-	 https://www.javatips.net/api/reactor-core-master/src/main/java/reactor/core/publisher/MonoFlatMapMany.java	 
-  */
- 	
+     // Create a client. 
+	// See  https://hapifhir.io/hapi-fhir/docs/client/generic_client.html
+	//      https://hapifhir.io/hapi-fhir/docs/client/examples.html
+ 	IGenericClient client; // = HealthService.fhirctx.newRestfulGenericClient(serverBase);
+   	
     /*
     -------------------------- 
     CLIENTS
     -------------------------- 
+     REFERENCES:	
+ 	 For WebClient, see https://howtodoinjava.com/spring-webflux/webclient-get-post-example/ 	
+	 In each method, the type of result  is MonoFlatMapMany, described in
+	 https://www.javatips.net/api/reactor-core-master/src/main/java/reactor/core/publisher/MonoFlatMapMany.java	 
     */ 
 
  	private WebClient webClient = WebClient
@@ -54,6 +55,54 @@ public class FhirServiceClient {
  		client = HealthService.fhirctx.newRestfulGenericClient(serverBase);
  		System.out.println("FhirServiceClient created for " + serverBase  );
   	}
+ 	
+/*
+ * =========================================================================
+ * SYNCH   
+ * =========================================================================
+*/	 	
+//  CREATE
+ 	public Long createSynch( IBaseResource theResource ) {
+		MethodOutcome outcome = client
+					.create()
+					.resource(theResource)
+					.execute(); 
+		IIdType id = outcome.getId();
+		Long idVal = id.getIdPartAsLong();
+		System.out.println("FhirServiceClient | createSynch patient ID: " + id + " value=" + idVal );
+		return idVal;		
+ 	}	
+ 	
+//READ 	
+ 	public DomainResource readResourceSynch( Class<? extends DomainResource> clazz , String id ){
+ 	  DomainResource resource   = client
+ 		.read()
+		.resource( clazz )
+		.withId(id)
+		.execute(); 
+		return resource  ;
+ 	}
+
+ 	
+//UPDATE 
+ 	public String updateResourceSynch(   DomainResource newresource   ) {
+ 		MethodOutcome response = client
+				   .update()			
+				   .resource(newresource)	//id injected?
+ 				   .execute();	
+ 		return "uodate done synch (from FhirServiceClient) "  + response.getId()  ;
+ 		
+   	}
+ 	
+//DELETE
+ 	public String deleteResourceSynch( String resourceType, String id ){
+		MethodOutcome response = client
+				   .delete()
+				   .resourceById( new IdType(resourceType, id) )
+				   .execute();		 
+		//TODO: useful response attributes??
+		return "delete " + id + " done synch (from FhirServiceClient) "  + response.getId()  ;
+ 	}
  	
 /*
 * =========================================================================
@@ -81,23 +130,6 @@ public class FhirServiceClient {
 		//return selfMadeAsynch( resourceType, "POST",   resJson );  //An old version, before to understand webClient
  	}
 	
-	//SYNCHRONOUS VERSION to get the id
- 	public Long createSynch( IBaseResource theResource ) {
- 		try { 
-			MethodOutcome outcome = client
-					.create()
-					.resource(theResource)
-					.execute(); 
-			// Log the ID that the server assigned
-			IIdType id = outcome.getId();
-			Long idVal = id.getIdPartAsLong();
-			System.out.println("FhirServiceClient | createSynch patient ID: " + id + " value=" + idVal );
-			return idVal;		
-		} catch ( Exception e) {	//ResourceNotFoundException
-			System.out.println("FhirServiceClient | createSynch  ERROR " + e.getMessage());
-			return 0L;
-		}
- 	}	
 	
     /*
     -------------------------- 

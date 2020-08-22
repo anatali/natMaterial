@@ -61,7 +61,22 @@ public class HealthServiceHL7 implements HealthServiceInterface{
  		return null;
 	}
 
+
+	@Override
+	public String readResourceSynch(String resourceType, String id) {
+ 		return null;
+	}
+
  
+	@Override
+	public String deleteResourceSynch(String resourceType, String id) {
+		return null;
+	}
+
+	@Override
+	public String updateResourceSynch(String newresourceJsonStr) {
+		return null;
+	}
 	
 
  

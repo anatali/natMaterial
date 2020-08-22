@@ -13,7 +13,7 @@
   "gender": "female",
   "birthDate": "1998-01-01",
   "address": [ {
-    "text": "student with borsa",
+    "text": "studente con borsa",
     "city": "Cesena",
     "country": "Italy"
   } ]

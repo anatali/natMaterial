@@ -1,6 +1,5 @@
 package it.unibo.HealthAdapterFacade;
 
- 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -36,14 +35,45 @@ public class HealthAdapterMIController {
 	 
 /*
  * =========================================================================
- * CREATE - SYNCH PART  
+ * SYNCH PART  
  * =========================================================================
  */	 
+
+
+//CREATE SYNCH	 
 	 @PostMapping( HealthService.createResourceUriSynch )
 	 public Long createResourceSynch( @RequestBody String jsonStr ) {
 		 Long id = healthService.createResourceSynch(  jsonStr );
 		 return id;
 	 }
+
+//READ SYNCH	
+	 @GetMapping( HealthService.readResourceUriSynch+"/{id}&{resourceType}" )	 
+	 public  String readResourceSynch(  
+	    		@PathVariable( value = "id" ) Long resourceId ,
+	    		@PathVariable( value = "resourceType" ) String resourceType ) {      	    
+	  	    System.out.println("----- HealthAdapterMIController readResourceSynch  id= " + resourceId  + " usejson=" + usejson );
+	  	  String answer = healthService.readResourceSynch(  resourceType, resourceId.toString()  );  
+	  	  return answer;
+	 }
+
+	 
+//UPDATE SYNCH
+	@PutMapping( HealthService.updateResourceUriSynch ) 
+	public String updateResourceSynch( @RequestBody String newResource ) {	 
+		return  healthService.updateResourceSynch( newResource );
+	}
+	 
+//DELETE SYNCH	
+	@DeleteMapping( HealthService.deleteResourceUriSynch ) 
+	public String deleteResourceSynch( @RequestBody String body ) {	
+		String[] args = body.split("&");
+		String   resourceType   = args[0];
+		String   id   			= args[1];
+		System.out.println("----- HealthAdapterMIController deleteResourceSynch resourceType=" + resourceType + " id=" + id  );
+		return healthService.deleteResourceSynch( resourceType, id );	 
+	}
+
 /*
 * =========================================================================
 * CRUD - ASYNCH PART  
@@ -56,7 +86,7 @@ public class HealthAdapterMIController {
 	*/ 			 
 	 @PostMapping( HealthService.createResourceUri )
 	public Flux<String> createResourceAsynch( @RequestBody String jsonStr ) {
-		 //System.out.println("----- HealthAdapterMIController createPatientAsynch " + jsonStr  );	    
+		 //System.out.println("----- HealthAdapterMIController createResourceAsynch " + jsonStr  );	    
 		 Flux<String> creationflux = healthService.createResourceAsynch(  jsonStr );
 		 return creationflux;
 	} 
@@ -72,9 +102,9 @@ public class HealthAdapterMIController {
     public Flux<String> readResourceAsynch(   
     		@PathVariable( value = "id" ) Long resourceId ,
     		@PathVariable( value = "resourceType" ) String resourceType ) {      	    
-  	    System.out.println("----- HealthAdapterMIController readPatientAsynch  id= " + resourceId  + " usejson=" + usejson );
+  	    System.out.println("----- HealthAdapterMIController readResourceAsynch  id= " + resourceId  + " usejson=" + usejson );
   	    Flux<String>  result = healthService.readResourceAsynch( resourceType, resourceId  );	 
-  	    //System.out.println("----- HealthAdapterMIController readPatientAsynch result= " + result );
+  	    //System.out.println("----- HealthAdapterMIController readResourceAsynch result= " + result );
  	    return result;
     } 
 	 
