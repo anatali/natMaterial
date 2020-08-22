@@ -1,15 +1,14 @@
-package it.unibo.HealthAdapterFacade;
-import java.io.StringReader;
-
-import org.hl7.fhir.instance.model.api.IBaseResource;
-import org.hl7.fhir.r4.model.Bundle;
-import org.json.JSONException;
-import org.json.JSONObject;
 /*
  * ------------------------------------------------------------------------
  * Used by the RestController HealthAdapterMIController 
  * ------------------------------------------------------------------------
  */
+package it.unibo.HealthAdapterFacade;
+
+import org.hl7.fhir.instance.model.api.IBaseResource;
+import org.hl7.fhir.r4.model.Bundle;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import ca.uhn.fhir.context.FhirContext;
@@ -32,6 +31,7 @@ public class HealthService {
 	public static final String selectHealthCenterUri    ="/selectHealthCenter";
 	public static final String createResourceUriSynch   ="/createResourceSynch";
 	public static final String readResourceUriSynch     ="/readResourceSynch";
+	public static final String searchResourceUriSynch	="/searchResourceSynch";
 	public static final String updateResourceUriSynch	="/updateResourceSynch";
 	public static final String deleteResourceUriSynch   ="/deleteResourceSynch";
 	

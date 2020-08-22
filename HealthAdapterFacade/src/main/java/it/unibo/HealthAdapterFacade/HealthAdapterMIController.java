@@ -57,6 +57,7 @@ public class HealthAdapterMIController {
 	  	  return answer;
 	 }
 
+//SEACRH SYNCH	 
 	 
 //UPDATE SYNCH
 	@PutMapping( HealthService.updateResourceUriSynch ) 

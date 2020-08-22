@@ -5,15 +5,15 @@
   } ],
   "name": [ {
     "family": "UniboCesena",
-    "given": [ "AliceCesena", "Elvira"  ]
+    "given": [ "AliceCesena", "Gloria"  ]
   } ],
   "telecom": [ {
-    "value": "Contact PoloCesena"
+    "value": "Contact Unibo PoloCesena"
   } ],
   "gender": "female",
   "birthDate": "1998-01-01",
   "address": [ {
-    "text": "studente con borsa",
+    "text": "studente in corso",
     "city": "Cesena",
     "country": "Italy"
   } ]
