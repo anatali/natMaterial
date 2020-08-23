@@ -259,7 +259,7 @@ public class ResourceUtility {
  		 			String s = "hot_"+datafluxcount+"_"+i+" " ;
  		 			hotSource.onNext(s  );
  		 			System.out.println("ResourceUtility | createHotFlux generates=" + s);
- 		 			HealthService.delay(1000);
+ 		 			HealthService.delay(750);
  		 		}
  		 		hotSource.onComplete();				
  			}

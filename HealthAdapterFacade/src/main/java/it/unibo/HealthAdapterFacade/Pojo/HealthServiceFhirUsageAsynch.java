@@ -6,14 +6,17 @@
 package it.unibo.HealthAdapterFacade.Pojo;
  
 import java.io.IOException;
+import java.util.Scanner;
 import java.util.function.Consumer;
 
+import org.hl7.fhir.r4.model.DomainResource;
 import org.json.JSONException;
 import org.json.JSONObject;
 import it.unibo.HealthAdapter.Clients.HttpFhirSupport;
 import it.unibo.HealthAdapterFacade.HealthService;
 import it.unibo.HealthAdapterFacade.HealthServiceFhir;
 import it.unibo.HealthAdapterFacade.HealthServiceInterface;
+import it.unibo.HealthResource.ResourceUtility;
 import reactor.core.publisher.Flux;
  
 
@@ -31,7 +34,6 @@ public class HealthServiceFhirUsageAsynch {
   	private static String serverBase="https://hapi.fhir.org/baseR4"; //"http://localhost:9001/r4"; //"https://hapi.fhir.org/baseR4";   
   	private static String currentResourceType = "Patient";
   	private static Long   currentResourceId   = null;
-  	private static boolean currentJobDone     = false;
   			
  	public HealthServiceFhirUsageAsynch() {
  		healthService = new HealthServiceFhir( serverBase ) ;	
@@ -85,50 +87,53 @@ public class HealthServiceFhirUsageAsynch {
 
 	public static void readResourceDone( String resourceRep )   {
 		System.out.println("HealthServiceFhirUsage | readResourceDone " + resourceRep );
-		doAfterRead( );
+		//doAfterRead( );  //WARNING: WRONG if we invoke here, we will run it in the callback !!!
  	}
 	
 /*
  * ===========================================================================	
- * Avoiding callback is not simpler ...
+ * Also avoiding callbacks could be not simple ...
  * ===========================================================================	
  */
 	
-	private static void forceSequentialBehavior() {
-		while( ! currentJobDone  ) {
-	 		System.out.println("forceSequentialBehavior ... ");
-			HealthService.delay(500);
+	private static Scanner scanner = new Scanner(System.in);
+	
+	private static void forceSequentialBehavior(String move) {
+		System.out.println("forceSequentialBehavior after "+move+" > ");
+		try {			
+			scanner.nextLine();
+		} catch (Exception e) {
+ 			e.printStackTrace();
 		}
-		currentJobDone = false;
  	}
 	
  	private static void subscribeAndHandleCompletion( Flux<String> answer ) {
- 		System.out.println("HealthServiceFhirUsage | endOfJob  IS BUILDING THE ANSWER ... ");
+ 		System.out.println("HealthServiceFhirUsage | subscribeAndHandleCompletion  IS BUILDING THE ANSWER ... ");
 		final StringBuilder strbuild = new StringBuilder();  
  		answer.subscribe(			
- 				item  -> {   strbuild.append(item); },
+ 				item  -> {  strbuild.append(item); },
  				error -> System.out.println("HealthServiceFhirUsage | subscribeAndHandleCompletion error= " + error ),
  				()    -> {  
- 					currentJobDone = true; 
- 					System.out.println("HealthServiceFhirUsage | subscribeAndHandleCompletion " + HealthService.prettyJson( strbuild.toString() ) );  
+ 					System.out.println("HealthServiceFhirUsage | subscribeAndHandleCompletion " + HealthService.prettyJson( strbuild.toString() ));  //  
  				}
  		);			
  	}
  	
 	
 	public static void doAfterRead() {
-		System.out.println("HealthServiceFhirUsage | doAfterRead " + currentResourceType + " " + currentResourceId  );
-		System.out.println(" %%% SEARCH  ------------------------------ ");
+		System.out.println(" %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"  );
+		System.out.println("HealthServiceFhirUsage | doAfterRead " + currentResourceType + "/" + currentResourceId  );
+		System.out.println(" %%% SEARCH  ------------------------------ " );
 		searchResource( queryStr );
-//		forceSequentialBehavior();		
-		
-		System.out.println(" %%% UPDATE  ------------------------------ ");
-		updateResourceFromFile(updateResourceFileName, currentResourceId);
-		forceSequentialBehavior();
+  		forceSequentialBehavior("SEARCH");		
 
-		System.out.println(" %%% DELETE  ------------------------------ ");
-		currentResourceType = "Patient";
-		deleteResource( currentResourceType, currentResourceId );	//
+		System.out.println(" %%% UPDATE  ------------------------------ " + currentResourceId);
+		updateResourceFromFile(updateResourceFileName, currentResourceId);
+		forceSequentialBehavior("UPDATE");
+
+ 		System.out.println(" %%% DELETE  ------------------------------ " + currentResourceType +"/"+currentResourceId);
+  		deleteResource( currentResourceType, currentResourceId );	//
+		forceSequentialBehavior("DELETE");
 	}
 	
 	
@@ -138,8 +143,11 @@ public class HealthServiceFhirUsageAsynch {
  	}
 
  	public static void updateResourceFromFile( String fname, Long id ) {
-		String jsonRep      = HttpFhirSupport.readFromFileJson( fname );
-		Flux<String> answer = healthService.updateResourceAsynch(   jsonRep  );
+ 		DomainResource newresource = ResourceUtility.createResourceFromFileJson( fname );
+ 		//Inject the id
+ 		ResourceUtility.injectId(newresource, id.toString() );
+ 		String newresourceJsonStr =  ResourceUtility.getJsonRep(newresource);
+		Flux<String> answer = healthService.updateResourceAsynch(   newresourceJsonStr  );
    		subscribeAndHandleCompletion( answer );
  	}
 
@@ -149,43 +157,34 @@ public class HealthServiceFhirUsageAsynch {
  	}
 
 	
+ 	public static void  subscribeToDataFlux( Flux<String> dataFlux, String mode  ) {
+  		dataFlux.subscribe(			
+ 				item  -> System.out.println( "dataFlux "+mode+" | " + item ) ,
+ 				error -> System.out.println( "dataFlux "+mode+" | error" + error ),
+ 				()    -> System.out.println( "dataFlux "+mode+" | completed"    )				 
+ 	    );
+ 	}
 	
-	/*
-	 * CRUD - the callback hell
-	 */	
+/*
+ * CRUD
+*/	
 	public static void main( String[] args) throws IOException {
-		HealthServiceFhirUsageAsynch appl = new HealthServiceFhirUsageAsynch();
-  
-		System.out.println(" %%% CREATE  ------------------------------ ");
+		HealthServiceFhirUsageAsynch appl = new HealthServiceFhirUsageAsynch();		
+		Flux<String> dataFluxCold = ResourceUtility.startDataflux(  "cold"  );		
+		Flux<String> dataFluxHot  = ResourceUtility.startDataflux(  "hot"  );
+ 		subscribeToDataFlux(dataFluxHot,"hot1");
+		
+//CREATE & READ will be done using callbacks  
+		System.out.println(" %%% CREATE & READ ------------------------------ ");
 		appl.createResourceFromFile(resourceFileName, HealthServiceFhirUsageAsynch::createResourceDone   );
-		
-//		//wait until the appl.currentResourceId is updated
-//		while( appl.currentResourceId == null ) { 
-//	 		System.out.println("waiting for THE ANSWER ... ");
-//			HealthService.delay(500);
-//		}
-		
-		/*		
-		System.out.println(" %%% READ    ------------------------------ ");
-		appl.readResource( appl.currentResourceId );
-		appl.waitEndOfJob();
+   		forceSequentialBehavior("CREATE");		
+  		
+		subscribeToDataFlux(dataFluxCold,"cold");
+ 		subscribeToDataFlux(dataFluxHot,"hot2");
  		
-		System.out.println(" %%% SEARCH  ------------------------------ ");
-		appl.searchResource( queryStr );
-		appl.waitEndOfJob();
- 		
-		System.out.println(" %%% UPDATE  ------------------------------ ");
-		appl.updateResourceFromFile(updateResourceFileName, 1439336L);
-		appl.waitEndOfJob();
-
-		System.out.println(" %%% DELETE  ------------------------------ ");
-		appl.currentResourceType = "Patient";
-		appl.deleteResource( appl.currentResourceType, appl.currentResourceId );	//
-*/ 		
+//SEARCH, UPDATE & DELETE will forced to work in sequence  		
+  		doAfterRead( );
+		
 		System.out.println(" %%% END  ------------------------------ ");
-		HealthService.delay(10000);  //To avoid premature termination
-		
-//		System.out.println(" %%% END  ------------------------------ ");
-//		appl.currentJobDone = true;
-		}
+	}
 }
