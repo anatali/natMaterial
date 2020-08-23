@@ -6,19 +6,12 @@
  */
 package it.unibo.HealthAdapter.Clients;
 
-import java.io.IOException;
-import java.time.Duration;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.MediaType;
-import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import it.unibo.HealthAdapterFacade.HealthService;
-import it.unibo.HealthResource.ResourceUtility;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -27,19 +20,8 @@ public class HealthWebClient {
 	private WebClient webClient = WebClient
 	    	  .builder()
 	    	  .build();
-	
-//	public void searchPatient(String id) {
-//		String addr = "https://hapi.fhir.org/baseR4/Patient/"+id;	//+"/_history/1"
-//		WebClient webClient = WebClient.create( addr );
-//        Mono<String> result = webClient.get()
-//                .retrieve()
-//                .bodyToMono(String.class);
-//		String response = result.block();
-// 		System.out.println(response);		
-//	}
-	
-	
- 	public String prettyJson(String jsonStr) {
+
+	public String prettyJson(String jsonStr) {
  		JSONObject json;
 		try {
 			json = new JSONObject(jsonStr);
@@ -63,24 +45,26 @@ public class HealthWebClient {
  		System.out.println(msg + " IS BUILDING THE ANSWER ... ");
 		final StringBuilder strbuild = new StringBuilder();  
  		answer.subscribe(			
- 				item  -> strbuild.append(item),
+ 				item  -> {System.out.println(item ); strbuild.append(item); },
  				error -> System.out.println(msg + " error= " + error ),
  				()    -> System.out.println(msg + prettyJson( strbuild.toString() )) 
  		);			
  	}
  	
  	public Flux<String> startDataflux(  String args  )  { //method=POST 
+ 		System.out.println("startDataflux " + args);
 		String addr = hostaddr+HealthService.startDatafluxUri; 				 
     	Flux<String> answer = webClient.post()
 				.uri( addr )   
 				.contentType(MediaType.TEXT_PLAIN)
-				.body( args, String.class )
+				.body( Mono.just(args), String.class )
                 .retrieve()
                 .bodyToFlux(String.class);
     	return answer;
     }
  	
  	public static void  subscribeToDataFlux( Flux<String> dataFlux, String mode  ) {
+ 		System.out.println("subscribeToDataFlux " + mode);
   		dataFlux.subscribe(			
  				item  -> System.out.println( "dataFlux "+mode+" | " + item ) ,
  				error -> System.out.println( "dataFlux "+mode+" | error" + error ),
@@ -89,21 +73,22 @@ public class HealthWebClient {
  	}
  	
  	public void callHealthAdapter()  {
-//		Flux<String> dataFluxCold = startDataflux(  "cold"  );		
-		Flux<String> dataFluxHot  = startDataflux(  "hot"   );
+  		Flux<String> dataFluxCold1 = startDataflux(  "cold"  );		
+//		Flux<String> dataFluxHot  = startDataflux(  "hot"   );
 		String resourcetype ="Patient";
  		String id           ="1439336"; 
-		Flux<String> flux = readResource( resourcetype,id);
-		subscribeToDataFlux( dataFluxHot, "hot1");
+ 		Flux<String> flux = readResource( resourcetype,id);
 		subscribeAndHandleCompletion("read_"+id, flux);
 		
+ 		subscribeAndHandleCompletion("dataFluxCold1 ", dataFluxCold1);
 		
 	}
  	
     public static void main(String[] args)   {
      	HealthWebClient appl = new HealthWebClient();
     	appl.callHealthAdapter( );
-    	HealthService.delay(3000);
+    	HealthService.delay(10000);
     	System.out.println( "BYE");
+		
     }
 }

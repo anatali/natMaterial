@@ -76,7 +76,7 @@ public class HealthServiceFhirUsageAsynch {
  		Flux<String> answer  = healthService.readResourceAsynch(currentResourceType,id);
  		final StringBuilder strbuild = new StringBuilder();  
 		answer.subscribe(			
- 				item  -> {   strbuild.append(item); },
+ 				item  -> {   strbuild.append(item); }, //System.out.println(item); 
  				error -> System.out.println("HealthServiceFhirUsage | readResource error= " + error ),
  				()    -> {   
   					callback.accept( HttpFhirSupport.prettyJson( strbuild.toString() )  ); //calls readResourceDone
@@ -110,7 +110,7 @@ public class HealthServiceFhirUsageAsynch {
  		System.out.println("HealthServiceFhirUsage | subscribeAndHandleCompletion  IS BUILDING THE ANSWER ... ");
 		final StringBuilder strbuild = new StringBuilder();  
  		answer.subscribe(			
- 				item  -> {  strbuild.append(item); },
+ 				item  -> {  System.out.println("&&&&&&&& " + item); strbuild.append(item); },  //SI VEDE!!!
  				error -> System.out.println("HealthServiceFhirUsage | subscribeAndHandleCompletion error= " + error ),
  				()    -> {  
  					System.out.println("HealthServiceFhirUsage | subscribeAndHandleCompletion " + HealthService.prettyJson( strbuild.toString() ));  //  
@@ -122,10 +122,12 @@ public class HealthServiceFhirUsageAsynch {
 	public static void doAfterRead() {
 		System.out.println(" %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"  );
 		System.out.println("HealthServiceFhirUsage | doAfterRead " + currentResourceType + "/" + currentResourceId  );
+		
+		
 		System.out.println(" %%% SEARCH  ------------------------------ " );
 		searchResource( queryStr );
   		forceSequentialBehavior("SEARCH");		
-
+  		/*
 		System.out.println(" %%% UPDATE  ------------------------------ " + currentResourceId);
 		updateResourceFromFile(updateResourceFileName, currentResourceId);
 		forceSequentialBehavior("UPDATE");
@@ -133,6 +135,7 @@ public class HealthServiceFhirUsageAsynch {
  		System.out.println(" %%% DELETE  ------------------------------ " + currentResourceType +"/"+currentResourceId);
   		deleteResource( currentResourceType, currentResourceId );	//
 		forceSequentialBehavior("DELETE");
+*/
 	}
 	
 	
@@ -167,15 +170,14 @@ public class HealthServiceFhirUsageAsynch {
 /*
  * CRUD
 */	
-	public static void main( String[] args) throws IOException {
-		HealthServiceFhirUsageAsynch appl = new HealthServiceFhirUsageAsynch();		
+ 	public void doCrudOperations() {
 		Flux<String> dataFluxCold = ResourceUtility.startDataflux(  "cold"  );		
 		Flux<String> dataFluxHot  = ResourceUtility.startDataflux(  "hot"  );
  		subscribeToDataFlux(dataFluxHot,"hot1");
 		
 //CREATE & READ will be done using callbacks  
 		System.out.println(" %%% CREATE & READ ------------------------------ ");
-		appl.createResourceFromFile(resourceFileName, HealthServiceFhirUsageAsynch::createResourceDone   );
+		createResourceFromFile(resourceFileName, HealthServiceFhirUsageAsynch::createResourceDone   );
    		forceSequentialBehavior("CREATE");		
   		
 		subscribeToDataFlux(dataFluxCold,"cold");
@@ -184,6 +186,32 @@ public class HealthServiceFhirUsageAsynch {
 //SEARCH, UPDATE & DELETE will forced to work in sequence  		
   		doAfterRead( );
 		
+ 	}
+ 	
+ 	public void doSearchOnly() {
+		System.out.println(" %%% SEARCH  ------------------------------ " );
+		searchResource( queryStr );
+  		forceSequentialBehavior("SEARCH");		 		
+ 	}
+ 	
+ 	public void doReadOnly() {
+		System.out.println(" %%% READ  ------------------------------ " );
+ 		Flux<String> answer  = healthService.readResourceAsynch("Patient",1439336L);
+ 		final StringBuilder strbuild = new StringBuilder();  
+		answer.subscribe(			
+ 				item  -> {   System.out.println("%%%%% "+item); strbuild.append(item); }, // 
+ 				error -> System.out.println("HealthServiceFhirUsage | readResource error= " + error ),
+ 				()    -> {   System.out.println( strbuild.toString() );	}
+ 	    );
+		forceSequentialBehavior("READ");	
+ 	}
+	
+ 	
+	public static void main( String[] args) throws IOException {
+		HealthServiceFhirUsageAsynch appl = new HealthServiceFhirUsageAsynch();		
+//		appl.doCrudOperations();
+		appl.doReadOnly();
+//		appl.doSearchOnly();
 		System.out.println(" %%% END  ------------------------------ ");
 	}
 }

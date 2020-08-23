@@ -240,7 +240,7 @@ public class ResourceUtility {
  				String s = "cold_"+datafluxcount+"_"+n+++" " ;
  				sink.next( s );
 		 		System.out.println("ResourceUtility | createColdFlux generates=" + s);
-				HealthService.delay(1000);
+				HealthService.delay(700);
 			  }//while
 			  sink.complete();
 			}//run
