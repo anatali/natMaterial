@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import it.unibo.HealthResource.ResourceUtility;
 import reactor.core.publisher.Flux;
 
 @RestController 	//annotates all the methods with @ResponseBody that embeds the return value in the body of HTTP answer
@@ -153,7 +155,24 @@ public class HealthAdapterMIController {
    	 	System.out.println("----- HealthAdapterMIController deleteResourceAsynch resourceType=" + resourceType + " id=" + id  );
    	 	return healthService.deleteResourceAsynch( resourceType, id );	 
     }
-      
+
+/*
+ * =========================================================================
+ * DATAFLUX    
+ * =========================================================================
+*/	  
+    @PostMapping( HealthService.startDatafluxUri ) 
+    public Flux<String> startDataflux( @RequestBody String args ) {	 
+    	return ResourceUtility.startDataflux(args);
+    }
+    @PostMapping( HealthService.stopDatafluxUri ) 
+    public Flux<String> stopDataflux( @RequestBody String args ) {	 
+    	return ResourceUtility.stopDataflux(args);
+    }
+    
+    
+    
+    
     @ExceptionHandler 
     public ResponseEntity<String> handle(Exception ex) {
     	HttpHeaders responseHeaders = new HttpHeaders();

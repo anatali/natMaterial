@@ -22,6 +22,9 @@
 	const searchResourceUri  		="/searchResource";
 	const updateResourceUri  		="/updateResource";
 	const deleteResourceUri 		="/deleteResource";
+
+	const startDatafluxUri   		="/startDataflux";
+ 	const stopDatafluxUri   		="/stopDataflux";
    
     function started(){
     	$("i.infoArea").text(  "application started" );
@@ -48,10 +51,23 @@ CRUD operations
 ====================================================================
 */ 	 	
 
+	function showResRepJson( msg, answer ){
+      		try{
+	      		var resourceobj    = JSON.parse(answer);     
+	      		var jsonObjStr     = JSON.stringify( resourceobj, null, 2 );    
+	    		var resourceid     = resourceobj.id;      
+	    		$("pre.resultArea").text(  jsonObjStr );		
+	      		$("i.infoArea").text(  msg +  resourceid);	
+	      	}catch( e ){ //answer is not a json object
+	      		$("i.infoArea").text(  msg + answer);
+	      	}
+	}
 	function showAnswer( msg, issynch, answer ){
       	//alert( answer );		//answer: the resource if asynch else a message
       	if( issynch ) $("i.infoArea").text(  answer );	
       	else{
+      		showResRepJson( msg + " done asynch for resource id=" );
+      	/*
       		try{
 	      		var resourceobj    = JSON.parse(answer);     
 	      		var jsonObjStr     = JSON.stringify( resourceobj, null, 2 );    
@@ -61,6 +77,7 @@ CRUD operations
 	      	}catch( e ){ //answer is not a json object
 	      		$("i.infoArea").text(  msg );
 	      	}
+	      	*/
       	}//else
 	}
 
@@ -171,7 +188,9 @@ SEARCH
         		console.log(  "read  done response.type=" + response.type  ); //promise
       			return response.text() ;		// 
       		}}).then( function (answer) { //answer is the json rep of the created resource
-      			showAnswer( "search", issynch, answer );	//answer is now a bundle ...
+      			//showAnswer( "search", issynch, answer );	
+      			//answer is now always a bundle ...
+      			showResRepJson( "search result:", answer);
        		});         					
 	}
 	
@@ -232,8 +251,8 @@ DELETE
 		var apiname = issynch ? deleteResourceUriSynch : deleteResourceUri;
          // --------- read the user input values -----------------------------------
         resourceType  = document.getElementById("resourcetype");
-    	input         = document.getElementById("resourceid");
-        var message   = resourceType.value + "&"+ input.value ;
+    	resourceId    = document.getElementById("resourceid");
+        var message   = resourceType.value + "&"+ resourceId.value ;
     	console.log("deleteAResource  "+ message);
     	$("i.infoArea").text(  "deleting ..." );	
         fetch(apiname, {method: "DELETE", body: message} ).then(function (response) {
@@ -241,7 +260,7 @@ DELETE
         		console.log(  "delete  done response.type=" + response.type  ); 
       			return response.text() ;		//promise 
       		}}).then( function (answer) {  
-      			showAnswer( "delete", issynch, answer );
+      			showAnswer( "delete " + resourceId, issynch, answer );
        		});         					         
     }
  
@@ -263,8 +282,37 @@ MONITOR
      			$("i.infoArea").text(  "monitor " + topic +"  done" );	
  		});  
  	}
-	
+ 	
+/*
+====================================================================
+DATA FLUX
+====================================================================
+*/
+
+function startDataFlux(){
+    	$("i.infoArea").text(  "starting dataflux ..." );	
+    	var iscold = document.getElementById('datachoice').checked;
+    	var message = iscold ? "cold" : "hot";
+        fetch(startDatafluxUri, {method: "POST", body: message} ).then(function (response) {
+         	if (response.ok) {
+       			return response.text() ;		//promise 
+      		}}).then( function (answer) {  
+      			$("pre.resultArea").text(  answer );
+       		});         					         
+}	
+
+function stopDataFlux(){
+    	$("i.infoArea").text(  "stopping dataflux ..." );	
+    	var message = "args to be defined";
+        fetch(stopDatafluxUri, {method: "POST", body: message} ).then(function (response) {
+         	if (response.ok) {
+       			return response.text() ;		//promise 
+      		}}).then( function (answer) {  
+      			$("pre.resultArea").text(  answer );
+       		});         					         
+}	
 </script>
+
 
  </head>
  
@@ -323,7 +371,11 @@ Server address: <input id="serveraddr" type="text" size="35" value="https://hapi
 
 
  
-
+ <!--
+****************************************************************************
+InputArea
+****************************************************************************
+-->  
 
 <h3>InputArea (SEARCH & CRUD operations) 
 <input id="synchchoice" type="checkbox"  name="synchchoice" value="asynch"><label for="synchchoice">SYNCH</label>
@@ -380,7 +432,7 @@ READ DELETE
 </td>
 <td>Resource ident: <input id="resourceid" type="text" size="10" autofocus/>
 </td>
-<td> <button onclick="doRead( document.getElementById('synchchoice').checked )">Read </button> 
+<td> <button onclick="readAResource(   )">Read </button> 
        <button onclick="deleteAResource( )">Delete</button>
  
 </td>
@@ -441,6 +493,18 @@ OutputArea
 -->  
  <h3>OutputArea <button onclick="cleanOutputArea()">Clean</button></h3> 
 <pre class="resultArea"><span th:text="${outField}">waiting ... </span></i></pre>
+
+
+ <!--
+****************************************************************************
+DataStream
+****************************************************************************
+-->  
+ <h3>DataStream <button onclick="startDataFlux()">Start</button> <button onclick="stopDataFlux()">Stop</button> 
+ <input id="datachoice" type="checkbox"  name="datachoice" value="datachoice"><label for="synchchoice">COLD GENERATOR</label>
+ </h3> 
+<pre class="dataFluxArea"><span th:text="${outdataDluxField}">waiting ... </span></i></pre>
+
 
  </p>
  

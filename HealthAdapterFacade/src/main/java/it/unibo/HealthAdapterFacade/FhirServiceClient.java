@@ -144,7 +144,7 @@ public class FhirServiceClient {
  				.retrieve()
 				.bodyToFlux(String.class);	//Since we receive a string
 		return	result;		
-		//return selfMadeAsynch( resourceType, "POST",   resJson );  //An old version, before to understand webClient
+		//return selfMadeAsynch( resourceType, "POST",   resJson );  //An old version, before to use webClient
  	}
 	
 	

@@ -1,13 +1,23 @@
 package it.unibo.HealthResource;
 
- 
+import java.io.FileInputStream;
 import java.util.Iterator;
-import org.hl7.fhir.instance.model.api.IBaseResource;
+import java.util.Vector;
+
+import org.apache.commons.io.IOUtils;
 import org.hl7.fhir.r4.model.*;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import ca.uhn.fhir.parser.IParser;
 import it.unibo.HealthAdapterFacade.HealthService;
+import reactor.core.publisher.DirectProcessor;
+import reactor.core.publisher.Flux;
  
 
 /*
@@ -25,6 +35,29 @@ public class ResourceUtility {
 	}
 	
 	
+	public static DomainResource createResourceFromFileJson(String fileName) {
+ 		 String resjsonStr   = getResourceJsonRepFromFile(fileName);
+		 if( resjsonStr != null) return buildResource(resjsonStr);
+		 else return null;
+	}
+
+	
+	public static void injectId(DomainResource resource, String id) {
+			resource.setId( new IdType(resource.fhirType(), id)  );
+ 	}
+	
+	public static String getResourceJsonRepFromFile(String fileName) {
+		try {			
+			FileInputStream fis = new FileInputStream(fileName);
+		    String resjsonStr   = IOUtils.toString(fis, "UTF-8");
+ 		    return resjsonStr;
+		} catch (Exception e) {
+			System.out.println("getResourceJsonRepFromFile ERROR"+ e.getMessage() );
+			return null;
+		}
+	}
+	
+	
  	public static DomainResource createResourceFromJson( String resourceType, String jsonrep ) {
  		    IParser parserfhir      = HealthService.fhirctx.newJsonParser();
 			switch( resourceType ) {
@@ -36,7 +69,24 @@ public class ResourceUtility {
  				}
 			}
 	}
+ 	
+ 	public static String getJsonRep( DomainResource resource) {
+ 		return HealthService.fhirctx.newJsonParser().encodeResourceToString(resource);
+ 	}
 	
+	public static String prettyJson( String sjson ) {
+		String result = "";
+		try {
+		    ObjectMapper mapper = new ObjectMapper();
+		    JsonFactory factory = mapper.getFactory();
+			JsonParser parser   = factory.createParser( sjson );
+		    JsonNode actualObj  = mapper.readTree(parser);
+		    result              = actualObj.toPrettyString() ;		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 	
 	public static DomainResource buildResource(String resjsonStr) {
 		DomainResource answer = null;
@@ -49,6 +99,8 @@ public class ResourceUtility {
 		}
 		return answer;
 	}
+	
+	
 	public static DomainResource buildResource(String resjsonStr, String id) {
 		DomainResource resource = null;
  		try {
@@ -170,5 +222,64 @@ public class ResourceUtility {
 		}		
 
  	}
+
+ /*
+ * =========================================================================
+ * DATAFLUX    
+ * =========================================================================
+ */	  
 	
+	private static int datafluxcount = 0;
+	
+	public static Flux<String> createColdFlux() {
+		Flux<String> dataflux = Flux.push(sink -> {
+		   new Thread() {
+			int n = 0;
+			public void run() {
+			  while( n < 10 ) {
+ 				String s = "cold_"+datafluxcount+"_"+n+++" " ;
+ 				sink.next( s );
+		 		System.out.println("ResourceUtility | createColdFlux generates=" + s);
+				HealthService.delay(1000);
+			  }//while
+			  sink.complete();
+			}//run
+		   }.start();		 
+		 });	
+		return dataflux;
+	}
+	
+	
+	public static Flux<String> createHotFlux() {
+ 		DirectProcessor<String> hotSource = DirectProcessor.create();
+ 		Flux<String> hotFlux              = hotSource.map(String::toUpperCase);
+ 		new Thread() {
+ 			public void run() {
+ 		 		for( int i=1; i<=10; i++) {
+ 		 			String s = "hot_"+datafluxcount+"_"+i+" " ;
+ 		 			hotSource.onNext(s  );
+ 		 			System.out.println("ResourceUtility | createHotFlux generates=" + s);
+ 		 			HealthService.delay(1000);
+ 		 		}
+ 		 		hotSource.onComplete();				
+ 			}
+ 		}.start();
+ 		return hotFlux;		
+	}
+	
+	
+ 	public static Flux<String> startDataflux(  String args  )  { //method=POST 
+ 		System.out.println("ResourceUtility | startDataflux args=" + args);
+ 		datafluxcount++;
+ 		if( args.equals("hot") ) return createHotFlux();	
+ 		else return createColdFlux();
+ 		
+ 		//return Flux.just("1","2","3"); 
+ 		
+ 	}	
+ 	public static Flux<String> stopDataflux(  String args  )  { //method=POST 
+ 		System.out.println("ResourceUtility | stopDataflux args=" + args);
+ 		return Flux.just("dataflux stopped to do");
+ 	}	
+
 }

@@ -6,12 +6,15 @@
 package it.unibo.HealthAdapterFacade.Pojo;
  
 import java.io.IOException;
+
+import org.hl7.fhir.r4.model.DomainResource;
 import org.json.JSONException;
 import org.json.JSONObject;
 import it.unibo.HealthAdapter.Clients.HttpFhirSupport;
 import it.unibo.HealthAdapterFacade.HealthService;
 import it.unibo.HealthAdapterFacade.HealthServiceFhir;
 import it.unibo.HealthAdapterFacade.HealthServiceInterface;
+import it.unibo.HealthResource.ResourceUtility;
 import reactor.core.publisher.Flux;
  
 
@@ -45,25 +48,35 @@ public class HealthServiceFhirUsageSynch {
  	}
 
 //READ	
-	public void readResource( Long id )   {
+	public void readResource( String resourceType, Long id )   {
+		String answer = healthService.readResourceSynch(resourceType, id.toString());
+		System.out.println("readResource answer=" + answer );
   	}
 
 //SEARCH
  	public void searchResource(String queryJson) {
+ 		String answer =  healthService.searchResourceSynch(queryJson);
+		System.out.println("searchResource answer=" + answer );
   	}
 
  //UPDATE
  	public void updateResourceFromFile( String fname, Long id ) {
+ 		DomainResource newresource = ResourceUtility.createResourceFromFileJson( fname );
+ 		//Inject the id
+ 		ResourceUtility.injectId(newresource, id.toString() );
+ 		String newresourceJsonStr =  ResourceUtility.getJsonRep(newresource);
+ 		String answer = healthService.updateResourceSynch(newresourceJsonStr);
+		System.out.println("updateResourceFromFile answer=" + answer );
   	}
 
 //DELETE
  	public void deleteResource(  String resourceType, Long id ) {
+ 		String answer = healthService.deleteResourceSynch(resourceType, id.toString());
+		System.out.println("deleteResource answer=" + answer );
   	}
-
-	
 	
 	/*
-	 * CRUD - the callback hell
+	 * CRUD - synch: one step a the time ...
 	 */	
 	public static void main( String[] args) throws IOException {
 		HealthServiceFhirUsageSynch appl = new HealthServiceFhirUsageSynch();
@@ -75,24 +88,18 @@ public class HealthServiceFhirUsageSynch {
 		Long id = appl.createResourceFromFile(resourceFileName);		 
 		
 		System.out.println(" %%% READ    ------------------------------ ");
-		appl.readResource( id );
-		
-/* 		
+		appl.readResource( "Patient", id );	
+  		
 		System.out.println(" %%% SEARCH  ------------------------------ ");
 		appl.searchResource( queryStr );
-		
- 		
+		 		
 		System.out.println(" %%% UPDATE  ------------------------------ ");
-		appl.updateResourceFromFile(updateResourceFileName, 1439336L);
-		
-*/ 
+		appl.updateResourceFromFile(updateResourceFileName, id);
+		 
 		System.out.println(" %%% DELETE  ------------------------------ ");
-//		appl.currentResourceType = "Patient";
-//		appl.deleteResource( appl.currentResourceType, appl.currentResourceId );	//
-		
-//		HealthService.delay(2000);  //To avoid premature termination
-		
+ 		appl.deleteResource( "Patient", id );	//
+				
  		System.out.println(" %%% END  ------------------------------ ");
  
-		}
+	}
 }
