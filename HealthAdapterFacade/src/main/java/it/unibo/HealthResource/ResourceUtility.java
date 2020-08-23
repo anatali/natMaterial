@@ -269,6 +269,7 @@ public class ResourceUtility {
 	
 	
  	public static Flux<String> startDataflux(  String args  )  { //method=POST 
+ 		if( args == null ) args="hot";
  		System.out.println("ResourceUtility | startDataflux args=" + args);
  		datafluxcount++;
  		if( args.equals("hot") ) return createHotFlux();	

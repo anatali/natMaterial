@@ -8,7 +8,6 @@ package it.unibo.HealthAdapterFacade.Pojo;
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.function.Consumer;
-
 import org.hl7.fhir.r4.model.DomainResource;
 import org.json.JSONException;
 import org.json.JSONObject;

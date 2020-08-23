@@ -66,7 +66,7 @@ CRUD operations
       	//alert( answer );		//answer: the resource if asynch else a message
       	if( issynch ) $("i.infoArea").text(  answer );	
       	else{
-      		showResRepJson( msg + " done asynch for resource id=" );
+      		showResRepJson( msg + " done asynch for resource id=", answer );
       	/*
       		try{
 	      		var resourceobj    = JSON.parse(answer);     
@@ -139,7 +139,7 @@ READ
         		console.log(  "read  done response.type=" + response.type  ); //promise
       			return response.text() ;		// 
       		}}).then( function (answer) { //answer is the json rep of the created resource
-      			showAnswer( "read", issynch, answer );
+       			showAnswer( "read", issynch, answer );
        		});         								
     } 
  	
