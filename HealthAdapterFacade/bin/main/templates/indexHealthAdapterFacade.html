@@ -106,7 +106,7 @@ CREATE
         // --------- define the apiname -------------------------------------------
 		var issynch = document.getElementById('synchchoice').checked;
 		var apiname = issynch ? createResourceUriSynch : createResourceUri;   	
-        // --------- read the user input values -----------------------------------
+        // --------- get the user input values -----------------------------------
      	var resourceobj  = JSON.parse(jsonStr);        
      	//alert( fName );
       	$("i.infoArea").text(  "creating resource from ... " + fName );	     	
@@ -114,8 +114,8 @@ CREATE
         fetch(apiname, {method: "POST", body: jsonStr}).then(function (response) {
         	if (response.ok) {
         		console.log(  "creation from " +  fName + "  done response.type=" + response.type  ); //promise
-      			return response.text() ;		// 
-      		}}).then( function (answer) {  
+      			return response.text() ;		
+      		}}).then( function (answer) {  // promise
       		    showAnswer( "create from " + fName, issynch, answer );
       		});         
     }

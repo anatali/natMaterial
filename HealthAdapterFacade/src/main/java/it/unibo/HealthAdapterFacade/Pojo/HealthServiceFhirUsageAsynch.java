@@ -107,7 +107,8 @@ public class HealthServiceFhirUsageAsynch {
 	private static Scanner scanner = new Scanner(System.in);
 	
 	private static void forceSequentialBehavior(String move) {
-		System.out.println("forceSequentialBehavior after "+move+" > ");
+		System.out.println(""
+				+ " after "+move+" > ");
 		try {			
 			scanner.nextLine();
 		} catch (Exception e) {

@@ -239,8 +239,8 @@ operazioni (asincrone) che restituiscono un <m><ks>Flux&lt;String></m></ks>.  </
 e' un esempio di <tt>@RestController</tt> che definisce operazioni sincrone e asincrone </li>
 <li><h4>HTTP calls</h4></li>
 
-<li>Un call HTTP che restituisce un Flux implica una subscribe a quel Flux.</li>
-<li>Una call HTTP effettuata dall'operazione JavaScript <em>fetch</em> restituisce una 'promise' che produce la risposata quando il Flux
+<li>Un call HTTP a una operazione che restituisce un Flux implica una subscribe a quel Flux.</li>
+<li>Una call HTTP effettuata dall'operazione JavaScript <em>fetch</em> restituisce una 'promise' che produce la risposta quando il Flux
 sare' completato. Questo anche nel caso che il Flux restituito sia 'hot'. 
 </li>
 <li>Una call HTTP effettuata attraverso un <em>WebClient</em> restituisce un Flux di cui si possono elaborare gli elementi 
@@ -256,6 +256,11 @@ mano a mano sono generati.
 	<m><ks>HealthWebClient.java</ks></m></a>
 	</li>
 	</ul>
+<li><h4>WebClient vs. RestfulGenericClient</h4>
+IPOTESI: RestfulGenericClient permette di fare 'ex-ante' quello che con WebClient posso fare alla ricezione del flusso.
+RestfulGenericClient permette una riduzione di flusso. TODO
+<br/><br/>
+</li>
 <li>Esperimenti con Flux di tipo 'hot':
 
 </li>

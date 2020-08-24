@@ -121,9 +121,9 @@ public class HealthWebClient {
  	}
  	
  	public static void callHealthProduct()  {
-  		doRead();
-// 		activateFlux();
-// 		workWithHotFlux();
+//  		doRead();
+//  		activateFlux();
+  		workWithHotFlux();
 // 		HealthService.delay(1500);
 	}
  	
