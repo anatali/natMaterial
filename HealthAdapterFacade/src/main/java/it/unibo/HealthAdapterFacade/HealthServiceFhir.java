@@ -62,7 +62,8 @@ public class HealthServiceFhir implements HealthServiceInterface {
 	public String searchResourceSynch( String queryjsonTemplate ) {
 		String[] info  = ResourceUtility.inspect( queryjsonTemplate );
 		System.out.println("searchResourceSynch " + info[0]);
-		Bundle answer = fhirclient.searchResourceSynch(info[0], info[1]);
+		//Bundle answer = fhirclient.searchResourceSynch(info[0], info[1]);
+		Bundle answer = fhirclient.searchResourceSynchPost(info[0], info[1]);
 		return HealthService.fhirctx.newJsonParser().setPrettyPrint(true).encodeResourceToString(answer);
 	}
 	
@@ -126,7 +127,9 @@ public class HealthServiceFhir implements HealthServiceInterface {
 		String[] answer  = ResourceUtility.inspect( jsonTemplate );
 		if( answer[0] != null ) {
 			System.out.println("HealthServiceFhir | searchResourceAsynch resourceType:" + answer[0]  +" queryStr:" + answer[1] );
-			return fhirclient.searchResourceAsynch(answer[0], answer[1]);
+			return 
+				fhirclient.searchResourceAsynch(answer[0], answer[1]);
+				//fhirclient.searchResourceAsynchPost(answer[0], answer[1]);  //TODO: ma sarebbe utile?
 		}else return null;
  	}
  	

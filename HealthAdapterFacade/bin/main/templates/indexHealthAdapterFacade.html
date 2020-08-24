@@ -25,7 +25,9 @@
 
 	const startDatafluxUri   		="/startDataflux";
  	const stopDatafluxUri   		="/stopDataflux";
-   
+
+ 	const subscribehotfluxUri  		="/subscribeflux";
+    
     function started(){
     	$("i.infoArea").text(  "application started" );
     }
@@ -289,6 +291,16 @@ DATA FLUX
 ====================================================================
 */
 
+function subscribeTheHotDataFlux(){
+		var message="nothing";
+        fetch(subscribehotfluxUri, {method: "POST", body: message} ).then(function (response) {
+         	if (response.ok) {
+       			return response.text() ;		//promise 
+      		}}).then( function (answer) {  
+      			$("pre.resultArea").text(  answer );
+       		});         					         
+}
+
 function startDataFlux(){
     	$("i.infoArea").text(  "starting dataflux ..." );	
     	var iscold = document.getElementById('datachoice').checked;
@@ -497,11 +509,12 @@ OutputArea
 
  <!--
 ****************************************************************************
-DataStream
+DATASTREAM
 ****************************************************************************
 -->  
  <h3>DataStream <button onclick="startDataFlux()">Start</button> <button onclick="stopDataFlux()">Stop</button> 
  <input id="datachoice" type="checkbox"  name="datachoice" value="datachoice"><label for="synchchoice">COLD GENERATOR</label>
+|| <button onclick="subscribeTheHotDataFlux()">Subscribe the hot dataFlux</button> 
  </h3> 
 <pre class="dataFluxArea"><span th:text="${outdataDluxField}">waiting ... </span></i></pre>
 

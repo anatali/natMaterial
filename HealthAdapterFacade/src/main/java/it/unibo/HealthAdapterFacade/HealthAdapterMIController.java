@@ -25,12 +25,14 @@ import reactor.core.publisher.Flux;
  */
 public class HealthAdapterMIController { 
 	 
-	private final boolean usejson = true; 
  	private HealthServiceInterface healthService;
+	private final boolean usejson       = true; 
+ 	public static Flux<String> hotflux  = null;
  	
 	 @Autowired
      public HealthAdapterMIController( HealthService healthServiceBuilder ) {
   		healthService             = healthServiceBuilder.getdHealthService();
+//  		hotflux                   = ResourceUtility.startDataflux("hot");
   		System.out.println("----- HealthAdapterMIController CREATED "   );
      }
 
@@ -161,9 +163,21 @@ public class HealthAdapterMIController {
  * DATAFLUX    
  * =========================================================================
 */	  
+    @PostMapping( HealthService.subscribehotfluxUri ) 
+    public Flux<String> subscribeDataflux(   ) {	 
+   	 	System.out.println("----- HealthAdapterMIController subscribeDataflux " + " hotflux=" + hotflux  );
+   	 	if( hotflux == null ) return Flux.just("Please start DataStream hot");   	 		
+   	 	else return hotflux;  
+    }
+    
     @PostMapping( HealthService.startDatafluxUri ) 
     public Flux<String> startDataflux( @RequestBody String args ) {	 
-    	return ResourceUtility.startDataflux(args);
+   	 	System.out.println("----- HealthAdapterMIController startDataflux args=" + args + " hotflux=" + hotflux);
+   	 	if(  args.equals("hot") ) {
+   	 		if(   hotflux == null ) hotflux = ResourceUtility.startHotDataflux( );  	 		
+   	 		return Flux.just("Hot dataFlux started");
+   	 	}
+   	 	else return ResourceUtility.startColdDataflux( );
     }
     @PostMapping( HealthService.stopDatafluxUri ) 
     public Flux<String> stopDataflux( @RequestBody String args ) {	 

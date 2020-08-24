@@ -223,13 +223,27 @@ Con riferimento alla terminologia introdotta in <a href="../../health/userDocs/I
 questo e' il primo prototipo per un <em>HeathProduct</em> il cui scopo e':
 
 <ol>
-<li>fornire un insieme di (REST) API che permettano al <em>Core-Itel</em> di inviare informazioni al <em>CentroHealth</em> (FHIR,Hl7,legacy)
+<li>fornire un insieme di (REST) API che permettano al <em>Core-Itel</em> di inviare informazioni a un <k>UNICO</k> (al momento) <em>CentroHealth</em> (FHIR,Hl7,legacy)
 relativo a uno specifico <em>CentroBase</em> per chiedere dati su paziente e piano terapeutico; 
  </li>
 <li>fornire un componente capace di ricevere informazioni (su pazienti e piani terapeutici) dal <em>CentroHealth</em> (FHIR,Hl7,legacy)
-e trasmetterle al <em>Core-Itel</em> usando una interfaccia API fornita dal <em>Core-Itel</em> stesso.
+e trasmetterle al <em>Core-Itel</em> usando una interfaccia API fornita dal <em>Core-Itel</em> stesso
+<ks>attraverso un FHIR sever</ks> (ad esempio ).
+
+IBM FHIR (al momento il piu' papabile):
+
+
+Documento di comparison fra i due: 
+
 </li>
  </ol> 
+
+<h3>FHIR server di riferiemto</h3>
+<ul>
+<li>IBM FHIR:  https://github.com/IBM/FHIR (documentazione https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide)</li>
+<li>HAPI FHIR: https://github.com/hapifhir/hapi-fhir-jpaserver-starter</li>
+<li>Confronto: https://dev-itel.atlassian.net/wiki/spaces/NEXTAGORA/pages/167215105/FHIR+Implementations+Comparison</li>
+</ul>
 
 <table style="width:98%">
 <tbody>	

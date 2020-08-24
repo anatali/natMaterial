@@ -45,6 +45,7 @@ public class HealthService {
 
 	public static final String startDatafluxUri			="/startDataflux";
 	public static final String stopDatafluxUri 			="/stopDataflux";
+	public static final String subscribehotfluxUri   	="/subscribeflux";
 	
 	
 	/*

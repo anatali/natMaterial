@@ -171,17 +171,17 @@ public class HealthServiceFhirUsageAsynch {
  * CRUD
 */	
  	public void doCrudOperations() {
-		Flux<String> dataFluxCold = ResourceUtility.startDataflux(  "cold"  );		
-		Flux<String> dataFluxHot  = ResourceUtility.startDataflux(  "hot"  );
- 		subscribeToDataFlux(dataFluxHot,"hot1");
+//		Flux<String> dataFluxCold = ResourceUtility.startDataflux(  "cold"  );		
+//		Flux<String> dataFluxHot  = ResourceUtility.startDataflux(  "hot"  );
+// 		subscribeToDataFlux(dataFluxHot,"hot1");
 		
 //CREATE & READ will be done using callbacks  
 		System.out.println(" %%% CREATE & READ ------------------------------ ");
 		createResourceFromFile(resourceFileName, HealthServiceFhirUsageAsynch::createResourceDone   );
    		forceSequentialBehavior("CREATE");		
   		
-		subscribeToDataFlux(dataFluxCold,"cold");
- 		subscribeToDataFlux(dataFluxHot,"hot2");
+//		subscribeToDataFlux(dataFluxCold,"cold");
+// 		subscribeToDataFlux(dataFluxHot,"hot2");
  		
 //SEARCH, UPDATE & DELETE will forced to work in sequence  		
   		doAfterRead( );

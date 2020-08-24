@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ca.uhn.fhir.parser.IParser;
+import it.unibo.HealthAdapterFacade.HealthAdapterMIController;
 import it.unibo.HealthAdapterFacade.HealthService;
 import reactor.core.publisher.DirectProcessor;
 import reactor.core.publisher.Flux;
@@ -229,18 +230,22 @@ public class ResourceUtility {
  * =========================================================================
  */	  
 	
-	private static int datafluxcount = 0;
+	private static int datafluxcount  = 1;
+	private static final int interval = 250;
+	private static final int limit    = 40;
 	
-	public static Flux<String> createColdFlux() {
+	public static Flux<String> startColdDataflux( ) {
+ 		datafluxcount++;
+   	 	System.out.println("----- ResourceUtility createColdFlux datafluxcount=" + datafluxcount  );
 		Flux<String> dataflux = Flux.push(sink -> {
 		   new Thread() {
 			int n = 0;
 			public void run() {
-			  while( n < 10 ) {
- 				String s = "cold_"+datafluxcount+"_"+n+++" " ;
- 				sink.next( s );
-		 		System.out.println("ResourceUtility | createColdFlux generates=" + s);
-				HealthService.delay(700);
+			  while( n < limit ) {
+ 				String s = "cold/"+datafluxcount+": "+n++ ;
+ 				sink.next( s +"\n" );
+		 		//System.out.println("ResourceUtility | coldFlux generates=" + s);
+				HealthService.delay(interval);
 			  }//while
 			  sink.complete();
 			}//run
@@ -250,34 +255,36 @@ public class ResourceUtility {
 	}
 	
 	
-	public static Flux<String> createHotFlux() {
+	public static Flux<String> startHotDataflux( ) {
+ 		datafluxcount++;
+  	 	System.out.println("----- ResourceUtility createHotFlux datafluxcount=" + datafluxcount  );
  		DirectProcessor<String> hotSource = DirectProcessor.create();
  		Flux<String> hotFlux              = hotSource.map(String::toUpperCase);
  		new Thread() {
  			public void run() {
- 		 		for( int i=1; i<=10; i++) {
- 		 			String s = "hot_"+datafluxcount+"_"+i+" " ;
- 		 			hotSource.onNext(s  );
- 		 			System.out.println("ResourceUtility | createHotFlux generates=" + s);
- 		 			HealthService.delay(750);
+ 		 		for( int i=0; i<limit; i++) {
+ 		 			String s = "hot/"+datafluxcount+": "+i ;
+ 		 			hotSource.onNext(s +"\n" );
+ 		 			System.out.println("ResourceUtility | hotFlux generates=" + s);
+ 		 			HealthService.delay(interval);
  		 		}
- 		 		hotSource.onComplete();				
+ 		 		hotSource.onComplete();		
+ 		 		HealthAdapterMIController.hotflux = null; //TODO: quite wrong, but just to make some test ...
  			}
  		}.start();
  		return hotFlux;		
 	}
 	
 	
- 	public static Flux<String> startDataflux(  String args  )  { //method=POST 
- 		if( args == null ) args="hot";
- 		System.out.println("ResourceUtility | startDataflux args=" + args);
- 		datafluxcount++;
- 		if( args.equals("hot") ) return createHotFlux();	
- 		else return createColdFlux();
- 		
- 		//return Flux.just("1","2","3"); 
- 		
- 	}	
+// 	public static Flux<String> startDataflux(  String args  )  {  
+//   	 	System.out.println("----- ResourceUtility startDataflux args=" + args  );
+// 		if( args == null ) args="hot";
+//   		if( args.equals("hot") ) return createHotFlux(datafluxcount++);	
+// 		else return createColdFlux(datafluxcount++);
+// 		
+// 		//return Flux.just("1","2","3"); 
+// 		
+// 	}	
  	public static Flux<String> stopDataflux(  String args  )  { //method=POST 
  		System.out.println("ResourceUtility | stopDataflux args=" + args);
  		return Flux.just("dataflux stopped to do");

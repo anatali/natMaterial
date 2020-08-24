@@ -10,6 +10,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
@@ -20,6 +24,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;	
 import ca.uhn.fhir.rest.api.MethodOutcome;
+import ca.uhn.fhir.rest.api.SearchStyleEnum;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.FluxSink;
@@ -85,7 +90,7 @@ public class FhirServiceClient {
  	}
 
 //SEARCH
- 	//http://localhost:8081/searchResourceSynch/%7B%20%22resourceType%22:%20%22Patient%22%20%7D
+ 	//https://hapi.fhir.org/baseR4/Patient/?address=Cesena&address=Italy
  	public Bundle searchResourceSynch( String resourceType, String queryStr) { 	
  		String searchUrl = serverBase+"/"+resourceType+"/?"+queryStr;	
  		System.out.println("FhirServiceClient | searchResourceSynch searchUrl=" + searchUrl);
@@ -96,6 +101,27 @@ public class FhirServiceClient {
  				   .execute();	
  		return response;
  	}
+ 	
+ 	public Bundle searchResourceSynchPost( String resourceType, String queryStr) { 	
+// 		queryStr like address=Cesena&address=Italy	
+ 		System.out.println("FhirServiceClient | searchResourceSynchPost " + queryStr );
+		// Costruisce la query come una Map (chiave-valore)
+		Map<String, List<String>> query = new HashMap<>();
+		String[] qsplit = queryStr.split("&");
+		for( int i=0; i<qsplit.length; i++ ) {
+			String pair[] = qsplit[i].split("=");
+			query.put(pair[0], 	Arrays.asList(pair[1]));
+		}
+ 		Bundle response = client  //we are NOT using the fluent method calls to build the URL
+				   .search()			
+				   .forResource(resourceType)
+				   .whereMap(query)
+				   .usingStyle(SearchStyleEnum.POST) // Forza il metodo HTTP a POST
+				   .returnBundle(Bundle.class)
+ 				   .execute();	
+ 		return response;
+ 	}
+ 	
  	
 //UPDATE 
  	public String updateResourceSynch(   DomainResource newresource   ) {
@@ -175,7 +201,9 @@ public class FhirServiceClient {
 	   	System.out.println("FhirServiceClient | searchResourceAsynch result=" + result); //result -> MonoFlatMapMany
  		return result; 
 	}
-    /*
+ 	
+ 	
+     /*
     -------------------------- 
     UPDATE
     -------------------------- 
