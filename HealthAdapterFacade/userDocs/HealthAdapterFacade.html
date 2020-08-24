@@ -191,7 +191,7 @@ div.imagedesc{
 <h1>HealthAdapterFacade | Project description</h1>
 
 <h2>References</h2>
- 
+<m> 
 <ul>
 <li><a href="https://dev-itel.atlassian.net/wiki/spaces/NEXTAGORA/overview" target="web">Confluence space: Nextagora</a> </li>
 <li><a href="https://dev-itel.atlassian.net/wiki/spaces/UNIBO/overview" target="web">Confluence space: UNIBO</a> </li>
@@ -206,7 +206,9 @@ div.imagedesc{
 
 <li><a href="https://www.hl7.org/fhir/R4/patient.html" target="web">FHIR 8.1 Resource Patient - Content</a>
 </li>
-</ul>
+</ul></m>
+
+
 <!--
 <li><a href="../../../Evolution/it.unibo.hapi2.2/userDocs/HapiUsage.html" target="web"> DISI - HapiUsage</a> (on <tt>.it.unibo.hapi2.2/userDocs/</tt>)</li>
 <li><a href="../../../natMaterial/health/userDocs/HealthReferences.html" target="web"> 
@@ -218,6 +220,48 @@ DISI - HapiFhirUsage | References and examples (on Evolution/it.unibo.mirth.java
 
  http://192.168.1.244/debug/clip.html -->
 
+<h3>Background</h3>
+
+<ol>
+<li><h4>Flux</h4></li>
+<li>Flux (Progetto Reactor) e' stato introdotto per offrire un supporto allo sviluppo di applicazioni reattive,
+superando il livello dei 'meccansimi' introdotto da Reactive Streams.</li>
+<li>Flux e' il tipo-base di Reactor che fornisce un contenitore di 0..N oggetti che 'esistono' solo dopo che qualcuno
+ha fatto una 'subscribe' al Flux.</li>
+<li>Un Flux di tipo 'hot' produce oggetti indipendentemente dai subscribers. Una subscribe 'riceve' gli oggetti prodotti
+dopo che la subscribe e' avvenuta.</li>
+
+<li><h4>Server</h4></li>
+<li>Un server REST per interazioni M2M puo' fornire operazioni (sincrone) che restitusicono una <m><ks>String</ks></m> o
+operazioni (asincrone) che restituiscono un <m><ks>Flux&lt;String></m></ks>.  </li>
+<li>La classe <a href="../src/main/java/it/unibo/HealthAdapterFacade.Pojo/Clients/HealthAdapterMIController.java" target="code">
+<m><ks>HealthAdapterMIController.java</ks></m></a>
+e' un esempio di <tt>@RestController</tt> che definisce operazioni sincrone e asincrone </li>
+<li><h4>HTTP calls</h4></li>
+
+<li>Un call HTTP che restituisce un Flux implica una subscribe a quel Flux.</li>
+<li>Una call HTTP effettuata dall'operazione JavaScript <em>fetch</em> restituisce una 'promise' che produce la risposata quando il Flux
+sare' completato. Questo anche nel caso che il Flux restituito sia 'hot'. 
+</li>
+<li>Una call HTTP effettuata attraverso un <em>WebClient</em> restituisce un Flux di cui si possono elaborare gli elementi 
+mano a mano sono generati. 
+	<ul>
+	<li>
+	<a href="../src/main/java/it/unibo/HealthAdapterFacade.Pojo/Clients/HealthServiceFhirUsageAsynch.java" target="code">
+	<m><ks>HealthServiceFhirUsageAsynch.java</ks></m></a>. 
+	</li>
+
+	<li>
+	<a href="../src/main/java/it/unibo/HealthAdapter/Clients/HealthWebClient.java" target="code">
+	<m><ks>HealthWebClient.java</ks></m></a>
+	</li>
+	</ul>
+<li>Esperimenti con Flux di tipo 'hot':
+
+</li>
+
+
+</ol>
 <h2>Introduzione</h2>
 Con riferimento alla terminologia introdotta in <a href="../../health/userDocs/ITelAppl.html" target="web">ITelAppl.html</a>,
 questo e' il primo prototipo per un <em>HeathProduct</em> il cui scopo e':

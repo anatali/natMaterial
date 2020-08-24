@@ -42,8 +42,6 @@ public class HealthAdapterMIController {
  * SYNCH PART  
  * =========================================================================
  */	 
-
-
 //CREATE SYNCH	 
 	 @PostMapping( HealthService.createResourceUriSynch )
 	 public Long createResourceSynch( @RequestBody String jsonStr ) {

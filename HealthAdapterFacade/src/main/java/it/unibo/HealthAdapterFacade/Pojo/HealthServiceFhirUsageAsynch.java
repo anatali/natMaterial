@@ -1,6 +1,15 @@
 /*
  * ------------------------------------------------------------------------
  * Utilizza  HealthServiceFhir per interagire con CentroHealthFHIR
+ * attrverso call sincrone e asincrone.
+ * Permette di 'testare' la application logic senza dover attivare
+ * HealthProduct come server Web.
+ * 
+ * Evidezia il fatto che il server FHIR pubblico https://hapi.fhir.org/baseR4
+ * definisce operazioni che restituiscono Flux<string>.
+ * 
+ * Evidenzia che si possono ottenere le informazioni 'on the fly' senza
+ * attendere il completamento del Flux.
  * ------------------------------------------------------------------------
  */
 package it.unibo.HealthAdapterFacade.Pojo;
@@ -30,7 +39,7 @@ public class HealthServiceFhirUsageAsynch {
 	public static final String queryStr  = 
 			"{ \"resourceType\": \"Patient\", \"address\": { \"city\": \"Cesena\", \"country\": \"Italy\" } }"; 
   	
-  	private static String serverBase="https://hapi.fhir.org/baseR4"; //"http://localhost:9001/r4"; //"https://hapi.fhir.org/baseR4";   
+  	private static String serverBase          ="https://hapi.fhir.org/baseR4"; //"http://localhost:9001/r4"; //"https://hapi.fhir.org/baseR4";   
   	private static String currentResourceType = "Patient";
   	private static Long   currentResourceId   = null;
   			

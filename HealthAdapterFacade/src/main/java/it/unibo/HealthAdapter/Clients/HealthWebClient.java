@@ -1,7 +1,11 @@
 /*
  * ------------------------------------------------------------------------
- * Interacts with the HealthProduct or with the FHIR server
- * by using the org.springframework.web.reactive.function.client.WebClient
+ * Interagisce con the HealthProduct server
+ * usando org.springframework.web.reactive.function.client.WebClient.
+ * 
+ * Evidenzia che, contraramente a JavaScipt fetch, si possono ottenere 
+ * da HealthProduct le informazioni 'on the fly' senza
+ * attendere il completamento del Flux.
  * ------------------------------------------------------------------------
  */
 package it.unibo.HealthAdapter.Clients;
@@ -31,14 +35,6 @@ public class HealthWebClient {
 		}	 		
  	}
 	
-	public static Flux<String> readResource(String resourcetype, String resourceid) {
-		String addr = hostaddr+HealthService.readResourceUri+"/"+resourceid+"&"+resourcetype; 	//+"/_history/1"
-     	Flux<String> answer = webClient.get()
-				.uri( addr )   
-                .retrieve()
-                .bodyToFlux(String.class);
-    	return answer;
-	}
     
  	private static void subscribeAndHandleCompletion( String msg, Flux<String> answer ) {
  		System.out.println(msg + " IS BUILDING THE ANSWER ... ");
@@ -77,9 +73,17 @@ public class HealthWebClient {
  	public static void doRead() {
 		String resourcetype ="Patient";
  		String id           ="1439336"; 
- 		Flux<String> flux = readResource( resourcetype,id);
+ 		Flux<String> flux   = readResource( resourcetype,id);
 		subscribeAndHandleCompletion("read_"+id, flux); 		
  	}
+	public static Flux<String> readResource(String resourcetype, String resourceid) { 
+		String addr = hostaddr+HealthService.readResourceUri+"/"+resourceid+"&"+resourcetype; 	//+"/_history/1"
+     	Flux<String> answer = webClient.get()
+				.uri( addr )   
+                .retrieve()
+                .bodyToFlux(String.class);
+    	return answer;
+	}
  	
  	/*
  	 * subscribeTheDataflux restituisce un hot flux running nel server FHIR
@@ -116,15 +120,15 @@ public class HealthWebClient {
 //  		subscribeAndHandleCompletion("dataFluxHot1b " , dataFluxHot1 ); 		// 
  	}
  	
- 	public static void callHealthAdapter()  {
+ 	public static void callHealthProduct()  {
+  		doRead();
 // 		activateFlux();
- 		workWithHotFlux();
+// 		workWithHotFlux();
 // 		HealthService.delay(1500);
-// 		doRead();
 	}
  	
     public static void main(String[] args)   {
-     	callHealthAdapter( );
+    	callHealthProduct( );
     	HealthService.delay(10000);
     	System.out.println( "BYE");		
     }
