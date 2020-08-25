@@ -183,6 +183,18 @@ public class HealthAdapterMIController {
     }
     
     
+/*
+ * =========================================================================
+ * CONVERSIONS
+ * =========================================================================
+*/   
+    
+    @GetMapping( HealthService.cvtHL7ToFHIRUri+"/{template}&{datahl7}" ) 
+    public Flux<String> cvtHL7ToFHIRUri( 
+    		@PathVariable( value = "template" ) String template ,
+    		@PathVariable( value = "datahl7" ) String datahl7  ) {	 
+    	return  Flux.just("cvtHL7ToFHIRUri " + template + " " + datahl7 + " wait a miniute ...");
+    }
     
     
     @ExceptionHandler 

@@ -48,9 +48,13 @@ public class HealthService {
 	public static final String stopDatafluxUri 			="/stopDataflux";
 	public static final String subscribehotfluxUri   	="/subscribeflux";
 	
+/*
+ * CONVERSION 
+ */	
+	public static final String cvtHL7ToFHIRUri   		="/cvthl7tofhir";
 	
 	/*
-	 * UTILITIES : CONVERSIONS	
+	 * UTILITIES : 	
 	 */
 	 	public static String cvt( IBaseResource theResource,  boolean useJson ) {
 	 		if( useJson ) return cvtJson(theResource);

@@ -305,11 +305,36 @@ TAB Code system </a></li>
 <li>
  </ol> 
 
+<h3>Tools</h3>
+<ul>
+<li>Repository with the HL7 utilities service to <a href="https://github.com/CDCgov/fdns-ms-hl7-utils" target="web">
+parse, validate and generate sample HL7 data</a>.<br/><br/>
+</li>
+<li><a href="https://github.com/microsoft/FHIR-Converter" target="web">
+Microsoft FHIR® Converter</a>. <br/>
+Si vedano anche le motivazioni di Microsoft:
+<a href="https://hoornebert.be/2020/03/09/why-fhir-became-a-first-class-data-type-in-azure/" target="web">
+Why FHIR® became a first-class data type in Azure.</a>
+e
+<a href="https://www.americantelemed.org/industry-news/deliver-better-experiences-insights-and-care-with-microsoft-cloud-for-healthcare/" target="web">
+Deliver better experiences, insights, and care with Microsoft Cloud for Healthcare.</a>
+
+
  <pre>
- 
- docker run --name natmirth  -p8443:8443 -p8088:8080 -p8001:8001 nextgenhealthcare/connect:3.9
- 
+ In C:\Progetti\FHIR-Converter:
+ docker build --tag fhirconverter .			//IMAGE
+ docker run --rm -p2019:2019  fhirconverter
+ docker exec -it f91cd0756510 bash
  </pre>
+ </li>
+<li>Mirth:
+ <pre>
+ In C:\Progetti\Evolution\it.unibo.mirth.java\workingok\data\volumes\appdata
+ docker run --name natmirth  -p8443:8443 -p8088:8080 -p8001:8001 nextgenhealthcare/connect:3.9
+ </pre>
+</li>
+</ul>
+
 
 
 <table style="width:98%">

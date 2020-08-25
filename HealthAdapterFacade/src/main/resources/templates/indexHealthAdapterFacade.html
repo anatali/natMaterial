@@ -27,6 +27,10 @@
  	const stopDatafluxUri   		="/stopDataflux";
 
  	const subscribehotfluxUri  		="/subscribeflux";
+
+
+//API FOR HL7 CONVERSION
+	const cvtHL7ToFHIRUri  		    ="/cvthl7tofhir";
     
     function started(){
     	$("i.infoArea").text(  "application started" );
@@ -323,6 +327,30 @@ function stopDataFlux(){
       			$("pre.resultArea").text(  answer );
        		});         					         
 }	
+
+
+/*
+====================================================================
+CONVERT
+====================================================================
+*/
+
+function convertHL7ToFHIR(  ){
+         // --------- read the user input values -----------------------------------
+        templateFile  = document.getElementById("templatehl7FileName");
+    	dataFile      = document.getElementById("hl7FileName");
+    	alert( templateFile.value + " " + dataFile.value );
+        var message   = "a" + "&"+ "b"; //templateFile.value + "&"+ dataFile.value ;
+    	console.log("convertHL7ToFHIR  "+ message);
+    	$("i.infoArea").text(  "converting ..." );	
+        fetch(cvtHL7ToFHIRUri+"/"+message, {method: "GET"} ).then(function (response) {
+         	if (response.ok) {
+       			return response.text() ;		//promise 
+      		}}).then( function (answer) {  
+      			showAnswer( "convert "  , false, answer );
+       		});         					         
+}
+
 </script>
 
 
@@ -476,6 +504,19 @@ Rid <input id="updateresourceid" type="text" value="1439336" size="8" autofocus/
 <td>  <hr/> 
 </td>
 </tr>
+<tr>
+
+<td><h4>HL7-FHIR. Template</h3> <label for="templatehl7FileName">TEMPLATE</label>
+<input type="file" id="templatehl7FileName"  />
+</td>
+<td><h4>HL7-FHIR. Data</h3> <label for="hl7FileName">HL7 data</label>
+  <input type="file" id="hl7FileName" />
+</td>
+<td> 
+  <button onclick="convertHL7ToFHIR(  )">Convert </button> 
+</td>
+</tr>
+
 
 <tr>
 <td>MONITORING 
