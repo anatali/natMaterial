@@ -189,11 +189,14 @@ public class HealthAdapterMIController {
  * =========================================================================
 */   
     
-    @GetMapping( HealthService.cvtHL7ToFHIRUri+"/{template}&{datahl7}" ) 
-    public Flux<String> cvtHL7ToFHIRUri( 
-    		@PathVariable( value = "template" ) String template ,
-    		@PathVariable( value = "datahl7" ) String datahl7  ) {	 
-    	return  Flux.just("cvtHL7ToFHIRUri " + template + " " + datahl7 + " wait a miniute ...");
+    @PostMapping( HealthService.cvtHL7ToFHIRUri )  
+    public Flux<String> cvtHL7ToFHIRUri( @RequestBody String args  ) {	 
+    	//return Flux.just("cvtHL7ToFHIRUri " + template + " " + datahl7 + " wait a minute ...");
+    	System.out.println("----- HealthAdapterMIController cvtHL7ToFHIRUri args=" + args  );
+    	String[] split  = args.split( "///" ); 
+    	System.out.println("----- HealthAdapterMIController cvtHL7ToFHIRUri template=" + split[1]  );
+//    	String template = split[0];
+    	return	healthService.cvthl7tofhir(split[1],split[0]);
     }
     
     

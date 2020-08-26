@@ -18,6 +18,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
+
+import ca.uhn.fhir.model.dstu2.resource.Bundle;
 import it.unibo.HealthAdapterFacade.HealthService;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -44,7 +46,8 @@ public class TestFHIRConverterAPI {
  		JSONObject json;
 		try {
 			json = new JSONObject(jsonStr);
-			return json.toString(2);
+			JSONObject res = (JSONObject) json.get("fhirResource");
+			return res.toString(2);
 		} catch (JSONException e) {
 			return "prettyJson ERROR for:"+jsonStr;
 		}	 		
@@ -52,12 +55,14 @@ public class TestFHIRConverterAPI {
 	
     
  	private static void subscribeAndHandleCompletion( String msg, Flux<String> answer ) {
- 		System.out.println(msg + " IS BUILDING THE ANSWER ... ");
+ 		System.out.println(msg + " IS BUILDING THE ANSWER ... " + msg);
 		final StringBuilder strbuild = new StringBuilder();  
  		answer.subscribe(			
  				item  -> {System.out.println("%%% "+ msg + " "+ item ); strbuild.append(item); },
  				error -> System.out.println(msg + " error= " + error ),
- 				()    -> System.out.println(msg +  prettyJson(strbuild.toString())  ) 
+ 				()    -> {
+ 					System.out.println(msg +    prettyJson( strbuild.toString() ) );
+ 				}
  		);			
  	}
  	
@@ -78,13 +83,14 @@ public class TestFHIRConverterAPI {
  	
   	public static void doPost( String path, String data ) {
   		String addr = hostaddr+ path; 
+  		System.out.println("doPost addr=" +  addr ) ;
     	Flux<String> flux = webClient.post()
 				.uri( addr )   
 				.contentType(MediaType.TEXT_PLAIN)
 				.body( Mono.just(data), String.class )
                 .retrieve()
                 .bodyToFlux(String.class);
-		subscribeAndHandleCompletion("post_" , flux); 		
+    	subscribeAndHandleCompletion("post_" , flux ); 	//.filter( v -> ... )
  	}
   	
   	public static void doPut( String path, String args ) {

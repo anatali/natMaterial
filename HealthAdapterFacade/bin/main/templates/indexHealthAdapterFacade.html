@@ -31,6 +31,8 @@
 
 //API FOR HL7 CONVERSION
 	const cvtHL7ToFHIRUri  		    ="/cvthl7tofhir";
+    //const cvtHostAddr               = "localhost:2019/api/convert/hl7v2";
+    
     
     function started(){
     	$("i.infoArea").text(  "application started" );
@@ -65,9 +67,35 @@ CRUD operations
 	    		$("pre.resultArea").text(  jsonObjStr );		
 	      		$("i.infoArea").text(  msg +  resourceid);	
 	      	}catch( e ){ //answer is not a json object
-	      		$("i.infoArea").text(  msg + answer);
+	      		$("i.infoArea").text(  msg + e);
 	      	}
 	}
+	function showJson(  answer ){
+      		try{
+	      		var resourceobj    = JSON.parse(answer);     
+	      		var jsonObjStr     = JSON.stringify( resourceobj, null, 2 );    
+ 	    		alert(jsonObjStr);		
+ 	      	}catch( e ){ //answer is not a json object
+ 	      		alert(e);
+	      		//$("i.infoArea").text(  e);
+	      	}
+	}
+	
+	function showConvertedResRepJson( msg, answer ){
+      		try{
+//      			console.log(answer);		//answer includes the HL7 data rewritten in Json
+	      		var answerobj      = JSON.parse(answer);   
+// 	      		var hl7dataeobj    = answerobj.unusedSegments;
+// 	      		showJson(  hl7dataeobj ) ;	  
+ 	      		var resourceobj    = answerobj.fhirResource;
+ 	      		var jsonObjStr     = JSON.stringify( resourceobj, null, 2 );    
+	    		var resourceinfo   = resourceobj.entry[0].resource.resourceType;      
+	    		$("pre.resultArea").text(  jsonObjStr );		
+	      		$("i.infoArea").text(  msg +  resourceinfo);	
+	      	}catch( e ){ //answer is not a json object
+	      		$("i.infoArea").text(  "ERROR:" + msg + e);
+	      	}
+	}	
 	function showAnswer( msg, issynch, answer ){
       	//alert( answer );		//answer: the resource if asynch else a message
       	if( issynch ) $("i.infoArea").text(  answer );	
@@ -335,19 +363,39 @@ CONVERT
 ====================================================================
 */
 
-function convertHL7ToFHIR(  ){
+function readHL7DataFromFile(    ) {	 
          // --------- read the user input values -----------------------------------
-        templateFile  = document.getElementById("templatehl7FileName");
-    	dataFile      = document.getElementById("hl7FileName");
-    	alert( templateFile.value + " " + dataFile.value );
-        var message   = "a" + "&"+ "b"; //templateFile.value + "&"+ dataFile.value ;
-    	console.log("convertHL7ToFHIR  "+ message);
-    	$("i.infoArea").text(  "converting ..." );	
-        fetch(cvtHL7ToFHIRUri+"/"+message, {method: "GET"} ).then(function (response) {
+        //var templateFile  = document.getElementById("templatehl7FileName");
+        var cvttemplate     = document.getElementById("cvttemplate");
+        var selected        = cvttemplate.options[cvttemplate.selectedIndex].value;
+         
+        //alert(cvttemplate);
+    	var dataFile      = document.getElementById("hl7FileName").files;
+    	//alert( templateFile.value + " " + dataFile.value );
+ 		var fr=new FileReader(); 
+		var file = dataFile[0];
+  		//alert( file.size );
+        fr.onload=function(evt){ 
+			var hl7Data = evt.target.result;
+			console.log( hl7Data );
+			//convertHL7ToFHIR( templateFile.value, hl7Data);	//ASYNCH		
+			convertHL7ToFHIR( selected , hl7Data);	
+        } 		 
+		fr.readAsText( file, "UTF-8" ); 		 
+	}
+
+
+function convertHL7ToFHIR( selectedTemplate, hl7Data ){
+        var message   = hl7Data  + "///" +  selectedTemplate  ;
+     	console.log(  message );
+    	$("i.infoArea").text(  "converting ..." );	 
+        fetch(cvtHL7ToFHIRUri, {method: "POST", body: message} ).then(function (response) {
          	if (response.ok) {
        			return response.text() ;		//promise 
       		}}).then( function (answer) {  
-      			showAnswer( "convert "  , false, answer );
+      			//showAnswer( "convert "  , false, answer );
+      			//$("pre.resultArea").text(  answer );
+      			showConvertedResRepJson("FHIR RESOURCE:",answer);
        		});         					         
 }
 
@@ -506,18 +554,33 @@ Rid <input id="updateresourceid" type="text" value="1439336" size="8" autofocus/
 </tr>
 <tr>
 
-<td><h4>HL7-FHIR. Template</h3> <label for="templatehl7FileName">TEMPLATE</label>
-<input type="file" id="templatehl7FileName"  />
+<!--
+---------------------------------------
+CONVERT
+---------------------------------------
+-->
+<td><h4>HL7-FHIR. Template</h3> 
+  <label for="cvttemplate">Choose a Template:</label>
+  <select name="cvttemplate" id="cvttemplate">
+    <option value="ADT_A01.hbs">ADT_A01</option>
+    <option value="ORU_R01.hbs">ORU_R01</option>
+  </select>
+
+<!-- <input type="file" id="templatehl7FileName"  />  -->
 </td>
 <td><h4>HL7-FHIR. Data</h3> <label for="hl7FileName">HL7 data</label>
   <input type="file" id="hl7FileName" />
 </td>
 <td> 
-  <button onclick="convertHL7ToFHIR(  )">Convert </button> 
+  <button onclick="readHL7DataFromFile(  )">Convert </button> 
 </td>
 </tr>
 
-
+<!--
+---------------------------------------
+MONITORING
+---------------------------------------
+-->
 <tr>
 <td>MONITORING 
 </td>

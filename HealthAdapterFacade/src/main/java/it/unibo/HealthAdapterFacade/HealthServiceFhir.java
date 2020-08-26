@@ -163,6 +163,27 @@ public class HealthServiceFhir implements HealthServiceInterface {
 		return result;
 	}
  	
+/*
+  * =========================================================================
+  * CONVERT 
+  * =========================================================================
+*/  	
+	@Override
+	public  Flux<String> cvthl7tofhir( String path, String data ) {
+ 		Flux<String> result = fhirclient.cvthl7tofhir(path, data );		
+// 		  Flux<String> flux = Flux.generate(
+//  					(sink) -> {
+// 						result.subscribe(			
+// 				 				item  -> {System.out.println("%%%  "+ item ); sink.next(item); },
+// 				 				error -> System.out.println( " error= " + error ),
+// 				 				()    -> { sink.complete();
+// 				 						   System.out.println( "FhirServiceClient | ANSWER ACQUIRED "  );
+// 				 						}
+// 								);
+// 					});
+ 	 		return result;
+ 	}	
+ 
  	
 
 }

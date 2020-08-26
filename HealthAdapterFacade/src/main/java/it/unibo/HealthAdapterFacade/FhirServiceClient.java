@@ -32,7 +32,8 @@ import reactor.core.publisher.Mono;
  
 
 public class FhirServiceClient {
-	private String serverBase=""; //"https://hapi.fhir.org/baseR4";  http://example.com/fhirBaseUrl
+	private String serverBase    =  ""; //"https://hapi.fhir.org/baseR4";  http://example.com/fhirBaseUrl
+	private String  cvtHostAddr  = "localhost:2019/api/convert/hl7v2";
      // Create a client. 
 	// See  https://hapifhir.io/hapi-fhir/docs/client/generic_client.html
 	//      https://hapifhir.io/hapi-fhir/docs/client/examples.html
@@ -241,6 +242,31 @@ public class FhirServiceClient {
   		return result; 
 		
 	}
+	
+/*
+ * =========================================================================
+ * CONVERT 
+ * =========================================================================
+*/	
+  	public  Flux<String> cvthl7tofhir( String template, String data ) {
+  		//addr=localhost:2019/api/convert/hl7v2/ADT_A01.hbs
+  		String addr = cvtHostAddr + "/"  + template; 
+  		System.out.println("FhirServiceClient |  cvthl7tofhir addr = " + addr + " data=" +  data ) ;
+    	Flux<String> flux = webClient.post()
+				.uri( addr )   
+				.contentType(MediaType.TEXT_PLAIN)
+				.body( Mono.just(data), String.class )
+                .retrieve()
+                .bodyToFlux(String.class);
+		return flux;		//Restituisce la conversione in Json dei data
+		 
+		//return Flux.just( strbuild.toString() );
+ 	}
+
+	
+	
+	
+	
 	
 /*
  * 	A user-defined asynch interaction, by AN

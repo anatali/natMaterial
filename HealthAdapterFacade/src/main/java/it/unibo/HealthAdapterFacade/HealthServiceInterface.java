@@ -24,5 +24,11 @@ public interface HealthServiceInterface {
 		public String searchResourceSynch(String queryjson);
 		public String updateResourceSynch( String newresourceJsonStr );   		   		 
 		public String deleteResourceSynch( String resourceType, String id ); 
+		
+		
+/*
+ *  CONVERT
+*/
+		public  Flux<String> cvthl7tofhir( String template, String data );
 }
 

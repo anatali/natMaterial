@@ -82,6 +82,16 @@ public class HealthServiceHL7 implements HealthServiceInterface{
 		return null;
 	}
 
+	/*
+	* =============================================================================
+	* CONVERT
+	* =============================================================================
+	*/ 
+	@Override
+	public Flux<String> cvthl7tofhir(String template, String data) {
+ 		return null;
+	}
+
 	
 
  
