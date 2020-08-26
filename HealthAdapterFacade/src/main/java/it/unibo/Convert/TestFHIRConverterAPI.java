@@ -126,7 +126,7 @@ public class TestFHIRConverterAPI {
  * TEMPLATES    	
  */
     	
-    	//doGet( "/api/templates");					//ok    {"templateName": "hl7v2/ADT_A01.hbs"},
+    		doGet( "/api/templates");					//ok    {"templateName": "hl7v2/ADT_A01.hbs"},
     	//curl -X GET "http://localhost:2019/api/templates?code=nat" -H "accept: application/json"
     	//http://localhost:2019/api/templates?code=nat
  
@@ -139,7 +139,7 @@ public class TestFHIRConverterAPI {
  */
      	
     	String hl7_data = getFromFile("src/main/java/it/unibo/HL7/datafiles/ADT01-23.hl7");
-      	doPost( "/api/convert/hl7v2/ADT_A01.hbs", hl7_data );
+//      	doPost( "/api/convert/hl7v2/ADT_A01.hbs", hl7_data );
     	
      	HealthService.delay(3000);
     	System.out.println( "BYE");		
