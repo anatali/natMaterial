@@ -28,20 +28,13 @@ public class HealthAdapterHIController {
   
   @GetMapping("/cvt")
   public String index(Model model) {
-	   String s = UniboHandlebars.noTemplateFile_compilesInline();
-	  
-//	  try {
-//		Handlebars handlebars = new Handlebars();
-//		//
-//		Template template     = handlebars.compile( "templates/cvt" ); 
-//		Map<String, String> parameterMap = new HashMap<>();
-//		parameterMap.put("foo", "Baeldung");
-//		//
-//		String templateString = template.apply(parameterMap);
-//		System.out.println(templateString);
-//	} catch (IOException e) {
-//		System.out.println("cvt error " + e.getMessage() ); 
-// 	}
+	  //String s = UniboHandlebars.noTemplateFile_compilesInline();
+	  //String s = UniboHandlebars.compilesInline_parameterObject();
+	  //String s = UniboHandlebars.templateFile_parameterInMap();
+	  //String s = UniboHandlebars.usingWith();
+	  //String s = UniboHandlebars.templateReference();
+	  String s = UniboHandlebars.usingEach();
+	   
       model.addAttribute("info", s);
       return "cvtIndex";
   }
