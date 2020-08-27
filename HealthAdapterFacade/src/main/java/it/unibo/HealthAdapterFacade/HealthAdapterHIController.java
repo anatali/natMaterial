@@ -1,10 +1,19 @@
 package it.unibo.HealthAdapterFacade;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.reactivestreams.Publisher;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import com.github.jknack.handlebars.Handlebars;
+import com.github.jknack.handlebars.Template;
+
+import it.unibo.Handlebars.UniboHandlebars;
 import reactor.core.publisher.Mono;
  
 @Controller 
@@ -16,6 +25,26 @@ public class HealthAdapterHIController {
  	   model.addAttribute("outField", "started" );
        return Mono.just("indexHealthAdapterFacade"  );
   } 
+  
+  @GetMapping("/cvt")
+  public String index(Model model) {
+	   String s = UniboHandlebars.noTemplateFile_compilesInline();
+	  
+//	  try {
+//		Handlebars handlebars = new Handlebars();
+//		//
+//		Template template     = handlebars.compile( "templates/cvt" ); 
+//		Map<String, String> parameterMap = new HashMap<>();
+//		parameterMap.put("foo", "Baeldung");
+//		//
+//		String templateString = template.apply(parameterMap);
+//		System.out.println(templateString);
+//	} catch (IOException e) {
+//		System.out.println("cvt error " + e.getMessage() ); 
+// 	}
+      model.addAttribute("info", s);
+      return "cvtIndex";
+  }
   
   @GetMapping("/react")
   public Publisher<String> entryreact(Model model) {

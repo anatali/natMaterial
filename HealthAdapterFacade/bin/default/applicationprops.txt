@@ -1,9 +1,13 @@
 server.port=8081
 
+spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration
+
+server.port=8081
+
 human.logo   = HealthItelDisi : Gui for human-machine interaction
 machine.logo = HealthItelDisi : welcome to m2m interaction 
- 
-logging.level.*=OFF
+
+management.security.enabled=false
 
 management.endpoint.health.show-details=ALWAYS
 management.endpoint.beans.enabled=true
@@ -15,14 +19,3 @@ management.endpoint.trace.enabled=true
 management.endpoint.dump.enabled=true
 management.endpoints.web.exposure.include=* 
 spring.jmx.enabled = true
-
-
-handlebars.enabled: true
-handlebars.prefix: classpath:templates/
-handlebars.suffix: .hbs
-handlebars.cache: true
-handlebars.registerMessageHelper: true
-handlebars.failOnMissingFile: false
-handlebars.bindI18nToMessageSource: false
-handlebars.prettyPrint: false
-handlebars.infiniteLoops: false
