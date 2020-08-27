@@ -318,6 +318,8 @@ Why FHIR® became a first-class data type in Azure.</a>
 e
 <a href="https://www.americantelemed.org/industry-news/deliver-better-experiences-insights-and-care-with-microsoft-cloud-for-healthcare/" target="web">
 Deliver better experiences, insights, and care with Microsoft Cloud for Healthcare.</a>
+<br/><br/>
+Il tool si basa su <a href="https://handlebarsjs.com/guide/#simple-expressions" target="web">Handlebars</a>
 
 
  <pre>
@@ -325,6 +327,26 @@ Deliver better experiences, insights, and care with Microsoft Cloud for Healthca
  docker build --tag fhirconverter .			//IMAGE
  docker run --rm -p2019:2019  fhirconverter
  docker exec -it f91cd0756510 bash
+ 
+ 
+ 
+//COPY TO CONTAINER		
+In C:\Progetti\FHIR-Converter\src:
+	find . -name routes.js
+	docker cp routes.js f91cd0756510:/usr/src/app/src/routes.js	
+
+In C:\Progetti\FHIR-Converter\src\static\js :
+	docker cp template-editor.js f91cd0756510:/usr/src/app/src/static/js/template-editor.js	
+In C:\Progetti\FHIR-Converter\src\lib\workers:
+	find /home -name worker.js
+	docker cp NatLog.txt f91cd0756510:/usr/src/app/src/lib/workers/NatLog.txt
+	find . -name NatLog.txt
+	find /home -name NatLog.txt
+	docker cp worker.js f91cd0756510:/usr/src/app/src/lib/workers/worker.js
+
+ 
+ 
+ docker cp mycontainer:/foo.txt foo.txt			//FROM
  </pre>
  </li>
 <li>Mirth:
