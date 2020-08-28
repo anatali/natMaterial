@@ -102,7 +102,7 @@ public class UniboHandlebars {
 	
 	public static String templateReference() {
 		try {
-			Template template     = handlebars.compile( "templatesHbs/page" );	//inlide also header
+			Template template     = handlebars.compile( "templatesHbs/page" );	//include  header
 			Person person         = new Person();
 			person.setName( "somePerson" );
  			String templateString = template.apply(person);

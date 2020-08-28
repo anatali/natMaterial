@@ -223,18 +223,57 @@ In questo lavoro ci occupiamo della interazione tra <em>HealthProduct</em> e un 
  </tbody>
 </table>
 
-<h2>Caso A): un partner fornisce il server del  <em>CentroHealth</em></h2>
-Questo caso presenta aspetti peculiaru che devono essere discussi per ogni specifica situazione.
+<h2>Caso A): un partner fornisce il server del <em>CentroHealth</em></h2>
+Questo caso presenta aspetti peculiari che devono essere discussi per ogni specifica situazione.
 
 <h2>Caso B): il server del <em>CentroHealth</em> tratta dati codificati HL7</h2>
 Questo caso richiede vengano analizzati due situazioni:
 <ol>
-<li></li>
-<li></li>
+<li>HL7 to FHIR: il <em>CentroHealth</em> contatta <em>HealthProduct</em> il quale convertirà il messaggio da HL7 a FHIR per inviarlo a <em>Core-Itel</em>;</li>
+<li>FHIR to HL7: <em>Core-Itel</em> contatta <em>HealthProduct</em> il quale convertirà il messaggio da FHIR a HL7 per inviarlo ad uno specifico <em>CentroHealth</em>;</li>
 </ol>
-<h3>Situazione 1: ...</h3>
+<h3>Situazione 1: HL7 to FHIR</h3>
+In questa situazione il <k>Mappings</k> di un messaggio HL7 con un 1-N risorsa/e FHIR può essere effettuato sfruttando un Bundle "di transizione".<br>
+Ad ogni modo si presentano due possibili vie per la conversione:
+<ul>
+  <li>utilizzare convertitori già esistenti come <a href="https://github.com/microsoft/FHIR-Converter">Microsoft FHIR Converter</a> che permette di definire template costituiti da regole di <k>Mappings</k>;
+  <li>implementare un proprio convertitore avvalendosi di librerire per effettuare il parsing come HAPI e di alcune tabelle di <k>Mappings</k>.<br>In merito a quest'ultime è possibile fare riferimento a:
+  <ul>
+  	<li>documentazione ufficiale FHIR. Esempio: <a href="http://hl7.org/fhir/STU3/patient-mappings.html#v2">Patient: 8.1.14.4 Mappings for HL7 v2 Mapping (http://hl7.org/v2)</a>
+  	<li>inventario: <a href="https://docs.google.com/spreadsheets/d/1PaFYPSSq4oplTvw_4OgOn6h2Bs_CMvCAU9CqC4tPBgk/edit#gid=0l">v2-to-FHIR Map Inventory</a></li>
+  </ul>
+</ul>
 
-<h3>Situazione 2: ...</h3>
+Rimangono però alcune questioni da chiarire:
+<ol>
+	<li>Un messaggio HL7 non contiene tutte le informazioni necessarie a rappresentare una risorsa FHIR.<br>Un esempio può essere il CarePlan la cui tabella di <k>Mappings</k> si presenta priva di diversi parametri: <a href="http://hl7.org/fhir/R4/careplan-mappings.html#v2">CarePlan - HL7 v2 Mapping</a></li>
+
+	<li>Come correlare le risorse FHIR ricavate da un messaggio HL7? In altre parole, una volta estrapolato l'id della risorsa referenziata dal messaggio HL7, come si ottiene quest'ultima? I possibili casi:
+		<ul>
+			<li><em>HealthProduct</em> chiedere le informazioni al <em>CentroHealth</em> sfruttando l'id;</li>
+			<li><em>HealthProduct</em> crea la risorsa (vuota) con l'id ricavato;</li>
+			<li><em>HealthProduct</em> non crea la risorsa ma specifica solamente l'id;</li>
+		</ul>
+		Esempio: il campo subject (riferimento al paziente coinvolto) all'interno della risorsa CarePlan (<a href="http://hl7.org/fhir/R4/careplan-mappings.html#v2">CarePlan - HL7 v2 Mapping</a>).
+	</li>
+
+	<li>Alla questione appena esposta si aggiunge anche quella dell'identificazione. <em>Core-Itel</em> come memorizza gli id ricevuti? Poichè in un messaggio HL7 gli identificatori <b>non</b> sono rappresentati tramite URI, gli id ricevuti saranno relativi a un certo <em>CentroHealth</em>. Questo porta a chiedersi se le informazioni riguardanti il <em>CentroHealth</em> di provenienza devo essere inviate tramite un API esposta da <em>Core-Itel</em>. In caso affermativo, <em>Core-Itel</em> non può ritenersi un vero e proprio server FHIR.</li>
+	<li>Ulteriore questione ancora aperta è quella relativa alla validazione del <k>Mappings</k>.</li>
+</ol>
+
+<h3>Situazione 2: FHIR to HL7</h3>
+In questo caso, emergono ulteriori problematiche:
+<ul>
+	<li>Un messaggio HL7 necessita di alcune informazioni non presenti in FHIR che devono assere aggiunte manualmente come lo header oppure valori di ACK.</li>
+	<li>I Centri Health non FHIR potrebbero utilizzare modalità di comunicazione differenti sia per quanto riguarda i protocolli, sia per il contenuto (payload) dei messagggi stessi. Ciò porta a definire le sopra citate informazioni di contorno:
+		<ul>
+			<li>a priori: tramite file di configurazione posti all'interno del <em>HealthProduct</em>;</li>
+			<li>a run-time: tramite richieste a servizi esterni. Nel caso in cui il servizio sia <em>Core-Itel</em> ci si domanda nuovamente se questo sia effettivamente un server FHIR.</li>
+		</ul>
+		In entrambi i casi è fondamentale conoscere il servizio o meglio il <em>CentroHealth</em> con il quale si vuole comunicare. A questa consegue la realizzazione di API ad hoc per ogni <em>CentroHealth</em>.
+	</li>
+	<li></li>
+</ul>
 
 
 <br/><br/>

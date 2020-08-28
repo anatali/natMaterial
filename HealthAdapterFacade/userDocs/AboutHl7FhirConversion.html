@@ -200,6 +200,7 @@ div.imagedesc{
 <li><a href="https://bitbucket.org/itelunibo/overviewrepo/src/master/it.unibo.itel/userDocs/3-LogicalArch/HDA_Disi.html" target="web">HDA_Disi.html (overviewrepo)</a> </li>
 -->
 <hr/>
+<li><a href="HapiUsage.html" target="web"> DISI - HapiUsage.html</a> </li>
 <li><a href="https://hapifhir.io/hapi-fhir/apidocs/hapi-fhir-base/index-all.html" target="web">FHIR Api docs</a></li>
 <li><a href="https://hapifhir.io/hapi-fhir/apidocs/hapi-fhir-structures-r4/index-all.html" target="web">FHIR Api structures docs</a></li>
 
@@ -318,51 +319,58 @@ Why FHIR® became a first-class data type in Azure.</a>
 e
 <a href="https://www.americantelemed.org/industry-news/deliver-better-experiences-insights-and-care-with-microsoft-cloud-for-healthcare/" target="web">
 Deliver better experiences, insights, and care with Microsoft Cloud for Healthcare.</a>
-<br/><br/>
-Il tool si basa su <a href="https://handlebarsjs.com/guide" target="web">Handlebars</a>
-<br/>
-<a href="https://www.baeldung.com/handlebars" target="web">Handlebars in Java</a><br/>
-<a href="https://jknack.github.io/handlebars.java/" target="web">Handlebars.java</a><br/>
-<a href="https://github.com/jknack/handlebars.java" target="web">Handlebars java git</a><br/>
+
+
+<h4>Handlebars</h4>
+Il tool si basa su <a href="https://handlebarsjs.com/guide" target="web">Handlebars</a>:&nbsp;&nbsp;&nbsp;
+<a href="https://www.baeldung.com/handlebars" target="web">Handlebars in Java</a>&nbsp;&nbsp;&nbsp;
+<a href="https://jknack.github.io/handlebars.java/" target="web">Handlebars.java</a>&nbsp;&nbsp;&nbsp;
+<a href="https://github.com/jknack/handlebars.java" target="web">Handlebars java git</a>&nbsp;&nbsp;&nbsp;
 <a href="https://allegro.tech/2015/04/spring-boot-starter-handlebars.html" target="web">Spring Boot Starter Handlebars</a>
 
 
 <pre>
+In <tt>C:\Progetti\handlebars</tt>
 java -jar handlebars-proto-1.0.0.jar -d site
 http://localhost:6780/home.hbs?data=path/home2
 </pre>
 
+<h4>Using/Changing Microsoft FHIR-Converter</h4>
  <pre>
  In C:\Progetti\FHIR-Converter:
  docker build --tag fhirconverter .			//IMAGE
  docker run --rm -p2019:2019  fhirconverter
- docker exec -it f91cd0756510 bash
- 
- 
+ docker run --name fhircvt --rm  -p2019:2019  natfhirconverter 
+ docker exec -it fhircvt bash
  
 //COPY TO CONTAINER		
-In C:\Progetti\FHIR-Converter\src:
+In <tt>C:\Progetti\FHIR-Converter\src</tt>
 	find . -name routes.js
-	docker cp routes.js f91cd0756510:/usr/src/app/src/routes.js	
+	docker cp routes.js fhircvt:/usr/src/app/src/routes.js	
+	docker update fhircvt		//NO
+//COPY FROM CONTAINER 
+	docker cp mycontainer:/foo.txt foo.txt			 
 
-In C:\Progetti\FHIR-Converter\src\static\js :
+In <tt>C:\Progetti\FHIR-Converter\src\static\js</tt>
 	docker cp template-editor.js f91cd0756510:/usr/src/app/src/static/js/template-editor.js	
-In C:\Progetti\FHIR-Converter\src\lib\workers:
+In <tt>C:\Progetti\FHIR-Converter\src\lib\workers</tt>
 	find /home -name worker.js
-	docker cp NatLog.txt f91cd0756510:/usr/src/app/src/lib/workers/NatLog.txt
-	find . -name NatLog.txt
-	find /home -name NatLog.txt
-	docker cp worker.js f91cd0756510:/usr/src/app/src/lib/workers/worker.js
-
- 
- 
- docker cp mycontainer:/foo.txt foo.txt			//FROM
- </pre>
+	docker cp NatLog.txt fhircvt:/usr/src/app/src/lib/workers/NatLog.txt
+	find . -name NatLogStream.txt
+	find /home -name NatLogStream.txt
+	docker cp worker.js fhircvt:/usr/src/app/src/lib/workers/worker.js
+ 	docker cp workerPool.js fhircvt:/usr/src/app/src/lib/workers/workerPool.js
+	
+docker commit fhircvt natfhirconverter
+</pre>
  </li>
-<li>Mirth:
+<li><h4>Mirth</h4>
  <pre>
- In C:\Progetti\Evolution\it.unibo.mirth.java\workingok\data\volumes\appdata
+ In <tt>C:\Progetti\Evolution\it.unibo.mirth.java\workingok\data\volumes\appdata</tt>
  docker run --name natmirth  -p8443:8443 -p8088:8080 -p8001:8001 nextgenhealthcare/connect:3.9
+ 
+ BETTER (USE DOCKER COMPOSE) In <tt>C:\Progetti\Evolution\it.unibo.mirth.java\workingok></tt>
+ docker-compose -f compose-mysql-withvolume.yml up
  </pre>
 </li>
 </ul>
