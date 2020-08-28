@@ -358,8 +358,11 @@ In <tt>C:\Progetti\FHIR-Converter\src\lib\workers</tt>
 	docker cp NatLog.txt fhircvt:/usr/src/app/src/lib/workers/NatLog.txt
 	find . -name NatLogStream.txt
 	find /home -name NatLogStream.txt
-	docker cp worker.js fhircvt:/usr/src/app/src/lib/workers/worker.js
  	docker cp workerPool.js fhircvt:/usr/src/app/src/lib/workers/workerPool.js
+
+	docker cp worker.js fhircvt:/usr/src/app/src/lib/workers/worker.js
+	docker cp ../hl7v2/hl7v2.js fhircvt:/usr/src/app/src/lib/hl7v2/hl7v2.js
+	
 	
 docker commit fhircvt natfhirconverter
 </pre>
