@@ -32,6 +32,8 @@ public class ReadMessagesFromFile {
         String msgTrigger = msh.getMessageType().getTriggerEvent().getValue();
 
         System.out.println("msgType=" + msgType + " trigger=" + msgTrigger);
+        
+        System.out.println("... " + m.getPID().getName());
 
         XPN[] patientName = m.getPID().getPatientName();
         String familyName = patientName[0].getFamilyName().getValue();
@@ -44,14 +46,9 @@ public class ReadMessagesFromFile {
 
 		// Open an InputStream to read from the file
 		File file      = new File("C:/Progetti/natmaterial/HealthAdapterFacade/FHIR-Converter/examples/sample-data/hl7v2/ADT01-23.hl7");
-		InputStream is = new FileInputStream(file);
-		
-		// It's generally a good idea to buffer file IO
-		is = new BufferedInputStream(is);
-		
-		// The following class is a HAPI utility that will iterate over
-		// the messages which appear over an InputStream
-		Hl7InputStreamMessageIterator iter = new Hl7InputStreamMessageIterator(is);
+//		InputStream is = new FileInputStream(file);
+		InputStream is = new BufferedInputStream(new FileInputStream(file));
+ 		Hl7InputStreamMessageIterator iter = new Hl7InputStreamMessageIterator(is);
 		
 		while (iter.hasNext()) {			
 			System.out.println("----------------------------------- " );
