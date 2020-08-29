@@ -3,20 +3,18 @@ package it.unibo.Handlebars.templates;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
+ 
 
 import com.github.jknack.handlebars.Handlebars;
+import com.github.jknack.handlebars.Helper;
+import com.github.jknack.handlebars.Options;
 import com.github.jknack.handlebars.Template;
 
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.model.Message;
 import ca.uhn.hl7v2.model.v23.message.ADT_A01;
 import ca.uhn.hl7v2.util.Hl7InputStreamMessageIterator;
-import it.unibo.Handlebars.Person;
+ 
 
 public class TestCvt {
 	//From https://www.baeldung.com/handlebars	
@@ -45,31 +43,41 @@ public class TestCvt {
 		}
 	}
 
-	public static String templateFile_parameterInMap() {
-		try {
-			Template template     = handlebars.compile( "templatesHbs/cvt" );	//.hbs 
-			Map<String, String> parameterMap = new HashMap<>();
-			parameterMap.put("foo", "Disi Test on Handlebars with Map and cvt.bls");
-			String templateString = template.apply(parameterMap);
-			System.out.println(templateString);
-			return templateString;
-		} catch (IOException e) {
-			String s = "templateFile_parameterInMap error " + e.getMessage();
-			System.out.println(s ); 
-			return s; 
-		}		
-	}
+//	public static String templateFile_parameterInMap() {
+//		try {
+//			Template template     = handlebars.compile( "templatesHbs/cvt" );	//.hbs 
+//			Map<String, String> parameterMap = new HashMap<>();
+//			parameterMap.put("foo", "Disi Test on Handlebars with Map and cvt.bls");
+//			String templateString = template.apply(parameterMap);
+//			System.out.println(templateString);
+//			return templateString;
+//		} catch (IOException e) {
+//			String s = "templateFile_parameterInMap error " + e.getMessage();
+//			System.out.println(s ); 
+//			return s; 
+//		}		
+//	}
 
 	
 	public static void cvtA01Msg( ADT_A01 m ) {
 		try {
-//			templateFile_parameterInMap();
+/*
+			handlebars.registerHelper("patientname", new Helper<ADT_A01>() {
+ 				@Override
+				public Object apply(ADT_A01 context, Options options) throws IOException {
+ 					return context.getPID().getPatientName()[0].getFamilyName().getValue();
+				}
+			});			
+*/			
+			
+			handlebars.registerHelpers( new ADT_A01Helper() );
+			
 			Template template     = handlebars.compile( "templatesHbs/ADT_A01NaiveForJava" );	 
-			Map<String, String> parameterMap = new HashMap<>();
-			parameterMap.put("patientName", ""+m.getPID().getPatientName()[0].getGivenName());
-			String templateString = template.apply(parameterMap);
+//			Map<String, String> parameterMap = new HashMap<>();
+// 			parameterMap.put("patientName", ""+m.getPID().getPatientName()[0].getGivenName());
+//			String templateString = template.apply(parameterMap);
  
-//			String templateString = template.apply(m);
+ 			String templateString = template.apply(m);
  			System.out.println( templateString ); 
 		} catch (Exception e) {
 			String s = "error " + e.getMessage();

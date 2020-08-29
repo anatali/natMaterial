@@ -1,9 +1,8 @@
 {
     "resourceType": "Bundle",
     "type": "transaction",
-    "patientname": {{patientName}}
-    {{#with PID}}
-	 My name is (does not work): {name}} 
-	{{/with}}
+    "ADT_A01familyname":  {{#adtfamilyname this}}{{/adtfamilyname}}
+    "ADT_A01patientname": {{#adtpatientname this}}{{/adtpatientname}}
+     {{>templatesHbs/PatientNaiveForJava PID=PID}}
     
 }

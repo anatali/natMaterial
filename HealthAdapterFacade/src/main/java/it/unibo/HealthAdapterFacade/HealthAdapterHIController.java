@@ -31,9 +31,9 @@ public class HealthAdapterHIController {
 	  //String s = UniboHandlebars.noTemplateFile_compilesInline();
 	  //String s = UniboHandlebars.compilesInline_parameterObject();
 	  //String s = UniboHandlebars.templateFile_parameterInMap();
-	  //String s = UniboHandlebars.usingWith();
+	  String s = UniboHandlebars.usingWith();
 	  //String s = UniboHandlebars.templateReference();
-	  String s = UniboHandlebars.usingEach();
+	  //String s = UniboHandlebars.usingEach();
 	   
       model.addAttribute("info", s);
       return "cvtIndex";
