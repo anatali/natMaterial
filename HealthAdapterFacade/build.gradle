@@ -88,10 +88,25 @@ node {
 }
 
 /*
+HAPI HL7
+*/
+	// https://mvnrepository.com/artifact/ca.uhn.hapi/hapi
+	compile group: 'ca.uhn.hapi', name: 'hapi', version: '2.3' //, ext: 'pom'
+	// https://mvnrepository.com/artifact/ca.uhn.hapi/hapi-structures-v26
+	//compile group: 'ca.uhn.hapi', name: 'hapi-structures-v26', version: '2.3'
+	// https://mvnrepository.com/artifact/ca.uhn.hapi/hapi-structures-v22
+	compile group: 'ca.uhn.hapi', name: 'hapi-structures-v22', version: '2.3'
+	// https://mvnrepository.com/artifact/ca.uhn.hapi/hapi-structures-v23
+	compile group: 'ca.uhn.hapi', name: 'hapi-structures-v23', version: '2.3'
+	// https://mvnrepository.com/artifact/ca.uhn.hapi/hapi-structures-v251
+	compile group: 'ca.uhn.hapi', name: 'hapi-structures-v251', version: '2.3'
+
+
+/*
 Handlebars Java » 4.2.0
 */
-// https://mvnrepository.com/artifact/com.github.jknack/handlebars.java
-//compile group: 'com.github.jknack', name: 'handlebars.java', version: '4.2.0', ext: 'pom'
+	// https://mvnrepository.com/artifact/com.github.jknack/handlebars.java
+	//compile group: 'com.github.jknack', name: 'handlebars.java', version: '4.2.0', ext: 'pom'
 	implementation 'pl.allegro.tech.boot:handlebars-spring-boot-starter:0.3.2'	
 
 /*

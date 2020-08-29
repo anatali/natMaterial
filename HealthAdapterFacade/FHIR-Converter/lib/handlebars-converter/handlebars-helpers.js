@@ -603,7 +603,13 @@ module.exports.external = [
                         ret[msg.meta[i]] = msg.data[i];
                     }
                 }
-                return ret;
+ console.log("\n============================ handlebars-helpers.js getFirstSegments ==========================================="); //BY AN
+ //console.log("msg=" + Object.keys(msg) );	 //BY AN	(data,meta)
+ //console.log("ret=" + Object.keys(ret) );	 //BY AN	(PID,PV1)	among 'PID' 'PD1' 'PV1' 'PV2' 'PR1' 'AVR'
+ console.log("ret.PID=" +ret.PID );
+ console.log("ret.PV1=" +ret.PV1 );
+ console.log("\n---------------------------------------------------------------------------------------------------------------"); //BY AN
+                 return ret;
             }
             catch (err) {
                 throw `helper "getFirstSegments" : ${err}`;
