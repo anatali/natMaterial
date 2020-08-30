@@ -2,11 +2,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License (MIT). See LICENSE in the repo root for license information.
 // -------------------------------------------------------------------------------------------------
-var specialCharProcessor = require('../inputProcessor/specialCharProcessor');
-var hl7SequenceHandler = require('./hl7EscapeSequence');
-var hl7v2TemplatePreprocessor = require('../inputProcessor/templatePreprocessor');
-var CoverageArray = require('./coverage-array');
-var dataHandler = require('../dataHandler/dataHandler');
+var specialCharProcessor      	= require('../inputProcessor/specialCharProcessor');
+var hl7SequenceHandler        	= require('./hl7EscapeSequence');
+var hl7v2TemplatePreprocessor 	= require('../inputProcessor/templatePreprocessor');
+var CoverageArray 				= require('./coverage-array');
+var dataHandler 				= require('../dataHandler/dataHandler');
 
 module.exports = class hl7v2 extends dataHandler {
     constructor() {
@@ -14,9 +14,8 @@ module.exports = class hl7v2 extends dataHandler {
     }
 
     parseSrcData(msg) {
-//console.log("hl7v2 parseSrcData msg= " + Object.keys(msg));		//BY AN  ( 0,1,2,...,1464 )
+    	//console.log("hl7v2 parseSrcData msg= " + Object.keys(msg));		//BY AN  ( 0,1,2,...,1464 )
         return new Promise((fulfill, reject) => {
- 
             try{
                 var data = parseHL7v2(msg);
 /*
@@ -28,9 +27,9 @@ console.log("hl7v2 parseSrcData data.v2.data= " + Object.keys(data.v2.data));		/
 console.log("data["+0+"]= " + data.v2.data[0]);			//BY AN  ( ^~\&,AccMgr,1,,,20050110045504,,ADT,A01,599102,P,2.3,,,   )
 console.log("data["+11+"]= " + data.v2.data[11]);		//BY AN  (  3,SELF PAY,1,SELF PAY,,,,,,,,,,,5,,1  )
 */
-console.log("\n============================ hl7v2 PARSING ===========================================");
-console.log("hl7v2 parseSrcData data.v2.meta= " + data.v2.meta);		//BY AN  ( MSH,EVN,PID,NK1,PV1,GT1,DG1,IN1,IN2,IN1,IN2,IN1   )
-console.log("hl7v2 parseSrcData msg= " + msg);							//BY AN  (  IL MSG DATO IN INPUT  )
+//console.log("\n============================ hl7v2 PARSING ===========================================");
+//console.log("hl7v2 parseSrcData data.v2.meta=\n" + data.v2.meta);		//BY AN  ( MSH,EVN,PID,NK1,PV1,GT1,DG1,IN1,IN2,IN1,IN2,IN1   )
+//console.log("hl7v2 parseSrcData data.v2.data=\n" + data.v2.data);							//BY AN  (  IL MSG DATO IN INPUT  )
                 fulfill(data);		//fulfill will be deprecated and eventually go away entirely
                 //anything waiting for deferredPromise will now wait for nextPromise. BETTER USE: resolve
             }

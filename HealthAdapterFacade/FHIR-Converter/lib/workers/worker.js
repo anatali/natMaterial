@@ -82,6 +82,10 @@ console.log("worker generateResult dataContext.msg.v2.data " + dataContext.msg.v
 }
 
 WorkerUtils.workerTaskProcessor((msg) => {
+console.log("\n============================ worker  ===========================================");                               
+//console.log("worker msg " + Object.keys(msg));		//BY AN  (type,srcDataType,srcDataBase64,templateBase64,templatesOverrideBase64 )
+//console.log("worker msg.templateBase64 " + msg.templateBase64);		//BY AN  (Base64 )
+
     return new Promise((fulfill, reject) => {
         session.run(() => {
             switch (msg.type) {

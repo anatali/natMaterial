@@ -593,6 +593,7 @@ module.exports.external = [
         description: "Returns first instance of the segments e.g. getFirstSegments msg.v2 'PID' 'PD1': getFirstSegments message segment1 segment2 …",
         func: function getFirstSegments(msg, ...segmentIds) {
             try {
+ console.log("getFirstSegments segmentIds=\n" + segmentIds);	
                 var ret = {};
                 var inSegments = {};
                 for (var s = 0; s < segmentIds.length - 1; s++) { //-1 because segmentsIds includes the full message at the end
