@@ -23,6 +23,7 @@ var rebuildCache 		= true;
 function GetHandlebarsInstance(dataTypeHandler, templatesMap) {
     // New instance should be created when using templatesMap
     let needToUseMap = templatesMap && Object.entries(templatesMap).length > 0 && templatesMap.constructor === Object;
+console.log(" +++++++++++++++++++++ worker GetHandlebarsInstance "  );			//BY AN  
     var instance = HandlebarsConverter.instance(needToUseMap ? true : rebuildCache,
         dataTypeHandler,
         path.join(constants.TEMPLATE_FILES_LOCATION, dataTypeHandler.dataType),
@@ -134,6 +135,7 @@ console.log("worker templateString=" + templateString);		//BY AN
 //console.log("worker dataTypeHandler.dataType " + dataTypeHandler.dataType);		//BY AN  (hl7v2 )
  
                             let handlebarInstance = GetHandlebarsInstance(dataTypeHandler, templatesMap);
+console.log(" +++++++++++++++++++++ worker handlebarInstance "  );			//BY AN  
                             session.set(constants.CLS_KEY_HANDLEBAR_INSTANCE, handlebarInstance);
                             session.set(constants.CLS_KEY_TEMPLATE_LOCATION, path.join(constants.TEMPLATE_FILES_LOCATION, dataTypeHandler.dataType));
 

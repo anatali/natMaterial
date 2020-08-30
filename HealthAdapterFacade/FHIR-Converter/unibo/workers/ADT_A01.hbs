@@ -4,32 +4,33 @@
     "entry": [
         {{#with (getFirstSegments res.v2 'PID' 'PD1' 'PV1' 'PV2' 'PR1' 'AVR')}}
     
+             {{>patient PID=PID PD1=PD1 NK1=NK1 ID=(generateUUID PID-3-1)}},
             
             {{#with (getSegmentLists ../res.v2 'NK1')}}
                 {{#each NK1 as |NK1Instance|}}
-    				"todo " + NK1
+				  {{NK1Instance}}
     
                 {{/each}}
             {{/with}} 	
             
             {{#with (getSegmentLists ../res.v2 'OBX')}}
                 {{#each OBX as |OBXInstance|}}
-    
+    				{{OBXInstance}}
       
                 {{/each}}
             {{/with}} 
 
             {{#with (getSegmentLists ../res.v2 'AL1')}}
                 {{#each AL1 as |AL1Instance|}}
-    
+    					{{AL1Instance}}
       
                 {{/each}}
             {{/with}} 
     
             {{#with (getSegmentLists ../res.v2 'DG1')}}
                 {{#each DG1 as |DG1Instance|}}
-    
-       
+    				{{DG1Instance}}
+       	
                 {{/each}}
             {{/with}} 
     

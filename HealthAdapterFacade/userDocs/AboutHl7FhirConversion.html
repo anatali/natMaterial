@@ -362,6 +362,8 @@ In <tt>C:\Progetti\natmaterial\HealthAdapterFacade\FHIR-Converter\lib\workers</t
 
 	docker cp worker.js fhircvt:/usr/src/app/src/lib/workers/worker.js
 	docker cp ../hl7v2/hl7v2.js fhircvt:/usr/src/app/src/lib/hl7v2/hl7v2.js
+	docker cp ../handlebars-converter/handlebars-helpers.js fhircvt:/usr/src/app/src/lib/handlebars-converter/handlebars-helpers.js
+	docker cp ../handlebars-converter/handlebars-converter.js fhircvt:/usr/src/app/src/lib/handlebars-converter/handlebars-converter.js
 	
 	
 docker commit fhircvt natfhirconverter

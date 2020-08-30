@@ -12,7 +12,8 @@
 var fs 					= require('fs');
 var Handlebars 			= require('handlebars');
 var dataHandlerFactory	= require('../dataHandler/dataHandlerFactory');
-
+var helpers             = require('../handlebars-converter/handlebars-helpers').external;
+//var HandlebarsConverter = require('../handlebars-converter/handlebars-converter');
 
 //var HandlebarsConverter = require('../handlebars-converter/handlebars-helpers');
 var workData = new Object();
@@ -84,13 +85,27 @@ var hl7msg = "MSH|^~\\&|AccMgr|1|||20050110045504||ADT^A01|599102|P|2.3||| \n"+
   
 
 
-function start(){
+function init(){
  	workData.msg            = hl7msg;
  	workData.srcDataType	= "hl7v2";
- 	
+  	
  	Handlebars.registerHelper('getFirstSegments',  getFirstSegments);
  	Handlebars.registerHelper('generateUUID', 	   generateUUID);
  	Handlebars.registerHelper('getSegmentLists',   getSegmentLists);
+ 
+ 	
+ 	handlebarsInstances = {};
+ 	handlebarsInstances["hl7v2"] = Handlebars.create();
+ 	/*
+ 	var origResolvePartial      = handlebarsInstances[dataType].VM.resolvePartial;
+ 	
+ 	Handlebars.registerPartial('patient',"{{ ID }}" );
+ 	*/
+    helpers.forEach(h => {
+    	console.log("register " + h.name);	
+    	handlebarsInstances["hl7v2"].registerHelper(h.name, h.func);
+    });
+
  	
 	//var templateFile   = "C:/Progetti/natmaterial/HealthAdapterFacade/FHIR-Converter/templates/hl7v2/ADT_A01.hbs";
 	var templateFile   = "ADT_A01.hbs"; 
@@ -140,7 +155,7 @@ function convert(msg){
 }//convert
 
  
-start();
+init();
  
 
 

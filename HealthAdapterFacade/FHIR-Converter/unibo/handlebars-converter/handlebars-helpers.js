@@ -2,15 +2,16 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License (MIT). See LICENSE in the repo root for license information.
 // -------------------------------------------------------------------------------------------------
-
+/*
 var uuidv3 = require('uuid/v3');
-var HandlebarsUtils = require('handlebars').Utils;
-var constants       = require('../constants/constants');
-var fs              = require('fs');
 var crypto          = require('crypto');
-var jsonProcessor   = require('../outputProcessor/jsonProcessor');
-var specialCharProcessor = require('../inputProcessor/specialCharProcessor');
 var zlib = require('zlib');
+*/
+var HandlebarsUtils 		= require('handlebars').Utils;
+var constants       		= require('../constants/constants');
+var fs              		= require('fs');
+var jsonProcessor   		= require('../outputProcessor/jsonProcessor');
+var specialCharProcessor 	= require('../inputProcessor/specialCharProcessor');
 
 // Some helpers will be referenced in other helpers and declared outside the export below.
 var getSegmentListsInternal = function (msg, ...segmentIds) {
