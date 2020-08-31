@@ -190,7 +190,9 @@ console.log("\n============================ worker COMPILE =====================
  */
                                         try {
                                         	var BYANgenratedRsult = generateResult(dataTypeHandler, dataContext, template);
- /*
+ 
+                                        	
+/*
  console.log("worker BYANgenratedRsult " + Object.keys(BYANgenratedRsult) );								//BY AN (unusedSegments,invalidAccess,fhirResource)
  console.log("worker BYANgenratedRsult.fhirResource " +  Object.keys(BYANgenratedRsult.fhirResource) );		//BY AN (resourceType,type,entry) 
  console.log("worker fhirResource.resourceType " + BYANgenratedRsult.fhirResource.resourceType );			//BY AN (  Bundle )
@@ -217,7 +219,7 @@ for( i=0;i<BYANgenratedRsult.fhirResource.entry.length;i++){
 for( i=0;i<BYANgenratedRsult.fhirResource.entry.length;i++){
  console.log("\n============================ worker GENERATED RESULT entry["+i+"] =======================================");
  console.log("worker entry["+i+"].resource.resourceType " + BYANgenratedRsult.fhirResource.entry[i].resource.resourceType);		//BY AN  
- console.log("worker entry["+i+"].resource.is " + BYANgenratedRsult.fhirResource.entry[i].resource.id );		//BY AN  
+ console.log("worker entry["+i+"].resource.id " + BYANgenratedRsult.fhirResource.entry[i].resource.id );		//BY AN  
 } 
 
 /*
