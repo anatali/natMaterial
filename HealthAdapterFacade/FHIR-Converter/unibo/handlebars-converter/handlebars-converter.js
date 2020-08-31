@@ -28,7 +28,7 @@ console.log("%%%%%%%%%%%%% handlebars-converter %%%%%%%%%%%%%%%%%%%%%%%%%%" + te
 /*
  * Viene chiamata 94 volte. Registra il codice dei template contenuti in templateFilesLocation
  */
-
+BYANCount++;           //BYAN (1..94)
            //BYAN (1..94)
 //console.log("handlebars-converter options=" + Object.keys(options) );	 //BY AN (name,hash,data,helpers,partials,decorators)		 
 //console.log("================== handlebars-converter stored-fun ===== " + BYANCount ); //BY AN
@@ -41,11 +41,11 @@ console.log("handlebars-converter stored-fun get content from map:" + options.na
                     }
                     else {
                         content = fs.readFileSync(templateFilesLocation + "/" + options.name);
-console.log("handlebars-converter stored-fun get content from file:" + options.name + " count=" + BYANCount );	//BY AN		 
+console.log("unibo handlebars-converter stored-fun get content from file:" +  options.name + " count=" + BYANCount );	//BY AN		 
                     }
                     var preprocessedContent = dataHandler.preProcessTemplate(content.toString());
                     handlebarsInstances[dataType].registerPartial(options.name, preprocessedContent);
-console.log("handlebars-converter stored-fun registerPartial:" + options.name );					//BY AN		 
+console.log("unibo handlebars-converter stored-fun registerPartial:" + options.name );					//BY AN		 
 
                     // Need to set partial entry here due to a bug in Handlebars (refer # 70386).
                     /* istanbul ignore else  */

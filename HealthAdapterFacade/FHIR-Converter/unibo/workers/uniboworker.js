@@ -48,19 +48,19 @@ console.log("\n============================ uniboworker GENERATE RESULT ========
 /*
 console.log("uniboworker generateResult template " + template );										//BY AN (quello 'standard')
 console.log("uniboworker generateResult dataTypeHandler " + Object.keys(dataTypeHandler));			//BY AN (dataType)
-console.log("uniboworker generateResult dataContext " + Object.keys(dataContext));					//BY AN (msg)
 console.log("uniboworker generateResult dataContext.msg " + Object.keys(dataContext.msg) );			//BY AN (v2)
 console.log("uniboworker generateResult dataContext.msg.v2 " + Object.keys(dataContext.msg.v2) );	//BY AN (data,meta)
 
+*/ 
+console.log("uniboworker generateResult dataContext " + Object.keys(dataContext));					//BY AN (msg)
 console.log("uniboworker generateResult dataContext.msg.v2.meta " + dataContext.msg.v2.meta );		//BY AN ( MSH,EVN,PID,NK1,PV1,GT1,DG1,IN1,IN2,IN1,IN2,IN1)
 console.log("uniboworker generateResult dataContext.msg.v2.data " + dataContext.msg.v2.data );		//BY AN (body del msg HL7 privato di MSH|, EVN|, PID|etc)
-*/ 
  	 var resultBYAN = template(dataContext); 	 
 /*
  * Qui invoca handlebars-helpers.js getFirstSegments
  * e poi esegue  stored-fun che registra le risorse
  */
-console.log(" ----------------------- uniboworker template executed  ------- " + dataContext.res.v2.meta ); //BY AN
+console.log(" ----------------------- uniboworker template executed  ------- " + dataContext.msg.v2.meta ); //BY AN
 console.log("uniboworker generateResult resultBYAN " + Object.keys(resultBYAN).length );		//BY AN (molti numerici, 26566)
  
      //var result =  resultBYAN;
@@ -75,8 +75,8 @@ console.log("uniboworker generateResult resultBYAN " + Object.keys(resultBYAN).l
 //copia tutte le proprietà enumerabili da uno o più oggetti di origine in un oggetto di destinazione, che Restituisce 
 
      //prima esegue  getConversionResultMetadata poi parseCoverageReport
-     //var objBYAN = Object.assign( dataContext.res, { 'fhirResource': resultBYAN });
-     var objBYAN = Object.assign(dataTypeHandler.getConversionResultMetadata(dataContext.res), { 'fhirResource': result });
+     //var objBYAN = Object.assign( dataContext.msg, { 'fhirResource': resultBYAN });
+     var objBYAN = Object.assign(dataTypeHandler.getConversionResultMetadata(dataContext.msg), { 'fhirResource': result });
  console.log("\n============================ uniboworker GENERATE RESULT objBYAN " + Object.keys(objBYAN));		
 // (  unusedSegments,invalidAccess,fhirResource )
      return objBYAN;
@@ -218,10 +218,10 @@ function convert(msg){
 		dataTypeHandler.parseSrcData(msg.msg)		//See hl7v2.js
             	.then((parsedData) => {
                   		console.log("dataContext parsedData:" + Object.keys(parsedData));
-                      	var dataContext = { res: parsedData };
+                      	var dataContext = { msg: parsedData };
                         console.log("\n============================ PARSED INPUT DATA ===========================================");
-                        console.log("uniboworker dataContext.res.v2.meta \n" + dataContext.res.v2.meta );		//BY AN ( MSH,EVN,PID,NK1,PV1,GT1,DG1,IN1,IN2,IN1,IN2,IN1)
-                        console.log("uniboworker dataContext.res.v2.data \n" + dataContext.res.v2.data );		//BY AN (body del msg HL7 privato di MSH|, EVN|, PID|etc)
+                        console.log("uniboworker dataContext.msg.v2.meta \n" + dataContext.msg.v2.meta );		//BY AN ( MSH,EVN,PID,NK1,PV1,GT1,DG1,IN1,IN2,IN1,IN2,IN1)
+                        console.log("uniboworker dataContext.msg.v2.data \n" + dataContext.msg.v2.data );		//BY AN (body del msg HL7 privato di MSH|, EVN|, PID|etc)
                         console.log("\n\n ");
                 		
 //                        var result  = template( dataContext  );

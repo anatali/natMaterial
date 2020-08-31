@@ -41,6 +41,7 @@ console.log("hl7v2 parseSrcData msg= " + msg);							//BY AN  (  IL MSG DATO IN 
     }
 
     preProcessTemplate(templateStr) {
+console.log("unibo hl7v2.js preProcessTemplate templateStr " +  templateStr);		//BY AN  (v2)
         return super.preProcessTemplate(hl7v2TemplatePreprocessor.Process(templateStr));
     }
 
@@ -49,7 +50,7 @@ console.log("hl7v2 parseSrcData msg= " + msg);							//BY AN  (  IL MSG DATO IN 
     }
 
     getConversionResultMetadata(context) {
- console.log("hl7v2.js getConversionResultMetadata context " +  Object.keys(context));		//BY AN  (v2)
+ console.log("unibo hl7v2.js getConversionResultMetadata context " +  Object.keys(context));		//BY AN  (v2)
         return {
             'unusedSegments': parseCoverageReport(context),
             'invalidAccess': parseInvalidAccess(context)

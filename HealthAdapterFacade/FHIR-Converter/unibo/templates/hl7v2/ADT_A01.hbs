@@ -2,7 +2,7 @@
     "resourceType": "Bundle",
     "type": "transaction",
     "entry": [
-        {{#with (getFirstSegments res.v2 'PID' 'PD1' 'PV1' )}}
+        {{#with (getFirstSegments msg.v2 'PID' 'PD1' 'PV1' )}}
     	
     		{{>Resources/Patient.hbs PID=PID PD1=PD1 NK1=NK1 ID=(generateUUID PID-3-1)}}
  
