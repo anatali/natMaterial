@@ -7,35 +7,99 @@
  npm install antlr4
  npm install deepmerge
  npm install underscore
+ npm install path
  -------------------------------------------------------------------------------------------------
  */
+var path 				= require('path');
+var constants 			= require('../constants/constants');
 var fs 					= require('fs');
 var Handlebars 			= require('handlebars');
 var dataHandlerFactory	= require('../dataHandler/dataHandlerFactory');
-var helpers             = require('../handlebars-converter/handlebars-helpers').external;
+//var helpers             = require('../handlebars-converter/handlebars-helpers').external;
+var HandlebarsConverter = require('../handlebars-converter/handlebars-converter');
 //var HandlebarsConverter = require('../handlebars-converter/handlebars-converter');
 
 //var HandlebarsConverter = require('../handlebars-converter/handlebars-helpers');
 var workData = new Object();
+var handlebarInstance ;
+var dataTypeHandler;
+
+
+function GetHandlebarsInstance(dataTypeHandler, templatesMap) {
+    // New instance should be created when using templatesMap
+    //let needToUseMap = templatesMap && Object.entries(templatesMap).length > 0 && templatesMap.constructor === Object;
+console.log(" +++++++++++++++++++++ unibo worker GetHandlebarsInstance " + constants.TEMPLATE_FILES_LOCATION );			 
+    var instance = HandlebarsConverter.instance(true,
+        dataTypeHandler,
+        path.join(constants.TEMPLATE_FILES_LOCATION, dataTypeHandler.dataType),
+        templatesMap);
+    //rebuildCache = needToUseMap ? true : false; // New instance should be created also after templatesMap usage
+
+    return instance;
+}
 
 function generateUUID(urlNamespace) {
     return "todouuidv3"; //uuidv3(''.concat(urlNamespace), uuidv3.URL);
 }
 
+function generateResult( dataTypeHandler,dataContext, template ) {
+console.log("\n============================ uniboworker GENERATE RESULT ===========================================");
+
+/*
+console.log("uniboworker generateResult template " + template );										//BY AN (quello 'standard')
+console.log("uniboworker generateResult dataTypeHandler " + Object.keys(dataTypeHandler));			//BY AN (dataType)
+console.log("uniboworker generateResult dataContext " + Object.keys(dataContext));					//BY AN (msg)
+console.log("uniboworker generateResult dataContext.msg " + Object.keys(dataContext.msg) );			//BY AN (v2)
+console.log("uniboworker generateResult dataContext.msg.v2 " + Object.keys(dataContext.msg.v2) );	//BY AN (data,meta)
+
+console.log("uniboworker generateResult dataContext.msg.v2.meta " + dataContext.msg.v2.meta );		//BY AN ( MSH,EVN,PID,NK1,PV1,GT1,DG1,IN1,IN2,IN1,IN2,IN1)
+console.log("uniboworker generateResult dataContext.msg.v2.data " + dataContext.msg.v2.data );		//BY AN (body del msg HL7 privato di MSH|, EVN|, PID|etc)
+*/ 
+ 	 var resultBYAN = template(dataContext); 	 
+/*
+ * Qui invoca handlebars-helpers.js getFirstSegments
+ * e poi esegue  stored-fun che registra le risorse
+ */
+console.log(" ----------------------- uniboworker template executed  ------- " + dataContext.res.v2.meta ); //BY AN
+console.log("uniboworker generateResult resultBYAN " + Object.keys(resultBYAN).length );		//BY AN (molti numerici, 26566)
+ 
+     //var result =  resultBYAN;
+     var result = dataTypeHandler.postProcessResult(resultBYAN);
+ 
+  /*     
+ console.log("uniboworker generateResult result " + Object.keys(result));				//BY AN (resourceType,type,entry)
+ console.log("uniboworker generateResult result.resourceType " + result.resourceType );	//BY AN (  Bundle )
+ console.log("uniboworker generateResult result.type " + result.type );					//BY AN ( transaction )
+ console.log("uniboworker generateResult result.entry " + result.entry);					//BY AN ( [object Object],[object Object],[object Object],[object Object],[object Object])
+*/     
+//copia tutte le proprietà enumerabili da uno o più oggetti di origine in un oggetto di destinazione, che Restituisce 
+
+     //prima esegue  getConversionResultMetadata poi parseCoverageReport
+     //var objBYAN = Object.assign( dataContext.res, { 'fhirResource': resultBYAN });
+     var objBYAN = Object.assign(dataTypeHandler.getConversionResultMetadata(dataContext.res), { 'fhirResource': result });
+ console.log("\n============================ uniboworker GENERATE RESULT objBYAN " + Object.keys(objBYAN));		
+// (  unusedSegments,invalidAccess,fhirResource )
+     return objBYAN;
+}
+
+ 
 function getSegmentLists(msg, ...segmentIds) {
+	console.log("unibo getSegmentLists msg=       " + msg);	
+	console.log("unibo getSegmentLists segmentIds=" + segmentIds);	
     try {
         return getSegmentListsInternal(msg, ...segmentIds);
     }
     catch (err) {
-        throw `helper "getSegmentLists" : ${err}`;
+        throw `helper "unibo getSegmentLists" : ${err}`;
     }
 }
-
+ 
 
 function getFirstSegments(msg, ...segmentIds) {
             try {
-console.log("getFirstSegments segmentIds=\n" + segmentIds);	
-console.log("getFirstSegments msg" + Object.keys(msg));
+console.log("unibo getFirstSegments segmentIds=" + segmentIds);	
+console.log("unibo getFirstSegments msg " + Object.keys(msg)); //(data,meta)
+console.log("unibo getFirstSegments  msg.meta.length " +  msg.meta.length); //( 12 )
                 var ret 		= {};
                 var inSegments 	= {};
                 for (var s = 0; s < segmentIds.length - 1; s++) { //-1 because segmentsIds includes the full message at the end
@@ -49,12 +113,14 @@ console.log("getFirstSegments msg" + Object.keys(msg));
                 return ret;
             }
             catch (err) {
-                throw `helper "getFirstSegments" : ${err}`;
+                throw `helper "unibo getFirstSegments" : ${err}`;
             }
  }      
 
-
+ 
 var getSegmentListsInternal = function (msg, ...segmentIds) {
+	console.log("unibo getSegmentListsInternal msg=       " + msg);	
+	console.log("unibo getSegmentListsInternal segmentIds=" + segmentIds);	
     var ret = {};
     for (var s = 0; s < segmentIds.length - 1; s++) { //-1 because segmentsIds includes the full message at the end
         var segOut = [];
@@ -67,8 +133,8 @@ var getSegmentListsInternal = function (msg, ...segmentIds) {
     }
     return ret;
 };
-
-console.log("\n============================ uniboworker START ==========================================="  );
+ 
+console.log("\n============================ uniboworker BEGIN ==========================================="  );
 
 var hl7msg = "MSH|^~\\&|AccMgr|1|||20050110045504||ADT^A01|599102|P|2.3||| \n"+
  "EVN|A01|20050110045502|||||  \r\n" +
@@ -88,66 +154,103 @@ var hl7msg = "MSH|^~\\&|AccMgr|1|||20050110045504||ADT^A01|599102|P|2.3||| \n"+
 function init(){
  	workData.msg            = hl7msg;
  	workData.srcDataType	= "hl7v2";
-  	
- 	Handlebars.registerHelper('getFirstSegments',  getFirstSegments);
+ 	
+ 	Handlebars.registerHelper('getFirstSegments',  getFirstSegments);  	
  	Handlebars.registerHelper('generateUUID', 	   generateUUID);
  	Handlebars.registerHelper('getSegmentLists',   getSegmentLists);
- 
+   
+ 	console.log("DIR NAME=" + __dirname);
+// 	handlebarsInstances = {};
+// 	handlebarsInstances["hl7v2"] = Handlebars.create();
  	
- 	handlebarsInstances = {};
- 	handlebarsInstances["hl7v2"] = Handlebars.create();
+
  	/*
  	var origResolvePartial      = handlebarsInstances[dataType].VM.resolvePartial;
  	
  	Handlebars.registerPartial('patient',"{{ ID }}" );
  	*/
+ 	/*
     helpers.forEach(h => {
     	console.log("register " + h.name);	
     	handlebarsInstances["hl7v2"].registerHelper(h.name, h.func);
     });
-
+	*/
  	
 	//var templateFile   = "C:/Progetti/natmaterial/HealthAdapterFacade/FHIR-Converter/templates/hl7v2/ADT_A01.hbs";
-	var templateFile   = "ADT_A01.hbs"; 
+	var templateFile   = constants.TEMPLATE_FILES_LOCATION +"/hl7v2/ADT_A01.hbs"; 
 	var templateString = fs.readFile(templateFile, 'utf-8', (err, data) => { 
 		if (err) throw err; 
 		//console.log(data); 
 		workData.templateString = data;
+
+		console.log("HL7 msg=\n" + workData.msg);			 
+		console.log("TEMPLATE STRING=\n "+ workData.templateString);			 // 
+
+		dataTypeHandler   = dataHandlerFactory.createDataHandler(workData.srcDataType);		
+		//console.log("dataTypeHandler " + Object.keys(dataTypeHandler));	//(dataType)
+		console.log("dataTypeHandler.dataType " + dataTypeHandler.dataType );	//(hl7v2)
+		handlebarInstance = GetHandlebarsInstance(dataTypeHandler, null);
+		console.log(" +++++++++++++++++++++ unibo worker handlebarInstance "  );			//BY AN  
+
+		
 		convert( workData );
+	
 	}); 
 }
 
 function convert(msg){
 
 	try {
-		console.log("HL7 msg=\n" + workData.msg);			 
-		console.log("TEMPLATE STRING=\n " + workData.templateString);			 
 		//const base64RegEx = /^[a-zA-Z0-9/\r\n+]*={0,2}$/;
 		//console.log("=== convert base64RegEx " + base64RegEx);
 		
- 		var template = Handlebars.compile(workData.templateString);
-		console.log("TEMPLATE=\n " + template);	
+//		var dataTypeHandler   = dataHandlerFactory.createDataHandler(msg.srcDataType);		
+//		console.log("dataTypeHandler " + Object.keys(dataTypeHandler));
+//		handlebarInstance = GetHandlebarsInstance(dataTypeHandler, null);
+
+ 		
+		console.log("\n============================ uniboworker COMPILE ===========================================");
+ 		var template = handlebarInstance.compile(workData.templateString);
+		//console.log("COMPILED TEMPLATE=\n " + template);	
 		
-		var dataTypeHandler   = dataHandlerFactory.createDataHandler(msg.srcDataType);
 		
-		console.log("dataTypeHandler " + Object.keys(dataTypeHandler));
 
 		dataTypeHandler.parseSrcData(msg.msg)		//See hl7v2.js
             	.then((parsedData) => {
-                       	var dataContext = { res: parsedData };
-                       	console.log("dataContext " + Object.keys(dataContext));
+                  		console.log("dataContext parsedData:" + Object.keys(parsedData));
+                      	var dataContext = { res: parsedData };
                         console.log("\n============================ PARSED INPUT DATA ===========================================");
-                        console.log("worker dataContext.res.v2.meta \n" + dataContext.res.v2.meta );		//BY AN ( MSH,EVN,PID,NK1,PV1,GT1,DG1,IN1,IN2,IN1,IN2,IN1)
-                        console.log("worker dataContext.res.v2.data \n" + dataContext.res.v2.data );		//BY AN (body del msg HL7 privato di MSH|, EVN|, PID|etc)
+                        console.log("uniboworker dataContext.res.v2.meta \n" + dataContext.res.v2.meta );		//BY AN ( MSH,EVN,PID,NK1,PV1,GT1,DG1,IN1,IN2,IN1,IN2,IN1)
+                        console.log("uniboworker dataContext.res.v2.data \n" + dataContext.res.v2.data );		//BY AN (body del msg HL7 privato di MSH|, EVN|, PID|etc)
                         console.log("\n\n ");
                 		
-                        var result  = template( dataContext  );
-                		console.log("RESULT=\n " + result);	
+//                        var result  = template( dataContext  );
+//                		console.log("RESULT=\n " + result);	
 
-				})
+        				var BYANgenratedRsult = generateResult( dataTypeHandler,dataContext, template );
+
+        				console.log("\n============================ worker GENERATED RESULT ===========================================");
+        				console.log("worker keys= " + Object.keys(BYANgenratedRsult.fhirResource.entry) );	//BY AN 
+        				console.log("worker legth=" +  BYANgenratedRsult.fhirResource.entry.length );	//BY AN 
+ 
+        				for( i=0;i<BYANgenratedRsult.fhirResource.entry.length;i++){
+        				 console.log("worker entry["+i+"].resource " + Object.keys(BYANgenratedRsult.fhirResource.entry[i])); //BY AN   + Object.keys(BYANgenratedRsult.fhirResource.entry[i].resource)
+        				} 
+
+        				for( i=0;i<BYANgenratedRsult.fhirResource.entry.length;i++){
+        				 console.log("\n============================ worker GENERATED RESULT entry["+i+"] =======================================");
+        				 console.log("worker entry["+i+"].resource.resourceType " + BYANgenratedRsult.fhirResource.entry[i].resource.resourceType);		//BY AN  
+        				 console.log("worker entry["+i+"].resource.is " + BYANgenratedRsult.fhirResource.entry[i].resource.id );		//BY AN  
+        				}           	
+           	
+            	
+            	
+            	})
 				.catch (err => {
                     console.log(  err.toString() );
                 });
+				
+
 		
 	}catch (err) {
 		console.log("convert error=\n"+err);

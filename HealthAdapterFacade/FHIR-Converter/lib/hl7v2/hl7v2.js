@@ -168,14 +168,14 @@ segmentIndex		: vanno da 0 a 11, come ci si aspetta dal dato HL7 di input
 =============================================================================================
 */
 function parseCoverageReport(parsedMsg) {
-console.log("\n============================ hl7v2 PARSING ===========================================");
-console.log("hl7v2.js parseCoverageReport parsedMsg.v2.data " +  parsedMsg.v2.data );		//BY AN  
+console.log("\n============================ hl7v2 parseCoverageReport ===========================================");
+console.log("parsedMsg.v2.data " +  parsedMsg.v2.data );		//BY AN  
     var coverageReport = [];
     var v2 = parsedMsg.v2;
     v2.data.forEach((segment, segmentIndex) => {
 //console.log("hl7v2.js parseCoverageReport segment " +  Object.keys(parsedMsg) );				//BY AN  (v2)
 //console.log("hl7v2.js parseCoverageReport segmentIndex " +  Object.keys(segmentIndex) );		//BY AN  (-)
-console.log("hl7v2.js parseCoverageReport segmentIndex " +  segmentIndex );						//BY AN  (0 ... 11)
+console.log("segmentIndex " +  segmentIndex );						//BY AN  (0 ... 11)
         segment.forEach((component, componentIndex) => {
             if (component) {
 //console.log("hl7v2.js parseCoverageReport component " +  Object.keys(component) );		//BY AN  (accessed,repeats,push)

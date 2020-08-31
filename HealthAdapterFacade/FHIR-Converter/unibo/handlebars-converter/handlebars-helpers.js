@@ -2,16 +2,15 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License (MIT). See LICENSE in the repo root for license information.
 // -------------------------------------------------------------------------------------------------
-/*
-var uuidv3 = require('uuid/v3');
-var crypto          = require('crypto');
-var zlib = require('zlib');
-*/
-var HandlebarsUtils 		= require('handlebars').Utils;
-var constants       		= require('../constants/constants');
-var fs              		= require('fs');
-var jsonProcessor   		= require('../outputProcessor/jsonProcessor');
-var specialCharProcessor 	= require('../inputProcessor/specialCharProcessor');
+
+//var uuidv3 = require('uuid');
+var HandlebarsUtils = require('handlebars').Utils;
+var constants       = require('../constants/constants');
+var fs              = require('fs');
+//var crypto          = require('crypto');
+var jsonProcessor   = require('../outputProcessor/jsonProcessor');
+var specialCharProcessor = require('../inputProcessor/specialCharProcessor');
+//var zlib = require('zlib');
 
 // Some helpers will be referenced in other helpers and declared outside the export below.
 var getSegmentListsInternal = function (msg, ...segmentIds) {
@@ -593,7 +592,9 @@ module.exports.external = [
         name: 'getFirstSegments',
         description: "Returns first instance of the segments e.g. getFirstSegments msg.v2 'PID' 'PD1': getFirstSegments message segment1 segment2 …",
         func: function getFirstSegments(msg, ...segmentIds) {
+console.log("\n============================ handlebars-helpers.js getFirstSegments ========================="); //BY AN
             try {
+ console.log("getFirstSegments segmentIds=" + segmentIds);		//BY AN (PID,..., [object Object])
                 var ret = {};
                 var inSegments = {};
                 for (var s = 0; s < segmentIds.length - 1; s++) { //-1 because segmentsIds includes the full message at the end
@@ -604,12 +605,11 @@ module.exports.external = [
                         ret[msg.meta[i]] = msg.data[i];
                     }
                 }
- console.log("\n============================ handlebars-helpers.js getFirstSegments ==========================================="); //BY AN
  //console.log("msg=" + Object.keys(msg) );	 //BY AN	(data,meta)
  //console.log("ret=" + Object.keys(ret) );	 //BY AN	(PID,PV1)	among 'PID' 'PD1' 'PV1' 'PV2' 'PR1' 'AVR'
  console.log("ret.PID=" +ret.PID );
  console.log("ret.PV1=" +ret.PV1 );
- console.log("\n---------------------------------------------------------------------------------------------------------------"); //BY AN
+ console.log(" ----------------------- handlebars-helpers.js getFirstSegments  RETURN ret  -----------------"); //BY AN
                  return ret;
             }
             catch (err) {
@@ -739,7 +739,8 @@ module.exports.external = [
         name: 'generateUUID',
         description: 'Generates a guid based on a URL: generateUUID url',
         func: function (urlNamespace) {
-            return uuidv3(''.concat(urlNamespace), uuidv3.URL);
+            //return uuidv3(''.concat(urlNamespace), uuidv3.URL);		//TODO
+    		return "uuidv3_todo"
         }
     },
     {

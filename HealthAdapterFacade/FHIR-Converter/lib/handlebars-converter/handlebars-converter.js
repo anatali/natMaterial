@@ -12,7 +12,8 @@ var handlebarsInstances = {};
 var BYANCount = 0;
 
 module.exports.instance = function (createNew, dataHandler, templateFilesLocation, currentContextTemplatesMap) {
-console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" + templateFilesLocation);		//BY AN		
+console.log("%%%%%%%%%%%%% handlebars-converter %%%%%%%%%%%%%%%%%%%%%%%%%%" + templateFilesLocation);		//BY AN		
+console.log("handlebars-converter currentContextTemplatesMap:" + Object.keys(currentContextTemplatesMap) );	//BY AN		 
     if (createNew) {
         handlebarsInstances = {};
     }
@@ -21,20 +22,30 @@ console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" + temp
     if (!handlebarsInstances[dataType]) {
         handlebarsInstances[dataType] = Handlebars.create();
         var origResolvePartial        = handlebarsInstances[dataType].VM.resolvePartial;
+/*
+ * STORED FUN
+ */
         handlebarsInstances[dataType].VM.resolvePartial = function (partial, context, options) {
+/*
+ * Viene chiamata 94 volte. Registra il codice dei template contenuti in templateFilesLocation
+ */
+BYANCount++;           //BYAN (1..94)
 //console.log("handlebars-converter options=" + Object.keys(options) );	 //BY AN (name,hash,data,helpers,partials,decorators)		 
+//console.log("================== handlebars-converter stored-fun ===== " + BYANCount ); //BY AN
             if (!options.partials[options.name]) {
                 try {
                     var content;
                     if (currentContextTemplatesMap && options.name in currentContextTemplatesMap) {
                         content = currentContextTemplatesMap[options.name];
+console.log("handlebars-converter stored-fun get content from map:" + options.name + " count=" + BYANCount );	//BY AN		 
                     }
                     else {
                         content = fs.readFileSync(templateFilesLocation + "/" + options.name);
+console.log("handlebars-converter stored-fun get content from file:" + options.name + " count=" + BYANCount );	//BY AN		 
                     }
                     var preprocessedContent = dataHandler.preProcessTemplate(content.toString());
                     handlebarsInstances[dataType].registerPartial(options.name, preprocessedContent);
-console.log("handlebars-converter registerPartial=" + options.name );					//BY AN		 
+console.log("handlebars-converter stored-fun registerPartial:" + options.name );					//BY AN		 
 
                     // Need to set partial entry here due to a bug in Handlebars (refer # 70386).
                     /* istanbul ignore else  */
@@ -45,18 +56,16 @@ console.log("handlebars-converter registerPartial=" + options.name );					//BY A
                     throw new Error(`Referenced partial template ${options.name} not found on disk : ${err}`);
                 }
             }//if (!options.partials[options.name]) 
-BYANCount++;
-if( BYANCount < 10 || BYANCount > 280)            
-console.log("handlebars-converter " + BYANCount + " partial=" + partial);					//BY AN	(undefined)	 
+//console.log("handlebars-converter stored-fun count=" + BYANCount + " partial=" + partial);		//BY AN	(undefined)	 
             
             var orpBYAN = origResolvePartial(partial, context, options);
-if( BYANCount < 10 || BYANCount > 280 )  
-console.log("handlebars-converter " + BYANCount + " partial=" + partial);					//BY AN	( )	 
+//if( partial != undefined ) console.log("handlebars-converter stored-fun count=" + BYANCount + " partial=" + partial);	    //BY AN	( )	 
 /*
 console.log("handlebars-converter dataType=" + dataType);					//BY AN	()	 
 //console.log("handlebars-converter orpBYAN="  + Object.keys(orpBYAN));		//BY AN	(0,1,...,283)
 console.log("handlebars-converter orpBYAN="  +  orpBYAN);		//BY AN		
 */
+//console.log("handlebars-converter stored-fun return with count=" + BYANCount );	    //BY AN	( )	
             return orpBYAN;
         };//function
 
@@ -66,6 +75,14 @@ console.log("handlebars-converter orpBYAN="  +  orpBYAN);		//BY AN
         });
     }//if (!handlebarsInstances[dataType]) 
 
-console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" );		//BY AN	
-    return handlebarsInstances[dataType];
+console.log("%%%%%%%%%%%%% handlebars-converter %%%%%%%%%%%%%%%%%%%%%%%%%% "   );		//BY AN	
+//console.log("%%%%%%%%%%%%% handlebars-converter %%%%%%%%%%%%%%%%%%%%%%%%%% " + Object.keys(handlebarsInstances[dataType]) );		//BY AN	
+/* 
+ * helpers,partials,decorators,__esModule,HandlebarsEnvironment,
+ * VERSION,COMPILER_REVISION,LAST_COMPATIBLE_COMPILER_REVISION,REVISION_CHANGES,
+ * log,createFrame,logger,SafeString,Exception,Utils,escapeExpression,
+ * VM,template,compile,precompile,AST,Compiler,JavaScriptCompiler,Parser,parse,parseWithoutProcessing
+*/
+
+	return handlebarsInstances[dataType];
 };

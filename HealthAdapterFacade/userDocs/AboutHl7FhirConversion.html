@@ -360,13 +360,22 @@ In <tt>C:\Progetti\natmaterial\HealthAdapterFacade\FHIR-Converter\lib\workers</t
 	find /home -name NatLogStream.txt
  	docker cp workerPool.js fhircvt:/usr/src/app/src/lib/workers/workerPool.js
 
+	
+	
+docker commit fhircvt natfhirconverter
+</pre>
+<h3>Modify the container</h3>
+In <tt>C:\Progetti\natmaterial\HealthAdapterFacade\FHIR-Converter\lib\workers</tt>
 	docker cp worker.js fhircvt:/usr/src/app/src/lib/workers/worker.js
 	docker cp ../hl7v2/hl7v2.js fhircvt:/usr/src/app/src/lib/hl7v2/hl7v2.js
 	docker cp ../handlebars-converter/handlebars-helpers.js fhircvt:/usr/src/app/src/lib/handlebars-converter/handlebars-helpers.js
 	docker cp ../handlebars-converter/handlebars-converter.js fhircvt:/usr/src/app/src/lib/handlebars-converter/handlebars-converter.js
-	
-	
-docker commit fhircvt natfhirconverter
+	docker cp ADT_A01.hbs fhircvt:/usr/src/app/src/templates/hl7v2/ADT_A01.hbs
+	...
+For docker:
+		docker rm -f  fhircvt
+		docker run --name fhircvt --rm  -p2019:2019  natfhirconverter
+<pre>
 </pre>
  </li>
 <li><h4>Mirth</h4>

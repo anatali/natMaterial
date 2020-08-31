@@ -592,8 +592,9 @@ module.exports.external = [
         name: 'getFirstSegments',
         description: "Returns first instance of the segments e.g. getFirstSegments msg.v2 'PID' 'PD1': getFirstSegments message segment1 segment2 …",
         func: function getFirstSegments(msg, ...segmentIds) {
+console.log("\n============================ handlebars-helpers.js getFirstSegments ========================="); //BY AN
             try {
- console.log("getFirstSegments segmentIds=\n" + segmentIds);	
+ console.log("getFirstSegments segmentIds=" + segmentIds);		//BY AN (PID,..., [object Object])
                 var ret = {};
                 var inSegments = {};
                 for (var s = 0; s < segmentIds.length - 1; s++) { //-1 because segmentsIds includes the full message at the end
@@ -604,12 +605,11 @@ module.exports.external = [
                         ret[msg.meta[i]] = msg.data[i];
                     }
                 }
- console.log("\n============================ handlebars-helpers.js getFirstSegments ==========================================="); //BY AN
  //console.log("msg=" + Object.keys(msg) );	 //BY AN	(data,meta)
  //console.log("ret=" + Object.keys(ret) );	 //BY AN	(PID,PV1)	among 'PID' 'PD1' 'PV1' 'PV2' 'PR1' 'AVR'
  console.log("ret.PID=" +ret.PID );
  console.log("ret.PV1=" +ret.PV1 );
- console.log("\n---------------------------------------------------------------------------------------------------------------"); //BY AN
+ console.log(" ----------------------- handlebars-helpers.js getFirstSegments  RETURN ret  -----------------"); //BY AN
                  return ret;
             }
             catch (err) {

@@ -56,7 +56,9 @@ che restituisce un oggetto con i campi: unusedSegments,invalidAccess,fhirResourc
 
 function generateResult(dataTypeHandler, dataContext, template) {
 console.log("\n============================ worker GENERATE RESULT ===========================================");
+
 /*
+console.log("worker generateResult template " + template );										//BY AN (quello 'standard')
 console.log("worker generateResult dataTypeHandler " + Object.keys(dataTypeHandler));			//BY AN (dataType)
 console.log("worker generateResult dataContext " + Object.keys(dataContext));					//BY AN (msg)
 console.log("worker generateResult dataContext.msg " + Object.keys(dataContext.msg) );			//BY AN (v2)
@@ -65,20 +67,27 @@ console.log("worker generateResult dataContext.msg.v2 " + Object.keys(dataContex
 console.log("worker generateResult dataContext.msg.v2.meta " + dataContext.msg.v2.meta );		//BY AN ( MSH,EVN,PID,NK1,PV1,GT1,DG1,IN1,IN2,IN1,IN2,IN1)
 console.log("worker generateResult dataContext.msg.v2.data " + dataContext.msg.v2.data );		//BY AN (body del msg HL7 privato di MSH|, EVN|, PID|etc)
 */ 
- 	 var resultBYAN = template(dataContext);
- //console.log("worker generateResult resultBYAN " + Object.keys(resultBYAN) );		//BY AN (molti numerici)
+ 	 var resultBYAN = template(dataContext); 	 
+/*
+ * Qui invoca handlebars-helpers.js getFirstSegments
+ * e poi esegue  stored-fun che registra le risorse
+ */
+console.log(" ----------------------- worker template executed  ------- " + dataContext.msg.v2.meta ); //BY AN
+console.log("worker generateResult resultBYAN " + Object.keys(resultBYAN).length );		//BY AN (molti numerici, 26566)
  
      var result = dataTypeHandler.postProcessResult(resultBYAN);
-/*     
+ 
+  /*     
  console.log("worker generateResult result " + Object.keys(result));				//BY AN (resourceType,type,entry)
  console.log("worker generateResult result.resourceType " + result.resourceType );	//BY AN (  Bundle )
  console.log("worker generateResult result.type " + result.type );					//BY AN ( transaction )
  console.log("worker generateResult result.entry " + result.entry);					//BY AN ( [object Object],[object Object],[object Object],[object Object],[object Object])
 */     
-     //copia tutte le proprietà enumerabili da uno o più oggetti di origine in un oggetto di destinazione. 
-     //Restituisce l'oggetto di destinazione.
+//copia tutte le proprietà enumerabili da uno o più oggetti di origine in un oggetto di destinazione, che Restituisce 
+
+     //prima esegue  getConversionResultMetadata poi parseCoverageReport
      var objBYAN = Object.assign(dataTypeHandler.getConversionResultMetadata(dataContext.msg), { 'fhirResource': result });
- console.log("worker generateResult objBYAN " + Object.keys(objBYAN));		//BY AN (  unusedSegments,invalidAccess,fhirResource )
+ console.log("\n============================ worker GENERATE RESULT objBYAN " + Object.keys(objBYAN));		//BY AN (  unusedSegments,invalidAccess,fhirResource )
      return objBYAN;
 }
 
@@ -149,8 +158,8 @@ console.log(" +++++++++++++++++++++ worker handlebarInstance "  );			//BY AN
  console.log("worker dataContext.msg " + dataContext.msg);				//BY AN	 [object Object]
  */
  console.log("\n============================ worker PARSE INPUT DATA ===========================================");
- console.log("worker dataContext.msg.v2.meta " + dataContext.msg.v2.meta );		//BY AN ( MSH,EVN,PID,NK1,PV1,GT1,DG1,IN1,IN2,IN1,IN2,IN1)
- console.log("worker dataContext.msg.v2.data " + dataContext.msg.v2.data );		//BY AN (body del msg HL7 privato di MSH|, EVN|, PID|etc)
+ //console.log("worker dataContext.msg.v2.meta " + dataContext.msg.v2.meta );		//BY AN ( MSH,EVN,PID,NK1,PV1,GT1,DG1,IN1,IN2,IN1,IN2,IN1)
+ //console.log("worker dataContext.msg.v2.data " + dataContext.msg.v2.data );		//BY AN (body del msg HL7 privato di MSH|, EVN|, PID|etc)
  
                                     if (templateString == null || templateString.length == 0) {
                                         var result = Object.assign(dataTypeHandler.getConversionResultMetadata(dataContext.msg),
@@ -171,8 +180,14 @@ function ret(context, execOptions) {
 console.log("\n============================ worker COMPILE ===========================================");
                              
                                         var template = handlebarInstance.compile(dataTypeHandler.preProcessTemplate(templateString));
-console.log("worker template=> " + template);				//BY AN
-
+//console.log("worker template=> " + template);	//BY AN 
+/*worker template=> function ret(context, execOptions) {)
+    if (!compiled) {
+      compiled = compileInput();
+    }
+    return compiled.call(this, context, execOptions);
+  }
+ */
                                         try {
                                         	var BYANgenratedRsult = generateResult(dataTypeHandler, dataContext, template);
  /*
@@ -196,7 +211,7 @@ console.log("\n============================ worker GENERATED RESULT ============
 console.log("worker entry.length=" + BYANgenratedRsult.fhirResource.entry.length );	//BY AN 
 
 for( i=0;i<BYANgenratedRsult.fhirResource.entry.length;i++){
- console.log("worker entry["+i+"].resource " + Object.keys(BYANgenratedRsult.fhirResource.entry[i].resource));		//BY AN  
+ console.log("worker entry["+i+"].resource " + Object.keys(BYANgenratedRsult.fhirResource.entry[i].resource)); //BY AN  
 } 
 
 for( i=0;i<BYANgenratedRsult.fhirResource.entry.length;i++){
