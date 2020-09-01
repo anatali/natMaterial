@@ -6,3 +6,4 @@
 var path = require('path');
 
 module.exports.TEMPLATE_FILES_LOCATION = path.join(__dirname, '../../DisiFhirConverter/templates');  
+module.exports.HL7_DATAFILES_LOCATION  = path.join(__dirname, '../../DisiFhirConverter/sampleData');  

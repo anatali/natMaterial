@@ -330,53 +330,13 @@ Il tool si basa su <a href="https://handlebarsjs.com/guide" target="web">Handleb
 
 
 <pre>
+ESEMPIO di server Java (da <a href="https://jknack.github.io/handlebars.java/server.html" target="web">Handlebars java</a>).
 In <tt>C:\Progetti\handlebars</tt>
-java -jar handlebars-proto-1.0.0.jar -d site
+	java -jar handlebars-proto-1.0.0.jar -d site
 http://localhost:6780/home.hbs?data=path/home2
 </pre>
 
-<h4>Using/Changing Microsoft FHIR-Converter</h4>
- <pre>
- In C:\Progetti\FHIR-Converter:
- docker build --tag fhirconverter .			//IMAGE
- docker run --rm -p2019:2019  fhirconverter
- docker run --name fhircvt --rm  -p2019:2019  natfhirconverter 
- docker exec -it fhircvt bash
- 
-//COPY TO CONTAINER		
-In <tt>C:\Progetti\FHIR-Converter\src</tt>
-	find . -name routes.js
-	docker cp routes.js fhircvt:/usr/src/app/src/routes.js	
-	docker update fhircvt		//NO
-//COPY FROM CONTAINER 
-	docker cp mycontainer:/foo.txt foo.txt			 
 
-In <tt>C:\Progetti\FHIR-Converter\src\static\js</tt>
-	docker cp template-editor.js f91cd0756510:/usr/src/app/src/static/js/template-editor.js	
-In <tt>C:\Progetti\natmaterial\HealthAdapterFacade\FHIR-Converter\lib\workers</tt>
-	find /home -name worker.js
-	docker cp NatLog.txt fhircvt:/usr/src/app/src/lib/workers/NatLog.txt
-	find . -name NatLogStream.txt
-	find /home -name NatLogStream.txt
- 	docker cp workerPool.js fhircvt:/usr/src/app/src/lib/workers/workerPool.js
-
-	
-	
-docker commit fhircvt natfhirconverter
-</pre>
-<h3>Modify the container</h3>
-In <tt>C:\Progetti\natmaterial\HealthAdapterFacade\FHIR-Converter\lib\workers</tt>
-	docker cp worker.js fhircvt:/usr/src/app/src/lib/workers/worker.js
-	docker cp ../hl7v2/hl7v2.js fhircvt:/usr/src/app/src/lib/hl7v2/hl7v2.js
-	docker cp ../handlebars-converter/handlebars-helpers.js fhircvt:/usr/src/app/src/lib/handlebars-converter/handlebars-helpers.js
-	docker cp ../handlebars-converter/handlebars-converter.js fhircvt:/usr/src/app/src/lib/handlebars-converter/handlebars-converter.js
-	docker cp ADT_A01.hbs fhircvt:/usr/src/app/src/templates/hl7v2/ADT_A01.hbs
-	...
-For docker:
-		docker rm -f  fhircvt
-		docker run --name fhircvt --rm  -p2019:2019  natfhirconverter
-<pre>
-</pre>
  </li>
 <li><h4>Mirth</h4>
  <pre>
@@ -390,6 +350,133 @@ For docker:
 </ul>
 
 
+<h2>The DisiFhirConverter</h2>
+
+<h4>FHIR-Converter in Docker</h4>
+ <pre>
+ In C:\Progetti\FHIR-Converter:
+ docker build --tag <ks>fhirconverter</ks> . <kc>//IMAGE</kc>
+ docker run --rm -p2019:2019  <ks>fhirconverter</ks>
+ docker run --name <k>fhircvt</k> --rm  -p2019:2019  <ks>natfhirconverter</ks> 
+ docker exec -it <k>fhircvt</k> bash	<kc>//per vedere il contenuto</kc> 
+ 
+//COPY TO CONTAINER		
+	find . -name routes.js		<kc>///usr/src/app/src/routes.js</kc>
+	docker cp routes.js <k>fhircvt</k>:/usr/src/app/src/routes.js		
+docker commit fhircvt natfhirconverter
+
+//COPY FROM CONTAINER 
+	docker cp <k>fhircvt</k>:/foo.txt foo.txt			 
+</pre>
+
+<h4>COMANDI PER OPERARE copiando codice modificato nel container</h4>
+<pre>
+In <tt>C:\Progetti\natmaterial\HealthAdapterFacade\DisiFhirConverter\workers</tt>
+	docker cp worker.js <k>fhircvt</k>:/usr/src/app/src/lib/workers/worker.js
+	docker cp ../hl7v2/hl7v2.js <k>fhircvt</k>:/usr/src/app/src/lib/hl7v2/hl7v2.js
+	docker cp ../handlebars-converter/handlebars-helpers.js <k>fhircvt</k>:/usr/src/app/src/lib/handlebars-converter/handlebars-helpers.js
+	docker cp ../handlebars-converter/handlebars-converter.js <k>fhircvt</k>:/usr/src/app/src/lib/handlebars-converter/handlebars-converter.js
+	docker cp ADT_A01.hbs <k>fhircvt</k>:/usr/src/app/src/templates/hl7v2/ADT_A01.hbs
+	...
+For docker:
+	docker rm -f  <k>fhircvt</k>
+	docker run --name <k>fhircvt</k> --rm  -p2019:2019  natfhirconverter
+</pre>
+
+<h3>La logica della trasformazione</h3>
+E' contenuta in da <a href="../DisiFhirConverter/workers/uniboworker.js" target="code">uniboworker.js</a>
+ed e' basata sui seguenti componenti:
+<ol>
+<li>La casse <a href="../DisiFhirConverter/hl7v2/hl7v2.js" target="code">hl7v2.js</a>
+e' una specializzazione di <a href="../DisiFhirConverter/dataHandler/dataHandler.js" target="code">dataHandler.js</a>
+che funge da <k>dataHandler</k> fornendo operazioni quali:
+<pre>
+parseHL7v2( msg ) <kc>//msg: dato HL7 | </kc>
+restituisce un oggetto con campi
+v2.meta		<i>contiene i nomi dei segmenti (MSH,EVN,PID,NK1,PV1,...) del dato </i>
+v2.data 	<i>contiene i segmenti del dato </i>
+</pre>
+</li>
+<li>La operazione <ks>GetHandlebarsInstance(dataTypeHandler, templatesMap)</ks>
+definita in <a href="../DisiFhirConverter/workers/uniboworker.js" target="code">uniboworker.js</a>, che restituisce una 
+<tt>HandlebarsConverter.instance</tt> che include il <k>dataHandler</k>.
+</li>
+<li>
+<a href="../DisiFhirConverter/handlebars-converter/handlebars-converter.js" target="code">handlebars-converter.js</a> 
+<pre>
+funzione <k>'stored-fun'</k>
+handlebarsInstances[dataType].VM.resolvePartial
+</pre>
+</li>
+<li>
+<a href="../DisiFhirConverter/handlebars-converter/handlebars-helpers.js" target="code">handlebars-helpers.js</a> 
+</li>
+
+</ol>
+
+La operazione <ks>init</ks> di <a href="../DisiFhirConverter/workers/uniboworker.js" target="code">uniboworker.js</a>:
+<ol>
+<li>Acquisisce (da un <k>hl7Source</k> file quale <a href="../DisiFhirConverter/sampleData/hl7v2\ADT01-23.hl7" target="code">ADT01-23.hl7</a>) 
+il dato HL7 da convertire e il template <ks>.hbs</ks> da usare</li>
+<li>Invoca la operazione <tt>convert(workData)</tt> con:
+<pre>
+workData.srcDataType	= "hl7v2";
+workData.msg		= <i>dato HL7 letto da file</i>
+workData.templateString = <i>templateString letta da file</i>
+</pre>
+ </li>
+<li>Crea una istanza <a href="../DisiFhirConverter/hl7v2/hl7v2.js" target="code">hl7v2.js</a>  
+(che specializza <a href="../DisiFhirConverter/h/dataHandler.js" target="code">dataHandler.js</a> )
+e la include in una istanza <k>handlebarInstance</k> di <tt>HandlebarsConverter</tt> </li>
+<li>Usa <k>handlebarInstance</k> per compilare <tt>workData.templateString</tt> che restituisce un oggetto <k>template</k>
+<pre>
+ function ret(context, execOptions) {
+    if (!compiled) {
+      compiled = compileInput();
+    }
+    return compiled.call(this, context, execOptions);
+  }
+</pre>
+</li>
+<li>Invoca <tt>dataTypeHandler.parseSrcData(workData.msg)</tt> e, ottenuta la risposta, costruisce un oggetto <k>dataContext</k>
+<pre>
+dataContext.msg.v2.meta		<i>nomi dei segmenti del dato</i>
+dataContext.msg.v2.data		<i>segmenti del dato</i>
+</pre>
+  </li>
+<li>Invoca la operazione <ks>generateResult( <k>dataTypeHandler,dataContext, template</k> )</ks> che effettua la trasformazione</li>
+<li>Salva il risultato della trasformazione nel file <tt>workers\<k>hl7Source</k>.txt</tt> </li>
+</ol>
+
+
+<h3>La trasformazione</h3>
+L'operazione <ks>generateResult( <k>dataTypeHandler,dataContext, template</k> )</ks>:
+<ol>
+<li>Invoca <tt>template(dataContext)</tt> e ottiene un oggetto <k>resultcvt</k> con molti campi.<br/> 
+In questa fase invoca l'operazione <tt>getFirstSegments</tt> di 
+<a href="../DisiFhirConverter/handlebars-converter/handlebars-helpers.js" target="code">handlebars-helpers.js</a> 
+e poi esegue la funzione <k>'stored-fun'</k> che viene chiamata 94 volte, registrando i templates inclusi nella directory
+<a href="../DisiFhirConverter/templates/hl7v2" target="code">templates/hl7v2</a>  
+
+</li>
+<li>Invoca  <a href="../DisiFhirConverter/hl7v2/hl7v2.js" target="code">hl7v2.js</a> <tt>.postProcessResult(resultcvt)</tt> 
+e ottiene un oggetto <k>result</k> con campi <tt>resourceType,type,entry</tt>:
+<pre>
+result.resourceType = Bundle
+result.type	= transaction
+result.entry.length = 5		//entry keys = <i>fullUrl,resource,request</i>
+
+result.entry[0].resource keys: <i><k>resourceType,id</k>,identifier,name,birthDate,address,telecom,communication</i>
+result.entry[1].resource keys: <i><k>resourceType,id</k>,...</i>
+</pre>
+<li>L'operazione <tt>postProcessResult</tt> chiama 
+ <a href="../DisiFhirConverter/hl7v2/hl7v2.js" target="code">hl7v2.js</a><tt>.getConversionResultMetadata</tt> e
+ <a href="../DisiFhirConverter/hl7v2/hl7v2.js" target="code">hl7v2.js</a><tt>.parseCoverageReport</tt>
+</li>
+
+</li>
+<li></li>
+</ol>
 
 <table style="width:98%">
 <tbody>	
