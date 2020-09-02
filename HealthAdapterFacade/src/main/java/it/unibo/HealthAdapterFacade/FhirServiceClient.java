@@ -269,7 +269,9 @@ public class FhirServiceClient {
 	
 	
 /*
+ * ----------------------------------------------------------------------------------------------
  * 	A user-defined asynch interaction, by AN
+ * ----------------------------------------------------------------------------------------------
  */
 	public  Flux<String> selfMadeAsynch( String resourceType, String method, String body  )  { //method=POST/DELETE
 		String uri         = serverBase+"/"+resourceType;

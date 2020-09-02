@@ -190,7 +190,7 @@ div.imagedesc{
     
 <head>
    
-<title>HealthAdapterPrototype1</title></head>
+<title>Prototype1HealthAdapter</title></head>
     
 <body>
 <div id="body">
@@ -293,16 +293,7 @@ Usa funzionalita' dichiarate in:
 <li>Convertire dati <k>HL7v2.3</k> ricevuti da server esterni in rappresentazioni Json di risorse FHIR.
  </li>
 </ol> 
-<h4>Utilizzo con curl</h4>
-<pre>
-<m><em>Create</em>:	curl -d "ElenaBologna" -H "Content-Type: plain/text" -X POST http://localhost:8081/createPatient
-<em>Read</em>:	curl -H "Content-Type: plain/text" http://localhost:8081/readResource/1439336&Patient -i -X GET
-<em>Search</em>:	curl http://localhost:8081/searchPatient/ElenaBologna -i -X GET
-<em>Delete</em>:	curl -d "1435899" -H "Content-Type: plain/text" http://localhost:8081/deleteResource -X POST </m>
 
-curl https://hapi.fhir.org/baseR4/Patient/1439336 -i -X GET 
-
-</pre>
 </td>
 </tr>
 
@@ -388,16 +379,18 @@ Analisi del problema: <a href="WorkingWithNonFhirServer.html" target="code"><ks>
 </m>
 </td>
 <td>
-Lavori in corso:<br/>
-<m>
 
+<m>
 Dopo l'analisi condotta in <a href="AboutHl7FhirConversion.html" target="code"><ks>AboutHl7FhirConversion.html</ks> </a> ,
 si sta sperimentando <a href="https://github.com/microsoft/FHIR-Converter" target="web">Microsoft FHIR-Converter</a> 
 sia come riuso diretto (su Docker) sia in una forma 'DISI-refactored' che isola la logica di trasformazione JavaScript.
 
 <br/><br/>
 Il tool <a href="https://github.com/microsoft/FHIR-Converter" target="web">Microsoft FHIR-Converter</a>  sembra molto
-accurato e completo, maggiormente evoluto rispetto e Mirth e molto più gestibile in tetrmini di codice.
+accurato e completo, maggiormente evoluto rispetto e Mirth e molto più gestibile in tetrmini di codice in quanto basato
+su template (ad esempio ) e sulla tecnologia <a href="https://handlebarsjs.com/guide/#what-is-handlebars" target="web"><k>Handlebars</k></a>
+&nbsp;&nbsp;&nbsp;
+
 <br/><br/>
 
 </m>
@@ -436,26 +429,6 @@ Lavori in corso:<br/>
 <br/><br/>
 
  
-<h3>Attivazione della applicazione REST</h3>
-Eseguire <a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthAdapterFacadeApplication.java" target="code">
-HealthAdapterFacadeApplication.java</a>, <tt>localhost:8081</tt> (e attivare <tt>JConsole</tt>).
-
-
-
-<h4>Using FHIR server with curl</h4>
-One publishes, one consumes. Your application publishes data to a consumer. 
-So you have a client (curl) that wants to consume data.
-To consume it, curl subscribes to a webflux stream and webflux delivers either one or many objects. 
-If its one object it delivers a Mono&lt;T> if it's many it delivers a Flux&lt;T>.
-<br/><br/>
-Inspired by <a href="https://cloud.google.com/healthcare/docs/how-tos/fhir-search" target="code">Cloud Healthcare API documentation</a>
-<pre>
-<em>Create</em>: <m>curl -d "@data.txt" -H "Content-Type: application/fhir+json; charset=utf-8" -X POST https://hapi.fhir.org/baseR4/Patient</m>
-<em>Read</em>:	 curl https://hapi.fhir.org/baseR4/Patient/1435901 -i -X GET 
-<em>Search</em>: curl http://hapi.fhir.org/baseR4/Patient?family:exact=Smith -i -X GET
-<em>Delete</em>: curl http://hapi.fhir.org/baseR4/Patient/1435884 -i -X DELETE
- 
-</pre>
 
 
 
@@ -487,33 +460,7 @@ basato sul WebClient reattivo <tt>org.springframework.web.reactive.function.clie
 
  
 </ul>
-<!--
-
-APPUNTI
-<br/> <br/> 
-<a href="http://www.healthintersections.com.au/FhirServer/" target="web">FHIR Tools Release Page:</a> <br/>
-<a href="https://wiki.hl7.org/index.php?title=FHIR_Notepad%2B%2B_Plugin_Documentation" target="web">FHIR Notepad++ Plugin Documentation</a> 
-Plugins > FHIR > View Toolbox<br/>
-<a href="https://confluence.hl7.org/" target="web">Confluence Pages of HL7</a>
-<br/> <br/> 
-<a href="https://smarthealthit.org/" target="web">SMART Health IT</a><br/>
-https://community.notepad-plus-plus.org/topic/17601/plugins-not-installing/8<br/>
-https://github.com/smart-on-fhir/fred.git<br/>
--->
-
-<h2>React</h2>
-From <a href="https://www.w3schools.com/react/react_getstarted.asp/" target="web">w3schools.com React Getting Started</a> ,
-<a href="https://www.w3schools.com/react/" target="web">w3schools.com React Tutorial</a> 
-<br/><br/>
-Questa applicazione permette di costruire le pagine lato server e di aggiornarle in modo automatico quando cambiano.
-<pre>
-npm install -g create-react-app
-npx create-react-app myfirstreact
-cd myfirstreact
-npm start
-localhost:3000
-</pre>
-  
+ 
 
 
 <table style="width:98%">

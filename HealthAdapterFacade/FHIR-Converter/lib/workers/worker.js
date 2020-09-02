@@ -278,26 +278,35 @@ console.log("worker /api/convert/:srcDataType:template");	//BY AN
                         let srcData           = msg.srcData;
                         let templateName      = msg.templateName;
                         let srcDataType       = msg.srcDataType;
-                        let dataTypeHandler   = dataHandlerFactory.createDataHandler(srcDataType);
+console.log("\n============================ worker TEMPLATE ========================");       //BY AN                        
+console.log("worker templateName=" + templateName);		//BY AN
+                      let dataTypeHandler   = dataHandlerFactory.createDataHandler(srcDataType);
                         let handlebarInstance = GetHandlebarsInstance(dataTypeHandler);
+ 
+                        
                         session.set(constants.CLS_KEY_HANDLEBAR_INSTANCE, handlebarInstance);
-                        session.set(constants.CLS_KEY_TEMPLATE_LOCATION, path.join(constants.TEMPLATE_FILES_LOCATION, dataTypeHandler.dataType));
+                        session.set(constants.CLS_KEY_TEMPLATE_LOCATION, path.join(constants.TEMPLATE_FILES_LOCATION, 
+                        		dataTypeHandler.dataType));
 
                         if (!srcData || srcData.length == 0) {
-                            reject({ 'status': 400, 'resultMsg': errorMessage(errorCodes.BadRequest, "No srcData provided.") });
+                            reject({ 'status': 400, 'resultMsg': errorMessage(errorCodes.BadRequest, 
+                            		"No srcData provided.") });
                         }
 
                         const getTemplate = (templateName) => {
                             return new Promise((fulfill, reject) => {
                                 var template = compileCache.get(templateName);
                                 if (!template) {
-                                    fs.readFile(path.join(constants.TEMPLATE_FILES_LOCATION, srcDataType, templateName), (err, templateContent) => {
+                                    fs.readFile(path.join(constants.TEMPLATE_FILES_LOCATION, srcDataType, templateName), 
+                                    		(err, templateContent) => {
                                         if (err) {
-                                            reject({ 'status': 404, 'resultMsg': errorMessage(errorCodes.NotFound, "Template not found") });
+                                            reject({ 'status': 404, 'resultMsg': errorMessage(errorCodes.NotFound, 
+                                            		"Template not found") });
                                         }
                                         else {
                                             try {
-                                                template = handlebarInstance.compile(dataTypeHandler.preProcessTemplate(templateContent.toString()));
+                                                template = handlebarInstance.compile(
+                                                		dataTypeHandler.preProcessTemplate(templateContent.toString()));
                                                 compileCache.put(templateName, template);
                                                 fulfill(template);
                                             }

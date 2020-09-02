@@ -78,6 +78,7 @@ public class HealthProductClient {
  	}
 	public static Flux<String> readResource(String resourcetype, String resourceid) { 
 		String addr = hostaddr+HealthService.readResourceUri+"/"+resourceid+"&"+resourcetype; 	//+"/_history/1"
+		System.out.println( "readResource addr=" + addr);
      	Flux<String> answer = webClient.get()
 				.uri( addr )   
                 .retrieve()
@@ -121,9 +122,9 @@ public class HealthProductClient {
  	}
  	
  	public static void callHealthProduct()  {
-//  		doRead();
+   		doRead();
 //  		activateFlux();
-  		workWithHotFlux();
+//  		workWithHotFlux();
 // 		HealthService.delay(1500);
 	}
  	

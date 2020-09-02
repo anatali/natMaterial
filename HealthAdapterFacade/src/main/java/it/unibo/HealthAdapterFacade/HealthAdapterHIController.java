@@ -1,24 +1,24 @@
 package it.unibo.HealthAdapterFacade;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.reactivestreams.Publisher;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import com.github.jknack.handlebars.Handlebars;
-import com.github.jknack.handlebars.Template;
-
+import org.springframework.web.bind.annotation.PathVariable;
 import it.unibo.Handlebars.UniboHandlebars;
 import reactor.core.publisher.Mono;
  
 @Controller 
 public class HealthAdapterHIController { 
- 
+private HealthServiceInterface healthService  ;
+
+@Autowired
+public HealthAdapterHIController( HealthService healthServiceBuilder ) {
+		healthService             = healthServiceBuilder.getdHealthService();
+		System.out.println("----- HealthAdapterHIController CREATED "   );
+}
+
   @GetMapping("/")
   public Publisher<String> entry(Model model) {
 	   //System.out.println("------------------- HealthAdapterHIController homePage " + model  );
@@ -38,7 +38,15 @@ public class HealthAdapterHIController {
       model.addAttribute("info", s);
       return "cvtIndex";
   }
+
+//	 @GetMapping( "/read" )	 
+//	 public  Publisher<String> read( ) {      	    
+//	  	  System.out.println("----- HealthAdapterHIController read  "   );
+//	  	  String answer = healthService.readResourceSynch(  "Patient", "1439336"  );  
+//	  	  return Mono.just( answer );
+//	 }
   
+//EXPERIMENT  
   @GetMapping("/react")
   public Publisher<String> entryreact(Model model) {
         return Mono.just("reacHtmlOnlyt0"  );

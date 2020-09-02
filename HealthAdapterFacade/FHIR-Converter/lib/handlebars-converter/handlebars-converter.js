@@ -13,7 +13,7 @@ var BYANCount = 0;
 
 module.exports.instance = function (createNew, dataHandler, templateFilesLocation, currentContextTemplatesMap) {
 console.log("%%%%%%%%%%%%% handlebars-converter %%%%%%%%%%%%%%%%%%%%%%%%%%" + templateFilesLocation);		//BY AN		
-console.log("handlebars-converter currentContextTemplatesMap:" + Object.keys(currentContextTemplatesMap) );	//BY AN		 
+//console.log("handlebars-converter currentContextTemplatesMap:" + Object.keys(currentContextTemplatesMap) );	//BY AN		 
     if (createNew) {
         handlebarsInstances = {};
     }

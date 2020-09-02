@@ -112,7 +112,8 @@ public class HealthAdapterMIController {
     @GetMapping( HealthService.readResourceUri+"/{id}&{resourceType}" )	 
     public Flux<String> readResourceAsynch(   
     		@PathVariable( value = "id" ) Long resourceId ,
-    		@PathVariable( value = "resourceType" ) String resourceType ) {      	    
+    		@PathVariable( value = "resourceType" ) String resourceType ) {     
+    	
   	    System.out.println("----- HealthAdapterMIController readResourceAsynch  id= " + resourceId  + " usejson=" + usejson );
   	    Flux<String>  result = healthService.readResourceAsynch( resourceType, resourceId  );	 
   	    //System.out.println("----- HealthAdapterMIController readResourceAsynch result= " + result );
@@ -198,7 +199,9 @@ public class HealthAdapterMIController {
     	//System.out.println("----- HealthAdapterMIController cvtHL7ToFHIRUri args=" + args  );
     	String[] split  = args.split( "///" ); 
     	//System.out.println("----- HealthAdapterMIController cvtHL7ToFHIRUri template=" + split[1]  );
-    	return	healthService.docvthl7tofhir(split[1],split[0]);
+    	return	healthService.cvthl7tofhir(split[1],split[0]);	
+    	//return	healthService.docvthl7tofhir(split[1],split[0]);	//EXPERIMENT with DISI converter
+    	
     }
     
     

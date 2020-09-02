@@ -190,10 +190,9 @@ public class HealthServiceFhir implements HealthServiceInterface {
  	 		return result;
  	}	
  
+	//EXPERIMENT WITH DISI CONVERTER
 	@Override 
 	public  Flux<String> docvthl7tofhir( String templateFile, String data ) {
-		
- 		
 		doConversion(  templateFile,   data);
 		return null;
 	} 	

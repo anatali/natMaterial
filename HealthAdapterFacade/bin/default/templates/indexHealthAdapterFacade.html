@@ -1,6 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org"> 
 <head>
-	<title>HealthAdapterFacadeGUI</title>
+	<title>GUIHealthAdapterFacade</title>
  	<link href="/disi.css" rel="stylesheet">
  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -216,7 +216,7 @@ SEARCH
     	
    		// --------- search --------------------------------------------------
       	$("i.infoArea").text(  "searching  ... ");		
-      	//alert(queryjsonStr);
+      	alert(queryjsonStr);
         fetch(apiname+"/"+queryjsonStr, {method: "GET"}).then(function (response) {
         	if (response.ok) {
         		console.log(  "read  done response.type=" + response.type  ); //promise
@@ -406,7 +406,7 @@ function convertHL7ToFHIR( selectedTemplate, hl7Data ){
  
 
 <body onload=started()>
-<h1>AdapterFacade GUI</h1>
+<h1>GUI HealthAdapterFacade</h1>
 <h2>References</h2>
 <m>
 <ul>
