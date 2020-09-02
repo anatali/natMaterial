@@ -1,3 +1,8 @@
+/*
+ * INTRODOTTA SOLO IN FASE PRELIMINARE. NON NECESSARIA>
+ * Abbiamo deciso di scambiare dati come rappresentazioni Json delle risorse FHIR
+ */
+
 package it.unibo.HealthResource;
 import java.io.FileInputStream;
  

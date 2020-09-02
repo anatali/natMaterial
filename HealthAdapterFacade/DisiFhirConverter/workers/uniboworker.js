@@ -24,7 +24,11 @@ var HandlebarsConverter = require('../handlebars-converter/handlebars-converter'
 var workData = new Object();
 var handlebarInstance ;
 var dataTypeHandler;
-var hl7DataFileName = "ADT01-28"; //"ADT01-23";
+var hl7DataFileName = "ADT01-23"; // "ADT01-28";
+
+function callMeFromJava(a,b) {
+	return "callMeFromJava done:" + a + " " + b;
+}
 
 function GetHandlebarsInstance(dataTypeHandler, templatesMap) {
 console.log("\nunibo worker GetHandlebarsInstance " + constants.TEMPLATE_FILES_LOCATION );			 

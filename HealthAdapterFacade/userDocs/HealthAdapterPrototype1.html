@@ -1,0 +1,542 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+ 
+<style type="text/css">
+body
+{
+    margin-left:  30px;
+    margin-right: 30px;
+};
+
+P
+{
+    font-family: Tahoma;
+    font-size: 10pt;
+};
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #545454;
+    background-color: transparent;
+}
+
+a:hover {
+    background-color: #cccccc;
+}
+
+
+hr {
+    clear: both;
+    height: 1px;
+    color: #242424;
+    background-color: transparent;
+}
+
+h1, h2, h3 {
+    color: #242424;
+    clear: left;
+    font: 100% Tahoma, Helvetica, Arial, sans-serif;
+    margin-bottom: 0.5em;
+    padding-top: 0.5em;
+	border-radius: 10px;
+	padding: 5px;
+}
+
+top {
+	width: 100%;
+}
+
+
+#i {
+    color: #ff1010;
+}
+tt{
+	font-family: "Arial";
+    font-size: 80%;
+	color: #006600;
+}
+em{
+	font-family: "Arial";
+    font-size: 80%;
+	font-weight: bold;
+	border-style:solid;
+	border-color: #abe876;
+    color: #1632cc;
+}
+bc{
+	font-family: "Arial";
+	font-size: 80%;
+	font-weight: bold;
+    color: #990000;
+	background-color: #fcf8c7;
+}
+ks{
+	font-family: "Arial";
+	font-weight: bold;
+    color: #0000CD	;
+	 
+}
+kc{
+	font-family: "Arial";
+	font-weight: bold;
+    color: #008000	;
+	 
+}
+pre{
+	font-family: "Consolas";
+	font-size: 85%;
+	background-color: #f5f5f5;
+	border: 1.5px solid silver;
+	padding: 5px;
+}
+m{
+	font-family: "Helvetica";
+	line-height: 100%;
+ 	font-size: 75%;
+}
+hh{
+	font-family: "Helvetica";
+	line-height: 100%;
+ 	font-size: 120%;
+}
+
+div.body{
+	width: 700px;
+    font-size: 15px;
+}
+k{
+    color: #990000;
+	font-weight: bold;
+}
+h1 {
+    font-size: 150%;
+    background-color: #b2c0ff;
+	padding: 10px; 
+}
+
+h2 {
+    background-color: #9ed8ff;
+    font-size: 130%;
+}
+
+h3 {
+	background-color: #e6ccff;
+    font-size: 100%;
+}
+h4 {
+    background-color: #C0F0E0;
+    font-size: 100%;
+	width: 95%;
+	border-radius: 5px;
+	padding: 2px;
+}
+h5 {
+    background-color: #d5ffb0;
+    font-size: 100%;
+	
+}    
+div.req{
+	background-color: #d9ffb3;
+    font-size: 18px;
+	width: 700px;
+    border: 3px solid green;
+    padding: 15px;
+    margin: 10px;
+}       
+div.remark{
+	background-color: #E3F2FD;	
+    border: 1.5px solid #d5f2ed;
+    padding: 15px;
+    margin: 10px;
+	border-radius: 25px;
+}  
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+} 
+
+ol, ul, li {
+  margin: 0;
+  margin-left: 10px;
+  padding: 0;
+  padding-bottom: 5px;
+}     
+
+table, th, td {
+	border: 1px solid black;
+}
+
+img {
+	border: 1.5px solid #d5f2ed
+	
+}
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #545454;
+    background-color: transparent;
+}
+
+div.wrapdesc{
+	width: 90%;
+	margin: auto;
+}
+
+div.imagedesc{
+	width: 85%;
+	margin: auto;
+}
+</style>
+    
+<head>
+   
+<title>HealthAdapterPrototype1</title></head>
+    
+<body>
+<div id="body">
+<h1>HealthAdapter  | Primo prototipo DISI (02/09/2020)</h1>
+
+<h2>References</h2>
+<m> 
+<ul>
+<li><a href="https://dev-itel.atlassian.net/wiki/spaces/NEXTAGORA/overview" target="web">Confluence space: Nextagora</a> &nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://dev-itel.atlassian.net/wiki/spaces/UNIBO/overview" target="web">Confluence space: UNIBO</a> &nbsp;&nbsp;&nbsp;&nbsp;
+ <a href="https://bitbucket.org/itelunibo/workspace/projects/" target="web">Projects on bitbucket</a> &nbsp;&nbsp;&nbsp;&nbsp;
+ 
+ </li>
+<!--
+<li><a href="https://bitbucket.org/itelunibo/overviewrepo/src/master/it.unibo.itel/userDocs/3-LogicalArch/HDA_Disi.html" target="web">HDA_Disi.html (overviewrepo)</a> </li>
+-->
+<hr/>
+<li><a href="https://hapifhir.io/hapi-fhir/apidocs/hapi-fhir-base/index-all.html" target="web">FHIR Api docs</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://hapifhir.io/hapi-fhir/apidocs/hapi-fhir-structures-r4/index-all.html" target="web">FHIR Api structures docs</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://www.hl7.org/fhir/R4/patient.html" target="web">FHIR 8.1 Resource Patient - Content</a> &nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="http://htmlpreview.github.io/?https://github.com/anatali/natmaterial/blob/master/health/userDocs/HealthReferences.html" target="web">HealthReferences.htm</a> 
+
+</li>
+</ul></m>
+
+
+<!--
+<li><a href="../../../Evolution/it.unibo.hapi2.2/userDocs/HapiUsage.html" target="web"> DISI - HapiUsage</a> (on <tt>.it.unibo.hapi2.2/userDocs/</tt>)</li>
+<li><a href="../../../natMaterial/health/userDocs/HealthReferences.html" target="web"> 
+DISI - HealthReferences.html</a> (on natMaterial/health/userDocs/)</li>
+<li><a href="../../../Evolution/it.unibo.mirth.java/userDocs/HapiFhirUsage.html" target="web"> 
+DISI - HapiFhirUsage | References and examples (on Evolution/it.unibo.mirth.java/userDocs/)</li>
+
+<li><a href="../../../Evolution/it.unibo.mirth.java/userDocs/MirthExperiments.html" target="web"> DISI - MirthExperiments</a> (on <tt>.health/userDocs/</tt>)</li>
+
+ http://192.168.1.244/debug/clip.html -->
+
+ <h2>Introduzione</h2>
+ <hh>
+ <table style="width:98%">
+<tbody>	
+<tr>
+<td style="width:25%" ><h3>Terminologia e notazioni</h3>
+</td>
+<td><center><a href="../../health/userDocs/ITelAppl.html" target="web">ITelAppl.html</a></center>
+</td>
+</tr>
+
+<tr>
+<td><h3>Schema di riferimento</h3>
+</td>
+<td><center><img src="./img/smartevenreviewed.png" alt="smartevenreviewed.png" width="60%"></center><br/>
+</td>
+</tr>
+
+
+<tr>
+<td><h3>Overview del prototipo</h3>
+<m>
+<a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthAdapterMIController.java" target="code"><ks> HealthAdapterMIController.java</ks> </a>
+realizza API synch e asynch, definite in:
+<a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthService.java" target="code"><ks> HealthService.java</ks> </a>
+<pre>
+/createResource
+/readResource
+/searchResource
+/updateResource
+/deleteResource
+</pre>
+
+Usa funzionalita' dichiarate in:
+<a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthServiceInterface.java" target="code">
+<ks>HealthServiceInterface.java</ks></a>.  
+
+</td>
+<td><center> <img src="./img/healthproduct0209.png" alt="healthproduct0209.png" width="50%"> </center><br/>
+</td>
+</tr>
+
+
+<tr>
+<td><h3>Funzionalita'</h3>
+<center> <img src="./img/ItelHealthProductInteraction.png" alt="ItelHealthProductInteraction.png" width="80%"> </center><br/>
+
+
+</td>
+<td>
+<br/>
+<ol>
+<li>fornire un insieme di (REST) API che permettano al <tt>Core-Itel</tt> di inviare informazioni a un <k>UNICO</k> (al momento) <tt>CentroHealth</tt> 
+(<tt>FHIR,Hl7,legacy</tt>) associato a uno specifico <tt>CentroBase</tt> per chiedere dati (su paziente e piano terapeutico);
+ </li>
+<li>trasmettere al <tt>Core-Itel</tt> (usando una interfaccia API fornita dal <tt>Core-Itel</tt> stesso
+<ks>attraverso un FHIR sever</ks>) informazioni (su pazienti e piani terapeutici) trasmesse dal <tt>CentroHealth</tt>;
+ </li>
+
+<li>Convertire in <k>HL7v2.3</k> dati espressi da  <tt>Core-Itel</tt>  in termini di risorse FHIR rappresentate in Json;
+ </li>
+
+<li>Convertire dati <k>HL7v2.3</k> ricevuti da server esterni in rappresentazioni Json di risorse FHIR.
+ </li>
+</ol> 
+<h4>Utilizzo con curl</h4>
+<pre>
+<m><em>Create</em>:	curl -d "ElenaBologna" -H "Content-Type: plain/text" -X POST http://localhost:8081/createPatient
+<em>Read</em>:	curl -H "Content-Type: plain/text" http://localhost:8081/readResource/1439336&Patient -i -X GET
+<em>Search</em>:	curl http://localhost:8081/searchPatient/ElenaBologna -i -X GET
+<em>Delete</em>:	curl -d "1435899" -H "Content-Type: plain/text" http://localhost:8081/deleteResource -X POST </m>
+
+curl https://hapi.fhir.org/baseR4/Patient/1439336 -i -X GET 
+
+</pre>
+</td>
+</tr>
+
+<tr>
+<td><h3>Organizzazione</h3>
+<m>
+Le informazioni da trasmettere/ricevere a centri FHIR sono per ora limitate a 
+<a href="https://www.hl7.org/fhir/R4/patient.html" target="web">FHIR Patient</a>
+e <a href="https://www.hl7.org/fhir/R4/careplan.html" target="web">FHIR CarePlan</a>. <br/><br/>
+
+Occorre definire il contenuto e la rappresentazioni delle informazioni di input per le ricerche.
+Attuali esempi:
+<a href="../src/main/java/it/unibo/HealthResource/queryfiles/patientCesenaQueryJson.txt" target="code">
+	<m><ks>HealthResource/queryfiles/patientCesenaQueryJson.txt</ks></m></a>,
+<a href="../src/main/java/it/unibo/HealthResource/queryfiles/careplanQueryJson.txt" target="code">
+	<m><ks>HealthResource/queryfiles/careplanQueryJson.txt</ks></m></a>
+
+</m>
+</td>
+<td><br/> 
+<ol>
+<li>Si tratta di una applicazione SpringBoot che usa WebFlux, SSE, etc. Si veda
+<a href="../build.gradle" target="code"><m><ks>build.gradle</ks></m></a>
+</li>
+
+<li>Il REST Controller 
+<a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthAdapterMIController.java" target="code"><m><ks>HealthAdapterMIController.java</ks></m></a>
+si occupa della interazione machine-to-machine
+ </li>
+
+
+<li>Il controller 
+<a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthAdapterHIController.java" target="code"><m><ks>HealthAdapterHIController.java</ks></m></a>
+si occupa della interazione con un agente umano attraverso le presentazione di una pagina HTML generata da:
+<a href="../src/main/resources/templates/indexHealthAdapterFacade.html" target="code"><m><ks>indexHealthAdapterFacade.html</ks></m></a>
+
+<br/><br/>
+<center> <img src="./img/healthproduct0209Browser.png" alt="healthproduct0209Browser.png" width="70%"> </center> 
+
+
+</li>
+<li>Sono disponibili endpoint di monitoring quali:
+<pre>
+http://localhost:8081/actuator/health
+http://localhost:8081/actuator/env
+...
+</pre>
+</li>
+</ol>  <br/>
+</td>
+</tr>
+
+<tr>
+<td><h3>Supporti alle interazioni</h3>
+<m>
+<ul>
+<li><a href="../src/main/java/it/unibo/HealthAdapter/Clients/HealthProductClient.java" target="code"><ks>HealthProductClient.java</ks></a>: usa le API REST
+per interagire con HealthProduct. 
+<br/><br/></li>
+<li><a href="../src/main/java/it/unibo/HealthAdapterFacade/Pojo/HealthServiceFhirUsageSynch.java" target="code"><ks>HealthServiceFhirUsageSynch.java</ks></a>:
+usa un oggetto che implementa <a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthServiceInterface.java" target="code">
+HealthServiceInterface.java</a> per realizzare interazioni sincrone con un FHIR server.
+<br/><br/></li>
+<li><a href="../src/main/java/it/unibo/HealthAdapterFacade/Pojo/HealthServiceFhirUsageAsynch.java" target="code"><ks>HealthServiceFhirUsageAsynch.java</ks> </a>:
+usa un oggetto che implementa <a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthServiceInterface.java" target="code">
+HealthServiceInterface.java</a> per realizzare interazioni asincrone con un FHIR server.
+<br/><br/></li>
+
+<li><ks>Todo</ks>: usa usa un oggetto per realizzare interazioni con un Legacy server che riceve/invia dati in <tt>HL7v23</tt> usando un qualche protocollo</li>
+</ul>
+</m>
+
+</td>
+<td><center> <img src="./img/healthproduct0209Interactions.png" alt="healthproduct0209Interactions.png" width="70%"> </center><br/>
+ <br/>
+</td>
+</tr>
+
+<tr>
+<td><h3>Conversione FHIR-HL7</h3> 
+<m>
+Analisi del problema: <a href="WorkingWithNonFhirServer.html" target="code"><ks>WorkingWithNonFhirServer.hml</ks> </a>
+</m>
+</td>
+<td>
+Lavori in corso:<br/>
+<m>
+
+Dopo l'analisi condotta in <a href="AboutHl7FhirConversion.html" target="code"><ks>AboutHl7FhirConversion.html</ks> </a> ,
+si sta sperimentando <a href="https://github.com/microsoft/FHIR-Converter" target="web">Microsoft FHIR-Converter</a> 
+sia come riuso diretto (su Docker) sia in una forma 'DISI-refactored' che isola la logica di trasformazione JavaScript.
+
+<br/><br/>
+Il tool <a href="https://github.com/microsoft/FHIR-Converter" target="web">Microsoft FHIR-Converter</a>  sembra molto
+accurato e completo, maggiormente evoluto rispetto e Mirth e molto più gestibile in tetrmini di codice.
+<br/><br/>
+
+</m>
+ <br/>
+</td>
+</tr>
+
+
+<tr>
+<td><h3>Conversione HL7-FHIR</h3> 
+</td>
+<td>
+Lavori in corso:<br/>
+<m>
+<a href="AboutHl7FhirConversion.html" target="code"><ks>...</ks> </a><br/>
+ 
+</m>
+ <br/>
+</td>
+</tr>
+
+<tr>
+<td> 
+</td>
+<td> <br/>
+</td>
+</tr>
+
+
+ </tbody>
+</table>
+
+ 
+
+</hh>
+<br/><br/>
+
+ 
+<h3>Attivazione della applicazione REST</h3>
+Eseguire <a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthAdapterFacadeApplication.java" target="code">
+HealthAdapterFacadeApplication.java</a>, <tt>localhost:8081</tt> (e attivare <tt>JConsole</tt>).
+
+
+
+<h4>Using FHIR server with curl</h4>
+One publishes, one consumes. Your application publishes data to a consumer. 
+So you have a client (curl) that wants to consume data.
+To consume it, curl subscribes to a webflux stream and webflux delivers either one or many objects. 
+If its one object it delivers a Mono&lt;T> if it's many it delivers a Flux&lt;T>.
+<br/><br/>
+Inspired by <a href="https://cloud.google.com/healthcare/docs/how-tos/fhir-search" target="code">Cloud Healthcare API documentation</a>
+<pre>
+<em>Create</em>: <m>curl -d "@data.txt" -H "Content-Type: application/fhir+json; charset=utf-8" -X POST https://hapi.fhir.org/baseR4/Patient</m>
+<em>Read</em>:	 curl https://hapi.fhir.org/baseR4/Patient/1435901 -i -X GET 
+<em>Search</em>: curl http://hapi.fhir.org/baseR4/Patient?family:exact=Smith -i -X GET
+<em>Delete</em>: curl http://hapi.fhir.org/baseR4/Patient/1435884 -i -X DELETE
+ 
+</pre>
+
+
+
+<h3 id="uso">Esempi di uso della applicazione da programmi (Java)</h3>
+<ul>
+<li><a href="../src/main/java/it/unibo/HealthAdapterFacade/Pojo/HealthServiceFhirUsage.java" target="code">HealthServiceFhirUsage.java</a>:
+utilizza la business logic definita in  
+<a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthServiceFhir.java" target="code">HealthServiceFhir.java</a> 
+usata come POJO al di fuori di SprinBoot. Questo POJO utilizza una istanza di 
+<a href="../src/main/java/it/unibo/HealthAdapterFacade/FhirServiceClient.java" target="code">FhirServiceClient.java</a>:
+basato sul client fornito da <tt>ca.uhn.fhir.rest.client.api.IGenericClient</tt> dalla libreria FHIR. 
+</li>
+<li>
+<a href="../src/main/java/it/unibo/HealthAdapterFacade/Pojo/FhirServiceClientUsage.java" target="code">FhirServiceClientUsage.java</a>:
+utilizza il servizio fornito da 
+<a href="../src/main/java/it/unibo/HealthAdapterFacade/FhirServiceClient.java" target="code">FhirServiceClient.java</a>. 
+
+</li>
+<hr/>
+<li><a href="../src/main/java/it/unibo/HealthAdapter/Clients/HttpClientHealthAdapter.java" target="code">HttpClientHealthAdapter.java</a>:
+che realizza una convenzionale interazione HTTP con HealthProduct basandosi su  <tt>java.net.HttpURLConnection</tt> a su <tt>org.json</tt> 
+</li>
+<li><a href="../src/main/java/it/unibo/HealthAdapter/Clients/HttpClientFhirServer.java" target="code">HttpClientFhirServer.java</a>:
+che realizza una convenzionale interazione HTTP con FHIR server basandosi su  <tt>java.net.HttpURLConnection</tt> a su <tt>org.json</tt> 
+</li>
+<li><a href="../src/main/java/it/unibo/HealthAdapter/Clients/HealthWebClient.java" target="code">HealthWebClient.java</a>:
+basato sul WebClient reattivo <tt>org.springframework.web.reactive.function.client.WebClient</tt> fornito da Spring
+</li>
+
+ 
+</ul>
+<!--
+
+APPUNTI
+<br/> <br/> 
+<a href="http://www.healthintersections.com.au/FhirServer/" target="web">FHIR Tools Release Page:</a> <br/>
+<a href="https://wiki.hl7.org/index.php?title=FHIR_Notepad%2B%2B_Plugin_Documentation" target="web">FHIR Notepad++ Plugin Documentation</a> 
+Plugins > FHIR > View Toolbox<br/>
+<a href="https://confluence.hl7.org/" target="web">Confluence Pages of HL7</a>
+<br/> <br/> 
+<a href="https://smarthealthit.org/" target="web">SMART Health IT</a><br/>
+https://community.notepad-plus-plus.org/topic/17601/plugins-not-installing/8<br/>
+https://github.com/smart-on-fhir/fred.git<br/>
+-->
+
+<h2>React</h2>
+From <a href="https://www.w3schools.com/react/react_getstarted.asp/" target="web">w3schools.com React Getting Started</a> ,
+<a href="https://www.w3schools.com/react/" target="web">w3schools.com React Tutorial</a> 
+<br/><br/>
+Questa applicazione permette di costruire le pagine lato server e di aggiornarle in modo automatico quando cambiano.
+<pre>
+npm install -g create-react-app
+npx create-react-app myfirstreact
+cd myfirstreact
+npm start
+localhost:3000
+</pre>
+  
+
+
+<table style="width:98%">
+<tbody>	
+<tr>
+<td style="width:50%" >
+</td>
+<td>
+</td>
+</tr>
+ </tbody>
+</table>
+ <br/><br/>
+</div>  
+
+  <br/><br/>
+
+<div style="background-color:rgba(86, 56, 253, 0.9); width:100%;text-align:center;font-size:small;color:white">
+By AN Unibo-DISI  
+</div> 
+
+</body>
+</html>
+
+
+ 

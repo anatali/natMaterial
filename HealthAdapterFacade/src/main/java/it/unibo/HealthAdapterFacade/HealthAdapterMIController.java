@@ -1,9 +1,13 @@
 package it.unibo.HealthAdapterFacade;
 
+import java.time.Duration;
+import java.time.LocalTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +36,6 @@ public class HealthAdapterMIController {
 	 @Autowired
      public HealthAdapterMIController( HealthService healthServiceBuilder ) {
   		healthService             = healthServiceBuilder.getdHealthService();
-//  		hotflux                   = ResourceUtility.startDataflux("hot");
   		System.out.println("----- HealthAdapterMIController CREATED "   );
      }
 
@@ -54,7 +57,7 @@ public class HealthAdapterMIController {
 	 public  String readResourceSynch(  
 	    		@PathVariable( value = "id" ) Long resourceId ,
 	    		@PathVariable( value = "resourceType" ) String resourceType ) {      	    
-	  	    System.out.println("----- HealthAdapterMIController readResourceSynch  id= " + resourceId  + " usejson=" + usejson );
+	  	  System.out.println("----- HealthAdapterMIController readResourceSynch  id= " + resourceId  + " usejson=" + usejson );
 	  	  String answer = healthService.readResourceSynch(  resourceType, resourceId.toString()  );  
 	  	  return answer;
 	 }
@@ -158,7 +161,7 @@ public class HealthAdapterMIController {
 
 /*
  * =========================================================================
- * DATAFLUX    
+ * DATAFLUX     (experiments)  
  * =========================================================================
 */	  
     @PostMapping( HealthService.subscribehotfluxUri ) 
@@ -192,12 +195,32 @@ public class HealthAdapterMIController {
     @PostMapping( HealthService.cvtHL7ToFHIRUri )  
     public Flux<String> cvtHL7ToFHIRUri( @RequestBody String args  ) {	 
     	//return Flux.just("cvtHL7ToFHIRUri " + template + " " + datahl7 + " wait a minute ...");
-    	System.out.println("----- HealthAdapterMIController cvtHL7ToFHIRUri args=" + args  );
+    	//System.out.println("----- HealthAdapterMIController cvtHL7ToFHIRUri args=" + args  );
     	String[] split  = args.split( "///" ); 
-    	System.out.println("----- HealthAdapterMIController cvtHL7ToFHIRUri template=" + split[1]  );
-//    	String template = split[0];
-    	return	healthService.cvthl7tofhir(split[1],split[0]);
+    	//System.out.println("----- HealthAdapterMIController cvtHL7ToFHIRUri template=" + split[1]  );
+    	return	healthService.docvthl7tofhir(split[1],split[0]);
     }
+    
+    
+ 
+    
+/*
+ * =========================================================================
+ * SERVER SENT EVENTS (experiment)
+ * an HTTP standard that allows a web application to handle a unidirectional event stream 
+ * and receive updates  whenever server emits data.
+ * =========================================================================
+*/   
+    
+    @GetMapping("/sse")
+    public Flux<ServerSentEvent<String>> sse() {
+        return Flux.interval(Duration.ofSeconds(1))
+          .map(sequence -> ServerSentEvent.<String> builder()
+            .id(String.valueOf(sequence))
+              .event("periodic-event")
+              .data("SSE - " + LocalTime.now().toString())
+              .build());
+    }   
     
     
     @ExceptionHandler 
@@ -206,6 +229,6 @@ public class HealthAdapterMIController {
         return new ResponseEntity<String>(
         		"HealthAdapterMIController ERROR " + ex.getMessage(), responseHeaders, HttpStatus.CREATED);
     }
- 
+    
 }
 

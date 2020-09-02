@@ -6,17 +6,12 @@
 package it.unibo.HealthAdapterFacade.Pojo;
  
 import java.io.IOException;
-
 import org.hl7.fhir.r4.model.DomainResource;
-import org.json.JSONException;
-import org.json.JSONObject;
 import it.unibo.HealthAdapter.Clients.HttpFhirSupport;
-import it.unibo.HealthAdapterFacade.HealthService;
 import it.unibo.HealthAdapterFacade.HealthServiceFhir;
 import it.unibo.HealthAdapterFacade.HealthServiceInterface;
 import it.unibo.HealthResource.ResourceUtility;
-import reactor.core.publisher.Flux;
- 
+
 
 public class HealthServiceFhirUsageSynch {
  	
@@ -25,20 +20,7 @@ public class HealthServiceFhirUsageSynch {
     			
  	public HealthServiceFhirUsageSynch() {
  		healthService = new HealthServiceFhir( serverBase ) ;	
-  	}
-  	
-   	
- 	private void extractValues( String jsonRep ) {
-		try {
-			JSONObject jsonobj = new JSONObject( jsonRep );
-			String idstr        = jsonobj.getString("id");
-//			currentResourceType = jsonobj.getString("resourceType");
-//	  		currentResourceId   = Long.parseLong( idstr );
-//	  		System.out.println("readPatient id=:" + currentResourceId + " currentResourceType="  + currentResourceType);
-		} catch (JSONException e) {
-			System.out.println("extractValues ERROR" + e.getMessage() );
-		}	 			 				
- 	}
+  	} 
  	
 //CREATE  	
 	public Long createResourceFromFile( String fname ) {
@@ -82,7 +64,8 @@ public class HealthServiceFhirUsageSynch {
 		HealthServiceFhirUsageSynch appl = new HealthServiceFhirUsageSynch();
 		String resourceFileName       = "src/main/java/it/unibo/HealthResource/datafiles/PatientAlicejson.txt";
 		String updateResourceFileName = "src/main/java/it/unibo/HealthResource/datafiles/PatientAlicejsonUpdate.txt";
-		String queryStr         = "{ \"resourceType\": \"Patient\", \"address\": { \"city\": \"Cesena\", \"country\": \"Italy\" } }"; 
+		String queryStr         	  = 
+				"{ \"resourceType\": \"Patient\", \"address\": { \"city\": \"Cesena\", \"country\": \"Italy\" } }"; 
   
 		System.out.println(" %%% CREATE  ------------------------------ "); 		
 		Long id = appl.createResourceFromFile(resourceFileName);		 

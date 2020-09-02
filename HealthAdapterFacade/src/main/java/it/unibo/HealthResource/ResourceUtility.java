@@ -2,18 +2,14 @@ package it.unibo.HealthResource;
 
 import java.io.FileInputStream;
 import java.util.Iterator;
-import java.util.Vector;
-
 import org.apache.commons.io.IOUtils;
 import org.hl7.fhir.r4.model.*;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import ca.uhn.fhir.parser.IParser;
 import it.unibo.HealthAdapterFacade.HealthAdapterMIController;
 import it.unibo.HealthAdapterFacade.HealthService;

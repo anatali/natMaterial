@@ -92,7 +92,9 @@ public class HealthServiceHL7 implements HealthServiceInterface{
  		return null;
 	}
 
-	
+	public  Flux<String> docvthl7tofhir( String path, String data ) {
+		return null;
+	}
 
  
 }

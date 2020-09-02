@@ -7,11 +7,17 @@
  */
 package it.unibo.HealthAdapterFacade;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Hashtable;
+import javax.script.Invocable;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.DomainResource;
-
 import it.unibo.HealthResource.ResourceUtility;
 import reactor.core.publisher.Flux;
 
@@ -184,6 +190,45 @@ public class HealthServiceFhir implements HealthServiceInterface {
  	 		return result;
  	}	
  
- 	
+	@Override 
+	public  Flux<String> docvthl7tofhir( String templateFile, String data ) {
+		
+ 		
+		doConversion(  templateFile,   data);
+		return null;
+	} 	
+	
+	private void doConversion( String templateFile, String data ) {
+		System.out.println("HealthServiceFhir | doConversion tamplateFile=" + templateFile + "\n data=" + data  );
+		
+		try {
+			ScriptEngineManager manager = new ScriptEngineManager();
+			ScriptEngine engine = manager.getEngineByName("JavaScript");
+			System.out.println("HealthServiceFhir | engine=" + engine );
+			// read script file
+			String currentDirectory = System.getProperty("user.dir");
+			System.out.println("HealthServiceFhir | currentDirectory=" + currentDirectory);
+			
+			//BufferedReader reader = Files.newBufferedReader(file,Charset.forName("UTF-8"));
+			//throw the MalformedInputException
+			BufferedReader br = new BufferedReader(new InputStreamReader(	//uses  CharsetDecoder default action
+					//new FileInputStream("C:/Progetti/natmaterial/HealthAdapterFacade/DisiFhirConverter/workers/uniboworker.js"),
+					new FileInputStream("C:/Progetti/natmaterial/HealthAdapterFacade/DisiFhirConverter/workers/test.js"),
+					StandardCharsets.UTF_8 )); //.ISO_8859_1 .US_ASCII
+			
+			String s1 = "require('fs').readFile( 'C:/Progetti/natmaterial/HealthAdapterFacade/DisiFhirConverter/workers/test.js', 'utf-8', ((err, data) => {}));";
+//			engine.eval( br );
+			engine.eval(s1);
+			
+//			engine.eval(Files.newBufferedReader(Paths.get(
+//					"C:/Progetti/natmaterial/HealthAdapterFacade/DisiFhirConverter/workers/uniboworker.js")));
+			Invocable inv = (Invocable) engine;
+			// call function from script file
+			String result = "todo";//(String) inv.invokeFunction("callMeFromJava", "a1" );
+			System.out.println("HealthServiceFhir | doConversion result=" + result );
+		} catch (Exception  e) {
+			System.out.println("HealthServiceFhir | error:" + e.getMessage() );
+		}
+	}
 
 }

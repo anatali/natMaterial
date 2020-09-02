@@ -30,5 +30,6 @@ public interface HealthServiceInterface {
  *  CONVERT
 */
 		public  Flux<String> cvthl7tofhir( String template, String data );
+		public  Flux<String> docvthl7tofhir( String path, String data ) ;
 }
 

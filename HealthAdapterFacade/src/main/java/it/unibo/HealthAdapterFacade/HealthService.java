@@ -19,15 +19,15 @@ public class HealthService {
 	public static enum HealthCenterType{ FHIR, HL7, OTHER};
 	public final static FhirContext fhirctx = FhirContext.forR4();
 /*
- * --------------------------------------------------------------------------
- * WARNING: these URI are used in templates\indexHealthAdapterFacade.html	
- * --------------------------------------------------------------------------
+ * --------------------------------------------------------------------------------------------
+ * WARNING: these URI are used in src\main\resourcestemplates\indexHealthAdapterFacade.html	
+ * --------------------------------------------------------------------------------------------
  */
 
 /*	
  * SYNCH
  */
-	public static final String selectHealthCenterUri    ="/selectHealthCenter";
+	public static final String selectHealthCenterUri    ="/selectHealthCenterSynch";
 	
 	public static final String createResourceUriSynch   ="/createResourceSynch";
 	public static final String readResourceUriSynch     ="/readResourceSynch";
@@ -38,12 +38,15 @@ public class HealthService {
 /*
  * ASYNCH 
  */
-	public static final String createResourceUri   		="/createResource";
+	public static final String createResourceUri   		="/createResource"; 	//Patient/...???
 	public static final String readResourceUri   		="/readResource";
 	public static final String searchResourceUri  		="/searchResource";
 	public static final String updateResourceUri  		="/updateResource";
 	public static final String deleteResourceUri 		="/deleteResource";
 
+/*
+ * FLUX related (experiments) 
+*/	
 	public static final String startDatafluxUri			="/startDataflux";
 	public static final String stopDatafluxUri 			="/stopDataflux";
 	public static final String subscribehotfluxUri   	="/subscribeflux";
