@@ -373,7 +373,7 @@ HealthServiceInterface.java</a> per realizzare interazioni asincrone con un FHIR
 </tr>
 
 <tr>
-<td><h3>Conversione FHIR-HL7</h3> 
+<td><h3>Conversione HL7-FHIR</h3> 
 <m>
 Analisi del problema: <a href="WorkingWithNonFhirServer.html" target="code"><ks>WorkingWithNonFhirServer.hml</ks> </a>
 </m>
@@ -388,10 +388,12 @@ sia come riuso diretto (su Docker) sia in una forma 'DISI-refactored' che isola 
 <br/><br/>
 Il tool <a href="https://github.com/microsoft/FHIR-Converter" target="web">Microsoft FHIR-Converter</a>  sembra molto
 accurato e completo, maggiormente evoluto rispetto e Mirth e molto più gestibile in tetrmini di codice in quanto basato
-su template (ad esempio ) e sulla tecnologia <a href="https://handlebarsjs.com/guide/#what-is-handlebars" target="web"><k>Handlebars</k></a>
+su template (ad esempio 
+<a href="../DisiFhirConverter/templates/hl7v2/ADT_A01.hbs" target="code"><ks>ADT_A01.hbs</ks> </a>)
+e sulla tecnologia <a href="https://handlebarsjs.com/guide/#what-is-handlebars" target="web"><k>Handlebars</k></a>
 &nbsp;&nbsp;&nbsp;
 
-<br/><br/>
+<br/><br/>C:\Progetti\natmaterial\HealthAdapterFacade\DisiFhirConverter\templates\hl7v2\ADT_A01.hbs
 
 </m>
  <br/>
@@ -400,7 +402,7 @@ su template (ad esempio ) e sulla tecnologia <a href="https://handlebarsjs.com/g
 
 
 <tr>
-<td><h3>Conversione HL7-FHIR</h3> 
+<td><h3>Conversione FHIR-HL7</h3>  
 </td>
 <td>
 Lavori in corso:<br/>
@@ -411,6 +413,20 @@ Lavori in corso:<br/>
  <br/>
 </td>
 </tr>
+
+<tr>
+<td><h3>Domini e Processi</h3> 
+</td>
+<td> Quale dei due casi?<br/>
+<center> <img src="./img/Domini1.png" alt="Domini1.png" width="25%"> 
+&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="./img/Domini2.png" alt="Domini2.png" width="25%"> </center><br/>
+Il problema della rappresentazione e implementazione dei processi (sia ITel, sia FHIR).
+<br/>
+<br/>
+</td>
+</tr>
+
 
 <tr>
 <td> 
@@ -432,34 +448,6 @@ Lavori in corso:<br/>
 
 
 
-<h3 id="uso">Esempi di uso della applicazione da programmi (Java)</h3>
-<ul>
-<li><a href="../src/main/java/it/unibo/HealthAdapterFacade/Pojo/HealthServiceFhirUsage.java" target="code">HealthServiceFhirUsage.java</a>:
-utilizza la business logic definita in  
-<a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthServiceFhir.java" target="code">HealthServiceFhir.java</a> 
-usata come POJO al di fuori di SprinBoot. Questo POJO utilizza una istanza di 
-<a href="../src/main/java/it/unibo/HealthAdapterFacade/FhirServiceClient.java" target="code">FhirServiceClient.java</a>:
-basato sul client fornito da <tt>ca.uhn.fhir.rest.client.api.IGenericClient</tt> dalla libreria FHIR. 
-</li>
-<li>
-<a href="../src/main/java/it/unibo/HealthAdapterFacade/Pojo/FhirServiceClientUsage.java" target="code">FhirServiceClientUsage.java</a>:
-utilizza il servizio fornito da 
-<a href="../src/main/java/it/unibo/HealthAdapterFacade/FhirServiceClient.java" target="code">FhirServiceClient.java</a>. 
-
-</li>
-<hr/>
-<li><a href="../src/main/java/it/unibo/HealthAdapter/Clients/HttpClientHealthAdapter.java" target="code">HttpClientHealthAdapter.java</a>:
-che realizza una convenzionale interazione HTTP con HealthProduct basandosi su  <tt>java.net.HttpURLConnection</tt> a su <tt>org.json</tt> 
-</li>
-<li><a href="../src/main/java/it/unibo/HealthAdapter/Clients/HttpClientFhirServer.java" target="code">HttpClientFhirServer.java</a>:
-che realizza una convenzionale interazione HTTP con FHIR server basandosi su  <tt>java.net.HttpURLConnection</tt> a su <tt>org.json</tt> 
-</li>
-<li><a href="../src/main/java/it/unibo/HealthAdapter/Clients/HealthWebClient.java" target="code">HealthWebClient.java</a>:
-basato sul WebClient reattivo <tt>org.springframework.web.reactive.function.client.WebClient</tt> fornito da Spring
-</li>
-
- 
-</ul>
  
 
 
@@ -479,7 +467,7 @@ basato sul WebClient reattivo <tt>org.springframework.web.reactive.function.clie
   <br/><br/>
 
 <div style="background-color:rgba(86, 56, 253, 0.9); width:100%;text-align:center;font-size:small;color:white">
-By AN Unibo-DISI  
+By AC-AM-AN-AR Unibo-DISI  
 </div> 
 
 </body>

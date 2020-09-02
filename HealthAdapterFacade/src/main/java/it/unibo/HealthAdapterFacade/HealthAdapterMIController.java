@@ -2,7 +2,6 @@ package it.unibo.HealthAdapterFacade;
 
 import java.time.Duration;
 import java.time.LocalTime;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
