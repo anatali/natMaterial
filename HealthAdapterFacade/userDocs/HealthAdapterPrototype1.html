@@ -233,7 +233,7 @@ DISI - HapiFhirUsage | References and examples (on Evolution/it.unibo.mirth.java
  <table style="width:98%">
 <tbody>	
 <tr>
-<td style="width:25%" ><h3>Terminologia e notazioni</h3>
+<td style="width:35%" ><h3>Terminologia e notazioni</h3>
 </td>
 <td><center><a href="../../health/userDocs/ITelAppl.html" target="web">ITelAppl.html</a></center>
 </td>
@@ -241,6 +241,12 @@ DISI - HapiFhirUsage | References and examples (on Evolution/it.unibo.mirth.java
 
 <tr>
 <td><h3>Schema di riferimento</h3>
+<m>
+<div class="remark">
+<k>Problema Versione FHIR</k>: IPOTESI: <a href="http://hl7.org/fhir" target="code"><ks>FHIR versione 4.0.1</ks> </a>.
+</div>
+</m>
+
 </td>
 <td><center><img src="./img/smartevenreviewed.png" alt="smartevenreviewed.png" width="60%"></center><br/>
 </td>
@@ -264,9 +270,17 @@ realizza API synch e asynch, definite in:
 Usa funzionalita' dichiarate in:
 <a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthServiceInterface.java" target="code">
 <ks>HealthServiceInterface.java</ks></a>.  
-
+<div class="remark">
+<k>Problema API</k>: definire l'insieme delle API e dei parametri di input/output.
+<br/><br/>
+<k>Problema DICOM</k>: definire il problema della ricezione/gestione di immagini   
+</div>
 </td>
-<td><center> <img src="./img/healthproduct0209.png" alt="healthproduct0209.png" width="50%"> </center><br/>
+<td><center><img src="./img/healthproduct0209.png" alt="healthproduct0209.png" width="50%"> </center>
+&nbsp;&nbsp;&nbsp;
+
+<br/>
+
 </td>
 </tr>
 
@@ -298,18 +312,22 @@ Usa funzionalita' dichiarate in:
 </tr>
 
 <tr>
-<td><h3>Organizzazione</h3>
+<td><h3 id="Organizzazione">Organizzazione</h3>
 <m>
 Le informazioni da trasmettere/ricevere a centri FHIR sono per ora limitate a 
 <a href="https://www.hl7.org/fhir/R4/patient.html" target="web">FHIR Patient</a>
 e <a href="https://www.hl7.org/fhir/R4/careplan.html" target="web">FHIR CarePlan</a>. <br/><br/>
 
-Occorre definire il contenuto e la rappresentazioni delle informazioni di input per le ricerche.
+<div class="remark">
+<k>Problema Ricerca</k>: definire i (pattern dei) dati da cercare (realtivi a una singola risorsa o piu' in generale?).
 Attuali esempi:
 <a href="../src/main/java/it/unibo/HealthResource/queryfiles/patientCesenaQueryJson.txt" target="code">
 	<m><ks>HealthResource/queryfiles/patientCesenaQueryJson.txt</ks></m></a>,
 <a href="../src/main/java/it/unibo/HealthResource/queryfiles/careplanQueryJson.txt" target="code">
 	<m><ks>HealthResource/queryfiles/careplanQueryJson.txt</ks></m></a>
+</div>
+
+
 
 </m>
 </td>
@@ -341,6 +359,10 @@ http://localhost:8081/actuator/health
 http://localhost:8081/actuator/env
 ...
 </pre>
+<div class="remark">
+Per sperimentazione:
+<a href="http://212.171.18.215:8081" target="web">http://212.171.18.215:8081</a>.
+</div>
 </li>
 </ol>  <br/>
 </td>
@@ -364,6 +386,12 @@ HealthServiceInterface.java</a> per realizzare interazioni asincrone con un FHIR
 
 <li><ks>Todo</ks>: usa usa un oggetto per realizzare interazioni con un Legacy server che riceve/invia dati in <tt>HL7v23</tt> usando un qualche protocollo</li>
 </ul>
+
+<div class="remark">
+<k>Problema Legacy</k>: fornire almeno un esempio concreto di interazione con un centro legacy FHIR/Hl7
+previsto in futuro, alla luce delle attuali interazioni (mediate da partner) con centri non-FHIR.
+</div>
+
 </m>
 
 </td>
@@ -376,24 +404,38 @@ HealthServiceInterface.java</a> per realizzare interazioni asincrone con un FHIR
 <td><h3>Conversione HL7-FHIR</h3> 
 <m>
 Analisi del problema: <a href="WorkingWithNonFhirServer.html" target="code"><ks>WorkingWithNonFhirServer.hml</ks> </a>
+<div class="remark">
+<k>Problema HL7-FHIR generale</k>: un messaggio <tt>HL7(v23)</tt> di solito implica riferimenti a piu' risorse FHIR.
+<br/><br/>
+<k>Problema HL7-FHIR ITel</k>: delimitare il campo dei template Microsoft  alla luce delle esigenze ITel  
+(ad esempio 
+<a href="../DisiFhirConverter/templates/hl7v2/ADT_A01.hbs" target="code"><ks>ADT_A01.hbs</ks> </a>) e definire quanto necessario.
+</div>
+
 </m>
 </td>
 <td>
 
 <m>
 Dopo l'analisi condotta in <a href="AboutHl7FhirConversion.html" target="code"><ks>AboutHl7FhirConversion.html</ks> </a> ,
-si sta sperimentando <a href="https://github.com/microsoft/FHIR-Converter" target="web">Microsoft FHIR-Converter</a> 
-sia come riuso diretto (su Docker) sia in una forma 'DISI-refactored' che isola la logica di trasformazione JavaScript.
-
-<br/><br/>
-Il tool <a href="https://github.com/microsoft/FHIR-Converter" target="web">Microsoft FHIR-Converter</a>  sembra molto
-accurato e completo, maggiormente evoluto rispetto e Mirth e molto più gestibile in tetrmini di codice in quanto basato
+si sta sperimentando <a href="https://github.com/microsoft/FHIR-Converter" target="web">Microsoft FHIR-Converter</a>
+che  sembra molto accurato e completo, maggiormente evoluto rispetto e Mirth e molto più gestibile in termini di codice in quanto basato
 su template (ad esempio 
 <a href="../DisiFhirConverter/templates/hl7v2/ADT_A01.hbs" target="code"><ks>ADT_A01.hbs</ks> </a>)
-e sulla tecnologia <a href="https://handlebarsjs.com/guide/#what-is-handlebars" target="web"><k>Handlebars</k></a>
+in tecnologia <a href="https://handlebarsjs.com/guide/#what-is-handlebars" target="web"><k>Handlebars</k></a>,
+disponibili anche in Java.
 &nbsp;&nbsp;&nbsp;
 
-<br/><br/>C:\Progetti\natmaterial\HealthAdapterFacade\DisiFhirConverter\templates\hl7v2\ADT_A01.hbs
+<br/><br/> 
+Attualmente e' stato sperimentato un uso diretto del servizio (eseguito su Docker) 
+ed e' stata enucleate una forma 'DISI-refactored' che isola da tale servizio la logica di trasformazione definita in Node.js.
+Cio' in quanto la riproduzione in Java di quanto gia' fatto da Microsoft in Node sembra richiedere molto nuovo codice e molto tempo
+anche per comprendere appieno il problema.
+
+<div class="remark">
+<k>Problema Servizio-Converter</k>:  decidere se le conversioni siano realizzate da un servizio dotato di proprie API e non da 
+un semplice oggetto (in modo da non dover dipendere dalla implementazione Node.js).
+</div>
 
 </m>
  <br/>
@@ -403,6 +445,16 @@ e sulla tecnologia <a href="https://handlebarsjs.com/guide/#what-is-handlebars" 
 
 <tr>
 <td><h3>Conversione FHIR-HL7</h3>  
+<m>
+<div class="remark">
+<k>Problema FHIR-HL7 generale</k>: per sintetizzare un messaggio <tt>HL7(v23)</tt> occorrono informazioni da piu' risorese FHIR.
+<br/><br/>
+<k>Problema FHIR-HL7 ITel </k>: delimitare il campo alla luce delle esigenze ITel e decidere se le info necessarie per la sintesi
+sono fornite da una richiesta di CoreITel a HealthProduct o devono essere chieste da HealthProduct a CoreITel tramite
+un opportuno insieme di API, da definire.
+
+</div>
+</m>
 </td>
 <td>
 Lavori in corso:<br/>
@@ -416,12 +468,21 @@ Lavori in corso:<br/>
 
 <tr>
 <td><h3>Domini e Processi</h3> 
+<m>
+Questo tema appare qui alla fine, ma in realta' e', a parere DISI, <k>propedeutico</k> a tutto il lavoro.
+<div class="remark">
+<k>Problema Domini</k>: comprendere la natura del dominio ITel e delle sue relazioni con FHIR.
+<br/><br/>
+<k>Problema Procedure</k>: analizzare il problema della rappresentazione e della implementazione delle funzionalita'
+ITel alla luce di quanto esprimibile in FHIR versione 4.0.1 (<a href="http://hl7.org/fhir/task.html" target="code"><ks>Task in Workflow</ks> </a>).
+</div>
+</m>
 </td>
 <td> Quale dei due casi?<br/>
 <center> <img src="./img/Domini1.png" alt="Domini1.png" width="25%"> 
 &nbsp;&nbsp;&nbsp;&nbsp;
 <img src="./img/Domini2.png" alt="Domini2.png" width="25%"> </center><br/>
-Il problema della rappresentazione e implementazione dei processi (sia ITel, sia FHIR).
+
 <br/>
 <br/>
 </td>
