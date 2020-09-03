@@ -312,7 +312,7 @@ Usa funzionalita' dichiarate in:
 </tr>
 
 <tr>
-<td><h3 id="Organizzazione">Organizzazione</h3>
+<td><h3>Organizzazione</h3>
 <m>
 Le informazioni da trasmettere/ricevere a centri FHIR sono per ora limitate a 
 <a href="https://www.hl7.org/fhir/R4/patient.html" target="web">FHIR Patient</a>
@@ -332,7 +332,7 @@ Attuali esempi:
 </m>
 </td>
 <td><br/> 
-<ol>
+<ol id="Organizzazione">
 <li>Si tratta di una applicazione SpringBoot che usa WebFlux, SSE, etc. Si veda
 <a href="../build.gradle" target="code"><m><ks>build.gradle</ks></m></a>
 </li>
@@ -360,8 +360,12 @@ http://localhost:8081/actuator/env
 ...
 </pre>
 <div class="remark">
-Per sperimentazione:
+Per sperimentazione con <a href="https://ngrok.com/" target="web">ngrok</a>: 
+<pre>
+ngrok http 212.171.18.215:8081
 <a href="http://212.171.18.215:8081" target="web">http://212.171.18.215:8081</a>.
+</pre>
+
 </div>
 </li>
 </ol>  <br/>
