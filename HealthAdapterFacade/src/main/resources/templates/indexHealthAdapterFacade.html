@@ -377,7 +377,7 @@ function readHL7DataFromFile(    ) {
   		//alert( file.size );
         fr.onload=function(evt){ 
 			var hl7Data = evt.target.result;
-			console.log( hl7Data );
+			//console.log( hl7Data );
 			//convertHL7ToFHIR( templateFile.value, hl7Data);	//ASYNCH		
 			convertHL7ToFHIR( selected , hl7Data);	
         } 		 
