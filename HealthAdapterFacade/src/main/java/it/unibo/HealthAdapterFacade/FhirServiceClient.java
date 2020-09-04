@@ -11,6 +11,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.api.SearchStyleEnum;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
+import it.unibo.HealthAdapter.Clients.HttpFhirSupport;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.FluxSink;
 import reactor.core.publisher.Mono;
@@ -33,7 +35,11 @@ import reactor.core.publisher.Mono;
 
 public class FhirServiceClient {
 	private String serverBase    =  ""; //"https://hapi.fhir.org/baseR4";  http://example.com/fhirBaseUrl
-	private String  cvtHostAddr  = "localhost:2019/api/convert/hl7v2";
+	public static final String templateFileName   = 
+			"src/main/java/it/unibo/HealthResource/datafiles/ADT_A01.hbs";
+	String templateJsonStr 		= HttpFhirSupport.readFromFileJson(templateFileName);
+
+	private String  cvtHostAddr  = "localhost:3000/hl7tofhir";//"localhost:2019/api/convert/hl7v2";
      // Create a client. 
 	// See  https://hapifhir.io/hapi-fhir/docs/client/generic_client.html
 	//      https://hapifhir.io/hapi-fhir/docs/client/examples.html
@@ -248,14 +254,33 @@ public class FhirServiceClient {
  * CONVERT 
  * =========================================================================
 */	
+//  	public  Flux<String> cvthl7tofhir( String template, String data ) {
+//  		//addr=localhost:2019/api/convert/hl7v2/ADT_A01.hbs
+//  		String addr = cvtHostAddr + "/"  + template; 
+//  		System.out.println("FhirServiceClient |  cvthl7tofhir addr = " + addr + " data=" +  data ) ;
+//    	Flux<String> flux = webClient.post()
+//				.uri( addr )   
+//				.contentType(MediaType.TEXT_PLAIN)
+//				.body( Mono.just(data), String.class )
+//                .retrieve()
+//                .bodyToFlux(String.class);
+//		return flux;		//Restituisce la conversione in Json dei data
+//		 
+//		//return Flux.just( strbuild.toString() );
+// 	}
   	public  Flux<String> cvthl7tofhir( String template, String data ) {
   		//addr=localhost:2019/api/convert/hl7v2/ADT_A01.hbs
-  		String addr = cvtHostAddr + "/"  + template; 
-  		System.out.println("FhirServiceClient |  cvthl7tofhir addr = " + addr + " data=" +  data ) ;
+  		String addr = cvtHostAddr ;//+ "/"  + template; 
+  		String templateStr     = HttpFhirSupport.readFromFileJson(templateFileName); //TODO
+  		System.out.println("FhirServiceClient |  templateStr = " + templateStr  ) ; 
+		String encodedTemplate = Base64.getEncoder().encodeToString(templateStr.getBytes());
+		String encodedHl7msg   = Base64.getEncoder().encodeToString(data.getBytes());
+  		String args  = "{ \"a\" : \"" + encodedTemplate + "\" , \"b\" : \"" + encodedHl7msg + "\"   }";
+  		System.out.println("FhirServiceClient |  cvthl7tofhir addr = " + addr  ) ; //+ " data=" +  data
     	Flux<String> flux = webClient.post()
 				.uri( addr )   
-				.contentType(MediaType.TEXT_PLAIN)
-				.body( Mono.just(data), String.class )
+				.contentType(MediaType.APPLICATION_JSON)
+				.body( Mono.just(args), String.class )
                 .retrieve()
                 .bodyToFlux(String.class);
 		return flux;		//Restituisce la conversione in Json dei data
