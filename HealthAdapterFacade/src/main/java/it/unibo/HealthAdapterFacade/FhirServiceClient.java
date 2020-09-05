@@ -268,13 +268,14 @@ public class FhirServiceClient {
 //		 
 //		//return Flux.just( strbuild.toString() );
 // 	}
-  	public  Flux<String> cvthl7tofhir( String template, String data ) {
+  	public  Flux<String> cvthl7tofhir( String template, String hl7data ) {
   		//addr=localhost:2019/api/convert/hl7v2/ADT_A01.hbs
-  		String addr = cvtHostAddr ;//+ "/"  + template; 
-  		String templateStr     = HttpFhirSupport.readFromFileJson(templateFileName); //TODO
-  		System.out.println("FhirServiceClient |  templateStr = " + templateStr  ) ; 
+  		String addr 		   = cvtHostAddr ;//+ "/"  + template; 
+  		String templateStr     = HttpFhirSupport.readFromFileJson(templateFileName);  
+  		//System.out.println("FhirServiceClient |  templateStr = " + templateStr  ) ; 
+  		System.out.println("FhirServiceClient |  data = " + hl7data  ) ; 
 		String encodedTemplate = Base64.getEncoder().encodeToString(templateStr.getBytes());
-		String encodedHl7msg   = Base64.getEncoder().encodeToString(data.getBytes());
+		String encodedHl7msg   = Base64.getEncoder().encodeToString(hl7data.getBytes());
   		String args  = "{ \"a\" : \"" + encodedTemplate + "\" , \"b\" : \"" + encodedHl7msg + "\"   }";
   		System.out.println("FhirServiceClient |  cvthl7tofhir addr = " + addr  ) ; //+ " data=" +  data
     	Flux<String> flux = webClient.post()

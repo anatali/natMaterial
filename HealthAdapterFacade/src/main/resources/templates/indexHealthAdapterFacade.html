@@ -393,9 +393,10 @@ function convertHL7ToFHIR( selectedTemplate, hl7Data ){
          	if (response.ok) {
        			return response.text() ;		//promise 
       		}}).then( function (answer) {  
-      			//showAnswer( "convert "  , false, answer );
+      			showAnswer( "convert "  , false, answer );
+      			$("i.infoArea").text(  "convertion done" );	 
       			//$("pre.resultArea").text(  answer );
-      			showConvertedResRepJson("FHIR RESOURCE:",answer);
+      			//showConvertedResRepJson("FHIR RESOURCE:",answer);
        		});         					         
 }
 

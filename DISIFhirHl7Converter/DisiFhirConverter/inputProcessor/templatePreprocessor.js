@@ -3,10 +3,10 @@
 // Licensed under the MIT License (MIT). See LICENSE in the repo root for license information.
 // -------------------------------------------------------------------------------------------------
 
-let indexerRegex = /(?<=(?<!\\){{[^}]*?)(-)(\d+)/g; // e.g. replace -2 with ".[1]"
+let indexerRegex ; //= /(?<=(?<!\\){{[^}]*?)(-)(\d+)/g; // e.g. replace -2 with ".[1]"
 
 module.exports.Process = function (input) {
-    return input.replace(indexerRegex, replacer);
+    return input; //input.replace(indexerRegex, replacer);	//TODO BY AN
 };
 
 function replacer(match, p1, p2) {

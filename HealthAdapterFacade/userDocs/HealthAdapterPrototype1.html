@@ -377,6 +377,7 @@ http://localhost:8081/actuator/env
 Per sperimentazione con <a href="https://ngrok.com/" target="web">ngrok</a>: 
 <pre>
 ngrok http 212.171.18.215:8081
+ngrok http 79.26.48.68:8081
 <a href="http://212.171.18.215:8081" target="web">http://212.171.18.215:8081</a>
 </pre>
 </m>
@@ -390,6 +391,9 @@ ngrok http 212.171.18.215:8081
 <ul>
 <li><a href="../src/main/java/it/unibo/HealthAdapter/Clients/HealthProductClient.java" target="code"><ks>HealthProductClient.java</ks></a>: usa le API REST
 per interagire con HealthProduct. 
+<br/><br/></li>
+<li>
+<a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthServiceInterface.java" target="code"><ks>HealthServiceInterface.java</ks></a>. 
 <br/><br/></li>
 <li><a href="../src/main/java/it/unibo/HealthAdapterFacade/Pojo/HealthServiceFhirUsageSynch.java" target="code"><ks>HealthServiceFhirUsageSynch.java</ks></a>:
 usa un oggetto che implementa <a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthServiceInterface.java" target="code">
@@ -451,6 +455,9 @@ anche per comprendere appieno il problema.
 <div class="remark">
 <k>Problema Servizio-Converter</k>:  decidere se le conversioni siano realizzate da un servizio dotato di proprie API e non da 
 un semplice oggetto (in modo da non dover dipendere dalla implementazione Node.js).
+<hr/>
+SI VEDA PROGETTO <a href="../../DISIFhirHl7Converter" target="web"><ks>natmaterial\DISIFhirHl7Converter</ks> (05/09/2020)</a>.
+
 </div>
 
 </m>
