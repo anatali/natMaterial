@@ -215,6 +215,14 @@ docker run -it --rm node:10-alpine node --version	=> 10.22	(load se non esiste) 
 docker run -it --rm 5ebbf4bb3837 --version			=> 10.22     node caricato da fhirconverter - 911MB
 docker run -it --rm 23852efb7270 --version			mhart/alpine-node MA OCI runtime create failed
 docker exec -it fhircvt bash
+
+
+ 
+
+docker build --tag disifhircvtimage . 		90.8MB
+docker run --name disifhircvt  --rm  -p3000:3000  disifhircvtimage
+docker exec -it disifhircvt bash
+
 </pre>
 
 <h2>La logica della trasformazione</h2>

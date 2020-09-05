@@ -1,0 +1,682 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+ 
+<style type="text/css">
+body
+{
+    margin-left:  30px;
+    margin-right: 30px;
+};
+
+P
+{
+    font-family: Tahoma;
+    font-size: 10pt;
+};
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #545454;
+    background-color: transparent;
+}
+
+a:hover {
+    background-color: #cccccc;
+}
+
+
+hr {
+    clear: both;
+    height: 1px;
+    color: #242424;
+    background-color: transparent;
+}
+
+h1, h2, h3 {
+    color: #242424;
+    clear: left;
+    font: 100% Tahoma, Helvetica, Arial, sans-serif;
+    margin-bottom: 0.5em;
+    padding-top: 0.5em;
+	border-radius: 10px;
+	padding: 5px;
+}
+
+top {
+	width: 100%;
+}
+
+
+#i {
+    color: #ff1010;
+}
+tt{
+	font-family: "Arial";
+    font-size: 80%;
+	color: #006600;
+}
+em{
+	font-family: "Arial";
+    font-size: 80%;
+	font-weight: bold;
+	border-style:solid;
+	border-color: #abe876;
+    color: #1632cc;
+}
+bc{
+	font-family: "Arial";
+	font-size: 80%;
+	font-weight: bold;
+    color: #990000;
+	background-color: #fcf8c7;
+}
+ks{
+	font-family: "Arial";
+	font-weight: bold;
+    color: #0000CD	;
+	 
+}
+kc{
+	font-family: "Arial";
+	font-weight: bold;
+    color: #008000	;
+	 
+}
+pre{
+	font-family: "Consolas";
+	font-size: 85%;
+	background-color: #f5f5f5;
+	border: 1.5px solid silver;
+	padding: 5px;
+}
+m{
+	font-family: "Helvetica";
+	line-height: 100%;
+ 	font-size: 75%;
+}
+div.body{
+	width: 700px;
+    font-size: 15px;
+}
+k{
+    color: #990000;
+	font-weight: bold;
+}
+
+mn {
+	background-color: lightsalmon;
+}
+
+h1 {
+    font-size: 150%;
+    background-color: #b2c0ff;
+	padding: 10px; 
+}
+
+h2 {
+    background-color: #9ed8ff;
+    font-size: 130%;
+}
+
+h3 {
+	background-color: #e6ccff;
+    font-size: 100%;
+}
+h4 {
+    background-color: #C0F0E0;
+    font-size: 100%;
+	width: 95%;
+	border-radius: 5px;
+	padding: 2px;
+}
+h5 {
+    background-color: #d5ffb0;
+    font-size: 100%;
+	
+}    
+div.req{
+	background-color: #d9ffb3;
+    font-size: 18px;
+	width: 700px;
+    border: 3px solid green;
+    padding: 15px;
+    margin: 10px;
+}       
+div.remark{
+	background-color: #E3F2FD;	
+    border: 1.5px solid #d5f2ed;
+    padding: 15px;
+    margin: 10px;
+	border-radius: 25px;
+}  
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 5px;
+} 
+
+table {
+  margin: 12px 0px;
+}
+
+ol, ul, li {
+  margin: 0;
+  margin-left: 10px;
+  padding: 0;
+  padding-bottom: 5px;
+}     
+
+table, th, td {
+	border: 1px solid black;
+}
+
+img {
+	border: 1.5px solid #d5f2ed
+	
+}
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #545454;
+    background-color: transparent;
+}
+
+div.wrapdesc{
+	width: 90%;
+	margin: auto;
+}
+
+div.imagedesc{
+	width: 85%;
+	margin: auto;
+}
+</style>
+    
+<head>
+   
+<title>HL7 Basics</title></head>
+    
+<body>
+<div id="body">
+<h1>HL7 - Basics | HL7Basics.html</h1>
+
+<h3>Introduzione</h3>
+HL7 si definisce un protocollo <i>trigger-event driven</i> ci&ograve; significa che i messaggi vengono creati solamente quando succede qualcosa nel mondo reale. 
+I messaggi HL7 sono suddivisi per tipologia (<i>Message Type</i>) ed identificati tramite un codice (<i>Message Type Code</i>), tra i principali:
+<ul>
+	<li>ADT: racchiude tutti messaggi che hanno a che fare con la gestione del paziente (<i>Patient Administration</i>);</li>
+	<li>ORM: identifica tutti i messaggi relativi a ordini (<i>Order Entry</i>); nelle ultime versioni sono stati aggiunti altri codici come OML, OMI, OMD ecc;</li>
+	<li>ORU: codice maggiormente utilizzato per i report di osservazione (<i>Observation Reporting</i>).</li>
+</ul>
+Una certa tipologia di messaggio ed uno specifico evento identificano univocamente un messaggio HL7 e vengono messi in relazione tramite il simbolo <b><i>^</i></b>. Esempio: ADT^A01 rappresenta
+l'ammissione di un paziente.
+
+<h3>Message Building Blocks</h3>
+Il primo blocco per la costruzione di un messaggio &egrave; un segmento (<i>segment</i>), il quale altro non &egrave; che una riga di informazioni correlate. I segmenti in un messaggio seguono un ordine
+preciso denominato (<i>message structure</i>). 
+<table style="width:40%; text-align: left; margin: 10px 0px;">
+	<thead>
+		<tr><th colspan="2">Partial Message Structure of ADT^A04</th></tr>
+	</thead>
+	<tbody>	
+		<tr>
+			<td>MSH</td>
+			<td>Message Header</td>
+		</tr>
+		<tr>
+			<td>[{SFT}]</td>
+			<td>Software Segment</td>
+		</tr>
+		<tr>
+			<td>EVN</td>
+			<td>Event Type Segment</td>
+		</tr>
+		<tr>
+			<td>PID</td>
+			<td>Patient Identification</td>
+		</tr>
+		<tr>
+			<td>[PD1]</td>
+			<td>Additional Demographics</td>
+		</tr>
+		<tr>
+			<td>[{ROL}]</td>
+			<td>Role Segment</td>
+		</tr>
+		<tr>
+			<td>[{NK1}]</td>
+			<td>Next of Kin</td>
+		</tr>
+		<tr>
+			<td>PV1</td>
+			<td>Patient Visit Segment</td>
+		</tr>
+		<tr>
+			<td>[PV2]</td>
+			<td>Patient Visit - Additional Info</td>
+		</tr>
+	</tbody>
+</table>
+Come visibile in tabella, esistono due tipologie di parentesi:
+<ul>
+	<li>[]: permette di identificare un segmento <u>opzionale</u>;</li> 
+	<li>{}: permette di identificare un segmento <u>ripetibile</u>;</li>
+</ul>
+I segmenti privi di parentesi sono obbligatori. <br>
+I campi all'interno di un segmento vengono suddivisi tramite pipe <b>|</b>. La posizione di un campo (<i>field</i>) all'interno di un segmento &egrave; prefissata. Un campo pu&ograve;
+essere costituito da pi&ugrave; componenti (<i>components</i>) tramite l'operatore <b>^</b>; questi a loro volta possono essere suddivisi in <i>sub-components</i> tramite l'operatore
+<b>&</b>.<br>
+<u>Esempio</u>: nel caso di un paziente con cognome St. Pierre Jr e nome Kansas -> PIERRE&JR&ST^KANSAS
+<h3>Control Segments</h3>
+I segmenti dei messaggi si possono suddividere in due macro categorie: <i>Control Segments</i> e <i>Data Segments</i>. I primi contengono solo <i>meta-data</i> relativi ad un messaggio.
+I control segments pi&ugrave; utilizzati sono: MSH, EVN, NTE, MSA & ERR.
+<h4>Message Header Segment (MSH)</h4>
+MSH &egrave; il control segment pi&ugrave; importante e lo si trova sempre come primo segmento di un messaggio. 
+<pre>MSH|^~\&|SENDER_APP|SENT_BY|RECEIVER_APP|RCVD_BY|201310201500||ADT^A04|MSG_ID001|P|2.5|||AL</pre>
+Nella tabella a seguire vengono fornite le definizioni solamente dei campi maggiormente adoperati, <k>quelli evidenziati in arancio sono obbligatori</k>.
+<table>
+	<tr>
+		<td><mn>MSH-1:</mn></td><td><b>|</b> (Field Separator)</td> <td>definisce il simbolo utilizzato per separe i campi</td>
+	</tr>
+	<tr>
+		<td><mn>MSH-2</mn></td> <td><b>^~\&</b> (Encoding Characters)</td> <td>in ordine definiscono: Component Separator, Repetition Separator, Escape character e Sub Component Separator</td>
+	</tr>
+	<tr>
+		<td>MSH-3:</td> <td><b>SENDER_APP</b> (Sending Application)</td> <td>contiene il nome dell'applicativo mittente</td>
+	</tr>
+	<tr>
+		<td>MSH-4:</td> <td><b>SENT_BY</b> (Sending Facility) </td> <td>contiene il nome della struttura (<i>facility</i>) mittente</td>
+	</tr>
+	<tr>
+		<td>MSH-5:</td> <td><b>RECEIVER_APP</b> (Receiving Application)</td> <td>contiene il nome dell'applicativo destinatario</td>
+	</tr>
+	<tr>
+		<td>MSH-6:</td> <td><b>RCVD_BY</b> (Receiving Facility)</td> <td>contiene il nome della struttura ricevente</td>
+	</tr>
+	<tr>
+		<td><mn>MSH-7:</mn></td> <td><b>201310201500</b> (Date/Time of Message)</td> <td>istante in cui il sistema mittente ha creato il messaggio</td>
+	</tr>
+	<tr>
+		<td>MSH-8:</td> <td></td> <td></td>
+	</tr>
+	<tr>
+		<td><mn>MSH-9:</mn></td> <td><b>ADT^A04</b> (Message Type)</td> <td>fornisce al sistema ricevente la tipologia del messaggio</td>
+	</tr>
+	<tr>
+		<td><mn>MSH-10:</mn></td> <td><b>MSG_ID001</b> (Message Control ID)</td> <td>identifica univocamente il messaggio</td>
+	</tr>
+	<tr>
+		<td><mn>MSH-11:</mn></td> <td><b>P</b> (Processing ID)</td> <td>notifica se il messaggio &egrave; reale o di testing</td>
+	</tr>
+	<tr>
+		<td><mn>MSH-12:</mn></td> <td><b>2.5</b> (Version ID)</td> <td>contiene la versione HL7 alla quale il messaggio fa riferimento</td>
+	</tr>
+
+	<tr>
+		<td>MSH-13:</td> <td></td> <td></td>
+	</tr>
+
+	<tr>
+		<td>MSH-14:</td> <td></td> <td></td>
+	</tr>
+
+	<tr>
+		<td>MSH-15:</td> <td><b>AL</b> (Accept Acknowledgement Type)</td> <td></td>
+	</tr>
+</table>
+
+<h4>Event Type Segment (EVN)</h4>
+EVN &egrave; un segmento corto composto da 7 campi di cui solo uno obbligatorio ed ovviamente il pi&ugrave; importante (EVN-2).
+<pre>EVN|A04|201310201500|||ID221^Dude@Terminal</pre>
+<table>
+	<tr>
+		<td>EVN-1:</td> <td><b>A04</b> (Event Type Code)</td> <td>&egrave; un duplicato di MSH-9.2 mantenuto per retrocompatibilit&agrave;</td>
+	</tr>
+	<tr>
+		<td><mn>EVN-2:</mn></td> <td><b>201310201500</b> (Recorded Date/Time)</td> <td>istante in cui l'evento accade</td>
+	</tr>
+	<tr>
+		<td>EVN-3:</td> <td></td> <td></td>
+	</tr>
+	<tr>
+		<td>EVN-4:</td> <td></td> <td></td>
+	</tr>
+	<tr>
+		<td>EVN-5:</td> <td><b>ID221^Dude@Terminal</b> (Operator ID)</td> <td>campo contenente l'ID e il nome dell'impiegato che ha creato l'evento</td>
+	</tr>
+	<tr>
+		<td>EVN-6:</td> <td></td> <td></td>
+	</tr>
+	<tr>
+		<td>EVN-7:</td> <td></td> <td></td>
+	</tr>
+</table>
+
+<h4>Notes & Comments Segment (NTE)</h4>
+NTE &egrave; un segmento <i>general purpose</i>; come il nome suggerisce NTE permette di gestire note e commenti.
+<pre>NTE|1||something|</pre>
+<table>
+	<tr>
+		<td>NTE-1:</td> <td><b>1</b> (Set ID)</td> <td>identifica univocamente segmenti NTE che compongono un certo commento</td>
+	</tr>
+	<tr>
+		<td>NTE-2:</td> <td></td> <td></td>
+	</tr>
+	<tr>
+		<td>NTE-3:</td> <td><b>something</b> (Comment)</td> <td>campo contenente note & commenti testuali</td>
+	</tr>
+</table>
+L'esempio sottostante mostra un messaggio contenente un segmento PID e uno OBR. Al primo viene associato un commento suddiviso in due segmente NTE.
+<pre>
+PID|.......
+NTE|1|| The patient was very particular about his breakfast|
+NTE|2|| He consumed an orange before the blood was drawn|
+.
+.
+OBR|.......
+NTE|1| If the test results will be affected because of consumption|
+</pre>
+
+<h4>Message Acknowledgement Segment (MSA)</h4>
+MSA &egrave; un segmento obbligatorio in ogni messaggio di acknowledgement. MSA permette di capire se il ricevente &egrave; stato in grado di processare
+correttamente il messaggio. 
+<pre>(Original Message)
+MSH|^~\&|SENDER_APP|SENT_BY|RECEIVER_APP|RCVD_BY|201310201500||ADT^A04|<b>MSG_ID001</b>|P|2.5|||AL
+
+(Acknowledgement Message)
+MSH|^~\&|RECEIVER_APP|RCVD_BY|SENDER_APP|SENT_BY|201310201501||ADT^A04|R_MSG_ID279|P|2.5|||AL
+MSA|AA|<b>MSG_ID001</b>|Got your message
+</pre>
+<table>
+	<tr>
+		<td><mn>MSA-1:</mn></td> <td><b>AA</b> (Acknowledgement Code)</td> <td>contiene il codice di acknowledgement: <b>AA</b> - OK, <b>AE</b> - Message Error, <b>AR</b> - Receiver Error</td>
+	</tr>
+	<tr>
+		<td><mn>MSA-2:</mn></td> <td><b>MSG_ID001</b> (Message Control ID)</td> <td>contiene il Message Control ID (MSH-10) del messaggio originale ricevuto, del quale fare l'acknowledgement</td>
+	</tr>
+	<tr>
+		<td>MSA-3:</td> <td><b>Got your message</b> (Text Message)</td> <td>usato per inviare delle informazioni aggiuntive</td>
+	</tr>
+</table>
+
+
+<h4>Error Segment (ERR)</h4>
+Il segmento ERR viene incluso all'interno di un messaggio di acknowledgement quando si verfica un errore. Per ogni tipologia di errore viene creato un segmento ERR separato.
+<pre>
+MSH|^~\&|RECEIVER_APP|RCVD_BY|SENDER_APP|SENT_BY|201310201501||ADT^A04|R_MSG_ID279|P|2.5|||AL
+MSA|<b>AE</b>| MSG_ID001|Can’t read this message.
+ERR||PID^5|101^Required field missing|E
+ERR||PID^7|102^Data type error|E
+</pre>
+<table>
+	<tr>
+		<td>ERR-1:</td> <td></td> <td></td>
+	</tr>
+	<tr>
+		<td>ERR-2:</td> <td><b>PID^5</b> (Error Location)</td> <td>identifica il segmento ed il campo in cui si &egrave; verificato l'errore</td>
+	</tr>
+	<tr>
+		<td><mn>ERR-3:</mn></td> <td><b>101^Required field missing</b> (HL7 Error Code)</td> <td>definisce un codice standard associato ad una certa tipologia di errore</td>
+	</tr>
+	<tr>
+		<td><mn>ERR-4:</mn></td> <td><b>E</b> (Severity)</td> <td>contiene un solo carattere per definire il "<i>error severity</i>": <b>I</b> - Information, <b>W</b> - Warning, <b>E</b> - Error</td>
+	</tr>
+</table>
+
+<h3>Data Segments</h3>
+Il compito principale dei data segment &egrave; quello di raggruppare in un unico posto informazioni correlate. Per esempio tutte le informazioni relative ad un paziente sono raccolte all'interno di 
+un segmento PID, oppure i dati riguardanti una visita vengono collocati all'interno di un segmento PV1 ecc.
+<h4>ADT (Patient Administration)</h4>
+ADT &egrave; il fulcro della messaggistica HL7; il suo impiego primario &egrave; quello di assicurare che i vari sistemi di un'organizzazione sanitaria siano in sincronia con le informazioni del paziente.
+Esisto pi&ugrave; di 60 eventi ADT, i principali possono essere riassunti in: 
+<ul>
+	<li><b>A01</b> - Admit: ammissione paziente</li>
+	<li><b>A03</b> - Discharge: dimissione paziente</li>
+	<li><b>A04</b> - Registration: registrazione paziente</li>
+	<li><b>A08</b> - Update Patient Information: aggiornamento informazioni paziente</li>
+</ul>
+Ci sono per&ograve; altri eventi che vale la pena conoscere: A02 - transfer patient, A11 - cancel admit, A13 - cancel discharge e A05 - pre-admit.<br>
+Molti messaggi ADT seguono un pattern comune. Oltre i control segments (MSH, EVN, etc), a seguire il corpo del messaggio si compone dei segmenti concernenti il paziente (PID, PD1, NK1). A questi seguono quelli 
+associati alle visite del paziente coinvolto (PV1, PV2), per concludere con eventuali segmenti volti alla definizione di allergie, diagnosi, procedure, assicurazioni ecc.
+
+<h5>PID - Patient Identification Segment</h5>
+Il segmento PID trasporta informazioni relative al paziente come il nome, l'et&agrave;, l'indirizzo e altre informazioni demografiche.
+<pre>PID|1||PAT416^^^HEALTH_ID||SEBELUS^KANSAS||194801150600|M|||123 SESAME ST^^TORONTO^ON^A1A 2B2^CANADA||(416)888-8088||ENGLISH|M||PAT_AC_721914</pre>
+<table>
+	<tr>
+		<td>PID-1:</td> <td><b>1</b> (Sequence Number)</td> <td></td>
+	</tr>
+	<tr>
+		<td>PID-2:</td> <td></td> <td>(deprecated)</td>
+	</tr>
+	<tr>
+		<td><mn>PID-3:</mn></td> <td><b>PAT416^^^HEALTH_ID</b> (Patient Identifier List)</td> <td>identificativo del paziente assegnato durante la fase di registrazione</td>
+	</tr>
+	<tr>
+		<td>PID-4:</td> <td></td> <td>(deprecated)</td>
+	</tr>
+	<tr>
+		<td><mn>PID-5:</mn></td> <td><b>SEBELUS^KANSAS</b> (Patient Name)</td> <td>nominativo del paziente; possiede anche dei componenti utili per specificare: prefix, suffix, degree</td>
+	</tr>
+	<tr>
+		<td>PID-6:</td> <td></td> <td></td>
+	</tr>
+	<tr>
+		<td>PID-7:</td> <td><b>194801150600</b> (Date/Time of Birth)</td> <td>data di nascita rappresentata in TS (timestamp)</td>
+	</tr>
+	<tr>
+		<td>PID-8:</td> <td><b>M</b> (Administrative Sex)</td> <td>sesso del paziente scelto tra: <b>M</b> - male, <b>F</b> - female, <b>U</b> - unknown</td>
+	</tr>
+	<tr>
+		<td>PID-9:</td> <td></td> <td></td>
+	</tr>
+	<tr>
+		<td>PID-10:</td> <td></td> <td></td>
+	</tr>
+	<tr>
+		<td>PID-11:</td> <td><b>123 SESAME ST^^TORONTO^ON^A1A 2B2^CANADA</b> (Address)</td> <td>indirizzo del paziente (i campi sono ripetibili)</td>
+	</tr>
+	<tr>
+		<td>PID-12:</td> <td></td> <td></td>
+	</tr>
+	<tr>
+		<td>PID-13:</td> <td><b>(416)888-8088</b> (Phone Number – Home)</td> <td>numero di telefono (i campi sono ripetibili)</td>
+	</tr>
+	<tr>
+		<td>PID-14:</td> <td></td> <td></td>
+	</tr>
+	<tr>
+		<td>PID-15:</td> <td><b>ENGLISH</b> (Primary Language)</td> <td></td>
+	</tr>
+	<tr>
+		<td>PID-16:</td> <td><b>M</b> (Marital Status)</td> <td></td>
+	</tr>
+	<tr>
+		<td>PID-17:</td> <td></td> <td></td>
+	</tr>
+	<tr>
+		<td>PID-18</td> <td><b>PAT_AC_721914</b> (Patient Account Number)</td> <td>numero del conto sul quale addebitare le spese ospedaliere</td>
+	</tr>
+</table>
+
+<h5>PV1 - Patient Visit Segment</h5>
+Il segmento PV1 trasporta le informazioni relative alla visita di un paziente verso una struttura sanitaria (Encounter); i campi includono il tipo di paziente (ricoverato / ambulatoriale), il medico, la data di ricovero, l'ubicazione del letto ecc.
+<pre>PV1|1|O|ROOM10^BED12^OUTPATIENT|ELECTIVE|||S21195^DRIKOFF^FRANCIS^^^DR^MD||C90023^PAYNE^TRACY^^^DR^MD|SUR||||1|||S21195^DRIKOFF^FRANCIS^^^DR^MD||37323|SELF||||||||||||||||||||||||201310201500</pre>
+<table>
+	<tr>
+		<td>PV1-1:</td> <td><b>1</b> (Sequence Number)</td> <td></td>
+	</tr>
+	<tr>
+		<td><mn>PV1-2:</mn></td> <td><b>O</b> (Patient Class)</td> <td>codice per il tipo del paziente scelto tra: <b>I</b> - Inpatient, <b>O</b> - Outpatient, <b>E</b> - Emergency</td>
+	</tr>
+	<tr>
+		<td>PV1-3:</td> <td><b>ROOM10^BED12^OUTPATIENT</b> (Assigned Patient Location)</td> <td>contiene la locazione attuale del paziente</td>
+	</tr>
+	<tr>
+		<td>PV1-4:</td> <td><b>ELECTIVE</b> (Admission Type)</td> <td>indica la motivazione di ricovero del paziente</td>
+	</tr>
+	<tr>
+		<td>PV1-5:</td> <td></td> <td></td>
+	</tr>
+	<tr>
+		<td>PV1-6:</td> <td></td> <td>nel caso in cui il paziente venga spostato in un altro letto</td>
+	</tr>
+	<tr>
+		<td>PV1-7:</td> <td><b>S21195^DRIKOFF^FRANCIS^^^DR^MD </b> (Attending Doctor)</td> <td>nome del medico curante</td>
+	</tr>
+	<tr>
+		<td>PV1-8:</td> <td></td> <td>nome del dottore di riferimento</td>
+	</tr>
+	<tr>
+		<td>PV1-9:</td> <td><b>C90023^PAYNE^TRACY^^^DR^MD</b> (Consulting Doctor)</td> <td>nominativo/i del/i medico/i consultato/i</td>
+	</tr>
+	<tr>
+		<td>PV1-10:</td> <td><b>SUR</b> (Hospital Service)</td> <td>contiene il tipo di trattamento o intervento chirurgico a cui il paziente deve essere sottoposto</td>
+	</tr>
+	<tr>
+		<td>PV1-11:</td> <td> (Temporary Location)</td> <td>nel caso in cui il paziente si trovi in un letto temporaneo</td>
+	</tr>
+	<tr>
+		<td>PV1-14:</td> <td><b>1</b> (Admit Source)</td> <td></td>
+	</tr>
+	<tr>
+		<td>PV1-17:</td> <td><b>S21195^DRIKOFF^FRANCIS^^^DR^MD</b> (Admitting Doctor)</td> <td>nome del medico che ha ammesso il paziente</td>
+	</tr>
+	<tr>
+		<td>PV1-19:</td> <td><b>37323</b> (Visit Number)</td> <td>identificativo univoco della visita (facilita il tracciamento)</td>
+	</tr>
+	<tr>
+		<td>PV1-20:</td> <td><b>SELF</b> (Financial Class)</td> <td></td>
+	</tr>
+	<tr>
+		<td>PV1-44:</td> <td><b>201310201500</b> (Admit Date/Time)</td> <td>data e tempo di ammissione del paziente</td>
+	</tr>
+	<tr>
+		<td>PV1-45:</td> <td><b>201310201501</b> (Discharge Date/Time)</td> <td>data e tempo di dimissione del paziente</td>
+	</tr>
+</table>
+<h4>Order Message - Order Entry</h4>
+Le specifiche di HL7 definiscono un tipo di order message all-purpose chiamato General Order message ORM^O01. Questo permette di effettuare diversi tipi di ordini:
+medicazioni, test di laboratorio, rifornimenti ecc. ORM^O01 &egrave; composto da due principali segmenti: Common Order Segment (ORC) e Order Detail Segment. Quest'ultimo
+cambia in base al tipo di ordine effettuato:
+<ul>
+	<li>OBR - Observation Request segmento</li>
+	<li>ODS - Diet Orders</li>
+	<li>RXO - Pharmacy Orders</li>
+	<li>RQD - Supply Orders</li>
+</ul>
+Il segmento pi&ugrave; utilizzato &egrave; OBR il quale ha molti campi in comune con ORC. ORC pu&ograve; essere visto come il control segment mentre OBR come il data segment. I valori di ORC 
+sovrascrivono quelli di OBR in caso di conflitto. Un singolo messaggio HL7 pu&ograve; avere pi&ugrave; di un ordine al suo interno. 
+<h6>Placer/Filler</h6>
+Ogni volta che viene effettuato un ordine per forniture e servizi, ci sono almeno due sistemi coinvolti nella transazione. Il sistema che effettua l'ordine e il sistema che esegue l'ordine (o fornisce il servizio).
+Nel gergo HL7, un "<b>Placer</b>" è il sistema che effettua l'ordine e un "<b>Filler</b>" è il sistema che esegue l'ordine o fornisce i servizi / forniture.
+<h5>ORC - Common Order Segment</h5>
+ORC contiene le meta-informazioni relative all'ordine.
+<table>
+	<tr>
+		<td><mn>ORC-1:</mn></td> <td><b></b> (Order Control)</td> <td>determina lo stato dell'ordine: NW, CA, OK, CR, OC, UC</td>
+	</tr>
+	<tr>
+		<td>ORC-2:</td> <td><b></b> (Place Order Number)</td> <td>numero assegnato da chi effettua l'ordine (placer system)</td>
+	</tr>
+	<tr>
+		<td>ORC-3:</td> <td><b></b> (Filler Order Number)</td> <td>numero che identifica univocamente l'ordine, assegnato da chi compila l'ordine (filler system)</td>
+	</tr>
+	<tr>
+		<td>ORC-7:</td> <td><b></b> (Quantity/Timing)</td> <td>definisce la durata della medicazione (deprecated)</td>
+	</tr>
+	<tr>
+		<td>ORC-12:</td> <td><b></b> (Ordering Provider)</td> <td>contiene ed identifica informazioni relativi al dottore/struttura-sanitaria che ha effettuato l'ordine</td>
+	</tr>
+	<tr>
+		<td>ORC-21:</td> <td><b></b> (Facility Name)</td> <td>Nome della struttura che ha effettuato l'ordine</td>
+	</tr>
+	<tr>
+		<td>ORC-22:</td> <td><b></b> (Facility's Address)</td> <td>indirizzo della struttura che ha effettuato l'ordine</td>
+	</tr>
+	<tr>
+		<td>ORC-23:</td> <td><b></b> (Facility's Number)</td> <td>numero di telefono della struttura che ha effettuato l'ordine</td>
+	</tr>
+</table>
+
+
+<h5>OBR - Order Detail Segment</h5>
+OBR pu&ograve; essere visto come un segmento ponte tra l'ordine ed i messaggi di risultato. &Egrave; come un modulo di richiesta per un ordine che viene spedito e torna indietro firmato e popolato con il risultato.
+<table>
+	<tr>
+		<td>OBR-1:</td> <td><b></b></td> <td></td>
+	</tr>
+	<tr>
+		<td>OBR-2:</td> <td><b></b> (Place Order Number)</td> <td>duplicato di ORC-2</td>
+	</tr>
+	<tr>
+		<td>OBR-3:</td> <td><b></b> (Filler Order Number)</td> <td>duplicato di ORC-3; lasciato inzialmente vuoto, viene popolato con il Filler ID dal "<i>filler system</i>"</td>
+	</tr>
+	<tr>
+		<td><mn>OBR-4:</mn></td> <td><b></b> (Universal Service Identifier)</td> <td>contiene il codice dell'ordine effettuato; permette al ricevente (filler) di capire come trattare il messaggio</td>
+	</tr>
+	<tr>
+		<td>OBR-7:</td> <td><b></b> (Observation Date/Time)</td> <td>data e tempo di inizio osservazione</td>
+	</tr>
+	<tr>
+		<td>OBR-8:</td> <td><b></b> (Observation End Date/Time)</td> <td>data e tempo di fine osservazione; utile nel caso in cui l'osservazione richieda un certo intervallo di tempo</td>
+	</tr>
+	<tr>
+		<td>OBR-16:</td> <td><b></b> (Ordering Provider)</td> <td>duplicato di ORC-12</td>
+	</tr>
+	<tr>
+		<td>OBR-22:</td> <td><b></b> (Date/Time of Result Report or Status Change)</td> <td>contiene l'istante in cui il risultato &egrave; diventato disponibile oppure &egrave; stato modificato</td>
+	</tr>
+	<tr>
+		<td>OBR-24:</td> <td><b></b> (Diagnostic Service ID)</td> <td>rappresenta l'ID del dipartimento che ha effettuato il test</td>
+	</tr>
+	<tr>
+		<td><mn>OBR-25:</mn></td> <td><b></b> (Result Status)</td> <td>rappresenta lo stato del risultato di uno specifico ordine (<mn>obbligatorio per il result message</mn>)</td>
+	</tr>
+</table>
+
+<h4>Result Message – Observation Reporting</h4>
+Result Message completa il ciclo di comunicazione tra le applicazioni che effettuano l'ordine (placer) e quelle che lo compilano (filler). 
+<!--La maggior parte degli ordini generano osservazioni e risultati i quali viaggiano all'interno di messaggi HL7 chiamati <i>result messagges</i>.-->&Egrave; disponibile solo un tipo di result message chiamato ORU^R01 (Unsolicited Observation Message); questo viene usato
+per spedire tutti i tipi di risultati: lab results, patient observations, clinical reports e tanti altri. Il messaggio ORU^01 include al suo interno un segmento fondamentale chiamato OBX (Observation/Result Segment) che raccoglie i dati del risultato stesso.
+I risultati e/o le osservazioni possono essere rappresentati tramite:
+<ul>
+	<li>Narratives: report testuali facilmente leggibili dall'uomo (human-oriented)</li>
+	<li>Structures: report in cui i risultati vengono fragmentati in campi di un segmento (software-oriented)</li>
+</ul>
+Per riassumere, in cima alla gerarchia del messaggio si trova il segmento PID (per rappresentare il paziente). Ogni <b>PID</b> pu&ograve; avere uno o pi&ugrave; segmenti <b>OBR</b>, questi rappresentano lo header di un result message. Ogni OBR
+possono avere uno o pi&ugrave; segmenti <b>OBX</b> al fine di mantere i risultati di test individuali ma tutti relativi allo stesso ordine.
+<h5>OBX - Observation Result Segment</h5>
+Se il segmento OBR rappresenta lo header di un order result allora un segmento OBX rappresenta il body del risultato e contiene i dati veri e propri. 
+<table>
+	<tr>
+		<td>OBX-1:</td> <td><b></b>Set ID</td> <td>numero di sequenza che parte da 1 ed incrementa per ogni OBX successivo di uno stesso OBR</td>
+	</tr>
+	<tr>
+		<td>OBX-2:</td> <td><b></b> (Value Type)</td> <td>questo campo definisce il data type del risultato contenuto in OBX-5: TX (code for text data), CE (coded Entry)</td>
+	</tr>
+	<tr>
+		<td>OBX-3:</td> <td><b></b> (Observation Identifier)</td> <td>rappresenta il codice di un singolo ordine</td>
+	</tr>
+	<tr>
+		<td>OBX-4:</td> <td><b></b> (Universal Identifier)</td> <td>rappresenta il codice che raggruppa tutti gli ordini</td>
+	</tr>
+	<tr>
+		<td>OBX-5:</td> <td><b></b> (Observation Value)</td> <td>contiene il risultato del test</td>
+	</tr>
+	<tr>
+		<td>OBX-6:</td> <td><b></b> (Units)</td> <td>contiene l'unita di misura relativa al valore contenuto in OBX-5</td>
+	</tr>
+	<tr>
+		<td>OBX-11:</td> <td><b></b> (Observation Result Status)</td> <td>contiene il codice dello stato del risultato: <b>P</b> - Preliminary, <b>C</b> - Correction, <b>F</b> - Final</td>
+	</tr>
+</table>
+
+<div style="background-color:rgba(86, 56, 253, 0.9); width:100%;text-align:center;font-size:small;color:white">
+By AC-AM-AN-AR Unibo-DISI  
+</div> 
+</body>
+</html>
+
+
+ 
