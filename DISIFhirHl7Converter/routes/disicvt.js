@@ -18,20 +18,15 @@ router.get('/cvthtf', function(request, response, next) {
 router.post("/hl7tofhir", function(req,res,next){
 	var path = url.parse(req.url).pathname;
 	console.log( "POST path=" + path + " args=" + Object.keys( req.body  )  );
-	//console.log( "POST path=" + path + " template=" + req.body.a   );
-	//console.log( "POST path=" + path + " hl7msg="   + req.body.b   );
-	var buffTemplate = Buffer.from( req.body.a, 'base64' );
+	//console.log( "POST path=" + path + " template=" + req.body.templateb64   );
+	//console.log( "POST path=" + path + " hl7msg="   + req.body.hl7b64   );
+	var buffTemplate = Buffer.from( req.body.templateb64, 'base64' );
  	var template     = buffTemplate.toString();
-	var buffMsgHl7 	 = Buffer.from( req.body.b, 'base64' );
+	var buffMsgHl7 	 = Buffer.from( req.body.hl7b64, 'base64' );
  	var msgHl7       = buffMsgHl7.toString();
 // 	console.log( "POST template=" + template  );
-    console.log( "POST msgHl7="   + msgHl7  );
- 	
-  	
+    console.log( "POST /hl7tofhir msgHl7="   + msgHl7  );
  	var result = convert(template,msgHl7,res);
- 	
-// 	res.write( result  ); 
-
 });
 
 

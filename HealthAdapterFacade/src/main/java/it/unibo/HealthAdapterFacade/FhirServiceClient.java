@@ -65,7 +65,7 @@ public class FhirServiceClient {
   	
  	public FhirServiceClient( String serverBase ) {
  		this.serverBase = serverBase;
- 		client = HealthService.fhirctx.newRestfulGenericClient(serverBase);
+ 		client 			= HealthService.fhirctx.newRestfulGenericClient(serverBase);
  		System.out.println("FhirServiceClient created for " + serverBase  );
   	}
  	
@@ -268,15 +268,14 @@ public class FhirServiceClient {
 //		 
 //		//return Flux.just( strbuild.toString() );
 // 	}
-  	public  Flux<String> cvthl7tofhir( String template, String hl7data ) {
-  		//addr=localhost:2019/api/convert/hl7v2/ADT_A01.hbs
-  		String addr 		   = cvtHostAddr ;//+ "/"  + template; 
+  	public  Flux<String> cvthl7tofhir( String templateFileName, String hl7data ) {
+   		String addr 		   = cvtHostAddr ; 
   		String templateStr     = HttpFhirSupport.readFromFileJson(templateFileName);  
   		//System.out.println("FhirServiceClient |  templateStr = " + templateStr  ) ; 
   		System.out.println("FhirServiceClient |  data = " + hl7data  ) ; 
 		String encodedTemplate = Base64.getEncoder().encodeToString(templateStr.getBytes());
 		String encodedHl7msg   = Base64.getEncoder().encodeToString(hl7data.getBytes());
-  		String args  = "{ \"a\" : \"" + encodedTemplate + "\" , \"b\" : \"" + encodedHl7msg + "\"   }";
+  		String args  = "{ \"templateb64\" : \"" + encodedTemplate + "\" , \"hl7b64\" : \"" + encodedHl7msg + "\"   }";
   		System.out.println("FhirServiceClient |  cvthl7tofhir addr = " + addr  ) ; //+ " data=" +  data
     	Flux<String> flux = webClient.post()
 				.uri( addr )   

@@ -188,7 +188,7 @@ div.imagedesc{
     
 <body>
 <div id="body">
-<h1>HealthAdapter | DISIHlLFhirConversion</h1>
+<h1>DISI HealthAdapter | HL7 to Fhir Conversion</h1>
 
 <h2>References</h2>
 <m> 
@@ -207,7 +207,7 @@ div.imagedesc{
 </li>
 </ul></m>
 
- 
+ <!--
 <pre>
 https://derickbailey.com/2017/03/09/selecting-a-node-js-image-for-docker/
 docker pull node:10-alpine
@@ -215,14 +215,37 @@ docker run -it --rm node:10-alpine node --version	=> 10.22	(load se non esiste) 
 docker run -it --rm 5ebbf4bb3837 --version			=> 10.22     node caricato da fhirconverter - 911MB
 docker run -it --rm 23852efb7270 --version			mhart/alpine-node MA OCI runtime create failed
 docker exec -it fhircvt bash
+</pre>
+-->
+<h2>Introduzione</h2>
+Quest progetto (<tt>natmaterial\DISIFhirHl7Converter</tt>) isola la parte di trasformazione del progetto 
+<a href="https://github.com/microsoft/FHIR-Converter" target="web">Microsoft FHIR-Converter</a>
+basato su Node.js.
+<br/><br/>
+L'intento e' fornire un servizio <tt>REST</tt> alla porta <ks>3000</ks> con API POST <ks>/hl7tofhir</ks> che accetta due parametri:
+
+<ol>
+<li><i>templateb64</i>: Una stringa codificata <tt>base64</tt> che rapprsenta il template hbs di riferimento per la trasformazione</li>
+<li><i>hl7b64</i>:Una stringa codificata <tt>base64</tt> che rapprsenta il messaggio HL7 da trasformare</li>
+</ol>
+
+Il srvizio e' realizzato utilizzando Express e si articola in:
+
+<ul>
+<li><a href="../app.js" target="code">app.js</a> </li>
+<li><a href="../routes/disicvt.js" target="code">routes/disicvt.js</a>  </li>
+</ul>
+
+<center> <img src="./img/DISIFhirHl7Converter.png" alt="DISIFhirHl7Converter.png" width="25%"> </center> 
 
 
- 
 
-docker build --tag disifhircvtimage . 		90.8MB
+<h3>Build the Docker Image (<a href="../Dockerfile" target="code">Dockerfile</a>, <a href="../package.json" target="code">package.json</a>)</h3>
+<pre>
+In <kc>natmaterial\DISIFhirHl7Converter</kc>:
+docker build --tag disifhircvtimage . 		<kc>90.8MB</kc>
 docker run --name disifhircvt  --rm  -p3000:3000  disifhircvtimage
-docker exec -it disifhircvt bash
-
+docker exec -it disifhircvt bash 		<kc>Per vedere l'interno</kc>
 </pre>
 
 <h2>La logica della trasformazione</h2>
