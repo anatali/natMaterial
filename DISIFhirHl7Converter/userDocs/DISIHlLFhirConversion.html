@@ -225,20 +225,9 @@ basato su Node.js.
 L'intento e' fornire un servizio <tt>REST</tt> alla porta <ks>3000</ks> con API POST <ks>/hl7tofhir</ks> che accetta due parametri:
 
 <ol>
-<li><i>templateb64</i>: Una stringa codificata <tt>base64</tt> che rapprsenta il template hbs di riferimento per la trasformazione</li>
-<li><i>hl7b64</i>:Una stringa codificata <tt>base64</tt> che rapprsenta il messaggio HL7 da trasformare</li>
+<li><i>templateb64</i>: Una stringa codificata <tt>base64</tt> che rapprsenta il template <k>hbs</k> di riferimento per la trasformazione</li>
+<li><i>hl7b64</i>:Una stringa codificata <tt>base64</tt> che rappresenta il messaggio HL7 da trasformare</li>
 </ol>
-
-Il srvizio e' realizzato utilizzando Express e si articola in:
-
-<ul>
-<li><a href="../app.js" target="code">app.js</a> </li>
-<li><a href="../routes/disicvt.js" target="code">routes/disicvt.js</a>  </li>
-</ul>
-
-<center> <img src="./img/DISIFhirHl7Converter.png" alt="DISIFhirHl7Converter.png" width="25%"> </center> 
-
-
 
 <h3>Build the Docker Image (<a href="../Dockerfile" target="code">Dockerfile</a>, <a href="../package.json" target="code">package.json</a>)</h3>
 <pre>
@@ -248,81 +237,125 @@ docker run --name disifhircvt  --rm  -p3000:3000  disifhircvtimage
 docker exec -it disifhircvt bash 		<kc>Per vedere l'interno</kc>
 </pre>
 
-<h2>La logica della trasformazione</h2>
-E' contenuta in da <a href="../DisiFhirConverter/workers/uniboworker.js" target="code">uniboworker.js</a> e si articola nelle seguenti fasi:
+<h3>Il server</h3>
+Il srvizio e' realizzato utilizzando Express e si articola in:
+
+
+
 <ol>
-<li></li>
-<li></li>
-<li></li>
-<li></li>
+<li><a href="../app.js" target="code">app.js</a>: delega la API <ks>/hl7tofhir</ks> a <a href="../routes/disicvt.js" target="code">routes/disicvt.js</a>  </li>
+<li><a href="../routes/disicvt.js" target="code">routes/disicvt.js</a>:  trasforma in String gli argomenti codificati <tt>base64</tt> e
+chiama la operazione <m><ks>convert(templateString, HL7Msg, response) </ks></m> di
+<a href="../DisiFhirConverter/workers/uniboworker.js" target="code">uniboworker.js</a> cosi' definita:
+<pre>
+function <ks>convert( templateString, HL7Msg, <k>response</k> )</ks> {
+	workData.srcDataType	= "hl7v2";
+	workData.templateString = templateString;	<i>templateString letta da file</i>
+	workData.msg            = HL7Msg;		<i>dato HL7 letto da file</i>
+	<ks>doconvert(workData, <k>response</k> );</ks>
+</pre>
+<li>la operazione <m><ks>doconvert(workData, response) </ks></m> innseca il processo di trasformazione definito da Microsoft descritto nella sezione che segue.
+</li> 
 </ol>
 
-La trasformazione e' realizzata dai seguenti componenti:
+
+
+
+<h2>La logica della trasformazione</h2>
+Il processo di trasformazione definito da Microsoft (in <a href="../DisiFhirConverter/workers/uniboworker.js" target="code">uniboworker.js</a>)
+si articola nelle seguenti fasi:
 <ol>
-<li>La casse <a href="../DisiFhirConverter/hl7v2/hl7v2.js" target="code">hl7v2.js</a>
-e' una specializzazione di <a href="../DisiFhirConverter/dataHandler/dataHandler.js" target="code">dataHandler.js</a>
-che funge da <k>dataHandler</k> fornendo operazioni quali:
+<li>usare una <tt>handlebarInstance</tt> (creata dalla operazione <m><ks>GetHandlebarsInstance</ks></m>) 
+per compilare <ks>workData.templateString</ks> ottenendo un <k>template</k> code:
 <pre>
-parseHL7v2( msg ) <kc>//msg: dato HL7 | </kc>
-restituisce un oggetto con campi
+ function ret(context, execOptions) {
+    if (!compiled) { compiled = compileInput(); }
+    return compiled.call(this, context, execOptions);
+  }
+</pre></li>
+<li>usare un oggetto <k>dataTypeHandler</k> (creato da una 
+<a href="../DisiFhirConverter/dataHandler/dataHandlerFactory.js" target="code"><m><ks>dataHandlerFactory.js</ks></m></a>
+ relativa a <tt>workData.srcDataType</tt>) per fare il parsing di <ks>workData.msg</ks> il cui risultato viene inserito in un oggetto <k>dataContext</k> 
+ <pre>
+dataContext.msg.v2.meta		<i>nomi dei segmenti del dato</i>
+dataContext.msg.v2.data		<i>segmenti del dato</i>
+</pre>
+ </li>
+<li>generare una trasformazione invocando <ks>generateResult( <k>dataTypeHandler</k>, <k>dataContext</k>, <k>template</k> )</ks></li>
+<li>inserire il risultato della trasformazione nell'oggetto <k>response</k> e restituire tale risultato al chiamante </li>
+</ol>
+
+<table style="width:98%">
+<tbody>	
+<tr>
+<td style="width:50%" ><center> <img src="./img/DISIFhirHl7Converter.png" alt="DISIFhirHl7Converter.png" width="75%"> </center> 
+</td>
+<td><h4><a href="../DisiFhirConverter/dataHandler/dataHandlerFactory.js" target="code">dataHandlerFactory.js</a></h4>
+
+La classe  <a href="../DisiFhirConverter/dataHandler/dataHandlerFactory.js" target="code">dataHandlerFactory.js</a> restituisce oggetti relativi alle categorie
+HL7 e CDA. <br/>
+Nel caso nostro (HL7), <a href="../DisiFhirConverter/dataHandler/dataHandlerFactory.js" target="code">dataHandlerFactory.js</a> 
+restituisce un oggetto di tipo <a href="../DisiFhirConverter/hl7v2/hl7v2.js" target="code">hl7v2.js</a>
+come  specializzazione della classe <a href="../DisiFhirConverter/dataHandler/dataHandler.js" target="code">dataHandler.js</a>.
+
+<h4><a href="../DisiFhirConverter/hl7v2/hl7v2.js" target="code">hl7v2.js</a></h4>
+ La casse <a href="../DisiFhirConverter/hl7v2/hl7v2.js" target="code">hl7v2.js</a>
+e' una specializzazione di <a href="../DisiFhirConverter/dataHandler/dataHandler.js" target="code">dataHandler.js</a>
+che funge da <k>dataTypeHandler</k> 
+
+<h4><a href="../DisiFhirConverter/handlebars-converter/handlebars-converter.js" target="code">HandlebarsConverter.instance</a></h4>
+Contiene il 'core' della conversione basata su Handlecare.
+
+<h4>generateResult (in <a href="../DisiFhirConverter/workers/uniboworker.js" target="code">uniboworker.js</a>)</h4>
+Invoca i template preparati e fornisce il risultato come String Json.
+</td>
+</tr>
+ </tbody>
+</table>
+ <br/><br/>
+<h3>dataTypeHandler</h3> 
+<li> 
+<k>dataTypeHandler</k> e' un oggetto di classe <a href="../DisiFhirConverter/hl7v2/hl7v2.js" target="code">hl7v2.js</a> che specializza
+la classe <a href="../DisiFhirConverter/dataHandler/dataHandler.js" target="code">dataHandler.js</a>.
+</li><li> 
+Viene creato da <a href="../DisiFhirConverter/dataHandler/dataHandlerFactory.js" target="code">dataHandlerFactory.js</a>
+relativa alla categoria <ks>workData.srcDataType</ks> (nel caso nostro <tt>hl7v2</tt>).
+</li>
+<li>fornisce operazioni quali:
+<pre>
+parseHL7v2( msg ) <kc>//msg: dato HL7 | restituisce un oggetto con i segeunti campi: </kc>
 v2.meta		<i>contiene i nomi dei segmenti (MSH,EVN,PID,NK1,PV1,...) del dato </i>
 v2.data 	<i>contiene i segmenti del dato </i>
 </pre>
 </li>
+
+<h3>GetHandlebarsInstance</h3> 
 <li>La operazione <ks>GetHandlebarsInstance(dataTypeHandler, templatesMap)</ks>
-definita in <a href="../DisiFhirConverter/workers/uniboworker.js" target="code">uniboworker.js</a>, che restituisce una 
-<tt>HandlebarsConverter.instance</tt> che include il <k>dataHandler</k>.
+definita in <a href="../DisiFhirConverter/workers/uniboworker.js" target="code">uniboworker.js</a>, restituisce una 
+<a href="../DisiFhirConverter/handlebars-converter/handlebars-converter.js" target="code"><ks>HandlebarsConverter.instance</ks> (in handlebars-converter.js)</a>
+che include il <k>dataTypeHandler</k>.
 </li>
-<li>
-<a href="../DisiFhirConverter/handlebars-converter/handlebars-converter.js" target="code">handlebars-converter.js</a> 
+
+<li>la istanza <a href="../DisiFhirConverter/handlebars-converter/handlebars-converter.js" target="code">handlebars-converter.js</a> 
+gestisce il template  <k>hbs</k> di riferimento per la trasformazione memorizzando una istanza di <k>Handlebars</k> opportunamente configurata:
 <pre>
-funzione <k>'stored-fun'</k>
-handlebarsInstances[dataType].VM.resolvePartial
+  handlebarsInstances[dataType] = Handlebars.create();
+  var origResolvePartial        = handlebarsInstances[dataType].VM.resolvePartial;
+  handlebarsInstances[dataType].VM.resolvePartial = function (partial, context, options) { ... } <kc>//STORED-FUN</kc> 
 </pre>
-</li>
-<li>
+<li>registra i template  <k>hbs</k> per le operazioni <tt>if,eq,ne,...multiply,divide</tt> definite in
 <a href="../DisiFhirConverter/handlebars-converter/handlebars-helpers.js" target="code">handlebars-helpers.js</a> 
 </li>
 
-</ol>
-
-La operazione <ks>init</ks> di <a href="../DisiFhirConverter/workers/uniboworker.js" target="code">uniboworker.js</a>:
-<ol>
-<li>Acquisisce (da un <k>hl7Source</k> file quale <a href="../DisiFhirConverter/sampleData/hl7v2\ADT01-23.hl7" target="code">ADT01-23.hl7</a>) 
-il dato HL7 da convertire e il template <ks>.hbs</ks> da usare</li>
-<li>Invoca la operazione <tt>convert(workData)</tt> con:
-<pre>
-workData.srcDataType	= "hl7v2";
-workData.msg		= <i>dato HL7 letto da file</i>
-workData.templateString = <i>templateString letta da file</i>
-</pre>
- </li>
-<li>Crea una istanza <a href="../DisiFhirConverter/hl7v2/hl7v2.js" target="code">hl7v2.js</a>  
-(che specializza <a href="../DisiFhirConverter/h/dataHandler.js" target="code">dataHandler.js</a> )
-e la include in una istanza <k>handlebarInstance</k> di <tt>HandlebarsConverter</tt> </li>
-<li>Usa <k>handlebarInstance</k> per compilare <tt>workData.templateString</tt> che restituisce un oggetto <k>template</k>
-<pre>
- function ret(context, execOptions) {
-    if (!compiled) {
-      compiled = compileInput();
-    }
-    return compiled.call(this, context, execOptions);
-  }
-</pre>
-</li>
-<li>Invoca <tt>dataTypeHandler.parseSrcData(workData.msg)</tt> e, ottenuta la risposta, costruisce un oggetto <k>dataContext</k>
-<pre>
-dataContext.msg.v2.meta		<i>nomi dei segmenti del dato</i>
-dataContext.msg.v2.data		<i>segmenti del dato</i>
-</pre>
-  </li>
-<li>Invoca la operazione <ks>generateResult( <k>dataTypeHandler,dataContext, template</k> )</ks> che effettua la trasformazione</li>
-<li>Salva il risultato della trasformazione nel file <tt>workers\<k>hl7Source</k>.txt</tt> </li>
-</ol>
+<li>la funzione <m><kc>STORED-FUN</kc></m>, gestisce(registra) i template  <k>hbs</k> implicati da quello principale.
 
 
-<h3>La trasformazione</h3>
-L'operazione <ks>generateResult( <k>dataTypeHandler,dataContext, template</k> )</ks>:
+
+
+ 
+<h3>generateResult</h3>
+L'operazione <ks>generateResult( <k>dataTypeHandler,dataContext, template</k> )</ks> definita
+in  <a href="../DisiFhirConverter/workers/uniboworker.js" target="code">uniboworker.js</a> :
 <ol>
 <li>Invoca <tt>template(dataContext)</tt> e ottiene un oggetto <k>resultcvt</k> con molti campi.<br/> 
 In questa fase invoca l'operazione <tt>getFirstSegments</tt> di 
@@ -347,8 +380,12 @@ result.entry[1].resource keys: <i><k>resourceType,id</k>,...</i>
 </li>
 
 </li>
-<li></li>
+ 
 </ol>
+ 
+ 
+
+
 
 <table style="width:98%">
 <tbody>	

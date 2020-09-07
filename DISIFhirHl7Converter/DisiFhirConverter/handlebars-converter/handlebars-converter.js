@@ -21,6 +21,7 @@ console.log("unibo handlebars-converter  " + templateFilesLocation);		//BY AN
     if (!handlebarsInstances[dataType]) {
         handlebarsInstances[dataType] = Handlebars.create();
         var origResolvePartial        = handlebarsInstances[dataType].VM.resolvePartial;
+
         handlebarsInstances[dataType].VM.resolvePartial = function (partial, context, options) {	//STORED-FUN
 // Viene chiamata 94 volte. Registra il codice dei template contenuti in templateFilesLocation
 BYANCount++;           //BYAN (1..94)
@@ -55,6 +56,9 @@ console.log("unibo handlebars-converter stored-fun registerPartial:" + options.n
              return orpBYAN;
         };//function
 
+console.log("-----------------------------------------------------------------------------------------------------" );					 
+console.log("unibo handlebars-converter registerHelper for handlebars-helpers.js: if,eq,ne,...multiply,divide" );					 
+console.log("-----------------------------------------------------------------------------------------------------" );					 
         helpers.forEach(h => {	//h.name (if,eq,ne,...multiply,divide)
             handlebarsInstances[dataType].registerHelper(h.name, h.func);
         });

@@ -97,23 +97,19 @@ function init(){
 }
 
 function doconvert(workData, response){
-
 	try {
 		dataTypeHandler   = dataHandlerFactory.createDataHandler(workData.srcDataType);		
-		handlebarInstance = GetHandlebarsInstance(dataTypeHandler, null);
- 		
-		console.log("\n============================ uniboworker COMPILE  ");
+		handlebarInstance = GetHandlebarsInstance(dataTypeHandler, null);		
+		console.log("\n============================ uniboworker doconvert COMPILE  ");
  		var template = handlebarInstance.compile(workData.templateString);
-		//console.log("COMPILED TEMPLATE=\n " + template);	
-		
+		//console.log("COMPILED TEMPLATE=\n " + template);			
 		dataTypeHandler.parseSrcData(workData.msg)		//See hl7v2.js
             	.then((parsedData) => {
                        	var dataContext = { msg: parsedData };
-                        console.log("\n============================ uniboworker  PARSED DATA  ");
-        				var BYANgenratedRsult 	= generateResult( dataTypeHandler,dataContext, template );
-        				var outS 				= JSON.stringify(BYANgenratedRsult.fhirResource, null, 2);
-        				
-//        				fs.writeFile(hl7DataFileName+".txt", outS, (err) => {  if (err) throw err; }) 
+                        console.log("\n============================ uniboworker  doconvert PARSED DATA  ");
+        				var genratedRsult 	= generateResult( dataTypeHandler, dataContext, template );
+        				var outS 			= JSON.stringify(genratedRsult.fhirResource, null, 2);        				
+         				fs.writeFile(hl7DataFileName+".txt", outS, (err) => {  if (err) throw err; }) 
         				console.log("uniboworker convert outS=" + outS);
         				response.write( outS );
         				response.end();
@@ -121,21 +117,18 @@ function doconvert(workData, response){
 				.catch (err => {
                     console.log(  err.toString() );
                 });
-				
-
-		
 	}catch (err) {
 		console.log("convert error=\n"+err);
     }
-}//convert
+}//doconvert
 
 
-function convert( templateString, HL7Msg, res ) {
+function convert( templateString, HL7Msg, response ) {
 	//console.log("uniboworker convert " + HL7Msg);
 	workData.srcDataType	= "hl7v2";
 	workData.templateString = templateString;
 	workData.msg            = HL7Msg;
-	doconvert(workData, res);
+	doconvert(workData, response);
 }
 
 //init();
