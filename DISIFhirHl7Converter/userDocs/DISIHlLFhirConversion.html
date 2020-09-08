@@ -218,23 +218,23 @@ docker exec -it fhircvt bash
 </pre>
 -->
 <h2>Introduzione</h2>
-Quest progetto (<tt>natmaterial\DISIFhirHl7Converter</tt>) isola la parte di trasformazione del progetto 
+Quest progetto (<tt>natmaterial/DISIFhirHl7Converter</tt>) isola la parte di trasformazione del progetto 
 <a href="https://github.com/microsoft/FHIR-Converter" target="web">Microsoft FHIR-Converter</a>
 basato su Node.js.
 <br/><br/>
 L'intento e' fornire un servizio <tt>REST</tt> alla porta <ks>3000</ks> con API POST <ks>/hl7tofhir</ks> che accetta due parametri:
 
 <ol>
-<li><i>templateb64</i>: Una stringa codificata <tt>base64</tt> che rapprsenta il template <k>hbs</k> di riferimento per la trasformazione</li>
-<li><i>hl7b64</i>:Una stringa codificata <tt>base64</tt> che rappresenta il messaggio HL7 da trasformare</li>
+<li><i>templateb64</i>: Una stringa codificata <em>base64</em> che rappresenta il template <k>hbs</k> di riferimento per la trasformazione</li>
+<li><i>hl7b64</i>:Una stringa codificata <em>base64</em> che rappresenta il messaggio HL7 da trasformare</li>
 </ol>
 
 <h3>Build the Docker Image (<a href="../Dockerfile" target="code">Dockerfile</a>, <a href="../package.json" target="code">package.json</a>)</h3>
 <pre>
-In <kc>natmaterial\DISIFhirHl7Converter</kc>:
-docker build --tag disifhircvtimage . 		<kc>90.8MB</kc>
+In <kc>natmaterial/DISIFhirHl7Converter</kc>:
+docker build --tag disifhircvtimage . 		<kc>//101 MB</kc>
 docker run --name disifhircvt  --rm  -p3000:3000  disifhircvtimage
-docker exec -it disifhircvt bash 		<kc>Per vedere l'interno</kc>
+docker exec -it disifhircvt bash 		<kc>//Per vedere l'interno</kc>
 </pre>
 
 <h3>Il server</h3>
@@ -254,18 +254,77 @@ function <ks>convert( templateString, HL7Msg, <k>response</k> )</ks> {
 	workData.msg            = HL7Msg;		<i>dato HL7 letto da file</i>
 	<ks>doconvert(workData, <k>response</k> );</ks>
 </pre>
-<li>la operazione <m><ks>doconvert(workData, response) </ks></m> innseca il processo di trasformazione definito da Microsoft descritto nella sezione che segue.
+<li>la operazione <m><ks>doconvert(workData, response) </ks></m> innseca il processo di trasformazione definito da Microsoft descritto piu' avanti.
 </li> 
 </ol>
 
+<h3>La esecuzione</h3>
+<h4>Offline <!-- (WARNING: solo con node 6.10) --></h4>
+Una esecuzione 'offline' (puo' essere effettuata invocando:
+<pre>
+In <kc>\DISIFhirHl7Converter/DisiFhirConverter/workers</kc>
+node rununiboworker.js
+</pre>
+Questo 'main' invoca la funzione <ks>convert</ks> di <a href="../DisiFhirConverter/workers/uniboworker.js" target="code">uniboworker.js</a>
+che e' la stessa funzione invocata da <a href="../routes/disicvt.js" target="code">routes/disicvt.js</a> nella versione 'online'.
+<br/>
+<!-- Con node <ks>v12.18.0</ks> purtroppo si ha l'errore <tt>Cannot find module 'uuid'</tt>: -->
+
+<h4>Online</h4>
+Prima si attiva il servizio usando docker
+<pre>
+docker rm -f disifhircvt			<kc>//remove previous activations (if needed)</kc>
+docker build --tag disifhircvtimage .		<kc>//rebuild the image (if needed)</kc>
+docker run --name disifhircvt  --rm  -p3000:3000  disifhircvtimage	<kc>//activate the service on port 3000</kc>
+</pre>
+
+Successivamente, si puo' eseguire un client scritto in Java:
+<pre>
+In <kc>HealthAdapterFacade/src/main/java/it/unibo/HealthAdapter/Clients</kc>
+run <a href="../../HealthAdapterFacade/src/main/java/it/unibo/HealthAdapter/Clients/DisicvtClient.java" target="code">DisicvtClient.java</a> 
+</pre>
+
+Invocando da un browser
+<pre>
+http://localhost:3000
+</pre>
+si ottiene solo un 'welcome' in quanto al momento non e' prevista aluna internazione <i>human-to-machine</i> a questo livello.
 
 
-
+<!--
+=================================================================================================
+La logica della trasformazione
+=================================================================================================
+-->
 <h2>La logica della trasformazione</h2>
 Il processo di trasformazione definito da Microsoft (in <a href="../DisiFhirConverter/workers/uniboworker.js" target="code">uniboworker.js</a>)
-si articola nelle seguenti fasi:
+consiste nel passare a un template di rferimento Handlebar opportunamente compilato i dati rappresentati dal messaggio HL7 opportunamente
+racchiusi in un context object 
+<div class="remark">
+Si veda <a href="https://webapplog.com/handlebars/" target="code">Handlebars Tutorial</a> per la parte Node
+e <a href="https://www.baeldung.com/handlebars" target="web">Templating with Handlebars</a> per la parte Java.
+</div>
+Il template di rferimento puo' fare uso di <em>helpers</em> built-in (e.g. <tt>{{#with ...}}</tt>,  <tt>each , if</tt>) o di helper
+custom (<tt>{{#custonheleper ...}}{{/custonheleper}}</tt> ). 
+<br/> 
+Un helper custom accetta un context e oggetti options e deve essere <ks>registrato</ks> nella Handlebar instace in uso.
+<br/><br/>
+<!-- generateResult (in <a href="../DisiFhirConverter/workers/uniboworker.js" target="code">uniboworker.js</a>) -->
+
+L'attuale processo di trasformazione si articola nelle seguenti fasi:<br/><br/>
 <ol>
-<li>usare una <tt>handlebarInstance</tt> (creata dalla operazione <m><ks>GetHandlebarsInstance</ks></m>) 
+<li>
+preparazione dei dati di lavoro all'interno di un oggetto <ks>workData</ks>:
+<pre>
+function <ks>convert( templateString, HL7Msg, <k>response</k> )</ks> {
+	workData.srcDataType	= "hl7v2";
+	workData.templateString = templateString;	<i>templateString letta da file</i>
+	workData.msg            = HL7Msg;		<i>dato HL7 letto da file</i>
+	<ks>doconvert(workData, <k>response</k> );</ks>
+</pre>
+Nella versione 'online', questa funzione viene invocata da  <a href="../routes/disicvt.js" target="code">routes/disicvt.js</a>.
+</li>
+<li>utilizzo di una <tt>handlebarInstance</tt> (creata dalla operazione <m><ks>GetHandlebarsInstance</ks></m>) 
 per compilare <ks>workData.templateString</ks> ottenendo un <k>template</k> code:
 <pre>
  function ret(context, execOptions) {
@@ -273,7 +332,7 @@ per compilare <ks>workData.templateString</ks> ottenendo un <k>template</k> code
     return compiled.call(this, context, execOptions);
   }
 </pre></li>
-<li>usare un oggetto <k>dataTypeHandler</k> (creato da una 
+<li>utilizzo di un oggetto <k>dataTypeHandler</k> (creato da una 
 <a href="../DisiFhirConverter/dataHandler/dataHandlerFactory.js" target="code"><m><ks>dataHandlerFactory.js</ks></m></a>
  relativa a <tt>workData.srcDataType</tt>) per fare il parsing di <ks>workData.msg</ks> il cui risultato viene inserito in un oggetto <k>dataContext</k> 
  <pre>
@@ -281,8 +340,8 @@ dataContext.msg.v2.meta		<i>nomi dei segmenti del dato</i>
 dataContext.msg.v2.data		<i>segmenti del dato</i>
 </pre>
  </li>
-<li>generare una trasformazione invocando <ks>generateResult( <k>dataTypeHandler</k>, <k>dataContext</k>, <k>template</k> )</ks></li>
-<li>inserire il risultato della trasformazione nell'oggetto <k>response</k> e restituire tale risultato al chiamante </li>
+<li>generazione di una trasformazione invocando <ks>generateResult( <k>dataTypeHandler</k>, <k>dataContext</k>, <k>template</k> )</ks></li>
+<li>inserzione del risultato della trasformazione nell'oggetto <k>response</k> e restituire tale risultato al chiamante </li>
 </ol>
 
 <table style="width:98%">
@@ -347,7 +406,7 @@ gestisce il template  <k>hbs</k> di riferimento per la trasformazione memorizzan
 <a href="../DisiFhirConverter/handlebars-converter/handlebars-helpers.js" target="code">handlebars-helpers.js</a> 
 </li>
 
-<li>la funzione <m><kc>STORED-FUN</kc></m>, gestisce(registra) i template  <k>hbs</k> implicati da quello principale.
+<li>la funzione <m><kc>STORED-FUN</kc></m>, gestisce (<ks>registra</ks>) i template di servzio <k>hbs</k> implicati da quello principale.
 
 
 
@@ -360,16 +419,18 @@ in  <a href="../DisiFhirConverter/workers/uniboworker.js" target="code">unibowor
 <li>Invoca <tt>template(dataContext)</tt> e ottiene un oggetto <k>resultcvt</k> con molti campi.<br/> 
 In questa fase invoca l'operazione <tt>getFirstSegments</tt> di 
 <a href="../DisiFhirConverter/handlebars-converter/handlebars-helpers.js" target="code">handlebars-helpers.js</a> 
-e poi esegue la funzione <k>'stored-fun'</k> che viene chiamata 94 volte, registrando i templates inclusi nella directory
-<a href="../DisiFhirConverter/templates/hl7v2" target="code">templates/hl7v2</a>  
+e poi esegue la funzione  <kc>STORED-FUN</kc>  che viene chiamata molte volte, registrando i templates inclusi nella directory
+<a href="../DisiFhirConverter/templates/hl7v2/Resources" target="code">templates/hl7v2/Resources</a>  e
+<a href="../DisiFhirConverter/templates/hl7v2/DataType" target="code">templates/hl7v2/DataType</a>  in relazione a quanto
+specificato nel template di riferimento
 
 </li>
 <li>Invoca  <a href="../DisiFhirConverter/hl7v2/hl7v2.js" target="code">hl7v2.js</a> <tt>.postProcessResult(resultcvt)</tt> 
 e ottiene un oggetto <k>result</k> con campi <tt>resourceType,type,entry</tt>:
 <pre>
-result.resourceType = Bundle
-result.type	= transaction
-result.entry.length = 5		//entry keys = <i>fullUrl,resource,request</i>
+result.resourceType	= Bundle
+result.type		= transaction
+result.entry.length	= 5		//entry keys = <i>fullUrl,resource,request</i>
 
 result.entry[0].resource keys: <i><k>resourceType,id</k>,identifier,name,birthDate,address,telecom,communication</i>
 result.entry[1].resource keys: <i><k>resourceType,id</k>,...</i>

@@ -24,7 +24,7 @@ import reactor.core.publisher.Mono;
 public class DisicvtClient {
 	
 	public static final String templateFileName   = 
-			"src/main/java/it/unibo/HealthResource/datafiles/ADT_A01.hbs";
+			"src/main/java/it/unibo/HealthResource/datafiles/ADT_A01Slim.hbs";
 	public static final String hl7FileName   = 
 			"src/main/java/it/unibo/HealthResource/datafiles/ADT01-23.hl7";
 	
@@ -76,7 +76,7 @@ public class DisicvtClient {
 
 //		System.out.println( "hl7MsgStr="       + hl7MsgStr);
 		
- 		String args  = "{ \"a\" : \"" + encodedTemplate + "\" , \"b\" : \"" + encodedHl7msg + "\"   }";
+ 		String args  = "{ \"templateb64\" : \"" + encodedTemplate + "\" , \"hl7b64\" : \"" + encodedHl7msg + "\"   }";
      	Flux<String> answer = webClient.post()
 				.uri( addr )   
  				.contentType(MediaType.APPLICATION_JSON)

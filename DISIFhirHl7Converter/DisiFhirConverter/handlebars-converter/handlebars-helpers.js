@@ -3,7 +3,7 @@
 // Licensed under the MIT License (MIT). See LICENSE in the repo root for license information.
 // -------------------------------------------------------------------------------------------------
 
-//var uuidv3 = require('uuid');
+var uuidv3 			= require('uuid');
 var HandlebarsUtils = require('handlebars').Utils;
 var constants       = require('../constants/constants');
 var fs              = require('fs');
@@ -739,8 +739,8 @@ console.log("\n============================ handlebars-helpers.js getFirstSegmen
         name: 'generateUUID',
         description: 'Generates a guid based on a URL: generateUUID url',
         func: function (urlNamespace) {
-            //return uuidv3(''.concat(urlNamespace), uuidv3.URL);		//TODO
-    		return "uuidv3_todo"
+            return uuidv3(''.concat(urlNamespace), uuidv3.URL);		 
+    		//return "uuidv3_todo"
         }
     },
     {

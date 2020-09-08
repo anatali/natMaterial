@@ -19,7 +19,7 @@ var fs 					= require('fs');
 var Handlebars 			= require('handlebars');
 var dataHandlerFactory	= require('../dataHandler/dataHandlerFactory');
 var HandlebarsConverter = require('../handlebars-converter/handlebars-converter');
-
+var uuidv3 				= require('uuid');
 
 var workData = new Object();
 var handlebarInstance ;
@@ -40,7 +40,7 @@ console.log("\nunibo worker GetHandlebarsInstance " + constants.TEMPLATE_FILES_L
 }
 
 function generateUUID(urlNamespace) {
-    return "todouuidv3"; //uuidv3(''.concat(urlNamespace), uuidv3.URL);
+    return uuidv3(''.concat(urlNamespace), uuidv3.URL); //"todouuidv3"; //
 }
 
 function generateResult( dataTypeHandler,dataContext, template ) {
@@ -52,9 +52,10 @@ console.log("\n============================ uniboworker GENERATE RESULT ========
   
      var result = dataTypeHandler.postProcessResult(resultcvt);	//campi resourceType,type,entry
      //prima esegue  getConversionResultMetadata poi parseCoverageReport
+     console.log("---------------------------------------------------------------------------------------------------");
      for( i=0; i<result.entry.length; i++) {
-     	 console.log("entry["+i+"].resource.resourceType=" + result.entry[i].resource.resourceType +
-    			 "	keys=" + Object.keys(result.entry[i].resource));
+     	 console.log("uniboworker generateResult entry["+i+"].resource.resourceType=" + 
+				result.entry[i].resource.resourceType +"	keys=" + Object.keys(result.entry[i].resource));
      }
      
 
@@ -77,24 +78,7 @@ function readDataFromFile( fname ) {
 	})
 }
 
-function init(){
- 	workData.srcDataType	= "hl7v2";
-    
- 	console.log("CURRENT DIRECYORY	" + __dirname);
- 	var hl7Datafile    = constants.HL7_DATAFILES_LOCATION  + "/hl7v2/"+hl7DataFileName+".hl7";
-	var templateFile   = constants.TEMPLATE_FILES_LOCATION + "/hl7v2/ADT_A01.hbs"; 
-	
-	readDataFromFile( hl7Datafile )
-		.then( (data) => {
-			//console.log("hl7data "  + data );
-			workData.msg = data;
-			readDataFromFile( templateFile )
-			.then( (templateString) => {
-				workData.templateString = templateString;
-				doconvert(workData);
-			});
-		});
-}
+
 
 function doconvert(workData, response){
 	try {
@@ -111,8 +95,10 @@ function doconvert(workData, response){
         				var outS 			= JSON.stringify(genratedRsult.fhirResource, null, 2);        				
          				fs.writeFile(hl7DataFileName+".txt", outS, (err) => {  if (err) throw err; }) 
         				console.log("uniboworker convert outS=" + outS);
-        				response.write( outS );
-        				response.end();
+        				if( response != null ){
+							response.write( outS );
+        					response.end();
+						}
             	})
 				.catch (err => {
                     console.log(  err.toString() );
@@ -123,7 +109,7 @@ function doconvert(workData, response){
 }//doconvert
 
 
-function convert( templateString, HL7Msg, response ) {
+module.exports.convert= function( templateString, HL7Msg, response ) {
 	//console.log("uniboworker convert " + HL7Msg);
 	workData.srcDataType	= "hl7v2";
 	workData.templateString = templateString;
@@ -131,10 +117,13 @@ function convert( templateString, HL7Msg, response ) {
 	doconvert(workData, response);
 }
 
-//init();
+ 
+
+ 
+
 //console.log("\n&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& uniboworker init &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"  );
 
-module.exports = convert;
+//module.exports = convert;
  
 
 
