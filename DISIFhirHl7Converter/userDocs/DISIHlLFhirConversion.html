@@ -301,13 +301,14 @@ Il processo di trasformazione definito da Microsoft (in <a href="../DisiFhirConv
 consiste nel passare a un template di rferimento Handlebar opportunamente compilato i dati rappresentati dal messaggio HL7 opportunamente
 racchiusi in un context object 
 <div class="remark">
-Si veda <a href="https://webapplog.com/handlebars/" target="code">Handlebars Tutorial</a> per la parte Node
+Si veda <a href="https://webapplog.com/handlebars/" target="web">Handlebars Tutorial</a> per la parte Node
 e <a href="https://www.baeldung.com/handlebars" target="web">Templating with Handlebars</a> per la parte Java.
 </div>
 Il template di rferimento puo' fare uso di <em>helpers</em> built-in (e.g. <tt>{{#with ...}}</tt>,  <tt>each , if</tt>) o di helper
 custom (<tt>{{#custonheleper ...}}{{/custonheleper}}</tt> ). 
 <br/> 
-Un helper custom accetta un context e oggetti options e deve essere <ks>registrato</ks> nella Handlebar instace in uso.
+Un helper custom accetta un context e oggetti options e deve essere <ks>registrato</ks> nella Handlebar instace in uso (si veda
+<a href="#registrazione">registrazione</a>).
 <br/><br/>
 <!-- generateResult (in <a href="../DisiFhirConverter/workers/uniboworker.js" target="code">uniboworker.js</a>) -->
 
@@ -388,7 +389,7 @@ v2.data 	<i>contiene i segmenti del dato </i>
 </pre>
 </li>
 
-<h3>GetHandlebarsInstance</h3> 
+<h3 id="GetHandlebarsInstance">GetHandlebarsInstance</h3> 
 <li>La operazione <ks>GetHandlebarsInstance(dataTypeHandler, templatesMap)</ks>
 definita in <a href="../DisiFhirConverter/workers/uniboworker.js" target="code">uniboworker.js</a>, restituisce una 
 <a href="../DisiFhirConverter/handlebars-converter/handlebars-converter.js" target="code"><ks>HandlebarsConverter.instance</ks> (in handlebars-converter.js)</a>
@@ -402,12 +403,18 @@ gestisce il template  <k>hbs</k> di riferimento per la trasformazione memorizzan
   var origResolvePartial        = handlebarsInstances[dataType].VM.resolvePartial;
   handlebarsInstances[dataType].VM.resolvePartial = function (partial, context, options) { ... } <kc>//STORED-FUN</kc> 
 </pre>
-<li>registra i template  <k>hbs</k> per le operazioni <tt>if,eq,ne,...multiply,divide</tt> definite in
+<li id="registrazione"><ks>registra</ks> i template  <ks>helper</ks> per le operazioni <tt>if,eq,ne,...multiply,divide</tt> definite in
 <a href="../DisiFhirConverter/handlebars-converter/handlebars-helpers.js" target="code">handlebars-helpers.js</a> 
 </li>
 
-<li>la funzione <m><kc>STORED-FUN</kc></m>, gestisce (<ks>registra</ks>) i template di servzio <k>hbs</k> implicati da quello principale.
+<li>la funzione <m><kc>STORED-FUN</kc></m>, <ks>registra</ks> i template di servizio <ks>partial</ks> inclusi
+(<tt>{{>...}}</tt>) in quello principale.
 
+<div class="remark">
+<ks>Partials</ks>  are akin to helpers and are registered with <k>Handlebars.registerPartial(name, source)</k>, 
+where <i>name</i> is a string and <i>source</i> is a Handlebars template code for the partial
+(from <a href="https://webapplog.com/handlebars/" target="web">Handlebars Tutorial</a>).
+</div>
 
 
 
