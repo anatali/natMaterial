@@ -10,9 +10,18 @@ var helpers    = require('./handlebars-helpers').external;
 var handlebarsInstances = {};
 
 var BYANCount = 0;
+var mytemplateFilesLocation ;
+var myhandlebarsInstances   ;
 
+module.exports.getHandlebars = function(){
+	return myhandlebarsInstances;  
+}
+module.exports.getTemplateLocation = function(){
+	return mytemplateFilesLocation;
+}
 module.exports.instance = function (createNew, dataHandler, templateFilesLocation, currentContextTemplatesMap) {
-console.log("unibo handlebars-converter  " + templateFilesLocation);		 	
+	mytemplateFilesLocation = templateFilesLocation;
+console.log("unibo handlebars-converter  " + mytemplateFilesLocation);		 	
     if (createNew) {
         handlebarsInstances = {};
 //console.log("unibo handlebars-converter  createNew "   );		 	
@@ -23,7 +32,7 @@ console.log("unibo handlebars-converter  " + templateFilesLocation);
     if (! handlebarsInstances[dataType]) {
         handlebarsInstances[dataType] = Handlebars.create();
         var origResolvePartial        = handlebarsInstances[dataType].VM.resolvePartial;
-
+		myhandlebarsInstances = origResolvePartial;
         handlebarsInstances[dataType].VM.resolvePartial = function (partial, context, options) {	//STORED-FUN
 // Viene chiamata 94 volte. Registra il codice dei template contenuti in templateFilesLocation
 //console.log("%%%%%%%%%%%%% handlebars-converter options.partials.length=" + options.partials.length );

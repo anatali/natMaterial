@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "antlr4": "^4.8.0",
+    "cls-hooked": "^4.2.2",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "deepmerge": "^4.2.2",
@@ -16,7 +17,7 @@
     "jade": "~1.11.0",
     "morgan": "~1.9.0",
     "path": "^0.12.7",
-    "uuid": "^3.3.2",
-    "underscore": "^1.11.0"
+    "underscore": "^1.11.0",
+    "uuid": "^3.3.2"
   }
 }

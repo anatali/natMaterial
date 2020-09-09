@@ -12,6 +12,8 @@ var jsonProcessor   = require('../outputProcessor/jsonProcessor');
 var specialCharProcessor = require('../inputProcessor/specialCharProcessor');
 //var zlib = require('zlib');
 
+var HandlebarsConverter = require('../handlebars-converter/handlebars-converter');
+
 // Some helpers will be referenced in other helpers and declared outside the export below.
 var getSegmentListsInternal = function (msg, ...segmentIds) {
     var ret = {};
@@ -455,11 +457,13 @@ module.exports.external = [
             return '';
         }
     },
+
     {
-        name: 'evaluate',
+        name: 'evaluateold',
         description: 'Returns template result object: evaluate templatePath inObj',
         func: function (templatePath, inObj) {
             try {
+            /* BYAN *** */ 
                 var getNamespace = require('cls-hooked').getNamespace;
                 var session = getNamespace(constants.CLS_NAMESPACE);
                 var handlebarsInstance = session.get(constants.CLS_KEY_HANDLEBAR_INSTANCE);
@@ -474,7 +478,68 @@ module.exports.external = [
                     handlebarsInstance.registerPartial(templatePath, handlebarsInstance.compile(content.toString()));
                     partial = handlebarsInstance.partials[templatePath];
                 }
+             
                 return JSON.parse(jsonProcessor.Process(partial(inObj.hash)));
+            }
+            catch (err) {
+                throw `helper "evaluate" : ${err}`;
+            }
+        }
+    },
+
+    {
+        name: 'evaluate',
+        description: 'Returns template result object: evaluate templatePath inObj',
+        func: function (templatePath, inObj) {
+		
+            try {
+				var handlebarsInstance ; //BYAN
+				var templateLocation   ; //BYAN
+                var getNamespace       = require('cls-hooked').getNamespace;
+                var session 	 	   = getNamespace(constants.CLS_NAMESPACE);
+//BYAN
+				console.log("evaluate ------------------- " + templatePath + " session=" + session );
+ 				//console.log(inObj);
+				/*  //inObj e' sempre'
+{
+  lookupProperty: [Function: lookupProperty],
+  name: 'evaluate',
+  hash: { inCode: undefined },
+  data: { root: { msg: [Object] } },
+  loc: { start: { line: 1, column: 8 }, end: { line: 1, column: 40 } }
+}
+				*/
+				//console.log(getNamespace); 
+ 				//console.log("evaluate ----------------------------------- ");
+ if( session != undefined){
+                 handlebarsInstance 	= session.get(constants.CLS_KEY_HANDLEBAR_INSTANCE);
+                 templateLocation   	= session.get(constants.CLS_KEY_TEMPLATE_LOCATION);
+ }else{
+				//handlebarsInstance = require('../../ExampleHandlebar/esempioTrasformazioneADT_A01').getHandlebars();
+				handlebarsInstance   = HandlebarsConverter.getHandlebars();
+				//templateLocation   = require('../../ExampleHandlebar/esempioTrasformazioneADT_A01').getTemplateLocation();
+				templateLocation     =  HandlebarsConverter.getTemplateLocation();
+ 				console.log(handlebarsInstance.partials);
+ 				console.log(templateLocation);
+}
+                var partial = handlebarsInstance.partials[templatePath];
+				//console.log("partial: " + templatePath);
+				//console.log(partial);
+                if (typeof partial !== 'function') {
+                   var content = fs.readFileSync(templateLocation + "/" + templatePath);
+                    // register partial with compilation output
+   				    //console.log("%%%%%%% READ CONTENT" );	//BYAN + content
+                   handlebarsInstance.registerPartial(templatePath, handlebarsInstance.compile(content.toString()));
+                   partial = handlebarsInstance.partials[templatePath];
+					console.log("evaluate partial after read: ");
+					console.log(partial);
+                }
+				var v = partial(inObj.hash);	//BYAN inObj.hash
+				console.log(v);
+				var outS = JSON.parse(jsonProcessor.Process(v));	
+				console.log("&&&&& BEFORE outS" );	//BYAN
+				console.log(outS);	//BYAN
+                return v; //outS
             }
             catch (err) {
                 throw `helper "evaluate" : ${err}`;
