@@ -26,7 +26,8 @@ public class DisicvtClient {
 	public static final String templateFileName   = 
 			"src/main/java/it/unibo/HealthResource/datafiles/ADT_A01Slim.hbs";
 	public static final String hl7FileName   = 
-			"src/main/java/it/unibo/HealthResource/datafiles/ADT01-23.hl7";
+			//"src/main/java/it/unibo/HealthResource/datafiles/ADT01-23.hl7";
+			"C:\\Progetti\\natmaterial\\FHIR-Converter\\src\\sample-data\\hl7v2\\ADT01-23.hl7";
 	
 	private static String hostaddr = "localhost:3000";
 	private static WebClient webClient = WebClient

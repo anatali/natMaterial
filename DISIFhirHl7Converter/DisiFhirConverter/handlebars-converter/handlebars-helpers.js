@@ -457,13 +457,13 @@ module.exports.external = [
             return '';
         }
     },
-
+/*
     {
-        name: 'evaluateold',
+        name: 'exevaluateold',
         description: 'Returns template result object: evaluate templatePath inObj',
         func: function (templatePath, inObj) {
             try {
-            /* BYAN *** */ 
+             
                 var getNamespace = require('cls-hooked').getNamespace;
                 var session = getNamespace(constants.CLS_NAMESPACE);
                 var handlebarsInstance = session.get(constants.CLS_KEY_HANDLEBAR_INSTANCE);
@@ -486,7 +486,7 @@ module.exports.external = [
             }
         }
     },
-
+*/
     {
         name: 'evaluate',
         description: 'Returns template result object: evaluate templatePath inObj',
@@ -498,7 +498,6 @@ module.exports.external = [
                 var getNamespace       = require('cls-hooked').getNamespace;
                 var session 	 	   = getNamespace(constants.CLS_NAMESPACE);
 //BYAN
-				console.log("evaluate ------------------- " + templatePath + " session=" + session );
  				//console.log(inObj);
 				/*  //inObj e' sempre'
 {
@@ -510,36 +509,54 @@ module.exports.external = [
 }
 				*/
 				//console.log(getNamespace); 
- 				//console.log("evaluate ----------------------------------- ");
+ 				console.log("evaluate --------------------- session= " + session);
  if( session != undefined){
                  handlebarsInstance 	= session.get(constants.CLS_KEY_HANDLEBAR_INSTANCE);
-                 templateLocation   	= session.get(constants.CLS_KEY_TEMPLATE_LOCATION);
+                 templateLocation   	= session.get(constants.CLS_KEY_TEMPLATE_LOCATION);	//TODO
+				 //templateLocation     =  HandlebarsConverter.getTemplateLocation();	//TODO
  }else{
 				//handlebarsInstance = require('../../ExampleHandlebar/esempioTrasformazioneADT_A01').getHandlebars();
 				handlebarsInstance   = HandlebarsConverter.getHandlebars();
 				//templateLocation   = require('../../ExampleHandlebar/esempioTrasformazioneADT_A01').getTemplateLocation();
 				templateLocation     =  HandlebarsConverter.getTemplateLocation();
- 				console.log(handlebarsInstance.partials);
- 				console.log(templateLocation);
+ 				//console.log(handlebarsInstance.partials);
+ 				//console.log(templateLocation);
 }
+				console.log("evaluate --- templatePath= " + templatePath + " " + templateLocation); //+ " session=" + session
+				//templateLocation= /usr/src/app/DisiFhirConverter/templates/hl7v2
+				//console.log(handlebarsInstance);
                 var partial = handlebarsInstance.partials[templatePath];
 				//console.log("partial: " + templatePath);
 				//console.log(partial);
+				var compiled = partial;
                 if (typeof partial !== 'function') {
                    var content = fs.readFileSync(templateLocation + "/" + templatePath);
                     // register partial with compilation output
-   				    //console.log("%%%%%%% READ CONTENT" );	//BYAN + content
-                   handlebarsInstance.registerPartial(templatePath, handlebarsInstance.compile(content.toString()));
+   				   console.log( "READ FROM FILE" );	//BYAN + content.toString()
+				   compiled = handlebarsInstance.compile( content.toString() );
+                   handlebarsInstance.registerPartial(templatePath,  compiled);
                    partial = handlebarsInstance.partials[templatePath];
-					console.log("evaluate partial after read: ");
-					console.log(partial);
-                }
-				var v = partial(inObj.hash);	//BYAN inObj.hash
-				console.log(v);
-				var outS = JSON.parse(jsonProcessor.Process(v));	
-				console.log("&&&&& BEFORE outS" );	//BYAN
-				console.log(outS);	//BYAN
-                return v; //outS
+					//console.log("evaluate partial after read: ");
+					if( templatePath.includes("Gender") ){
+						//console.log(compiled);
+						console.log( inObj );
+/*
+{ lookupProperty: [Function: lookupProperty],
+  name: 'evaluate',
+  hash: { inCode: undefined },
+  data: { root: { msg: [Object] } },
+  loc: { start: { line: 1, column: 8 }, end: { line: 1, column: 40 } } }
+*/						
+						console.log(inObj.data.root.msg); //data [Object] and not [Array] & meta
+					} 
+                } 
+ 				var v = compiled(inObj.hash);	//BYAN inObj.hash
+				if( v.includes('male')  ){ // || v.includes('address')
+					console.log(v);	
+					console.log(handlebarsInstance);
+				}  
+				var outJson = JSON.parse(jsonProcessor.Process(v));	
+                return outJson; //
             }
             catch (err) {
                 throw `helper "evaluate" : ${err}`;

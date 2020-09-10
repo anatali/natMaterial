@@ -20,6 +20,8 @@ var Handlebars 			= require('handlebars');
 var dataHandlerFactory	= require('../dataHandler/dataHandlerFactory');
 var HandlebarsConverter = require('../handlebars-converter/handlebars-converter');
 var uuidv3 				= require('uuid');
+const {createNamespace} = require("cls-hooked");
+var session 			= createNamespace(constants.CLS_NAMESPACE);
 
 var workData = new Object();
 var handlebarInstance ;
@@ -45,12 +47,14 @@ function generateUUID(urlNamespace) {
 
 function generateResult( dataTypeHandler,dataContext, template ) {
 console.log("\n============================ uniboworker GENERATE RESULT ===========================================");
+console.log("worker generateResult dataContext.msg.v2.data " + dataContext.msg.v2.data );		 
+console.log("worker generateResult dataContext.msg.v2.meta " + dataContext.msg.v2.meta ); //MSH,EVN,PID,NK1,PV1,GT1,DG1,IN1,IN2,IN1,IN2,IN1)
  	 
 	var resultcvt = template(dataContext); 	 	//molti campi, 26566
 
-	//Qui invoca handlebars-helpers.js getFirstSegments e poi esegue  stored-fun che registra le risorse
-  
+	//Qui invoca handlebars-helpers.js getFirstSegments e poi esegue  stored-fun che registra le risorse 
      var result = dataTypeHandler.postProcessResult(resultcvt);	//campi resourceType,type,entry
+
      //prima esegue  getConversionResultMetadata poi parseCoverageReport
      console.log("---------------------------------------------------------------------------------------------------");
      for( i=0; i<result.entry.length; i++) {
@@ -60,8 +64,7 @@ console.log("\n============================ uniboworker GENERATE RESULT ========
      
 
 //copia tutte le proprietà enumerabili da uno o più oggetti di origine in un oggetto di destinazione, che Restituisce 
-     var objBYAN = Object.assign(
-    		 dataTypeHandler.getConversionResultMetadata(dataContext.msg), { 'fhirResource': result });
+     var objBYAN = Object.assign(dataTypeHandler.getConversionResultMetadata(dataContext.msg), { 'fhirResource': result });
 // console.log("\n============================ uniboworker GENERATE RESULT objBYAN " + Object.keys(objBYAN));		
 // (  unusedSegments,invalidAccess,fhirResource )
      return objBYAN;
@@ -81,9 +84,14 @@ function readDataFromFile( fname ) {
 
 
 function doconvert(workData, response){
+	session.run( () => {
 	try {
 		dataTypeHandler   = dataHandlerFactory.createDataHandler(workData.srcDataType);		
 		handlebarInstance = GetHandlebarsInstance(dataTypeHandler, null);		
+			
+			session.set(constants.CLS_KEY_HANDLEBAR_INSTANCE, handlebarInstance);	//BYAN Session
+			session.set(constants.CLS_KEY_TEMPLATE_LOCATION, path.join(constants.TEMPLATE_FILES_LOCATION, dataTypeHandler.dataType));
+
 		console.log("\n============================ uniboworker doconvert COMPILE  ");
  		var template = handlebarInstance.compile(workData.templateString);
 		//console.log("COMPILED TEMPLATE=\n " + template);			
@@ -106,6 +114,7 @@ function doconvert(workData, response){
 	}catch (err) {
 		console.log("convert error=\n"+err);
     }
+	});
 }//doconvert
 
 

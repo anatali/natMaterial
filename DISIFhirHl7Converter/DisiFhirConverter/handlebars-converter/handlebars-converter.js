@@ -19,9 +19,12 @@ module.exports.getHandlebars = function(){
 module.exports.getTemplateLocation = function(){
 	return mytemplateFilesLocation;
 }
+
+//CHIAMATA da uniboworker line 35
 module.exports.instance = function (createNew, dataHandler, templateFilesLocation, currentContextTemplatesMap) {
 	mytemplateFilesLocation = templateFilesLocation;
-console.log("unibo handlebars-converter  " + mytemplateFilesLocation);		 	
+console.log("unibo handlebars-converter  " + mytemplateFilesLocation);	
+// /usr/src/app/DisiFhirConverter/templates/hl7v2	 	
     if (createNew) {
         handlebarsInstances = {};
 //console.log("unibo handlebars-converter  createNew "   );		 	
@@ -32,7 +35,7 @@ console.log("unibo handlebars-converter  " + mytemplateFilesLocation);
     if (! handlebarsInstances[dataType]) {
         handlebarsInstances[dataType] = Handlebars.create();
         var origResolvePartial        = handlebarsInstances[dataType].VM.resolvePartial;
-		myhandlebarsInstances = origResolvePartial;
+		myhandlebarsInstances 		  = handlebarsInstances[dataType];
         handlebarsInstances[dataType].VM.resolvePartial = function (partial, context, options) {	//STORED-FUN
 // Viene chiamata 94 volte. Registra il codice dei template contenuti in templateFilesLocation
 //console.log("%%%%%%%%%%%%% handlebars-converter options.partials.length=" + options.partials.length );

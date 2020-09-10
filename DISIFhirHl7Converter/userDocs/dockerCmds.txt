@@ -1,0 +1,58 @@
+docker rm -f microsoftfhircvt
+docker build --tag fhircvtoriginalimage .
+docker run --name microsoftfhircvt  --rm  -p2019:2019  fhircvtoriginalimage
+
+docker rm -f fhircvt
+docker build --tag natfhirconverter .
+docker run --name fhircvt  --rm  -p2019:2019  natfhirconverter
+
+docker rm -f disifhircvt
+docker build --tag disifhircvtimage . 				//101 MB
+docker run --name disifhircvt  --rm  -p3000:3000  disifhircvtimage
+docker exec -it disifhircvt bash 					//Per vedere l'interno
+
+
+docker run --name origfhircvt  --rm  -p2019:2019  fhirconverter
+
+{ lookupProperty: [Function: lookupProperty],
+  name: 'evaluate',
+  hash: { inCode: [ 'M' ] },
+  data: { root: { msg: [Object] } },
+  loc:
+   { start: { line: 1, column: 8 }, end: { line: 1, column: 40 } } }
+   
+   
+   
+{ lookupProperty: [Function: lookupProperty],
+  name: 'evaluate',
+  hash: { inCode: [ 'MR' ] },
+  data:
+   { root: { msg: [Object] },
+     _parent: { root: [Object] },
+     key: 0,
+     index: 0,
+     first: true,
+     last: true },
+  loc:
+   { start: { line: 1, column: 8 }, end: { line: 1, column: 40 } } }
+{ code: 'MR',
+  display: 'Medical record number',
+  system: 'http://terminology.hl7.org/CodeSystem/v2-0203' }
+  
+  
+  
+  
+{ lookupProperty: [Function: lookupProperty],
+  name: 'evaluate',
+  hash:
+   { inCode:
+      [ [Getter],
+        accessed: [Array],
+        repeats: [Array],
+        push: [Function] ] },
+  data: { root: { msg: [Object] } },
+  loc:
+   { start: { line: 1, column: 8 }, end: { line: 1, column: 40 } } }
+{ code: 'male',
+  display: 'Male',
+  system: 'http://hl7.org/fhir/administrative-gender' }  
