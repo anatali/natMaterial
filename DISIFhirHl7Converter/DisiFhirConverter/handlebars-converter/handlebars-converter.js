@@ -23,7 +23,8 @@ module.exports.getTemplateLocation = function(){
 //CHIAMATA da uniboworker line 35
 module.exports.instance = function (createNew, dataHandler, templateFilesLocation, currentContextTemplatesMap) {
 	mytemplateFilesLocation = templateFilesLocation;
-console.log("unibo handlebars-converter  " + mytemplateFilesLocation);	
+console.log("MY handlebars-converter  %%%%%%%%%%%%%%%%%%%%%%%%%%%% "  );	
+console.log( dataHandler  );
 // /usr/src/app/DisiFhirConverter/templates/hl7v2	 	
     if (createNew) {
         handlebarsInstances = {};
@@ -40,6 +41,7 @@ console.log("unibo handlebars-converter  " + mytemplateFilesLocation);
 // Viene chiamata 94 volte. Registra il codice dei template contenuti in templateFilesLocation
 //console.log("%%%%%%%%%%%%% handlebars-converter options.partials.length=" + options.partials.length );
 //console.log("handlebars-converter options=" + Object.keys(options) );	 //(name,hash,data,helpers,partials,decorators)		 
+//console.log("MY unibo handlebars-converter stored-fun options.partials["+options.name+"]=" + options.partials[options.name]  );					 
             if (! options.partials[options.name] ) {
                 try {
                     var content;
@@ -49,7 +51,7 @@ console.log("handlebars-converter stored-fun get content from map:" + options.na
                     }
                     else {
                         content = fs.readFileSync(templateFilesLocation + "/" + options.name);
-//console.log("unibo handlebars-converter stored-fun get content from file:" +  options.name + " count=" + BYANCount ); 
+console.log("MY handlebars-converter stored-fun READ: " +  templateFilesLocation + "/" + options.name ); 
                     }
                     var preprocessedContent = dataHandler.preProcessTemplate(content.toString());
                     //handlebarsInstances[dataType].registerPartial(options.name, preprocessedContent); 
@@ -60,7 +62,7 @@ console.log("handlebars-converter stored-fun get content from map:" + options.na
                     if (! options.partials[options.name] ) {
  //console.log("%%%%%%%%%%%%% handlebars-converter options.name=" + options.name + " " +   Object.keys( options.partials ).includes(options.name) );
                    	 if( ! Object.keys( options.partials ).includes(options.name) ){
- console.log("unibo handlebars-converter stored-fun registerPartial:" + options.name + "  count=" + BYANCount);					 
+ console.log("MY handlebars-converter STORED-FUN registerPartial:" + options.name + "  count=" + BYANCount);					 
 					 		handlebarsInstances[dataType].registerPartial(options.name, preprocessedContent);  
  		                    options.partials[options.name] = preprocessedContent;
 							BYANCount++;           //numero dei template registrati
@@ -77,7 +79,14 @@ DataType/_string.hbs,DataType/XAD.hbs,DataType/XTN.hbs,DataType/CWECodeableConce
             }//if (!options.partials[options.name]) 
              
             var orpBYAN = origResolvePartial(partial, context, options);	//(0,1,...,283)
-             return orpBYAN;
+if( options.name.includes("XPN" ) ){
+//	console.log( " ============================================ partial" + "  count=" + BYANCount );
+//	 console.log( partial );	//undefined la prima vota or { [Function: ret] _setup: [Function], _child: [Function] }
+//	console.log( " ============================================ context" + "  count=" + BYANCount);
+// 	 console.log( context );	//PID: PV1: che sembrano compilati
+//	console.log( orpBYAN );	 	//"family":"{{XPN-1-1}}", "given": ...  XPN
+}				// options.name.includes("Gender" ) ||		 
+             return orpBYAN;	//e' il contentuo del file hbs
         };//function
 
 console.log("-----------------------------------------------------------------------------------------------------" );					 

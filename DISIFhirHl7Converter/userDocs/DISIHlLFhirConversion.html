@@ -456,7 +456,12 @@ result.entry[1].resource keys: <i><k>resourceType,id</k>,...</i>
 <a href="../ExampleHandlebar/ADT_01Slim.js" target="code">ExampleHandlebar/ADT_01Slim.js</a> <br/>
 <a href="../ExampleHandlebar/ADT01-23.hl7" target="code">ExampleHandlebar/ADT01-23.hl7</a> <br/>
   <br/><br/>
-  
+ 
+<pre>
+docker build --tag disifhircvtimage .
+docker build --tag disifhircvtimage:latest --label my-label disicvt:latest
+docker image prune --force --filter=disicvt
+</pre> 
 <table style="width:98%">
 <tbody>	
 <tr>

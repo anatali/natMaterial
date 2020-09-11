@@ -12,6 +12,14 @@ docker run --name disifhircvt  --rm  -p3000:3000  disifhircvtimage
 docker exec -it disifhircvt bash 					//Per vedere l'interno
 
 
+docker build --tag disifhircvtimage . --label xxx temp  
+docker image prune --force --filter=disicvt
+
+docker image ls 			with the same filtering syntax
+docker image prune -a  --filter "until=2017-01-04T00:00:00"
+
+docker run --name xxx --rm  -p2029:2019 fhirconverter
+
 docker run --name origfhircvt  --rm  -p2019:2019  fhirconverter
 
 { lookupProperty: [Function: lookupProperty],

@@ -1,0 +1,692 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+ 
+<style type="text/css">
+body
+{
+    margin-left:  30px;
+    margin-right: 30px;
+};
+
+P
+{
+    font-family: Tahoma;
+    font-size: 10pt;
+};
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #545454;
+    background-color: transparent;
+}
+
+a:hover {
+    background-color: #cccccc;
+}
+
+
+hr {
+    clear: both;
+    height: 1px;
+    color: #242424;
+    background-color: transparent;
+}
+
+h1, h2, h3 {
+    color: #242424;
+    clear: left;
+    font: 100% Tahoma, Helvetica, Arial, sans-serif;
+    margin-bottom: 0.5em;
+    padding-top: 0.5em;
+	border-radius: 10px;
+	padding: 5px;
+}
+
+top {
+	width: 100%;
+}
+
+
+#i {
+    color: #ff1010;
+}
+tt{
+	font-family: "Arial";
+    font-size: 80%;
+	color: #006600;
+}
+em{
+	font-family: "Arial";
+    font-size: 80%;
+	font-weight: bold;
+	border-style:solid;
+	border-color: #abe876;
+    color: #1632cc;
+}
+bc{
+	font-family: "Arial";
+	font-size: 80%;
+	font-weight: bold;
+    color: #990000;
+	background-color: #fcf8c7;
+}
+ks{
+	font-family: "Arial";
+	font-weight: bold;
+    color: #0000CD	;
+	 
+}
+kc{
+	font-family: "Arial";
+	font-weight: bold;
+    color: #008000	;
+	 
+}
+pre{
+	font-family: "Consolas";
+	font-size: 85%;
+	background-color: #f5f5f5;
+	border: 1.5px solid silver;
+	padding: 5px;
+}
+m{
+	font-family: "Helvetica";
+	line-height: 100%;
+ 	font-size: 75%;
+}
+div.body{
+	width: 700px;
+    font-size: 15px;
+}
+
+k{
+    color: #990000;
+	font-weight: bold;
+}
+
+mn {
+	background-color: lightsalmon;
+}
+
+rf {
+    background-color: #d5ffb0;
+}
+
+h1 {
+    font-size: 150%;
+    background-color: #b2c0ff;
+	padding: 10px; 
+}
+
+h2 {
+    background-color: #9ed8ff;
+    font-size: 130%;
+}
+
+h3 {
+	background-color: #e6ccff;
+    font-size: 100%;
+}
+h4 {
+    background-color: #C0F0E0;
+    font-size: 100%;
+	width: 95%;
+	border-radius: 5px;
+	padding: 2px;
+}
+h5 {
+    background-color: #d5ffb0;
+    font-size: 100%;
+	
+}    
+div.req{
+	background-color: #d9ffb3;
+    font-size: 18px;
+	width: 700px;
+    border: 3px solid green;
+    padding: 15px;
+    margin: 10px;
+}       
+div.remark{
+	background-color: #E3F2FD;	
+    border: 1.5px solid #d5f2ed;
+    padding: 15px;
+    margin: 10px;
+	border-radius: 25px;
+}  
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 5px;
+} 
+
+table {
+  margin: 12px 0px;
+}
+
+ol, ul, li {
+  margin: 0;
+  margin-left: 10px;
+  padding: 0;
+  padding-bottom: 5px;
+}     
+
+table, th, td {
+	border: 1px solid black;
+}
+
+img {
+	border: 1.5px solid #d5f2ed
+	
+}
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #545454;
+    background-color: transparent;
+}
+
+div.wrapdesc{
+	width: 90%;
+	margin: auto;
+}
+
+div.imagedesc{
+	width: 85%;
+	margin: auto;
+}
+
+.center {
+    margin: auto; 
+    display: block;
+}
+
+</style>
+    
+<head>
+   
+<title>MappingV2toFHIRandBack</title></head>
+    
+<body>
+<div id="body">
+<h1>Mapping V2 to FHIR and back | MappingV2toFHIRandBack.html</h1>
+
+<h3>Introduzione</h3>
+<p>
+Per effettuare un mapping da HL7.v2 a FHIR ci si avvale della risorsa Bundle; questa pu&ograve; presentarsi in due tipologie Message oppure Transaction
+(maggiormente utilizzata). In entrambi I casi l’obiettivo principale &egrave; quello di traduttore I segmenti del messaggio HL7 in 
+risorse FHIR che devono essere, in secondo luogo, identificate e referenziate tra loro.<br>
+</p>
+
+<h3>Mapping ADT message</h3>
+<p>Uno scenario tipico &egrave; quello del mapping di un mesaggio V2 ADT_A01:</p>
+
+<pre>
+MSH|^~\&|LegacyEHR||SPARK||20150502090000||ADT^A01|00000002|P|2.5
+EVN|A01|20150502090000|
+PID|1||345345412312345^10^^NHS^NH~456756756745^^^TCPAS^MR||Gefyra^Alpha^F^^Ms^^L||19280524|F|||Bridge Street 22^^Bridgetown^^^12345^^^^P||277543^PRN|||U||
+NK1|1|Gefyra^Beta|FTH|||+44 201 12345678||
+PV1||I|INT^0001^02^GENHOS||||0100^ANDERSON,CARL|0148^ADDISON,JAMES||SUR|||||||0148^ANDERSON,CARL|S|234637^^^GENHOS|A|||||||||||||||||||GENHOS|||||20150502090000|
+AL1|1|DA|1605^acetaminophen^L|MO|Muscle Pain~hairloss
+AL1|2|DA|1558^Oxycodone^L|MO|Muscle Pain~hairloss
+AL1|3|MA|2221^Peanuts^L|SV|Anaphylactic Shock
+</pre>
+
+<p>
+Come gi&agrave; anticipato, per raccogliere tutte queste risorse all'interno di un unico oggetto si utilizza una risorsa Bundle.
+Una volta identificata la tipologia di messaggio da processare, si devono definire le azioni che il server FHIR dovr&agrave; intraprendere per rappresentare
+concretamente il messaggio V2 in ottica FHIR. Ci&ograve; &egrave; possibile tramite l’adozione di un Bundle di tipo Transaction che permette al sever FHIR di capire 
+sia quali informazioni sta ricevendo sia in che modo queste devono essere processate (What and How).
+</p>
+
+<img src="images/ADTSegmentsMappings.png" class="center" style="width: 40%"/>
+<p>
+Il messaggio d'esempio si compone di diverse risorse FHIR come: MessageHeader, Patient, Encounter, Allergytolerance(s). Ognuna di queste dovr&agrave; essere processata singolarmente.
+</p>
+<img src="images/bundleTransaction.png" class="center" style="width:40%;">
+
+<p>
+Una volta estrapolato il paziente dal messaggio, ci si deve domandare se questo &egrave; gi&agrave; presente all’interno del server FHIR. In caso affermativo il paziente
+deve essere aggiornato altrimenti deve essere creato ex-novo. In questo caso si rende utile il <b><a href="http://hl7.org/fhir/http.html#cond-update">Conditional Update</a></b> poiché permette di effettuare un operazione
+di aggiornamento basandosi su dei criteri piuttosto che sul logical id (id restituito dal server FHIR durante l’atto di creazione).
+</p>
+
+<pre>PUT [base]/[type]?[search parameters]</pre>
+
+<p>Se la ricerca, a fronte dei parametri passati, porta a:</p>
+<ul>
+    <li><u>no matches</u>: il server crea la risorsa passata;</li>
+    <li><u>one match</u>: il server effettua un aggiornamento;</li>
+    <li><u>multiple matches</u>: ritorna errore 412;</li>
+</ul>
+
+<p>
+Per evitare di incorrere nella situazione di errore &egrave; necessario specificare un criterio che identifichi univocamente la risorsa indipendetemente dal contesto.
+In altre parole si deve utilizzare un <a href="http://hl7.org/fhir/2015May/resource.html#1.10.3.2.1">business identifier</a> cio&egrave; una coppia URI/Value.<br>
+La sintassi maggiormente utilizzata &egrave;: <pre>[parameter]=[system]|[code]</pre>
+<ul>
+    <li>il valore di [code] viene confrontato con Coding.code oppure Identifier.value;</li>
+    <li>il valore di [system] viene confrontato con Identifier.system or Coding.system;</li>
+</ul>
+</p>
+
+<pre>PUT [base]/Patient?identifier=[system]|[code]</pre>
+
+<p>
+Tipicamente [system] &egrave; un URI che identifica il servizio che ha creato il messaggio mentre [code] &egrave; identificatore valido all’intero del sistema poc’anzi citato.<br>
+Se il sistema HL7 non ha I permessi per effettuare modifiche sul paziente allora invece di un Conditional Update si predilige un <b><a href="http://hl7.org/fhir/http.html#ccreate">Conditional Create</a></b>
+cos&igrave; che questo non vada ad intaccare I campi di una risorsa gi&agrave; presente.<br><br>
+In generale un certo sistema deve essere in grado di cancellare solamente le informazioni da lui stesso aggiunte; entra in gioco il <b><a href="http://hl7.org/fhir/http.html#3.1.0.7.1">Conditional Delete</a></b>.
+Per riconoscere le risorse create da uno specifico sistema sono disponibili due tecniche:
+</p>
+<ul>
+    <li>
+        aggiungere un tag all'interno delle risorse
+        <pre>DELETE [base]/AllergyIntolerance?patient.identifier=[?]&_tag[?]</pre>
+    </li>
+    <li>
+        costruire una risorsa <a href="https://www.hl7.org/fhir/provenance.html"><b>Provenance</b></a> contente un link al device che l'ha creata (agent) e tanti riferimenti quante le risorse create durante la conversione del messaggio (target).
+        <pre>GET [base]/AllergyIntolerance?patient.identifier=[?]&_has:Provenance:agent:device[?]</pre>
+        <small>>> cerca tutte le risorse AllergyIntolerance associate al paziente con l'identifier specificato, il quale ha un riferimento ad una Provenance il cui agent &egrave; il device inserito nella query.</small>
+    </li>
+</ul>
+
+<p>
+Una Provenance permette inoltre di memorizzare il messaggio originale sotto forma di un Attachment cos&igrave; da garantire back tracing. In un certo senso la Provenance funge da contesto poiché evidenzia 
+l’appartenza di un certo gruppo di risorse ad uno stesso messaggio.
+</p>
+
+<h4>Re-identification</h4>
+Le risorse tradotte partendo dal messaggio HL7 devono essere referenziate tra loro esplicitamente. Poich&egrave; queste non hanno ancora un id, a ciascuna di esse all’interno del campo fullUrl,verr&agrave; 
+assegnato un UUID generato a runtime che permetter&agrave; di relazionare le risorse. Il server FHIR, una volta ricevuto il messaggio, eseguir&agrave; la Transaction e sostituir&agrave; gli UUID temporanei con quelli permanenti. 
+
+
+<h4>Scenario 1 – HL7v2 to FHIR</h4>
+<p>
+Un sistema HL7 invia la risposta di un test cio&egrave; un ORU verso un server FHIR. Lato FHIR si vuole solamente creare una risorsa FHIR senza modificare i dati del paziente perch&egrave; il laboratorio 
+che invia il test non &egrave; la vera sorgente (source of truth) per il paziente.
+
+In questo caso non &egrave; possibile utilizzare un Conditional Update perché andrebbe ad aggiornare i campi della risorsa Patient. Si presentano due possibili situazioni: 
+<ul>
+    <li>la risorsa Observation viene referenziata con quella Patient tramite UUID e si esegue una Conditional Create;</li>
+    <li>la risorsa Observation viene referenziata con quella Patient tramite una <b>Conditional Reference</b>, cio&egrave; una query che permette al server FHIR di ricercare la risorsa interessata;</li>
+</ul>
+Nel secondo caso, per evitare l’insorgere di problematiche legate ai permessi con conseguente fallimento della transizione, la risorsa Patient deve essere esclusa dal Bundle. 
+</p>
+
+In una Transaction i riferimenti (references) dovrebbero essere sostituiti con <i>search URI</i> che permettono al server FHIR di ricercare il riferimento corretto:
+<pre>
+<.Observation>
+	<.subject>
+		<b><.reference value="Patient?identifier=12345"/></b>
+	<./subject>
+	<--! rest of resource omitted -->
+<./Observation>
+</pre>
+
+<p>
+N.B: quest’ultima funzionalit&agrave; NON &egrave; ancora ampiamente supportata.
+
+<h5>Limitazioni!</h5>
+<ul>
+    <li>le informazioni ricevute da un sistema V2 sovrascrivono sempre quelle gi&agrave; esistenti. Si devono quindi utilizzare le operazioni condizionali in base ai permessi del sistema mittente;</li>
+    <li>adottando un Bundle Transaction non si &egrave; in grado di eseguire "trigger" basati sulla business logic del server FHIR (alternativamente implementare Message/Operations);</li>
+    <li>necessario un approccio REST;</li>
+</ul>
+
+<h4>What if  the server doesn‘t support Transactions?</h4>
+Nel caso si debba interagire con un server FHIR che NON supporta Transactions:
+<ul>
+    <li>il bundle transaction pu&ograve; essere suddiviso in singole operazioni REST che vengono processate singolarmente;</li>
+    <li>le operazioni condizionali possono essere implementate mediante l’unione dell’interazione GET (search) con PUT/POST/DELETE. In questo caso si devono gestire gli errori lato client;</li>
+    <li>il server intermediario deve sostituire ogni UUID con dei URLs validi per il server FHIR;</li>
+</ul>
+
+Dato che la Transaction &egrave; atomica, tutte le azioni intraprese eseguono o falliscono insieme e l'ordine delle entry non &egrave; determinante. Da questo deriva uno specifico ordine con il quale processare le varie azioni:
+<ul>
+    <li>processare le DELETE;</li>
+    <li>processare le POST;</li>
+    <li>processare le PUT o PATCH;</li>
+    <li>processare le GET o HEAD;</li>
+    <li>risolvere ogni conditional references;</li>
+</ul>
+
+</p>
+
+<h4>Scenario 2 – FHIR to HL7v2</h4>
+<p>
+Un client contatta il server FHIR e aggiunge delle nuove risorse Observation. Queste nuove informazioni devono essere inoltrate verso il server V2 sotto forma di messaggio HL7. Il server di mezzo 
+prima di occuparsi della conversione dovr&agrave; richiedere al server FHIR se ci sono nuove risorse. Per far ci&ograve; esistono due tecniche:
+<h5>_history</h5>
+Il server FHIR interrogato restituisce un Bundle contenente tutte le risorse Observation create, aggiornate ed eliminate in un certo arco temporale. Inoltre il server di mezzo dovr&agrave; 
+richiedere al server FHIR tutte quelle risorse aggiuntive volte alla costruzione del messaggio V2.<br>
+<u>Vantaggi</u>:
+<ul>
+    <li>affidabilit&agrave;: nel caso in cui il server di mezzo sia irraggiungibile per un certo intervallo di tempo, il polling verso il server FHIR verr&agrave; ripreso dall’ultima richiesta eseguita correttamente;</li>
+    <li>Semplice da implementare;</li>
+    <li>ripetibile (se qualcosa va storto);</li>
+</ul>
+<u>Svantaggi</u>:
+<ul>
+    <li>non &egrave; selettivo (non &egrave; possibile richiedere solamente uno specifico campo della risorsa Observation);</li>
+    <li>il polling porta ad un ritardo (delay);</li>
+    <li>servono molteplici interazioni HTTP per costruire il messaggio;</li>
+</ul>
+<h5>subscription</h5>
+Il server di mezzo invia tramite POST una risorsa Subscription al server FHIR contenente dei criteri che permettono di filtrare le risorse di interesse. In questo modo il server FHIR 
+notificher&agrave; tramite ping la presenza di nuove risorse.<br>
+<u>Vantaggi</u>:
+<ul>
+    <li>permette di realizzare un’interazione real-time;</li>
+    <li>permette di selezionare un gruppo ristretto di informazioni;</li>
+    <li>riduce l’utilizzo della banda.</li>
+</ul>
+<u>Svantaggi</u>:
+<ul>
+    <li>si deve gestire la coda delle richieste (queueing) nel caso di errori.</li>
+</ul>
+</p>
+
+<h3>Mappings [PID - Patient]</h3>
+
+<p>
+Nella prima tabella vengono mostrati i campi pi&ugrave; utilizzati del segmento PID che fanno riferimento agli attributi di uno specifica risorsa FHIR Patient.
+Quelli in arancio sono gli unici campi obbligatoriamente richiesti mentre quelli in verde sono riferimenti ad altre risorse (<a href="https://www.hl7.org/fhir/references.html#Reference">Referance</a>).
+</p>
+
+<table>
+	<tr>
+		<th colspan="2">HL7v2</th>
+		<th>FHIR</th>
+	</tr>
+	<tr>
+		<td><u>Field</u></td>
+		<td><u>Name</u></td>
+		<td><u>FHIR Attribute</u></td>
+	</tr>
+	<tr>
+		<td>PID-1</td>
+		<td>Set ID</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td><mn>PID-3</mn></td>
+		<td>Patient Identifier</td>
+		<td>identifier</td>
+	</tr>
+	<tr>
+		<td><mn>PID-5</mn></td>
+		<td>Patient Name</td>
+		<td>name</td>
+	</tr>
+	<tr>
+		<td>PID-7</td>
+		<td>Date/Time of Birth</td>
+		<td>birthDate</td>
+	</tr>
+	<tr>
+		<td>PID-8</td>
+		<td>Administrative Sex</td>
+		<td>gender</td>
+	</tr>
+	<tr>
+		<td>PID-11</td>
+		<td>Patient Address</td>
+		<td>address</td>
+	</tr>
+	<tr>
+		<td>PID-13</td>
+		<td>Phone Number - Home</td>
+		<td>telecom</td>
+	</tr>
+	<tr>
+		<td>PID-15</td>
+		<td>Primary Language</td>
+		<td>communication.language</td>
+	</tr>
+	<tr>
+		<td>PID-16</td>
+		<td>MaritalStatus</td>
+		<td>maritalStatus</td>
+	</tr>
+	<tr>
+		<td>PID-18</td>
+		<td>Patient Account Number</td>
+		<td>mapped in PID[account]
+		</td>
+	</tr>
+</table>
+
+<p>
+A seguire viene presentata una tabella di Mapping popolata con campi di diversi segmenti, tra cui  il principale PID, che permettono di creare una 
+risorsa Patient FHIR partendo da un messaggio HL7.
+</p>
+
+<table>
+	<tr>
+		<th>FHIR Attribute</th>
+		<th>V2 Field</th>
+	</tr>
+	<tr>
+		<td>identifier</td>
+		<td><mn>PID-3</mn></td>
+	</tr>
+	<tr>
+        <td>active</td>
+        <td></td>
+	</tr>
+	<tr>
+		<td>name</td>
+		<td><mn>PID-5</mn>, PID-9</td>
+	</tr>
+	<tr>
+		<td>telecom</td>
+		<td>PID-13,PID-14, PID-40</td>
+	</tr>
+	<tr>
+		<td>gender</td>
+		<td>PID-8</td>
+	</tr>
+	<tr>
+		<td>birthDate</td>
+		<td>PID-7</td>
+	</tr>
+	<tr>
+		<td>deceased[x]</td>
+		<td>PID-30 (bool) oppure PID-29 (datetime)</td>
+	</tr>
+	<tr>
+		<td>address</td>
+		<td>PID-11</td>
+	</tr>
+	<tr>
+		<td>maritalStatus</td>
+		<td>PID-16</td>
+	</tr>
+	<tr>
+		<td>multipleBirth[x]</td>
+		<td>PID-24(bool) oppure PID-25 (integer)</td>
+	</tr>
+	<tr>
+		<td>photo</td>
+		<td>OBX-5 - needs a profile</td>
+	</tr>
+	<tr>
+		<td>contact</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>relationship</td>
+		<td>NK1-7, NK1-3</td>
+	</tr>
+	<tr>
+		<td>name</td>
+		<td>NK1-2</td>
+	</tr>
+	<tr>
+		<td>telecom</td>
+		<td>NK1-5,NK1-6, NK1-40</td>
+	</tr>
+	<tr>
+		<td>address</td>
+		<td>NK1-4</td>
+	</tr>
+	<tr>
+		<td>gender</td>
+		<td>NK1-15</td>
+	</tr>
+	<tr>
+		<td>organization</td>
+		<td>NK1-13,NK1-30, NK1-31, NK1-32, NK1-41</td>
+	</tr>
+	<tr>
+		<td>generalPractitioner</td>
+		<td>PD1-4</td>
+	</tr>
+	<tr>
+		<td><rf>managingOrganization</rf></td>
+		<td></td>
+	</tr>
+</table>
+
+<h3>Mappings [CarePlan]</h3>
+Nella tabella vengono mostrati solamente gli attributi di interesse del dominio di i-itel per quanto riguarda la risorsa <a href="https://www.hl7.org/fhir/careplan.html">CarePlan</a>.
+<table>
+	<tr>
+		<td><u>FHIR Attribute</u></td>
+		<td><u>V2 Identifier</u></td>
+	</tr>
+	<tr>
+		<td>identifier</td>
+		<td >PTH-3</td>
+	</tr>
+	<tr>
+		<td><rf>instantiatesCanonical</rf></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td><rf>basedOn</rf></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td><rf>replaces</rf></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td><rf>partOf</rf></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td><mn>status</mn></td>
+		<td >PTH-5</td>
+	</tr>
+	<tr>
+		<td><mn>intent</mn></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>title</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>description</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td><mn>subject</mn></td>
+		<td >PID-3</td>
+	</tr>
+	<tr>
+		<td>period</td>
+		<td >GOL-7/ GOL-8</td>
+	</tr>
+	<tr>
+		<td>created</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td><rf>author</rf></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td><rf>addresses</rf></td>
+		<td>PRB-4</td>
+	</tr>
+	<tr>
+		<td><rf>supportingInfo</rf></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td><rf>goal</rf></td>
+		<td >GOL.1</td>
+	</tr>
+	<tr>
+		<td>activity</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>-progress</td>
+		<td >NTE?</td>
+	</tr>
+	<tr>
+		<td>-detail</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>--kind</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>--code</td>
+		<td >OBR-4/ RXE-2 / RXO-1 / RXD-2</td>
+	</tr>
+	<tr>
+		<td>--reasonCode</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>--<rf>reasonReference</rf></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>--<rf>goal</rf></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>--status</td>
+		<td>ORC-5?</td>
+	</tr>
+	<tr>
+		<td>--scheduled[x]</td>
+		<td>TQ1</td>
+	</tr>
+	<tr>
+		<td>--product[x]</td>
+		<td>RXE-2/ RXO-1 / RXD-2</td>
+	</tr>
+	<tr>
+		<td>--dailyAmount</td>
+		<td>RXO-23/ RXE-19 / RXD-12</td>
+	</tr>
+	<tr>
+		<td>--quantity</td>
+		<td>RXO-11/ RXE-10 / RXD-4 / RXG-5 / RXA-6 / TQ1-2.1 *and* RXO-12 / RXE-11 /RXD-5 / RXG-7 / RXA-7 / TQ1-2.2</td>
+	</tr>
+	<tr>
+		<td>--description</td>
+		<td >NTE?</td>
+	</tr>
+	<tr>
+		<td>note</td>
+		<td></font>NTE?</td>
+	</tr>
+</table>
+
+<div style="background-color:rgba(86, 56, 253, 0.9); width:100%;text-align:center;font-size:small;color:white">
+By AC-AM-AN-AR Unibo-DISI  
+</div> 
+</body>
+</html>
+
+
+ 

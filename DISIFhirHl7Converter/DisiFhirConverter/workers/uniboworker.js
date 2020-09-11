@@ -84,13 +84,13 @@ function readDataFromFile( fname ) {
 
 
 function doconvert(workData, response){
-	session.run( () => {
+	//session.run( () => {
 	try {
 		dataTypeHandler   = dataHandlerFactory.createDataHandler(workData.srcDataType);		
 		handlebarInstance = GetHandlebarsInstance(dataTypeHandler, null);		
 			
-			session.set(constants.CLS_KEY_HANDLEBAR_INSTANCE, handlebarInstance);	//BYAN Session
-			session.set(constants.CLS_KEY_TEMPLATE_LOCATION, path.join(constants.TEMPLATE_FILES_LOCATION, dataTypeHandler.dataType));
+//			session.set(constants.CLS_KEY_HANDLEBAR_INSTANCE, handlebarInstance);	//BYAN Session
+//			session.set(constants.CLS_KEY_TEMPLATE_LOCATION, path.join(constants.TEMPLATE_FILES_LOCATION, dataTypeHandler.dataType));
 
 		console.log("\n============================ uniboworker doconvert COMPILE  ");
  		var template = handlebarInstance.compile(workData.templateString);
@@ -114,7 +114,7 @@ function doconvert(workData, response){
 	}catch (err) {
 		console.log("convert error=\n"+err);
     }
-	});
+	//});
 }//doconvert
 
 

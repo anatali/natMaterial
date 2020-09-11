@@ -79,6 +79,7 @@ var convertDate = function (dateString) {
         var day = dateString.substring(6, 8);
         if (!validDate(year, month - 1, day))
             throw `Invalid day: ${dateString}`;
+console.log("						helpers date="+ year + '-' + month + '-' + day);
         return year + '-' + month + '-' + day;
     }
     throw `Bad input for Date type in ${dateString}`;
@@ -488,6 +489,21 @@ module.exports.external = [
     },
 */
     {
+        name: 'evaluatenat',
+		func: function (templatePath, inObj) {
+				console.log("----- evaluatenat templatePath= " + templatePath );  
+				var xxxStr = "{ \n" +
+"    ,	\n"+
+"        \"code\" : \""+templatePath+ "\",   \n"+
+"    ,	\n"+
+"},\n";
+
+				var outJson = JSON.parse(jsonProcessor.Process(xxxStr));					
+                return outJson;  
+		}
+	},
+	
+    {
         name: 'evaluate',
         description: 'Returns template result object: evaluate templatePath inObj',
         func: function (templatePath, inObj) {
@@ -550,12 +566,22 @@ module.exports.external = [
 						console.log(inObj.data.root.msg); //data [Object] and not [Array] & meta
 					} 
                 } 
+/*
  				var v = compiled(inObj.hash);	//BYAN inObj.hash
 				if( v.includes('male')  ){ // || v.includes('address')
 					console.log(v);	
 					console.log(handlebarsInstance);
 				}  
 				var outJson = JSON.parse(jsonProcessor.Process(v));	
+*/				
+				var xxxStr = "{ \n" +
+"    ,	\n"+
+"        \"code\" : \"male\",   \n"+
+"    ,	\n"+
+"},\n";
+
+				var outJson = JSON.parse(jsonProcessor.Process(xxxStr));	
+				
                 return outJson; //
             }
             catch (err) {

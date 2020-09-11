@@ -3,10 +3,10 @@
 // Licensed under the MIT License (MIT). See LICENSE in the repo root for license information.
 // -------------------------------------------------------------------------------------------------
 
-let indexerRegex ; //= /(?<=(?<!\\){{[^}]*?)(-)(\d+)/g; // e.g. replace -2 with ".[1]"
-
+let indexerRegex =  /(?<=(?<!\\){{[^}]*?)(-)(\d+)/g; // e.g. replace -2 with ".[1]";
+//new RegExp("(?<!\\){{[^}]*?)(-)(\d+)", "g"); //  
 module.exports.Process = function (input) {
-    return input; //input.replace(indexerRegex, replacer);	//TODO BY AN
+    return input.replace(indexerRegex, replacer);	//TODO BY AN input; //
 };
 
 function replacer(match, p1, p2) {
@@ -17,3 +17,15 @@ function replacer(match, p1, p2) {
         return `${p1}${p2}`;
     }
 }
+
+/*
+
+ (?<={index:)\d+(?=})
+ /{index:(\d+)}/g
+
+(?<=(?<!\\){{[^}]*?)(-)(\d+)
+
+(?<!\\){{[^}]*?)(-)(\d+)
+
+
+*/
