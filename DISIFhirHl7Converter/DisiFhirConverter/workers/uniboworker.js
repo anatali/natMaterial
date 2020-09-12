@@ -6,7 +6,7 @@
  -------------------------------------------------------------------------------------------------
  REFACTORING
  npm install handlebars
- npm install uuid			.v3 ???
+ npm install uuid			 
  npm install antlr4
  npm install deepmerge
  npm install underscore
@@ -20,8 +20,8 @@ var Handlebars 			= require('handlebars');
 var dataHandlerFactory	= require('../dataHandler/dataHandlerFactory');
 var HandlebarsConverter = require('../handlebars-converter/handlebars-converter');
 var uuidv3 				= require('uuid');
-const {createNamespace} = require("cls-hooked");
-var session 			= createNamespace(constants.CLS_NAMESPACE);
+//const {createNamespace} = require("cls-hooked");						//unibo USED??
+//var session 			= createNamespace(constants.CLS_NAMESPACE);		//unibo USED??
 
 var workData = new Object();
 var handlebarInstance ;
@@ -33,7 +33,7 @@ function callMeFromJava(a,b) {
 }
 
 function GetHandlebarsInstance(dataTypeHandler, templatesMap) {
-console.log("\nunibo worker GetHandlebarsInstance " + constants.TEMPLATE_FILES_LOCATION );			 
+console.log("\n============================ uniboworker GetHandlebarsInstance "   );			 
     var instance = HandlebarsConverter.instance(true,
         dataTypeHandler,
         path.join(constants.TEMPLATE_FILES_LOCATION, dataTypeHandler.dataType),
@@ -46,9 +46,9 @@ function generateUUID(urlNamespace) {
 }
 
 function generateResult( dataTypeHandler,dataContext, template ) {
-console.log("\n============================ uniboworker GENERATE RESULT ===========================================");
-console.log("worker generateResult dataContext.msg.v2.data " + dataContext.msg.v2.data );		 
-console.log("worker generateResult dataContext.msg.v2.meta " + dataContext.msg.v2.meta ); //MSH,EVN,PID,NK1,PV1,GT1,DG1,IN1,IN2,IN1,IN2,IN1)
+console.log("\n============================ uniboworker GENERATE RESULT  ");
+//console.log("worker generateResult dataContext.msg.v2.data " + dataContext.msg.v2.data );		 
+//console.log("worker generateResult dataContext.msg.v2.meta " + dataContext.msg.v2.meta ); //MSH,EVN,PID,NK1,PV1,GT1,DG1,IN1,IN2,IN1,IN2,IN1)
  	 
 	var resultcvt = template(dataContext); 	 	//molti campi, 26566
 
@@ -58,21 +58,20 @@ console.log("worker generateResult dataContext.msg.v2.meta " + dataContext.msg.v
      //prima esegue  getConversionResultMetadata poi parseCoverageReport
      console.log("---------------------------------------------------------------------------------------------------");
      for( i=0; i<result.entry.length; i++) {
-     	 console.log("uniboworker generateResult entry["+i+"].resource.resourceType=" + 
-				result.entry[i].resource.resourceType +"	keys=" + Object.keys(result.entry[i].resource));
+     	 console.log("\n============================ uniboworker entry["+i+"].resource.resourceType=" +
+				result.entry[i].resource.resourceType);
+		 console.log("ENTRY KEYS=" + Object.keys(result.entry[i].resource));
      }
      
 
-//copia tutte le proprietà enumerabili da uno o più oggetti di origine in un oggetto di destinazione, che Restituisce 
+	//copia tutte le proprietà enumerabili da uno o più oggetti in un oggetto di destinazione, che restituisce 
      var objBYAN = Object.assign(dataTypeHandler.getConversionResultMetadata(dataContext.msg), { 'fhirResource': result });
-// console.log("\n============================ uniboworker GENERATE RESULT objBYAN " + Object.keys(objBYAN));		
-// (  unusedSegments,invalidAccess,fhirResource )
      return objBYAN;
 }
 
 
 function readDataFromFile( fname ) {
-	console.log("readDataFromFile	" + fname);
+	console.log("============================ uniboworker readDataFromFile	" + fname);
 	return new Promise((fulfill, reject) => {
 		fs.readFile( fname, 'utf-8', (err, data) => {
 			if( err ) { console.log(  err.toString() ); }
@@ -92,8 +91,8 @@ function doconvert(workData, response){
 //			session.set(constants.CLS_KEY_HANDLEBAR_INSTANCE, handlebarInstance);	//BYAN Session
 //			session.set(constants.CLS_KEY_TEMPLATE_LOCATION, path.join(constants.TEMPLATE_FILES_LOCATION, dataTypeHandler.dataType));
 
-		console.log("\n============================ uniboworker doconvert COMPILE  ");
  		var template = handlebarInstance.compile(workData.templateString);
+		console.log("\n============================ uniboworker doconvert COMPILE DONE ");
 		//console.log("COMPILED TEMPLATE=\n " + template);			
 		dataTypeHandler.parseSrcData(workData.msg)		//See hl7v2.js
             	.then((parsedData) => {
@@ -102,7 +101,7 @@ function doconvert(workData, response){
         				var genratedRsult 	= generateResult( dataTypeHandler, dataContext, template );
         				var outS 			= JSON.stringify(genratedRsult.fhirResource, null, 2);        				
          				fs.writeFile(hl7DataFileName+".txt", outS, (err) => {  if (err) throw err; }) 
-        				console.log("uniboworker convert outS=" + outS);
+        				console.log("\n============================ uniboworker convertion done. See the file " + hl7DataFileName+".txt");
         				if( response != null ){
 							response.write( outS );
         					response.end();
@@ -119,7 +118,8 @@ function doconvert(workData, response){
 
 
 module.exports.convert= function( templateString, HL7Msg, response ) {
-	//console.log("uniboworker convert " + HL7Msg);
+	console.log(" ");
+	console.log("\n============================ uniboworker STARTS ");
 	workData.srcDataType	= "hl7v2";
 	workData.templateString = templateString;
 	workData.msg            = HL7Msg;

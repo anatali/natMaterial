@@ -34,8 +34,7 @@ module.exports = class hl7v2 extends dataHandler {
     }
 
     getConversionResultMetadata(context) {
-console.log("\n============================ hl7v2 getConversionResultMetadata ===========================================");
-//console.log("unibo hl7v2.js getConversionResultMetadata context " +  Object.keys(context));		//BY AN  (v2)
+		console.log("\n============================ hl7v2 getConversionResultMetadata  ");
         return {
             'unusedSegments': parseCoverageReport(context),
             'invalidAccess': parseInvalidAccess(context)
@@ -48,7 +47,7 @@ function doesElementExistFactory(type, line) {
 }
 
 function parseHL7v2(msg) {
-	console.log("\n============================ hl7v2 PARSING ===========================================");
+	console.log("\n============================ hl7v2 PARSING 	");
     var segments = msg.split(/\r?\n/);
     if (segments[0].substring(0, 3) !== "MSH") {
         throw new Error("Invalid HL7 v2 message, first segment id = " + segments[0].substring(0, 3));

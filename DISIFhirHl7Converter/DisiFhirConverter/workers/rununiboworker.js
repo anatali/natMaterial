@@ -9,7 +9,7 @@ var hl7DataFileName = "ADT01-23"; // "ADT01-28";
 var fs 				= require('fs');
 
 function readDataFromFile( fname ) {
-	console.log("readDataFromFile	" + fname);
+	console.log("%%% rununiboworker readDataFromFile:" + fname);
 	return new Promise((fulfill, reject) => {
 		fs.readFile( fname, 'utf-8', (err, data) => {
 			if( err ) { console.log(  err.toString() ); }
@@ -19,9 +19,9 @@ function readDataFromFile( fname ) {
 }
  
 function init( templateFile ){
- 	//workData.srcDataType	= "hl7v2";
-    
- 	console.log("CURRENT DIRECYORY	" + __dirname);
+	console.log("");
+ 	console.log("%%% rununiboworker STARTS"  );
+ 	console.log("%%% rununiboworker CURRENT DIRECTORY:" + __dirname);
  	var hl7Datafile    = constants.HL7_DATAFILES_LOCATION  + "/hl7v2/"+hl7DataFileName+".hl7";
 	
 	readDataFromFile( hl7Datafile )
@@ -38,13 +38,13 @@ function init( templateFile ){
 
  
 
-init( constants.TEMPLATE_FILES_LOCATION + "/hl7v2/ADT_A01Slim.hbs" );
-
+init( constants.TEMPLATE_FILES_LOCATION + "/hl7v2/ADT_A01.hbs" );
+/*
 setTimeout(function(){
 	console.log("\n============================ uniboworker REDOING  ");
 	init( constants.TEMPLATE_FILES_LOCATION + "/hl7v2/ADT_A01Slim.hbs" )	
 }, 1000);
-/*
+
 setTimeout(function(){
 	console.log("\n============================ uniboworker REDOING  ");
 	init( constants.TEMPLATE_FILES_LOCATION + "/hl7v2/ADT_A01Slim.hbs" )	

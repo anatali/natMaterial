@@ -79,6 +79,7 @@ var convertDate = function (dateString) {
         var day = dateString.substring(6, 8);
         if (!validDate(year, month - 1, day))
             throw `Invalid day: ${dateString}`;
+console.log("						helpers date="+ year + '-' + month + '-' + day);
         return year + '-' + month + '-' + day;
     }
     throw `Bad input for Date type in ${dateString}`;
@@ -457,7 +458,51 @@ module.exports.external = [
             return '';
         }
     },
- 	
+/*
+    {
+        name: 'exevaluateold',
+        description: 'Returns template result object: evaluate templatePath inObj',
+        func: function (templatePath, inObj) {
+            try {
+             
+                var getNamespace = require('cls-hooked').getNamespace;
+                var session = getNamespace(constants.CLS_NAMESPACE);
+                var handlebarsInstance = session.get(constants.CLS_KEY_HANDLEBAR_INSTANCE);
+                let templateLocation = session.get(constants.CLS_KEY_TEMPLATE_LOCATION);
+
+                var partial = handlebarsInstance.partials[templatePath];
+
+                if (typeof partial !== 'function') {
+                    var content = fs.readFileSync(templateLocation + "/" + templatePath);
+
+                    // register partial with compilation output
+                    handlebarsInstance.registerPartial(templatePath, handlebarsInstance.compile(content.toString()));
+                    partial = handlebarsInstance.partials[templatePath];
+                }
+             
+                return JSON.parse(jsonProcessor.Process(partial(inObj.hash)));
+            }
+            catch (err) {
+                throw `helper "evaluate" : ${err}`;
+            }
+        }
+    },
+*/
+    {
+        name: 'evaluatenat',
+		func: function (templatePath, inObj) {
+				console.log("----- evaluatenat templatePath= " + templatePath );  
+				var xxxStr = "{ \n" +
+"    ,	\n"+
+"        \"code\" : \""+templatePath+ "\",   \n"+
+"    ,	\n"+
+"},\n";
+
+				var outJson = JSON.parse(jsonProcessor.Process(xxxStr));					
+                return outJson;  
+		}
+	},
+	
     {
         name: 'evaluate',
         description: 'Returns template result object: evaluate templatePath inObj',
@@ -466,29 +511,86 @@ module.exports.external = [
             try {
 				var handlebarsInstance ; //BYAN
 				var templateLocation   ; //BYAN
-                //var getNamespace       = require('cls-hooked').getNamespace;
-                //var session 	 	   = getNamespace(constants.CLS_NAMESPACE);
-  				//console.log("evaluate --------------------- templatePath= " + templatePath);
-/*	
-WARNING: we do not use more session, but values stored in HandlebarsConverter		
+                var getNamespace       = require('cls-hooked').getNamespace;
+                var session 	 	   = getNamespace(constants.CLS_NAMESPACE);
+//BYAN
+ 				//console.log(inObj);
+				/*  //inObj e' sempre'
+{
+  lookupProperty: [Function: lookupProperty],
+  name: 'evaluate',
+  hash: { inCode: undefined },
+  data: { root: { msg: [Object] } },
+  loc: { start: { line: 1, column: 8 }, end: { line: 1, column: 40 } }
+}
+				*/
+				//console.log(getNamespace); 
+ 				console.log("evaluate --------------------- session= " + session);
+/*			
+ if( session != undefined){
+                 handlebarsInstance 	= session.get(constants.CLS_KEY_HANDLEBAR_INSTANCE);
+                 templateLocation   	= session.get(constants.CLS_KEY_TEMPLATE_LOCATION);	//TODO
+				 //templateLocation     =  HandlebarsConverter.getTemplateLocation();	//TODO
+ }else{
+	*/
+				//handlebarsInstance = require('../../ExampleHandlebar/esempioTrasformazioneADT_A01').getHandlebars();
+				handlebarsInstance   = HandlebarsConverter.getHandlebars();
+				//templateLocation   = require('../../ExampleHandlebar/esempioTrasformazioneADT_A01').getTemplateLocation();
+				templateLocation     =  HandlebarsConverter.getTemplateLocation();
+ 				//console.log(handlebarsInstance.partials);
+ 				//console.log(templateLocation);
+/*
+}
 */
- 				handlebarsInstance   = HandlebarsConverter.getHandlebars();
- 				templateLocation     =  HandlebarsConverter.getTemplateLocation();
- 				//templateLocation= /usr/src/app/DisiFhirConverter/templates/hl7v2
-                 var partial = handlebarsInstance.partials[templatePath];
- 				var compiled = partial;
+				console.log("evaluate --- templatePath= " + templatePath + " " + templateLocation); //+ " session=" + session
+				//templateLocation= /usr/src/app/DisiFhirConverter/templates/hl7v2
+				//console.log(handlebarsInstance);
+                var partial = handlebarsInstance.partials[templatePath];
+				//console.log("partial: " + templatePath);
+				//console.log(partial);
+				var compiled = partial;
                 if (typeof partial !== 'function') {
                    var content = fs.readFileSync(templateLocation + "/" + templatePath);
                     // register partial with compilation output
-   				   //console.log( "READ FROM FILE" );	// + content.toString()
+   				   console.log( "READ FROM FILE" );	//BYAN + content.toString()
 				   compiled = handlebarsInstance.compile( content.toString() );
                    handlebarsInstance.registerPartial(templatePath,  compiled);
                    partial = handlebarsInstance.partials[templatePath];
+					//console.log("evaluate partial after read: ");
+					if( templatePath.includes("Gender") ){
+						//console.log(compiled);
+						//console.log( inObj );
+/*
+{ lookupProperty: [Function: lookupProperty],
+  name: 'evaluate',
+  hash: { inCode: undefined },
+  data: { root: { msg: [Object] } },
+  loc: { start: { line: 1, column: 8 }, end: { line: 1, column: 40 } } }
+*/						
+						//console.log(inObj.data.root.msg); //data [Object] and not [Array] & meta
+					} 
                 } 
  
  				var v = compiled(inObj.hash);	//BYAN inObj.hash
+/*			
+				if( v.includes('male')  ){ // || v.includes('address')
+					console.log(v);	
+					console.log(handlebarsInstance);
+				}  
+*/				
 				var outJson = JSON.parse(jsonProcessor.Process(v));	
  				return outJson;
+/*		
+				var xxxStr = "{ \n" +
+"    ,	\n"+
+"        \"code\" : \"male\",   \n"+
+"    ,	\n"+
+"},\n";
+
+				var outJson = JSON.parse(jsonProcessor.Process(xxxStr));	
+				
+                return outJson; //
+*/
             }
             catch (err) {
                 //throw `helper "evaluate" : ${err}`;
@@ -607,9 +709,9 @@ WARNING: we do not use more session, but values stored in HandlebarsConverter
         name: 'getFirstSegments',
         description: "Returns first instance of the segments e.g. getFirstSegments msg.v2 'PID' 'PD1': getFirstSegments message segment1 segment2 …",
         func: function getFirstSegments(msg, ...segmentIds) {
-		console.log("\n============================ handlebars-helpers.js getFirstSegments  ");  
+console.log("\n============================ handlebars-helpers.js getFirstSegments ========================="); //BY AN
             try {
- 				//console.log("getFirstSegments segmentIds=" + segmentIds);		//BY AN (PID,..., [object Object])
+ console.log("getFirstSegments segmentIds=" + segmentIds);		//BY AN (PID,..., [object Object])
                 var ret = {};
                 var inSegments = {};
                 for (var s = 0; s < segmentIds.length - 1; s++) { //-1 because segmentsIds includes the full message at the end
