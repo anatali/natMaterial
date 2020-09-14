@@ -260,35 +260,64 @@ function <ks>convert( templateString, HL7Msg, <k>response</k> )</ks> {
 
 <h3>La esecuzione</h3>
 <h4>Offline <!-- (WARNING: solo con node 6.10) --></h4>
-Una esecuzione 'offline' (puo' essere effettuata invocando:
+
+<table style="width:98%">
+<tbody>	
+<tr>
+<td style="width:50%" >Una esecuzione 'offline' (puo' essere effettuata invocando:
 <pre>
 In <kc>\DISIFhirHl7Converter/DisiFhirConverter/workers</kc>
 node rununiboworker.js
 </pre>
 Questo 'main' invoca la funzione <ks>convert</ks> di <a href="../DisiFhirConverter/workers/uniboworker.js" target="code">uniboworker.js</a>
 che e' la stessa funzione invocata da <a href="../routes/disicvt.js" target="code">routes/disicvt.js</a> nella versione 'online'.
-<br/>
-<!-- Con node <ks>v12.18.0</ks> purtroppo si ha l'errore <tt>Cannot find module 'uuid'</tt>: -->
+
+</td>
+<td><center> <img src="./img/rununiboworker-js.png" alt="rununiboworker-js.png" width="100%"> </center> 
+ 
+</td>
+</tr>
+ </tbody>
+</table>
+
 
 <h4>Online</h4>
+
+<table style="width:98%">
+<tbody>	
+<tr>
+<td style="width:50%" > 
 Prima si attiva il servizio usando docker
-<pre>
-docker rm -f disifhircvt			<kc>//remove previous activations (if needed)</kc>
-docker build --tag disifhircvtimage .		<kc>//rebuild the image (if needed)</kc>
-docker run --name disifhircvt  --rm  -p3000:3000  disifhircvtimage	<kc>//activate the service on port 3000</kc>
-</pre>
+<pre><m><kc>//remove previous activations (if needed)</kc>
+docker rm -f disifhircvt
+
+<kc>//rebuild the image (if needed)</kc>			
+docker build --tag disifhircvtimage .		
+
+<kc>//activate the service on port 3000</kc>
+docker run --name disifhircvt  --rm  -p3000:3000  disifhircvtimage
+</m></pre>
 
 Successivamente, si puo' eseguire un client scritto in Java:
 <pre>
-In <kc>HealthAdapterFacade/src/main/java/it/unibo/HealthAdapter/Clients</kc>
+<m>In <kc>HealthAdapterFacade/src/main/java/it/unibo/HealthAdapter/Clients</kc></m>
 run <a href="../../HealthAdapterFacade/src/main/java/it/unibo/HealthAdapter/Clients/DisicvtClient.java" target="code">DisicvtClient.java</a> 
 </pre>
 
+
+</td>
+<td><center> <img src="./img/DisicvtClient.png" alt="DisicvtClient.png" width="100%"> </center> <br/><br/>
 Invocando da un browser
 <pre>
 http://localhost:3000
 </pre>
 si ottiene solo un 'welcome' in quanto al momento non e' prevista aluna internazione <i>human-to-machine</i> a questo livello.
+ 
+</td>
+</tr>
+ </tbody>
+</table>
+
 
 
 <!--
@@ -305,13 +334,42 @@ Si veda <a href="https://webapplog.com/handlebars/" target="web">Handlebars Tuto
 e <a href="https://www.baeldung.com/handlebars" target="web">Templating with Handlebars</a> per la parte Java.
 </div>
 Il template di rferimento puo' fare uso di <em>helpers</em> built-in (e.g. <tt>{{#with ...}}</tt>,  <tt>each , if</tt>) o di helper
-custom (<tt>{{#custonheleper ...}}{{/custonheleper}}</tt> ). 
+custom (<tt>{{#custonheleper ...}}{{/custonheleper}}</tt>). 
 <br/> 
 Un helper custom accetta un context e oggetti options e deve essere <ks>registrato</ks> nella Handlebar instace in uso (si veda
 <a href="#registrazione">registrazione</a>).
 <br/><br/>
 <!-- generateResult (in <a href="../DisiFhirConverter/workers/uniboworker.js" target="code">uniboworker.js</a>) -->
 
+La struttura del trasformatore puo' essere riassunta dalla figyra che segue:<br/><br/>
+<table style="width:98%">
+<tbody>	
+<tr>
+<td style="width:60%" ><center> <img src="./img/DISIFhirHl7Converter.png" alt="DISIFhirHl7Converter.png" width="100%"> </center> 
+</td>
+<td><h4><a href="../DisiFhirConverter/dataHandler/dataHandlerFactory.js" target="code">dataHandlerFactory.js</a></h4>
+
+La classe  <a href="../DisiFhirConverter/dataHandler/dataHandlerFactory.js" target="code">dataHandlerFactory.js</a> restituisce oggetti relativi alle categorie
+HL7 e CDA. <br/>
+Nel caso nostro (HL7), <a href="../DisiFhirConverter/dataHandler/dataHandlerFactory.js" target="code">dataHandlerFactory.js</a> 
+restituisce un oggetto di tipo <a href="../DisiFhirConverter/hl7v2/hl7v2.js" target="code">hl7v2.js</a>
+come  specializzazione della classe <a href="../DisiFhirConverter/dataHandler/dataHandler.js" target="code">dataHandler.js</a>.
+
+<h4><a href="../DisiFhirConverter/hl7v2/hl7v2.js" target="code">hl7v2.js</a></h4>
+ La casse <a href="../DisiFhirConverter/hl7v2/hl7v2.js" target="code">hl7v2.js</a>
+e' una specializzazione di <a href="../DisiFhirConverter/dataHandler/dataHandler.js" target="code">dataHandler.js</a>
+che funge da <k>dataTypeHandler</k> 
+
+<h4><a href="../DisiFhirConverter/handlebars-converter/handlebars-converter.js" target="code">HandlebarsConverter.instance</a></h4>
+Contiene il 'core' della conversione basata su Handlecare.
+
+<h4>generateResult (in <a href="../DisiFhirConverter/workers/uniboworker.js" target="code">uniboworker.js</a>)</h4>
+Invoca i template preparati e fornisce il risultato come String Json.
+</td>
+</tr>
+ </tbody>
+</table>
+<br/><br/>
 L'attuale processo di trasformazione si articola nelle seguenti fasi:<br/><br/>
 <ol>
 <li>
@@ -345,33 +403,7 @@ dataContext.msg.v2.data		<i>segmenti del dato</i>
 <li>inserzione del risultato della trasformazione nell'oggetto <k>response</k> e restituire tale risultato al chiamante </li>
 </ol>
 
-<table style="width:98%">
-<tbody>	
-<tr>
-<td style="width:50%" ><center> <img src="./img/DISIFhirHl7Converter.png" alt="DISIFhirHl7Converter.png" width="75%"> </center> 
-</td>
-<td><h4><a href="../DisiFhirConverter/dataHandler/dataHandlerFactory.js" target="code">dataHandlerFactory.js</a></h4>
 
-La classe  <a href="../DisiFhirConverter/dataHandler/dataHandlerFactory.js" target="code">dataHandlerFactory.js</a> restituisce oggetti relativi alle categorie
-HL7 e CDA. <br/>
-Nel caso nostro (HL7), <a href="../DisiFhirConverter/dataHandler/dataHandlerFactory.js" target="code">dataHandlerFactory.js</a> 
-restituisce un oggetto di tipo <a href="../DisiFhirConverter/hl7v2/hl7v2.js" target="code">hl7v2.js</a>
-come  specializzazione della classe <a href="../DisiFhirConverter/dataHandler/dataHandler.js" target="code">dataHandler.js</a>.
-
-<h4><a href="../DisiFhirConverter/hl7v2/hl7v2.js" target="code">hl7v2.js</a></h4>
- La casse <a href="../DisiFhirConverter/hl7v2/hl7v2.js" target="code">hl7v2.js</a>
-e' una specializzazione di <a href="../DisiFhirConverter/dataHandler/dataHandler.js" target="code">dataHandler.js</a>
-che funge da <k>dataTypeHandler</k> 
-
-<h4><a href="../DisiFhirConverter/handlebars-converter/handlebars-converter.js" target="code">HandlebarsConverter.instance</a></h4>
-Contiene il 'core' della conversione basata su Handlecare.
-
-<h4>generateResult (in <a href="../DisiFhirConverter/workers/uniboworker.js" target="code">uniboworker.js</a>)</h4>
-Invoca i template preparati e fornisce il risultato come String Json.
-</td>
-</tr>
- </tbody>
-</table>
  <br/><br/>
 <h3>dataTypeHandler</h3> 
 <li> 
@@ -450,19 +482,103 @@ result.entry[1].resource keys: <i><k>resourceType,id</k>,...</i>
 </li>
  
 </ol>
+
+<h2>Esempi</h2>
+
  
-<h2>Un esempio semplificato (in progress)</h2>
-<a href="../ExampleHandlebar/esempioTrasformazioneADT_A01.js" target="code">ExampleHandlebar/esempioTrasformazioneADT_A01.js</a> <br/>
-<a href="../ExampleHandlebar/ADT_A01.hbs" target="code">ExampleHandlebar/ADT_A01.hbs</a> <br/>
-<a href="../ExampleHandlebar/ADT_A01Slim.hbs" target="code">ExampleHandlebar/ADT_A01Slim.hbs.hbs</a> <br/>
+<h3>L'esempio-base</h3>
+
+<h4>Il messaggio HL7</h4>
 <a href="../ExampleHandlebar/ADT01-23.hl7" target="code">ExampleHandlebar/ADT01-23.hl7</a> <br/>
-  <br/><br/>
+<pre><m>MSH|^~\&|AccMgr|1|||20050110045504||ADT^A01|599102|P|2.3||| 
+EVN|A01|20050110045502||||| 
+PID|1||10006579^^^1^MR^1||DUCK^DONALD^D||19241010|M||1|111 DUCK ST^^FOWL^CA^999990000^^M|1|8885551212|8885551212|1|2||40007716^^^AccMgr^VN^1|123121234|||||||||||NO 
+NK1|1|DUCK^HUEY|SO|3583 DUCK RD^^FOWL^CA^999990000|8885552222||Y|||||||||||||| 
+PV1|1|I|PREOP^101^1^1^^^S|3|||37^DISNEY^WALT^^^^^^AccMgr^^^^CI|||01||||1|||37^DISNEY^WALT^^^^^^AccMgr^^^^CI|2|40007716^^^AccMgr^VN|4|||||||||||||||||||1||G|||20050110045253|||||| 
+GT1|1|8291|DUCK^DONALD^D||111^DUCK ST^^FOWL^CA^999990000|8885551212||19241010|M||1|123121234||||#Cartoon Ducks Inc|111^DUCK ST^^FOWL^CA^999990000|8885551212||PT| 
+DG1|1|I9|71596^OSTEOARTHROS NOS-L/LEG ^I9|OSTEOARTHROS NOS-L/LEG ||A| 
+IN1|1|MEDICARE|3|MEDICARE|||||||Cartoon Ducks Inc|19891001|||4|DUCK^DONALD^D|1|19241010|111^DUCK ST^^FOWL^CA^999990000|||||||||||||||||123121234A||||||PT|M|111 DUCK ST^^FOWL^CA^999990000|||||8291 
+IN2|1||123121234|Cartoon Ducks Inc|||123121234A|||||||||||||||||||||||||||||||||||||||||||||||||||||||||8885551212 
+IN1|2|NON-PRIMARY|9|MEDICAL MUTUAL CALIF.|PO BOX 94776^^HOLLYWOOD^CA^441414776||8003621279|PUBSUMB|||Cartoon Ducks Inc||||7|DUCK^DONALD^D|1|19241010|111 DUCK ST^^FOWL^CA^999990000|||||||||||||||||056269770||||||PT|M|111^DUCK ST^^FOWL^CA^999990000|||||8291 
+IN2|2||123121234|Cartoon Ducks Inc||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||8885551212 
+IN1|3|SELF PAY|1|SELF PAY|||||||||||5||1
+</m></pre>
+<h4>Il template</h4>
+<a href="../ExampleHandlebar/ADT_A01.hbs" target="code">ExampleHandlebar/ADT_A01.hbs</a> <br/>
+<pre><m>{
+    "resourceType": "Bundle",
+    "type": "transaction",
+    "entry": [
+        {{#with (getFirstSegments msg.v2 'PID' 'PD1' 'PV1' 'PV2' 'PR1' 'AVR' )}}
+		
+            {{>Resources/Patient.hbs PID=PID PD1=PD1 NK1=NK1 ID=(generateUUID PID-3-1)}}
+            {{>Resources/Encounter.hbs PV1=PV1 PV2=PV2 ID=(generateUUID PV1)}},
+            {{>References/Encounter/subject.hbs ID=(generateUUID PV1) REF=(concat 'Patient/' (generateUUID PID-3-1))}}, 
+            {{>References/Procedure/subject.hbs ID=(generateUUID PR1) REF=(concat 'Patient/' (generateUUID PID-3-1))}},	
+            {{>Resources/Procedure.hbs PR1=PR1 ID=(generateUUID PR1)}},
+  
+              {{#with (getSegmentLists ../msg.v2 'NK1')}}
+                {{#each NK1 as |NK1Instance|}}   
+
+                    {{>Resources/RelatedPerson.hbs NK1=NK1Instance ID=(generateUUID NK1Instance)}},
+                    {{>References/RelatedPerson/patient.hbs ID=(generateUUID NK1Instance) REF=(concat 'Patient/' (generateUUID ../../PID-3-1))}},  
+                {{/each}}
+            {{/with}} 	
  
+            {{#with (getSegmentLists ../msg.v2 'OBX')}}
+                {{#each OBX as |OBXInstance|}}
+    
+                    {{>Resources/Observation.hbs OBX=OBXInstance ID=(generateUUID OBXInstance)}},
+                    {{>References/Observation/subject.hbs ID=(generateUUID OBXInstance) REF=(concat 'Patient/' (generateUUID ../../PID-3-1))}},
+    
+                {{/each}}
+            {{/with}} 
+
+            {{#with (getSegmentLists ../msg.v2 'AL1')}}
+                {{#each AL1 as |AL1Instance|}}
+    
+                    {{>Resources/AllergyIntolerance.hbs AL1=AL1 ID=(generateUUID AL1Instance)}},
+                    {{>References/AllergyIntolerance/patient.hbs ID=(generateUUID AL1Instance) REF=(concat 'Patient/' (generateUUID ../../PID-3-1))}},
+    
+                {{/each}}
+            {{/with}} 
+    
+            {{#with (getSegmentLists ../msg.v2 'DG1')}}
+                {{#each DG1 as |DG1Instance|}}
+    
+                    {{>Resources/Condition.hbs DG1=DG1Instance ID=(generateUUID DG1Instance)}},
+                    {{>References/Condition/subject.hbs ID=(generateUUID DG1Instance) REF=(concat 'Patient/' (generateUUID ../../PID-3-1))}},
+                    {{>References/Encounter/diagnosis.condition.hbs ID=(generateUUID ../../PV1) REF=(concat 'Condition/' (generateUUID DG1Instance))}},
+    
+                {{/each}}
+            {{/with}} 
+    
+        {{/with}}
+    ] 
+}</m>
+</pre>
+
+
+<h3>Un esempio semplificato (in progress, per analizzare in dettaglio i campi)</h3>
+<a href="../ExampleHandlebar/esempioTrasformazioneADT_A01.js" target="code">ExampleHandlebar/esempioTrasformazioneADT_A01.js</a> <br/>
+
+<h4>Il messaggio HL7</h4>
+<a href="../ExampleHandlebar/ADT01-23.hl7" target="code">ExampleHandlebar/ADT01-23.hl7</a> (TODO: a commented slim version) <br/>
+<pre>
+
+</pre>
+ 
+<h4>Il template</h4>
+<a href="../ExampleHandlebar/ADT_A01Slim.hbs" target="code">ExampleHandlebar/ADT_A01Slim.hbs.hbs</a> (TODO: a commented slim version) <br/>
+
+  <br/><br/>
+<!-- 
 <pre>
 docker build --tag disifhircvtimage .
 docker build --tag disifhircvtimage:latest --label my-label disicvt:latest
 docker image prune --force --filter=disicvt
 </pre> 
+-->
 <table style="width:98%">
 <tbody>	
 <tr>

@@ -337,8 +337,19 @@ Attuali esempi:
 	<m><ks>HealthResource/queryfiles/careplanQueryJson.txt</ks></m></a>
 </div>
 
+<h4>Server pubblici per il testing</h4>
+<ul>
+<li><a href="http://ontoserver.csiro.au/fhir" target="web">http://ontoserver.csiro.au/fhir</a>: the server used for
+the Java Reference implementation</li>
+<li><a href="http://fhirtest.uhn.ca/" target="web">http://fhirtest.uhn.ca/</a>: a server implemented
+using FHR-HAPI</li>
+<li><a href="https://hapi.fhir.org/baseR4" target="web">https://hapi.fhir.org/baseR4</a>: the default server used in this DISI
+prototype</li>
+</ul>
 
-
+<!--
+https://hapi.fhir.org/baseR4/ValueSet/1439336
+-->
 </m>
 </td>
 <td><br/> 
@@ -376,9 +387,8 @@ http://localhost:8081/actuator/env
 <m>
 Per sperimentazione con <a href="https://ngrok.com/" target="web">ngrok</a>: 
 <pre>
-ngrok http 212.171.18.215:8081
 ngrok http 79.26.48.68:8081
-<a href="http://212.171.18.215:8081" target="web">http://212.171.18.215:8081</a>
+<a href="http://79.26.48.68:8081" target="web">http://79.26.48.68:8081</a>
 </pre>
 </m>
  <br/>
@@ -423,7 +433,7 @@ previsto in futuro, alla luce delle attuali interazioni (mediate da partner) con
 <tr>
 <td><h3>Conversione HL7-FHIR</h3> 
 <m>
-Analisi del problema: <a href="WorkingWithNonFhirServer.html" target="code"><ks>WorkingWithNonFhirServer.hml</ks> </a>
+Analisi preliminare del problema: <a href="WorkingWithNonFhirServer.html" target="code"><ks>WorkingWithNonFhirServer.hml</ks> </a>
 <div class="remark">
 <k>Problema HL7-FHIR generale</k>: un messaggio <tt>HL7(v23)</tt> di solito implica riferimenti a piu' risorse FHIR.
 <br/><br/>
@@ -456,8 +466,8 @@ anche per comprendere appieno il problema.
 <k>Problema Servizio-Converter</k>:  decidere se le conversioni siano realizzate da un servizio dotato di proprie API e non da 
 un semplice oggetto (in modo da non dover dipendere dalla implementazione Node.js).
 <hr/>
-SI VEDA PROGETTO <a href="../../DISIFhirHl7Converter" target="web"><ks>natmaterial\DISIFhirHl7Converter</ks> (05/09/2020)</a>.
-
+SI VEDA PROGETTO <!-- <a href="../../DISIFhirHl7Converter" target="web"><ks>natmaterial\DISIFhirHl7Converter</ks> (05/09/2020)</a>. -->
+ <a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/anatali/natmaterial/master/DISIFhirHl7Converter/userDocs/DISIHlLFhirConversion.html" target="web"><ks>DISIHlLFhirConversion.html (11/09/2020)</a>.
 </div>
 
 </m>
