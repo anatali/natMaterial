@@ -2,7 +2,6 @@ package it.unibo.HealthAdapter.Clients;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -10,8 +9,7 @@ import java.net.URL;
 import java.util.function.Consumer;
 
 import org.apache.commons.io.IOUtils;
-import org.hl7.fhir.r4.model.DomainResource;
-import org.hl7.fhir.r4.model.Patient;
+import org.hl7.fhir.r4.model.*;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
@@ -29,7 +27,7 @@ public class HttpFhirSupport {
 	//From https://www.baeldung.com/java-http-request
 	public static String post(String uri, String body, String contentType )  { 
 		//contentType: "application/json; utf-8" "plain/text; utf-8"
-		System.out.println( "HttpFhirSupport post " + uri +" body=" + body + " contentType=" + contentType);
+		System.out.println( "HttpFhirSupport post " + uri + " contentType=" + contentType  ); //+" body=" + body
 		try {
 			URL url = new URL(uri);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -56,7 +54,7 @@ public class HttpFhirSupport {
 			in.close();
 			return response.toString();
 		}catch(Exception e) {
-			System.out.println( "HttpFhirSupport post ERROR" +e.getMessage() );
+			System.out.println( "HttpFhirSupport post ERROR " +e.getMessage() );
  			return "";
 		}		
 	}
@@ -184,6 +182,12 @@ public class HttpFhirSupport {
 	    Patient newPatient  = parser.parseResource(Patient.class, pjson);	
 	    return newPatient;		
 	}
+	public static DomainResource createFhirResourceFromStringJson(
+							Class<? extends DomainResource> clazz, String pjson) {
+	    IParser parser      	 = fhirctx.newJsonParser();
+	    DomainResource resource  = parser.parseResource(clazz, pjson);	
+	    return resource;		
+	}
 	
 	public static Long getPatientId( DomainResource p) { //Patient -> DomainResource -> modelResource -> BaseResource -> Base -> Object
 		String pid = p.getId();
@@ -201,6 +205,21 @@ public class HttpFhirSupport {
 		System.out.println("getPatientId from string pid="+ pidfields[1] );
 		return Long.parseLong( pidfields[1] );		
 	}
+	public static Long getResourceId( Class<? extends DomainResource> clazz, String pjson) {
+		String pid = createFhirResourceFromStringJson(clazz, pjson).getId();
+		String[] pidfields = pid.split("/");
+		System.out.println("getResourceId from string pid="+ pidfields[1] );
+		return Long.parseLong( pidfields[1] );		
+	}
+	public static Long getResourceId( String resourceType, String pjson) {
+ 		switch( resourceType ) {
+			case "Patient" 			: return getResourceId(Patient.class, pjson);  
+			case "Organization" 	: return getResourceId(Organization.class, pjson);  
+			case "Observation" 		: return getResourceId(Observation.class, pjson);  
+			case "Endpoint" 		: return getResourceId(Endpoint.class, pjson);  
+			default					: return null;
+		}
+ 	}
 	
 	
 	public static String prettyJson( String sjson ) {

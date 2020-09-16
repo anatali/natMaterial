@@ -25,8 +25,11 @@ public class ResourceUtility {
 	
 	public static Class<? extends DomainResource> getTheClass(String resourceType) {
 		switch( resourceType ) {
-			case "CarePlan" : return CarePlan.class;
-			case "Patient"  : return Patient.class;
+			case "CarePlan" 		: return CarePlan.class;
+			case "Patient"  		: return Patient.class;
+			case "Organization"  	: return Organization.class;
+			case "Observation"  	: return Observation.class;
+			case "Endpoint"  		: return Endpoint.class;
 			default: return null;
 		}
 	}

@@ -8,12 +8,12 @@
     "given": [ "AliceCesena", "Gloria"  ]
   } ],
   "telecom": [ {
-    "value": "Contact Unibo PoloCesena"
+    "value": "UPDATED Contact Unibo PoloCesena"
   } ],
   "gender": "female",
   "birthDate": "1998-01-01",
   "address": [ {
-    "text": "studente in corso",
+    "text": "UPDATED studente in corso",
     "city": "Cesena",
     "country": "Italy"
   } ]

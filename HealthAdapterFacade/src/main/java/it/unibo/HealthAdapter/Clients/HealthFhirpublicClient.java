@@ -9,16 +9,24 @@
 package it.unibo.HealthAdapter.Clients;
 
 
+import java.io.IOException;
+import java.util.Scanner;
+
+import org.hl7.fhir.r4.model.DomainResource;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
+
+import ca.uhn.fhir.model.dstu2.resource.*;
 import it.unibo.HealthAdapterFacade.HealthService;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public class HealthFhirpublicClient {
-	private static String hostaddr = "localhost:8081";
+	private static String serverBase 	= "https://hapi.fhir.org/baseR4";
+	private String patientElenaJson		= "src/main/java/it/unibo/HealthResource/datafiles/PatientElenaJson.txt";
+ 
 	private static WebClient webClient = WebClient
 	    	  .builder()
 	    	  .build();
@@ -38,96 +46,149 @@ public class HealthFhirpublicClient {
  		System.out.println(msg + " IS BUILDING THE ANSWER ... ");
 		final StringBuilder strbuild = new StringBuilder();  
  		answer.subscribe(			
- 				item  -> {System.out.println("%%% "+ msg + " "+ item ); strbuild.append(item); },
+ 				item  -> { /*System.out.println("%%% "+ msg + " "+ item ); */ strbuild.append(item); },
  				error -> System.out.println(msg + " error= " + error ),
  				()    -> System.out.println(msg + prettyJson( strbuild.toString() )) 
  		);			
  	}
  	
- 	public static Flux<String> startDataflux(  String args  )  { //method=POST 
- 		System.out.println("startDataflux " + args);
-		String addr = hostaddr+HealthService.startDatafluxUri; 				 
-    	Flux<String> answer = webClient.post()
-				.uri( addr )   
-				.contentType(MediaType.TEXT_PLAIN)
-				.body( Mono.just(args), String.class )
-                .retrieve()
-                .bodyToFlux(String.class);
-    	return answer;
-    }
- 
- 	public static Flux<String> subscribeTheDataflux(   )  { //method=POST 
- 		System.out.println("subscribeTheDataflux "  );
-		String addr = hostaddr+HealthService.subscribehotfluxUri; 				 
-    	Flux<String> answer = webClient.post()
-				.uri( addr )   
-				.contentType(MediaType.TEXT_PLAIN)
-				.body( Mono.just("nothing at the moment"), String.class )
-                .retrieve()
-                .bodyToFlux(String.class);
-    	return answer;
-    }
+
  	
- 	public static void doRead() {
-		String resourcetype ="Patient";
- 		String id           ="1439336"; 
- 		Flux<String> flux   = readResource( resourcetype,id);
-		subscribeAndHandleCompletion("read_"+id, flux); 		
+	public Long createResource( String resourceType, String fname ) {
+		String pjson = HttpFhirSupport.readFromFileJson( fname );
+		String res   = HttpFhirSupport.post( serverBase+"/"+resourceType, pjson, "application/json; utf-8" );
+ 		//System.out.println( "createPatient post res=" + res  ); 		 
+ 		if( res.length() > 0) return HttpFhirSupport.getResourceId(resourceType, res);
+ 		else return 0L;
  	}
-	public static Flux<String> readResource(String resourcetype, String resourceid) { 
-		String addr = hostaddr+HealthService.readResourceUri+"/"+resourceid+"&"+resourcetype; 	//+"/_history/1"
-     	Flux<String> answer = webClient.get()
-				.uri( addr )   
-                .retrieve()
-                .bodyToFlux(String.class);
-    	return answer;
+	
+	public void createPatientAsynch( ) {
+		String pjson = HttpFhirSupport.readFromFileJson( patientElenaJson );
+//  		System.out.println( "createPatientAsynch " + prettyJson(pjson)  ); 		
+		Flux<String> res   = HttpFhirSupport.postAsynch( serverBase+"/Patient", pjson, "application/json; utf-8" );
+ 		subscribeAndHandleCompletion("create", res);
+ 	}
+
+	public void readPatient(Long id)   {
+		String answerJson =  HttpFhirSupport.get( serverBase+"/Patient/"+id+"?_format=json" );		 
+ 		//String answerXml  =  get(serverBase+"/readResource/"+id+"?_format=xml");		  
+ 		System.out.println( answerJson );
+ 	}
+	
+	public void searchPatient(String patientName) {
+		String answerJson =  HttpFhirSupport.get( serverBase+"/Patient/?family:exact=Unibo&_format=json" );		 
+		System.out.println("searchPatient answewr= " + HttpFhirSupport.prettyJson(answerJson)  );
 	}
- 	
- 	/*
- 	 * subscribeTheDataflux restituisce un hot flux running nel server FHIR
- 	 * quando qualcuno fa la subscribe al flusso riceve i dati da quel momento in poi
- 	 */
- 	public static void workWithHotFlux() {
- 		Flux<String> answer  = startDataflux(  "hot"   );
- 		subscribeAndHandleCompletion("startDataflux ", answer  ); 
- 		HealthService.delay(2000);		//give time to start ...
-   		System.out.println( "Subscribe to hot flux ----------------------------");	
-   		Flux<String> dataFluxHotA = subscribeTheDataflux();
- 		subscribeAndHandleCompletion("thedataFluxHot_a " , dataFluxHotA);
- 		HealthService.delay(2000);
-   		Flux<String> dataFluxHotB = subscribeTheDataflux();
- 		subscribeAndHandleCompletion("thedataFluxHot_b " , dataFluxHotB);		
+	public void searchObservationForPatient(String patientId) {
+		String url   = serverBase+"/Observation/?subject=Patient"+"/"+patientId;
+		System.out.println("searchObserationForPatient url= " + url );
+		//https://hapi.fhir.org/baseR4/Observation/?subject=Patient/1203625
+		String answerHtml =  HttpFhirSupport.get( url );		 
+		//System.out.println("searchPatient answer= " + answerHtml  );
+		//System.out.println("searchPatient answer= " + HttpFhirSupport.prettyJson(answerJson)  );
+	}
+	
+	public void searchId(String resourceType, String id) {
+		String url   = serverBase+"/"+resourceType+"/"+id;
+		System.out.println("searchId url= " + url );
+		String answerHtml =  HttpFhirSupport.get( url );		 
+		System.out.println("searchPatient answer= " + answerHtml  );
+		//System.out.println("searchPatient answer= " + HttpFhirSupport.prettyJson(answerJson)  );
+	}
+	
+ 	public void delete_patient(String id) {
+ 		String res = HttpFhirSupport.delete( serverBase+"/Patient/"+id  );
+		System.out.println( res );
+ 	}
+	
+ 	public void answerReceived( String answer ) {
+ 		System.out.println("answerReceived :" +  answer  );
  	}
  	
- 	public static void activateFlux() {
-// 		Flux<String> dataFluxHot1  = startDataflux(  "hot"   );		
-// 		Flux<String> dataFluxHot2  = startDataflux(  "hot"   );		
-  		Flux<String> dataFluxCold1 = startDataflux(  "cold"  );		
-  		System.out.println( "Delay for a while ... ");	
- 		HealthService.delay(2000);
-//		subscribeAndHandleCompletion("dataFluxHot1 " , dataFluxHot1 ); 		
-// 		HealthService.delay(1000);
-//		subscribeAndHandleCompletion("dataFluxHot2 " , dataFluxHot2 ); 		
-  		System.out.println( "Subscribe to cold flux ");	
- 		subscribeAndHandleCompletion("dataFluxCold1 ", dataFluxCold1); 		
- 		HealthService.delay(1000);
+ 	public void doingSomethingElse() throws InterruptedException {
+ 		for( int i=1; i<=5; i++) {
+ 	 		System.out.println("doingSomethingElse"    );
+ 			Thread.sleep(500);
+		}
+ 	}
+ 	
+ 	public void waitUserInput() {
+ 			Scanner in = new Scanner(System.in);
+			in.nextLine();
+ 	}
+	
+ 	public Long createOrganizationHl7() {
+ 		System.out.println("CREATE ORGANIZATION HL7");
+ 		Long orgid 		= createResource("Organization","FhirExamples/PatientExample/organization-hl7.json" );
+		System.out.println("CREATED orgid= " + orgid );
+ 		return orgid;
+ 	}
+ 	
+ 	public Long createOrganization () {
+ 		System.out.println("CREATE ORGANIZATION (WITH ENDPOINT)");
+  		Long orgid 		= createResource("Organization","FhirExamples/PatientExample/organization-example.json" );
+   		System.out.println("CREATED orgid= " + orgid );
+   		return orgid;
+ 	}
+ 	
+ 	public Long createEndPoint() {
+ 		System.out.println("CREATE END POINT");
+ 		Long endpointid = createResource("Endpoint","FhirExamples/PatientExample/endpoint-example.json" );
+ 		System.out.println("CREATED endpointid= " + endpointid );
+ 		return endpointid;
+ 	}
+ 	public Long createPatient() {
+ 		System.out.println("CREATE PATIENT");
+ 		Long patientid 	= createResource( "Patient", "FhirExamples/PatientExample/patient-example.json" );	
+   		System.out.println("CREATED patientid= " + patientid );
+   		return patientid;
+ 	}
+ 	
+ 	
+ 	public void pazienteExample() {
+ 		//1)
+ 		createOrganizationHl7();
+ 		System.out.println("INSERT ORGANIZATION REFERENCE IN ENDPOINT");waitUserInput();
+ 		//2)
+ 		createEndPoint();
+ 		System.out.println("INSERT ENDPOINT REFERENCE IN ORGANIZATION");waitUserInput();
+ 		//3)
+ 		createOrganization ();
+ 		System.out.println("INSERT ORGANIZATION REFERENCE IN PATIENT");waitUserInput();
+ 		//4)
+ 		createPatient();
+ 	}
+ 	
+ 	public static void main(String[] args) throws Exception {
+ 		HealthFhirpublicClient appl = new HealthFhirpublicClient();
+		
+  		appl.pazienteExample();
  		
-//  		subscribeAndHandleCompletion("dataFluxHot1a " , dataFluxHot1 ); 	
-//  		HealthService.delay(2000);
-//  		System.out.println( "Subscribe to hot flux AGAIN ----------------------");	
-//  		subscribeAndHandleCompletion("dataFluxHot1b " , dataFluxHot1 ); 		// 
- 	}
- 	
- 	public static void callHealthProduct()  {
-//  		doRead();
-//  		activateFlux();
-  		workWithHotFlux();
-// 		HealthService.delay(1500);
+
+//   		System.out.println(" %%% SEARCH ----------------------------- ");
+// 		appl.searchPatient( "ElenaBologna" );
+// 		appl.searchId( "Observation", "1203666" );
+// 		appl.searchObservationForPatient("1203625");
+
+//		System.out.println(" %%% READ  ------------------------------ ");
+// 		appl.readPatient( id );
+// 		System.out.println(" %%% DELETE ----------------------------- ");
+//  	appl.delete_patient( id.toString() );
+
+// 		System.out.println(" %%% CREATE ASYNCH ------------------------------");
+//   	appl.createPatientAsynch( );
+// 		appl.doingSomethingElse();
+   		
+   
 	}
- 	
-    public static void main(String[] args)   {
-    	callHealthProduct( );
-    	HealthService.delay(10000);
-    	System.out.println( "BYE");		
-    }
 }
+
+/*
+Observations
+ "fullUrl": "http://hapi.fhir.org/baseR4/Observation/1203664",
+ "fullUrl": "http://hapi.fhir.org/baseR4/Observation/1203666",
+ "fullUrl": "http://hapi.fhir.org/baseR4/Observation/1203667",
+http://hapi.fhir.org/baseR4/Observation/1203669
+Patient/1203625
+
+*/

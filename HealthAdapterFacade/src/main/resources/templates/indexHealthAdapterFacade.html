@@ -98,21 +98,8 @@ CRUD operations
 	}	
 	function showAnswer( msg, issynch, answer ){
       	//alert( answer );		//answer: the resource if asynch else a message
-      	if( issynch ) $("i.infoArea").text(  answer );	
-      	else{
-      		showResRepJson( msg + " done asynch for resource id=", answer );
-      	/*
-      		try{
-	      		var resourceobj    = JSON.parse(answer);     
-	      		var jsonObjStr     = JSON.stringify( resourceobj, null, 2 );    
-	    		var resourceid     = resourceobj.id;      
-	    		$("pre.resultArea").text(  jsonObjStr );		
-	      		$("i.infoArea").text(  msg + " done asynch for resource id=" + resourceid);	
-	      	}catch( e ){ //answer is not a json object
-	      		$("i.infoArea").text(  msg );
-	      	}
-	      	*/
-      	}//else
+		if( issynch ) msg = msg + " synch ";
+      	showResRepJson( msg + " done for resource id=", answer );
 	}
 
 /*
@@ -163,7 +150,8 @@ READ
 		var apiname = issynch ? readResourceUriSynch : readResourceUri;
         // --------- read the user input values -----------------------------------
       	$("pre.resultArea").text(  "" );
-     	var resourceType = document.getElementById("resourcetype").value;
+     	//var resourceType = document.getElementById("resourcetype").value;
+        var resourceType = Resourcetype.options[Resourcetype.selectedIndex].value;
     	var resourceid   = document.getElementById("resourceid").value;
     	//alert( resourceType  );
 		// --------- read --------------------------------------------------
@@ -246,8 +234,9 @@ UDATE
 		var issynch = document.getElementById('synchchoice').checked
 		var apiname = issynch ? updateResourceUriSynch : updateResourceUri;
         // --------- read the user input values -----------------------------------
-	 	resType  = document.getElementById("updateresourcetype").value;
-	 	resId    = document.getElementById("updateresourceid").value;
+	 	//resType  = document.getElementById("updateresourcetype").value;
+		var resType = Rtype.options[Rtype.selectedIndex].value;
+	 	var resId   = document.getElementById("updateresourceid").value;
    		//Read the resource update json file
 		var jsonSeachFileNames = document.getElementById("jsonFileNameUpdate").files;	
 		var fr=new FileReader(); 
@@ -284,9 +273,11 @@ DELETE
 		var issynch = document.getElementById('synchchoice').checked;
 		var apiname = issynch ? deleteResourceUriSynch : deleteResourceUri;
          // --------- read the user input values -----------------------------------
-        resourceType  = document.getElementById("resourcetype");
-    	resourceId    = document.getElementById("resourceid");
-        var message   = resourceType.value + "&"+ resourceId.value ;
+        //resourceType  = document.getElementById("resourcetype");
+		var resourceType = Resourcetype.options[Resourcetype.selectedIndex].value;
+    	var resourceId   = document.getElementById("resourceid");
+	alert(resourceType + " " + resourceId.value);
+        var message   = resourceType  + "&"+ resourceId.value ;
     	console.log("deleteAResource  "+ message);
     	$("i.infoArea").text(  "deleting ..." );	
         fetch(apiname, {method: "DELETE", body: message} ).then(function (response) {
@@ -519,7 +510,16 @@ READ DELETE
 ---------------------------------------
 -->
 <tr>
-<td>Resource type:  <input id="resourcetype" type="text" value="Patient" size="20" autofocus/> 
+<td><!-- Resource type:  <input id="resourcetype" type="text" value="Patient" size="20" autofocus/> -->
+  <label for="Resourcetype">Resource type</label>
+  <select name="Resourcetype" id="Resourcetype">	<!-- SEE it.unibo.HealthResource.ResourceUtility -->
+    <option value="Patient">Patient</option>
+    <option value="Organization">Organization</option>
+    <option value="Endpoint">Endpoint</option>
+    <option value="Observation">Observation</option>
+    <option value="CarePlan">CarePlan</option>
+  </select>
+
 </td>
 <td>Resource ident: <input id="resourceid" type="text" size="10" autofocus/>
 </td>
@@ -535,7 +535,16 @@ UPDATE
 ---------------------------------------
 -->
 <tr>
-<td><m>Rtype <input id="updateresourcetype" type="text" value="Patient" size="20" autofocus/> 
+<td><m><!-- Rtype <input id="updateresourcetype" type="text" value="Patient" size="20" autofocus/> -->
+  <label for="Rtype">Rtype</label>
+  <select name="Rtype" id="Rtype">	<!-- SEE it.unibo.HealthResource.ResourceUtility -->
+    <option value="Patient">Patient</option>
+    <option value="Organization">Organization</option>
+    <option value="Endpoint">Endpoint</option>
+    <option value="Observation">Observation</option>
+    <option value="CarePlan">CarePlan</option>
+  </select>
+
 Rid <input id="updateresourceid" type="text" value="1439336" size="8" autofocus/></m>
 </td>
 <td><input type="file" id="jsonFileNameUpdate" /> 
