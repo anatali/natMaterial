@@ -188,7 +188,7 @@ div.imagedesc{
     
 <body>
 <div id="body">
-<h1>HealthAdapterFacade | Working with A Fhir server </h1>
+<h1>HealthAdapterFacade | Working with a Fhir server </h1>
 
 <h2>References</h2>
 <m> 
@@ -201,7 +201,8 @@ div.imagedesc{
 <li><a href="https://bitbucket.org/itelunibo/overviewrepo/src/master/it.unibo.itel/userDocs/3-LogicalArch/HDA_Disi.html" target="web">HDA_Disi.html (overviewrepo)</a> </li>
 -->
 <hr/>
-<li><a href="https://hapifhir.io/hapi-fhir/apidocs/hapi-fhir-base/index-all.html" target="web">FHIR Api docs</a>&nbsp;&nbsp; 
+<li>
+ <a href="https://www.hl7.org/fhir/R4/" target="web">FHIR </a>&nbsp;&nbsp;&nbsp;
  <a href="https://hapifhir.io/hapi-fhir/apidocs/hapi-fhir-structures-r4/index-all.html" target="web">FHIR Api structures docs</a>&nbsp;&nbsp; 
  <a href="https://www.hl7.org/fhir/R4/patient.html" target="web">FHIR 8.1 Resource Patient - Content</a>  &nbsp;&nbsp;&nbsp; 
   <a href="http://docs.smarthealthit.org/dstu2-examples/" target="web">FHIR examples</a> &nbsp;&nbsp;&nbsp; 
@@ -240,7 +241,7 @@ utilizzando gli <ks>esempi proposti</ks> in
 Utilizziamo il programma:
 <a href="../src/main/java/it/unibo/HealthAdapter/Clients/HealthFhirpublicClient.java" target="web">HealthFhirpublicClient.java</a>
 e gli esempi specifici ricopiati in 
-<a href="../FhirExamples" target="web">FhirExamples</a>
+<a href="../FhirExamples/PatientExample" target="web">FhirExamples/PatientExample</a>
 
 </td>
 </tr>
@@ -248,22 +249,65 @@ e gli esempi specifici ricopiati in
 </table>
 
 
-<h2>Primi esempi </h2>
-L'esempio <a href="../FhirExamples/PatientExample/patient-example.json" target="web">patient-example.json</a> include una Reference a 
+<h2>Esempi </h2>
+
+<table style="width:98%">
+<tbody>	
+<tr>
+<td style="width:50%" ><img src="./img/fhirExamples/Patient.png" alt="Patient.png" width="100%">
+</td>
+<td>L'esempio <a href="../FhirExamples/PatientExample/patient-example.json" target="web">patient-example.json</a> include una Reference a 
 <a href="../FhirExamples/PatientExample/organization-example.json" target="web">organization-example.json</a> (<tt>managingOrganization</tt>) che a sua volta include una Reference a 
 <a href="../FhirExamples/PatientExample/endpoint-example.json" target="web">endpoint-example.json</a> che referenzia una
 <tt>managingOrganization</tt>.
 
 <br/>
-Pertanto, si e' procedutto come segue:
-
-<!-- la operazione di <a href="../src/main/java/it/unibo/HealthAdapter/Clients/HealthFhirpublicClient.java" target="web">HealthFhirpublicClient.java</a> -->
+Pertanto, si e' procedutto come segue :
 
 <pre>
-1)	CREAZIONE di <k>Organization hl7</k> => <ks>id=1470790</ks>
-2)	CREAZIONE di <k>Endpoint</k>  con riferimento a <tt>Organization/1470790</tt> => <ks>id=1470818</ks>  
-3)  CREAZIONE di <k>Patient</k> con riferimento a <tt>Organization/1470746</tt> => <ks>id=1470818</ks>
+Operazione <ks>patientExample()</ks> di <a href="../src/main/java/it/unibo/HealthAdapter/Clients/HealthFhirpublicClient.java" target="web">HealthFhirpublicClient.java</a>
+
+1) CREAZIONE di <k>Organization hl7</k> => <ks>id=1470790</ks>
+2) CREAZIONE di <k>Endpoint</k>  con riferimento a <tt>Organization/1470790</tt> => <ks>id=1470818</ks>  
+3) CREAZIONE di <k>Organization</k>  con riferimento a <tt>Endpoint/1470818</tt> => <ks>id=1471022</ks>  
+4) CREAZIONE di <k>Patient</k> con riferimento a <tt>Organization/1471022</tt> => <ks>id=1471023</ks>
 </pre>
+
+</td>
+</tr>
+
+<tr>
+<td><img src="./img/fhirExamples/Observation.png" alt="Observation.png" width="100%">
+</td>
+<td>
+<pre>
+Operazione <ks>observationExample()</ks> di <a href="../src/main/java/it/unibo/HealthAdapter/Clients/HealthFhirpublicClient.java" target="web">HealthFhirpublicClient.java</a>
+
+1) CREAZIONE di <k>Encounter</k> con riferimento a <tt>Patient/1471023</tt> => <ks>id= </ks> => <ks>id=1471284</ks>
+2) CREAZIONE di <k>Observation</k>  con riferimento a <tt>Encounter/1471328 </tt> => <ks>id=1471328 </ks>  
+</pre>
+<h3>Ricerche</h3>
+<pre>
+Operazione <ks>searchResource()</ks> di <a href="../src/main/java/it/unibo/HealthAdapter/Clients/HealthFhirpublicClient.java" target="web">HealthFhirpublicClient.java</a>
+
+https://hapi.fhir.org/baseR4/<k>Patient/1471023</k><kc>?_format=json</kc>
+https://hapi.fhir.org/baseR4/<k>Observation?subject=Patient/1471023</k><kc>?_format=json</kc>
+https://hapi.fhir.org/baseR4/<k>Observation?subject:patient.gender=male</k><kc>?_format=json</kc>
+</pre>
+</td>
+</tr>
+
+<tr>
+<td><img src="./img/fhirExamples/CarePlan.png" alt="CarePlan.png" width="100%">
+</td>
+<td>
+</td>
+</tr>
+
+ </tbody>
+</table>
+ <br/><br/>
+ 
  
 
 <br/><br/>
@@ -284,7 +328,7 @@ Pertanto, si e' procedutto come segue:
   <br/><br/>
 
 <div style="background-color:rgba(86, 56, 253, 0.9); width:100%;text-align:center;font-size:small;color:white">
-By AC-AM-AN-AR Unibo-DISI  
+By AN Unibo-DISI  
 </div> 
 
 </body>

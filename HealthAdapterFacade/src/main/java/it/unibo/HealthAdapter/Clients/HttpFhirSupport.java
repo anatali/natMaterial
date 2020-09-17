@@ -115,7 +115,7 @@ public class HttpFhirSupport {
 			con.setRequestMethod("GET");
 			int status = con.getResponseCode();
 			System.out.println( "HttpFhirSupport get " + url +" status=" + status);
-			
+			if( status >= 300) return "ERROR:"+status;
 			BufferedReader in = new BufferedReader(
 			new InputStreamReader(con.getInputStream()));
 			String inputLine;
@@ -211,12 +211,18 @@ public class HttpFhirSupport {
 		System.out.println("getResourceId from string pid="+ pidfields[1] );
 		return Long.parseLong( pidfields[1] );		
 	}
+	
 	public static Long getResourceId( String resourceType, String pjson) {
  		switch( resourceType ) {
 			case "Patient" 			: return getResourceId(Patient.class, pjson);  
 			case "Organization" 	: return getResourceId(Organization.class, pjson);  
 			case "Observation" 		: return getResourceId(Observation.class, pjson);  
 			case "Endpoint" 		: return getResourceId(Endpoint.class, pjson);  
+			case "Encounter" 		: return getResourceId(Encounter.class, pjson);  
+			case "CarePlan" 		: return getResourceId(CarePlan.class, pjson);  
+			case "CareTeam" 		: return getResourceId(CareTeam.class, pjson);  
+			case "Goal" 			: return getResourceId(Goal.class, pjson);  
+			case "Practitioner" 	: return getResourceId(Practitioner.class, pjson);  
 			default					: return null;
 		}
  	}

@@ -30,6 +30,10 @@ public class ResourceUtility {
 			case "Organization"  	: return Organization.class;
 			case "Observation"  	: return Observation.class;
 			case "Endpoint"  		: return Endpoint.class;
+			case "Encounter"  		: return Encounter.class;
+			case "CareTeam"  		: return CareTeam.class;
+			case "Practitioner"  	: return Practitioner.class;
+			case "Goal"  			: return Goal.class;
 			default: return null;
 		}
 	}

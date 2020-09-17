@@ -92,8 +92,19 @@ public class HealthFhirpublicClient {
 		String url   = serverBase+"/"+resourceType+"/"+id;
 		System.out.println("searchId url= " + url );
 		String answerHtml =  HttpFhirSupport.get( url );		 
-		System.out.println("searchPatient answer= " + answerHtml  );
-		//System.out.println("searchPatient answer= " + HttpFhirSupport.prettyJson(answerJson)  );
+		System.out.println("searchId answer= " + answerHtml  );
+		//System.out.println("searchId answer= " + HttpFhirSupport.prettyJson(answerJson)  );
+	}
+	public void searchResource(String query) {
+		String url   = serverBase+"/"+query;
+		System.out.println("searchResource query= " + url );
+		String answer =  HttpFhirSupport.get( url );
+		if( answer.contains("ERROR") ){
+			System.out.println("searchResource: "  + answer  );
+		}else {
+			if ( query.contains("&_format=json") ) answer = HttpFhirSupport.prettyJson(answer);
+			System.out.println("searchResource answer= " + answer  );
+		}
 	}
 	
  	public void delete_patient(String id) {
@@ -122,15 +133,13 @@ public class HealthFhirpublicClient {
  		Long orgid 		= createResource("Organization","FhirExamples/PatientExample/organization-hl7.json" );
 		System.out.println("CREATED orgid= " + orgid );
  		return orgid;
- 	}
- 	
+ 	}	
  	public Long createOrganization () {
  		System.out.println("CREATE ORGANIZATION (WITH ENDPOINT)");
   		Long orgid 		= createResource("Organization","FhirExamples/PatientExample/organization-example.json" );
    		System.out.println("CREATED orgid= " + orgid );
    		return orgid;
- 	}
- 	
+ 	} 	
  	public Long createEndPoint() {
  		System.out.println("CREATE END POINT");
  		Long endpointid = createResource("Endpoint","FhirExamples/PatientExample/endpoint-example.json" );
@@ -144,8 +153,22 @@ public class HealthFhirpublicClient {
    		return patientid;
  	}
  	
+ 	public Long createEncounter() {
+ 		System.out.println("CREATE ENCOUNTER");
+ 		Long encounterid 	= createResource( "Encounter", "FhirExamples/PatientExample/encounter-example.json" );	
+   		System.out.println("CREATED encounterid= " + encounterid );
+   		return encounterid;
+ 		
+ 	}
+ 	public Long createObservation() {
+ 		System.out.println("CREATE OBSERVATION");
+ 		Long id 	= createResource( "Encounter", "FhirExamples/PatientExample/observation-example.json" );	
+   		System.out.println("CREATED encounterid= " + id );
+   		return id;
+ 		
+ 	}
  	
- 	public void pazienteExample() {
+ 	public void patientExample() {
  		//1)
  		createOrganizationHl7();
  		System.out.println("INSERT ORGANIZATION REFERENCE IN ENDPOINT");waitUserInput();
@@ -157,12 +180,27 @@ public class HealthFhirpublicClient {
  		System.out.println("INSERT ORGANIZATION REFERENCE IN PATIENT");waitUserInput();
  		//4)
  		createPatient();
- 	}
+ 	} 	
+ 	
+ 	public void observationExample() {
+ 		//1)
+ 		createEncounter();
+ 		System.out.println("INSERT ENCOUNTER REFERENCE IN OBSERVATION");waitUserInput();
+ 		//2)
+  		createObservation();
+  	}
+ 	
+ 	
  	
  	public static void main(String[] args) throws Exception {
  		HealthFhirpublicClient appl = new HealthFhirpublicClient();
 		
-  		appl.pazienteExample();
+//  		appl.patientExample();
+//  		appl.observationExample();
+ 		
+//  		appl.searchResource( "Patient/1471023?_format=json" );
+  		appl.searchResource( "Observation?subject=Patient/1471023&_format=json" );
+// 		appl.searchResource( "/Observation?subject:patient.gender=male&_format=json" );
  		
 
 //   		System.out.println(" %%% SEARCH ----------------------------- ");
