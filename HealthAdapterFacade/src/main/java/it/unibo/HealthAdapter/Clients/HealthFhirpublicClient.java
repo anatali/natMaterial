@@ -199,7 +199,8 @@ public class HealthFhirpublicClient {
 //  		appl.observationExample();
  		
 //  		appl.searchResource( "Patient/1471023?_format=json" );
-  		appl.searchResource( "Observation?subject=Patient/1471023&_format=json" );
+//  		appl.searchResource( "Observation?subject=Patient/1471023&_format=json" );
+  		appl.searchResource( "Observation?_include=Observation:patient&_format=json" );
 // 		appl.searchResource( "/Observation?subject:patient.gender=male&_format=json" );
  		
 

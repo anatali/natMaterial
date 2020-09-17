@@ -203,6 +203,9 @@ div.imagedesc{
 <hr/>
 <li>
  <a href="https://www.hl7.org/fhir/R4/" target="web">FHIR </a>&nbsp;&nbsp;&nbsp;
+ <a href="https://www.hl7.org/fhir/resourcelist.html" target="web">FHIR PLUS</a>&nbsp;&nbsp;&nbsp;
+ 
+ 
  <a href="https://hapifhir.io/hapi-fhir/apidocs/hapi-fhir-structures-r4/index-all.html" target="web">FHIR Api structures docs</a>&nbsp;&nbsp; 
  <a href="https://www.hl7.org/fhir/R4/patient.html" target="web">FHIR 8.1 Resource Patient - Content</a>  &nbsp;&nbsp;&nbsp; 
   <a href="http://docs.smarthealthit.org/dstu2-examples/" target="web">FHIR examples</a> &nbsp;&nbsp;&nbsp; 
@@ -288,11 +291,19 @@ Operazione <ks>observationExample()</ks> di <a href="../src/main/java/it/unibo/H
 </pre>
 <h3>Ricerche</h3>
 <pre>
+See <a href="https://www.hl7.org/fhir/search.html#revinclude" target="web">Search</a>
+
 Operazione <ks>searchResource()</ks> di <a href="../src/main/java/it/unibo/HealthAdapter/Clients/HealthFhirpublicClient.java" target="web">HealthFhirpublicClient.java</a>
 
 https://hapi.fhir.org/baseR4/<k>Patient/1471023</k><kc>?_format=json</kc>
 https://hapi.fhir.org/baseR4/<k>Observation?subject=Patient/1471023</k><kc>?_format=json</kc>
+https://hapi.fhir.org/baseR4/<k>Observation?_include=Observation:patient</k><kc>?_format=json</kc>
 https://hapi.fhir.org/baseR4/<k>Observation?subject:patient.gender=male</k><kc>?_format=json</kc>
+
+
+_include=MedicationRequest:patient
+_revinclude=Provenance:target
+
 </pre>
 </td>
 </tr>
