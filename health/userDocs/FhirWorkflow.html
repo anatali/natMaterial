@@ -1,7 +1,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
- 
-<style type="text/css"> 
+
+
+ <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<head>
+<style type="text/css">
 body
 {
     margin-left:  30px;
@@ -36,17 +39,32 @@ h1, h2, h3 {
     color: #242424;
     clear: left;
     font: 100% Tahoma, Helvetica, Arial, sans-serif;
+    margin: 10;
+    margin-right: 15px;
     margin-bottom: 0.5em;
     padding-top: 0.5em;
-	border-radius: 10px;
-	padding: 5px;
+    border-bottom: 1px solid #242424;
 }
 
-top {
-	width: 100%;
+h1 {
+    font-size: 150%;
+    background-color: #b2c0ff;
 }
 
+h2 {
+    background-color: #d9fbff;
+    font-size: 110%;
+}
 
+h3 {
+	background-color: #e6ccff;
+    font-size: 80%;
+}
+h4 {
+    background-color: #99ffcc;
+    font-size: 100%;
+	width: 750px;
+}
 #i {
     color: #ff1010;
 }
@@ -60,8 +78,8 @@ em{
     font-size: 80%;
 	font-weight: bold;
 	border-style:solid;
-	border-color: #abe876;
-    color: #1632cc;
+	border-color: #ccffff;
+    color: #0033cc;
 }
 bc{
 	font-family: "Arial";
@@ -70,24 +88,29 @@ bc{
     color: #990000;
 	background-color: #fcf8c7;
 }
+k{
+	font-family: "Arial";
+	font-weight: bold;
+    color: #990000;
+
+}
 ks{
 	font-family: "Arial";
 	font-weight: bold;
     color: #0000CD	;
-	 
+
 }
 kc{
 	font-family: "Arial";
 	font-weight: bold;
     color: #008000	;
-	 
+
 }
 pre{
-	font-family: "Consolas";
-	font-size: 85%;
-	background-color: #f5f5f5;
-	border: 1.5px solid silver;
-	padding: 5px;
+	font-family: "Helvetica";
+	font-size: 90%;
+	background-color: #fcf8c7;
+	border: 1px solid blue;
 }
 m{
 	font-family: "Helvetica";
@@ -95,40 +118,9 @@ m{
  	font-size: 75%;
 }
 div.body{
-	width: 700px;
-    font-size: 15px;
+	width: 800px;
+    font-size: 18px;
 }
-k{
-    color: #990000;
-	font-weight: bold;
-}
-h1 {
-    font-size: 150%;
-    background-color: #b2c0ff;
-	padding: 10px; 
-}
-
-h2 {
-    background-color: #9ed8ff;
-    font-size: 130%;
-}
-
-h3 {
-	background-color: #e6ccff;
-    font-size: 100%;
-}
-h4 {
-    background-color: #C0F0E0;
-    font-size: 100%;
-	width: 95%;
-	border-radius: 5px;
-	padding: 2px;
-}
-h5 {
-    background-color: #d5ffb0;
-    font-size: 100%;
-	
-}    
 div.req{
 	background-color: #d9ffb3;
     font-size: 18px;
@@ -136,66 +128,76 @@ div.req{
     border: 3px solid green;
     padding: 15px;
     margin: 10px;
-}       
+}
 div.remark{
-	background-color: #E3F2FD;	
-    border: 1.5px solid #d5f2ed;
+	background-color: #FFFC33;
+    border: 3px solid green;
     padding: 15px;
     margin: 10px;
-	border-radius: 25px;
-}  
+}
 table, th, td {
   border: 1px solid black;
   border-collapse: collapse;
-} 
-
-ol, ul, li {
-  margin: 0;
-  margin-left: 10px;
-  padding: 0;
-  padding-bottom: 5px;
-}     
-
-table, th, td {
-	border: 1px solid black;
 }
 
-img {
-	border: 1.5px solid #d5f2ed
-	
-}
-
-a, a:visited, a:active, a:link, a:hover {
-    text-decoration: underline;
-    color: #545454;
-    background-color: transparent;
-}
-
-div.wrapdesc{
-	width: 90%;
-	margin: auto;
-}
-
-div.imagedesc{
-	width: 85%;
-	margin: auto;
-}
 </style>
-    
-<head>
-   
-<title>Fhirworkflow</title></head>
-    
+<title>DISIFHIRWorkflow</title>
+</head>
 <body>
-<div id="top">
-<h1>DISI | FHIR workflow<font size="5"></font> </h1>
-</div>  
 
-<div class="body"> 
+<div class="container wrapper">
+
+<div id="top">
+    <h1 id="h3">DISI - FHIR workflow</h1>   
+</div>
+
+
+<div id="main">
 
 
 <h2>Introduzione</h2>
  
+ <table style="width:100%" border="1">
+<tr><td style="width:50%">
+A large proportion of the FHIR resources are devoted to the description of activities in one fashion or another and almost all of these 
+fall into the realm of <ks>workflow</ks>.
+</td>
+<td><a href="https://www.hl7.org/fhir/workflow.html" target="web">FHIR 12.5 Workflow Description </a>
+</td>
+</tr>
+
+<tr><td> <ks>Workflow</ks> resources describe things that can be done (<k>definitions</k>), are desired to be done (<k>requests</k>) or that have been done (<k>events</k>). 
+</td>
+<td><a href="https://www.hl7.org/fhir/workflow.html#relationships" target="web">12.5.1.2 Workflow Resource Relationships </a></td>
+</tr>
+
+<tr><td> <ks>Pattern Event</ks> is <k>NOT</k> a resource. 
+An "event" is any description of an activity that has already taken place or that is currently ongoing. 
+It includes resources that primarily describe the "result" of an activity or what was found (e.g. a condition or observation). <br/>
+Examples include encounters, procedures, completed questionnaires, representations of state transitions, etc. 
+It does not include resources that describe objects or roles (e.g. patient, device, location).
+</td>
+<td><a href="https://www.hl7.org/fhir/event.html#statemachine" target="web">12.4.6 State Machine </a></td>
+</tr>
+
+
+<tr><td>An <ks>ActivityDefinition</ks> is a shareable, consumable description of some activity to be performed. It may be used to specify actions to be taken 
+as part of a workflow, order set, or protocol, or it may be used independently as part of a catalog of activities such as orderables. 
+</td>
+<td><a href="https://www.hl7.org/fhir/activitydefinition.html#12.17.3.3" target="web">12.17.3.3 Applying an ActivityDefinition</a></td>
+</tr>
+
+<tr><td>A <ks>Task</ks> resource describes an activity that can be performed and tracks the state of completion of that activity. 
+It is a representation that an activity should be or has been initiated, and eventually, represents the successful or unsuccessful completion of that activity.
+</td>
+<td><a href="https://www.hl7.org/fhir/task.html" target="web">12.1 Resource Task</a></td>
+</tr>
+
+</table>
+
+
+
+
 
 <!-- <img src="./img/itelDisiHealthArch1.png" alt="itelDisiHealthArch1.png" width="80%"><br/> -->
 <br/>
