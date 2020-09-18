@@ -1,0 +1,329 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+ 
+<style type="text/css"> 
+body
+{
+    margin-left:  30px;
+    margin-right: 30px;
+};
+
+P
+{
+    font-family: Tahoma;
+    font-size: 10pt;
+};
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #545454;
+    background-color: transparent;
+}
+
+a:hover {
+    background-color: #cccccc;
+}
+
+
+hr {
+    clear: both;
+    height: 1px;
+    color: #242424;
+    background-color: transparent;
+}
+
+h1, h2, h3 {
+    color: #242424;
+    clear: left;
+    font: 100% Tahoma, Helvetica, Arial, sans-serif;
+    margin-bottom: 0.5em;
+    padding-top: 0.5em;
+	border-radius: 10px;
+	padding: 5px;
+}
+
+top {
+	width: 100%;
+}
+
+
+#i {
+    color: #ff1010;
+}
+tt{
+	font-family: "Arial";
+    font-size: 80%;
+	color: #006600;
+}
+em{
+	font-family: "Arial";
+    font-size: 80%;
+	font-weight: bold;
+	border-style:solid;
+	border-color: #abe876;
+    color: #1632cc;
+}
+bc{
+	font-family: "Arial";
+	font-size: 80%;
+	font-weight: bold;
+    color: #990000;
+	background-color: #fcf8c7;
+}
+ks{
+	font-family: "Arial";
+	font-weight: bold;
+    color: #0000CD	;
+	 
+}
+kc{
+	font-family: "Arial";
+	font-weight: bold;
+    color: #008000	;
+	 
+}
+pre{
+	font-family: "Consolas";
+	font-size: 85%;
+	background-color: #f5f5f5;
+	border: 1.5px solid silver;
+	padding: 5px;
+}
+m{
+	font-family: "Helvetica";
+	line-height: 100%;
+ 	font-size: 75%;
+}
+div.body{
+	width: 700px;
+    font-size: 15px;
+}
+k{
+    color: #990000;
+	font-weight: bold;
+}
+h1 {
+    font-size: 150%;
+    background-color: #b2c0ff;
+	padding: 10px; 
+}
+
+h2 {
+    background-color: #9ed8ff;
+    font-size: 130%;
+}
+
+h3 {
+	background-color: #e6ccff;
+    font-size: 100%;
+}
+h4 {
+    background-color: #C0F0E0;
+    font-size: 100%;
+	width: 95%;
+	border-radius: 5px;
+	padding: 2px;
+}
+h5 {
+    background-color: #d5ffb0;
+    font-size: 100%;
+	
+}    
+div.req{
+	background-color: #d9ffb3;
+    font-size: 18px;
+	width: 700px;
+    border: 3px solid green;
+    padding: 15px;
+    margin: 10px;
+}       
+div.remark{
+	background-color: #E3F2FD;	
+    border: 1.5px solid #d5f2ed;
+    padding: 15px;
+    margin: 10px;
+	border-radius: 25px;
+}  
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+} 
+
+ol, ul, li {
+  margin: 0;
+  margin-left: 10px;
+  padding: 0;
+  padding-bottom: 5px;
+}     
+
+table, th, td {
+	border: 1px solid black;
+}
+
+img {
+	border: 1.5px solid #d5f2ed
+	
+}
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #545454;
+    background-color: transparent;
+}
+
+div.wrapdesc{
+	width: 90%;
+	margin: auto;
+}
+
+div.imagedesc{
+	width: 85%;
+	margin: auto;
+}
+</style>
+    
+<head>
+   
+<title>AboutRest</title></head>
+    
+<body>
+<div id="top">
+<h1>DISI | About Rest<font size="5"></font> </h1>
+</div>  
+
+<div class="body"> 
+
+
+<h2>Principi REST</h2>
+<ul>
+<li>Identificazione delle risorse</li>
+<li>Utilizzo esplicito dei metodi HTTP</li>
+<li>Risorse autodescrittive</li>
+<li>Collegamenti tra risorse</li>
+<li>Comunicazione senza stato</li>
+</ul>
+
+<!-- 
+JPA are nothing but POJOs representing data that can be persisted to the database
+https://medium.com/@codespeaks/build-restful-services-with-spring-boot-2-x-in-few-steps-95c895a7abf5
+per un esempio si veda https://github.com/letcodespeak/custsomer-service 
+In customer-service folder, run mvnw spring-boot:run to start the application
+<pre>
+Find all customers
+curl -s -G http://localhost:8088/restapi/customers | python -m json.tool
+Find all customers with sorting
+curl -s -G http://localhost:8088/restapi/customers?sort=customerId,desc | python -m json.tool
+Find all accounts of one customer
+curl -s -G http://localhost:8088/restapi/customers/1/accounts | json_pp
+Add a new customer Iris
+curl -s -H "Content-Type: application/json;accept: application/json" -X POST -d '{"customerName": "Iris Zhang","dateofBirth": "1985-03-16","phoneNumber": "+610452623738"}' http://localhost:8088/restapi/customers/ | json_pp
+Add an account of customer Iris
+curl -s -H "Content-Type: application/json;accept: application/json" -X POST -d '{"accountNumber": 30981069,"accountName": "gold plus","balance": 12000,"openingDate": "2016-05-16"}' http://localhost:8088/restapi/customers/3/accounts | json_pp
+Update the new customer Iris
+curl -s -H "Content-Type: application/json;accept: application/json" -X PUT -d '{"customerName": "Iris Wong","dateofBirth": "1985-03-16","phoneNumber": "+610452623738"}' http://localhost:8088/restapi/customers/3 | json_pp 
+Update the account of customer Iris
+curl -s -H "Content-Type: application/json;accept: application/json" -X PUT -d '{"accountNumber": 30981069,"accountName": "silver plus","balance": 12000,"openingDate": "2016-05-16"}' http://localhost:8088/restapi/customers/3/accounts/30981069 | json_pp
+Delete the customer Iris and all linked accounts
+curl -s -i -H "Content-Type: application/json;accept: application/json" -X DELETE  http://localhost:8088/restapi/customers/3/
+</pre>
+-->
+
+<h4>Risorse</h4>
+Per <k>Risorsa</k> si intende un qualsiasi elemento oggetto di elaborazione, ad esempio un <i>Paziente</i>, un <i>PianoTerapeutico</i>.
+Per fare un parallelo con la programmazione ad oggetti possiamo dire che una risorsa puo' essere assimilata ad una istanza di una classe.
+<br/>
+Una risorsa deve essere identificata univocamente attraverso un URI. Ad esempio:
+<pre>http://www.itel.com/pazienti/1234
+http://www.itel.com/pianoterapuetico?codfiscpaziente=...	
+</pre>
+
+Nel progettare un Web Service in modalità REST e' utile evitare l’uso di verbi negli URI ma limitarsi ad utilizzare nomi, 
+ricordandosi che un URI identifica una risorsa.<br/><br/>
+
+REST stabilisce una mappatura uno a uno tra le tipiche operazioni
+CRUD (creazione, lettura, aggiornamento, eliminazione di una risorsa) e i metodi HTTP.
+<pre>
+<b>Metodo HTTP          Operazione CRUD              Descrizione</b>
+POST                 Create                       Crea una nuova risorsa
+GET                  Read                         Ottiene una risorsa esistente
+PUT                  Update                       Aggiorna una risorsa o ne modifica lo stato
+DELETE               Delete                       Elimina una risorsa
+</pre>
+
+Il corpo di una richiesta HTTP con metodi PUT e POST e' pensato per il trasferimento della rappresentazione di una risorsa 
+e non per eseguire chiamate remote o altre attività simili.
+
+<h4>Rappresentazione delle Risorse</h4>
+Le risorse sono concettualmente separate dalle rappresentazioni restituite al client. 
+<br/><br/>
+I principi REST non pongono nessun vincolo sulle modalita' di rappresentazione di una risorsa.<br/>
+Di fatto, però, è opportuno utilizzare formati il più possibile standard in modo da
+semplificare l’interazione con i client. Inoltre, sarebbe opportuno prevedere rappresentazioni
+multiple di una risorsa, per soddisfare client di tipo diverso.
+<br/><br/>
+La possibilità di rappresentazioni multiple produce alcuni benefici pratici: ad esempio, se abbiamo
+un output sia HTML, sia XML/Json, possiamo consumare il servizio sia con un’applicazione sia con un
+comune browser. In altre parole, seguendo i principi REST nel progettare un’applicazione Web è
+possibile costruire sia una Web API che una Web UI.
+
+<br/><br/>
+Il tipo di rappresentazione inviata dal Web Service al client è indicato nella stessa risposta HTTP
+tramite un tipo <k>MIME</k>, così come avviene nella classica comunicazione tra Web server e browser.
+Un client a sua volta ha la possibilità di richiedere una risorsa in uno specifico formato sfruttando
+l’attributo Accept di una richiesta HTTP di tipo GET.
+
+
+<h4>Collegamenti tra risorse</h4>
+Un altro vincolo dei principi REST consiste nella necessita' che le risorse siano tra loro messe in
+relazione tramite <em>link ipertestuali</em>. Questo principio e' anche noto come <k>HATEOAS</k> 
+(<i>Hypermedia As The Engine Of Application State</i>), e pone l'accento sulle modalità di gestione
+dello stato dell’applicazione.
+<br/><br/>
+In sostanza, tutto quello che un client deve sapere su una risorsa e sulle risorse ad essa correlate
+deve essere contenuto nella sua rappresentazione o deve essere accessibile tramite collegamenti
+ipertestuali.
+
+
+<h4>Comunicazione stateless</h4>
+
+La comunicazione stateless, non vuol dire che un’applicazione non deve avere stato. 
+La responsabilità della gestione dello stato
+dell’applicazione non deve essere conferita al server, ma rientra nei compiti del client.
+<br/><br/>
+Con una comunicazione senza stato è possibile creare cluster di server che
+possono rispondere ai client senza vincoli sulla sessione corrente, ottimizzando le prestazioni
+globali dell’applicazione. 
+
+
+<!--Si veda <a href="https://www.html.it/pag/19596/i-principi-dellarchitettura-restful/" target="web">principi della architettura restful</a> -->
+
+
+<br/><br/>
+
+<h4>Attori + REST calls (cambio di paradigma)</h4>
+L'adozione di interazioni REST significa avere sostituito oggetti con servizi e procedure-call con 
+operazioni (asincrone) di message-passing. Siamo alle soglie di una cambio di paradigma nella costruzione del software
+che costituisce il passo iniziale verso il mondo dei microservizi.
+
+
+<img src="./img/itelDisiHealthArch1.png" alt="itelDisiHealthArch1.png" width="80%"><br/>
+<br/>
+  
+
+<table style="width:100%" border="1">
+<tr>
+<td style="width:50%">
+</td>
+<td></td>
+</tr>
+</table>
+	      	
+<br/><br/> 	
+</div>  
+
+<div style="background-color:rgba(86, 56, 253, 0.9); width:60%;text-align:left;color:white">
+By AC - AN - AR | DISI Unibo  
+<!-- <img src="./img/emiglio.png" alt="mbot" width="15%" height="15%"> -->
+</div> 
+</body>
+</html>
