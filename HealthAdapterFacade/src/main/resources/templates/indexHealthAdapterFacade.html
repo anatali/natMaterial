@@ -99,7 +99,8 @@ CRUD operations
 	function showAnswer( msg, issynch, answer ){
       	//alert( answer );		//answer: the resource if asynch else a message
 		if( issynch ) msg = msg + " synch ";
-      	showResRepJson( msg + " done for resource id=", answer );
+      	//showResRepJson( msg + " done for resource id=", answer );
+      	showResRepJson( "", answer );
 	}
 
 /*
@@ -547,6 +548,10 @@ UPDATE
     <option value="Endpoint">Endpoint</option>
     <option value="Observation">Observation</option>
     <option value="CarePlan">CarePlan</option>
+    <option value="CareTeam">CareTeam</option>
+    <option value="Goal">Goal</option>
+    <option value="Encounter">Encounter</option>
+    <option value="Practitioner">Practitioner</option>
   </select>
 
 Rid <input id="updateresourceid" type="text" value="1439336" size="8" autofocus/></m>
@@ -580,6 +585,8 @@ CONVERT
   <select name="cvttemplate" id="cvttemplate">
     <option value="ADT_A01.hbs">ADT_A01</option>
     <option value="ORU_R01.hbs">ORU_R01</option>
+    <option value="ORM_O01.hbs">ORM_O01</option>
+    <option value="Task.hbs">Task</option>
   </select>
 
 <!-- <input type="file" id="templatehl7FileName"  />  -->

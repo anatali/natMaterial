@@ -197,7 +197,7 @@ public class HealthAdapterMIController {
     	//return Flux.just("cvtHL7ToFHIRUri " + template + " " + datahl7 + " wait a minute ...");
     	//System.out.println("----- HealthAdapterMIController cvtHL7ToFHIRUri args=" + args  );
     	String[] split  = args.split( "///" ); 
-    	//System.out.println("----- HealthAdapterMIController cvtHL7ToFHIRUri template=" + split[1]  );
+    	System.out.println("----- HealthAdapterMIController cvtHL7ToFHIRUri template=" + split[1]  );
     	return	healthService.cvthl7tofhir(split[1],split[0]);	
     	//return	healthService.docvthl7tofhir(split[1],split[0]);	//EXPERIMENT with DISI converter
     	

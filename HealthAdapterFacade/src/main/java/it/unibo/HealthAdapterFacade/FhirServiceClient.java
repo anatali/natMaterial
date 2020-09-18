@@ -270,7 +270,12 @@ public class FhirServiceClient {
 // 	}
   	public  Flux<String> cvthl7tofhir( String templateFileName, String hl7data ) {
    		String addr 		   = cvtHostAddr ; 
-  		String templateStr     = HttpFhirSupport.readFromFileJson(templateFileName);  
+  		//String f = "C:/Progetti/natmaterial/HealthAdapterFacade/src/main/resources/templatesHbs/" +templateFileName;
+  		String f = "./src/main/resources/templatesHbs/" +templateFileName;
+ 
+   		String templateStr     = HttpFhirSupport.readFromFileJson(f);  
+  		
+  		
   		//System.out.println("FhirServiceClient |  templateStr = " + templateStr  ) ; 
   		System.out.println("FhirServiceClient |  data = " + hl7data  ) ; 
 		String encodedTemplate = Base64.getEncoder().encodeToString(templateStr.getBytes());

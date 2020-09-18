@@ -157,7 +157,7 @@ public class HttpFhirSupport {
 		    String data         = IOUtils.toString(fis, "UTF-8");
  		    return data;
 		} catch (Exception e) {
-			System.out.println("readPatientFromFileJson ERROR"+ e.getMessage() );
+			System.out.println("readPatientFromFileJson fileName=" + fileName + " ERROR "+ e.getMessage() );
 			return null;
 		}
 	}
