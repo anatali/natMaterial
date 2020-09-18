@@ -1,0 +1,337 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+ 
+<style type="text/css">
+body
+{
+    margin-left:  30px;
+    margin-right: 30px;
+};
+
+P
+{
+    font-family: Tahoma;
+    font-size: 10pt;
+};
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #545454;
+    background-color: transparent;
+}
+
+a:hover {
+    background-color: #cccccc;
+}
+
+
+hr {
+    clear: both;
+    height: 1px;
+    color: #242424;
+    background-color: transparent;
+}
+
+h1, h2, h3 {
+    color: #242424;
+    clear: left;
+    font: 100% Tahoma, Helvetica, Arial, sans-serif;
+    margin-bottom: 0.5em;
+    padding-top: 0.5em;
+	border-radius: 10px;
+	padding: 5px;
+}
+
+top {
+	width: 100%;
+}
+
+
+#i {
+    color: #ff1010;
+}
+tt{
+	font-family: "Arial";
+    font-size: 80%;
+	color: #006600;
+}
+em{
+	font-family: "Arial";
+    font-size: 80%;
+	font-weight: bold;
+	border-style:solid;
+	border-color: #abe876;
+    color: #1632cc;
+}
+bc{
+	font-family: "Arial";
+	font-size: 80%;
+	font-weight: bold;
+    color: #990000;
+	background-color: #fcf8c7;
+}
+ks{
+	font-family: "Arial";
+	font-weight: bold;
+    color: #0000CD	;
+	 
+}
+kc{
+	font-family: "Arial";
+	font-weight: bold;
+    color: #008000	;
+	 
+}
+pre{
+	font-family: "Consolas";
+	font-size: 85%;
+	background-color: #f5f5f5;
+	border: 1.5px solid silver;
+	padding: 5px;
+}
+m{
+	font-family: "Helvetica";
+	line-height: 100%;
+ 	font-size: 75%;
+}
+div.body{
+	width: 700px;
+    font-size: 15px;
+}
+k{
+    color: #990000;
+	font-weight: bold;
+}
+h1 {
+    font-size: 150%;
+    background-color: #b2c0ff;
+	padding: 10px; 
+}
+
+h2 {
+    background-color: #9ed8ff;
+    font-size: 130%;
+}
+
+h3 {
+	background-color: #e6ccff;
+    font-size: 100%;
+}
+h4 {
+    background-color: #C0F0E0;
+    font-size: 100%;
+	width: 95%;
+	border-radius: 5px;
+	padding: 2px;
+}
+h5 {
+    background-color: #d5ffb0;
+    font-size: 100%;
+	
+}    
+div.req{
+	background-color: #d9ffb3;
+    font-size: 18px;
+	width: 700px;
+    border: 3px solid green;
+    padding: 15px;
+    margin: 10px;
+}       
+div.remark{
+	background-color: #E3F2FD;	
+    border: 1.5px solid #d5f2ed;
+    padding: 15px;
+    margin: 10px;
+	border-radius: 25px;
+}  
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+} 
+
+ol, ul, li {
+  margin: 0;
+  margin-left: 10px;
+  padding: 0;
+  padding-bottom: 5px;
+}     
+
+table, th, td {
+	border: 1px solid black;
+}
+
+img {
+	border: 1.5px solid #d5f2ed
+	
+}
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #545454;
+    background-color: transparent;
+}
+
+div.wrapdesc{
+	width: 90%;
+	margin: auto;
+}
+
+div.imagedesc{
+	width: 85%;
+	margin: auto;
+}
+</style>
+    
+<head>
+   
+<title>HDADISI</title></head>
+    
+<body>
+<div id="body">
+<h1>HDA |  Verso una Architettura Logica di riferimento<font size="5"></font> </h1>
+
+<h3>User sory</h3>
+ <div class="remark">
+As a Developer,  I want to be able to access health data in a protocol-independent way,  so that I can more easily integrate with existing health care systems.
+<br/>
+<i>Example: access health data in various HL7 formats (and others) in a uniform way.</i>
+<hr/>
+<ul>
+<li><a href="https://dev-itel.atlassian.net/wiki/spaces/NEXTAGORA/overview" target="web">Confluence space: Nextagora</a> </li>
+<li><a href="https://dev-itel.atlassian.net/wiki/spaces/UNIBO/overview" target="web">Confluence space: UNIBO</a> </li>
+<li><a href="http://htmlpreview.github.io/?https://github.com/anatali/natMicroservices/blob/master/it.unibo.hapi2.2/userDocs/HapiUsage.html" target="web"> 
+DISI - HapiUsage.html</a> (on <tt>natMicroservices .... it.unibo.hapi2.2/userDocs/</tt>) </li>
+<!--
+<li><a href="http://htmlpreview.github.io/?https://github.com/anatali/natMaterial/blob/master/health/userDocs/HealthReferences.html" target="web"> 
+DISI - HealthReferences.html</a> (on natMaterial/health/userDocs/)</li>
+-->
+<li><a href="http://htmlpreview.github.io/?https://github.com/anatali/natMaterial/blob/master/health/userDocs/Mirth.html" target="web"> 
+DISI - Mirth at work</a> (on <tt>natMaterial ...health/userDocs/</tt>)</li>
+
+</ul>
+</div>
+
+
+<table style="width:98%">
+<tbody>	
+ 
+<tr>
+<td style="width:30%" >
+<img src="../img/components.png" alt="components.png" width="100%"  />
+ </td>
+<td>
+<h3>Componenti, interazioni, rappresentazioni</h3>
+I simboli verranno usati per rappresentare con minor ambiguita' possibile il tipo di componenti in gioco e le forme della loro interazione.
+ 
+<h4>Schema generico di riferiemento</h4>
+<img src="../img/adapterGeneric.png" alt="adapterGeneric.png" width="60%"  /><br/>
+<img src="../img/us4.png" alt="us4.png" width="60%"  />
+</td>
+</tr>
+
+<tr>
+<td style="width:30%" >
+ 
+ </td>
+<td>
+</td>
+</tr> 
+
+ </tbody>
+</table>
+
+
+<h2>Il ruolo di Mith: Scenari</h2>
+ 
+<a href="https://github.com/nextgenhealthcare/connect" target="web">Mirth</a> è stato 
+<a href="https://www.chilmarkresearch.com/can-mirth-revive-nextgen/" target="web">acquisito nel 2013 da NextGen</a>
+ (parent company QSI - Quality Systems, Inc.)
+
+poiche' <i><a href="https://www.carecloud.com/top-ehr-vendors/" target="web">EHR vendors</a>   
+need new and better ways to support clinical interoperability in an increasingly heterogeneous EHR world</i>.
+<br/><br/>
+
+Mirth, was never a full-bodied 
+<a href="https://en.wikipedia.org/wiki/Health_information_exchange" target="web">HIE (Healthcare Information Exchange)</a>  vendor, but has been a steady presence in the 
+<a href="Healthcare Information Exchange (HIE) Market" target="web">HIE Market</a> as a component supplier to HIEs and HIE vendors, 
+notably Harris and Covisint among others.
+<br/><br/>
+Mirth Connect has found its way into a variety of prototyping and testing environments for HL7 messaging and EHR integrations. 
+
+<h3>Use cases </h3>
+... todo. Ripoterei qui qualche link ad esempi di come viene attualmente usato in applicazioni EHR. 
+<br/><br/>
+
+ <table style="width:98%">
+<tbody>	
+<tr>
+<td style="width:40%" >
+<h3>Scenario 1</h3>
+ <img src="../img/HDAScenario2.png" alt="HDAScenario2.png" width="100%"  />
+ </td>
+<td><h4>Mirth elemento di supporto interno a HDA</h4>
+Come sembra prospettato nella user-story:<br/><br/>
+<ul>
+<li>HDA vine concepito come 'microservizio' REST da installare by need e invocare in applicazioni HEALTH avvalendosi anche di
+<a href="https://hapifhir.github.io/hapi-hl7v2/" target="web">HAPI lib</a> 
+</li>
+<li>Mirth viene usato come utility per agevolare la trasformazione di messaggi dal mondo ITel ai diversi mondi HL7 e viceversa.
+</li>
+</ul>
+
+
+ 
+</td>
+</tr>
+
+<tr>
+<td style="width:40%" >
+<h3>Scenario 2</h3>
+ <img src="../img/HDAScenario1.png" alt="HDAScenario1.png" width="100%"  />
+ </td>
+<td>
+<h4>Mirth come 'integratore generale' di sistema</h4>
+Mirth viene usato come supporto per integrare le comunicazioni ITel.
+
+ <div class="remark">
+Questo impiego di Mirth non sembra consigliabile perchè introduce un technology-lock e perchè Mirth 
+(pur fornendo canali HTTP) non sembra poter sostituire SpringBoot nella implementazione di servizi RESTful.
+<br/>
+<k>Tuttavia si veda</k>: <a href="../Triunfo.pdf" target="web">Soluzioni OpenSource per la linearizzazione del problema di
+integrazione di applicativi nei Sistemi Informativi Ospedalieri</a>.
+</div> 
+</td>
+</tr>
+
+
+
+
+ </tbody>
+</table>
+
+<h2>Scenario 1: caso di studio</h2>
+Si potrebbe dire qualcosa del tipo
+<ol>
+<li>ITel invia a HDA una richiesta di esecuzione di un servizio che richiede l'invio di messaggu HL7 a qualche ente esterno.
+Un eventuale risposta deve essere restituita a Itel-caller (in un formato JSON interno) </li>
+<li>ITel invia a HDA una richiesta di ottenere dati (espressi in un formato JSON interno)  di un paziente che arrivano come msg HL7</li>
+<li>...</li>
+<li></li>
+</ol>
+ 
+
+
+
+<br/><br/>
+ 
+ 
+
+<div style="background-color:rgba(86, 56, 253, 0.9); width:100%;text-align:center;font-size:small;color:white">
+By AN-AR Unibo-DISI  
+</div> 
+
+</body>
+</html>
+
+
+ 

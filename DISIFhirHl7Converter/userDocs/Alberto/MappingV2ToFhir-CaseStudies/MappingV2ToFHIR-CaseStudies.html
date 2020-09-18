@@ -1,0 +1,321 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+ 
+<style type="text/css">
+body
+{
+    margin-left:  30px;
+    margin-right: 30px;
+};
+
+P
+{
+    font-family: Tahoma;
+    font-size: 10pt;
+};
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #545454;
+    background-color: transparent;
+}
+
+a:hover {
+    background-color: #cccccc;
+}
+
+
+hr {
+    clear: both;
+    height: 1px;
+    color: #242424;
+    background-color: transparent;
+}
+
+h1, h2, h3 {
+    color: #242424;
+    clear: left;
+    font: 100% Tahoma, Helvetica, Arial, sans-serif;
+    margin-bottom: 0.5em;
+    padding-top: 0.5em;
+	border-radius: 10px;
+	padding: 5px;
+}
+
+top {
+	width: 100%;
+}
+
+
+#i {
+    color: #ff1010;
+}
+tt{
+	font-family: "Arial";
+    font-size: 80%;
+	color: #006600;
+}
+em{
+	font-family: "Arial";
+    font-size: 80%;
+	font-weight: bold;
+	border-style:solid;
+	border-color: #abe876;
+    color: #1632cc;
+}
+bc{
+	font-family: "Arial";
+	font-size: 80%;
+	font-weight: bold;
+    color: #990000;
+	background-color: #fcf8c7;
+}
+ks{
+	font-family: "Arial";
+	font-weight: bold;
+    color: #0000CD	;
+	 
+}
+kc{
+	font-family: "Arial";
+	font-weight: bold;
+    color: #008000	;
+	 
+}
+pre{
+	font-family: "Consolas";
+	font-size: 85%;
+	background-color: #f5f5f5;
+	border: 1.5px solid silver;
+	padding: 5px;
+    word-break: break-all;
+}
+m{
+	font-family: "Helvetica";
+	line-height: 100%;
+ 	font-size: 75%;
+}
+div.body{
+	width: 700px;
+    font-size: 15px;
+}
+
+k{
+    color: #990000;
+	font-weight: bold;
+}
+
+mn {
+	background-color: lightsalmon;
+}
+
+rf {
+    background-color: #d5ffb0;
+}
+
+h1 {
+    font-size: 150%;
+    background-color: #b2c0ff;
+	padding: 10px; 
+}
+
+h2 {
+    background-color: #9ed8ff;
+    font-size: 130%;
+}
+
+h3 {
+	background-color: #e6ccff;
+    font-size: 100%;
+}
+h4 {
+    background-color: #C0F0E0;
+    font-size: 100%;
+	width: 95%;
+	border-radius: 5px;
+	padding: 2px;
+}
+h5 {
+    background-color: #d5ffb0;
+    font-size: 100%;
+	
+}    
+div.req{
+	background-color: #d9ffb3;
+    font-size: 18px;
+	width: 700px;
+    border: 3px solid green;
+    padding: 15px;
+    margin: 10px;
+}       
+div.remark{
+	background-color: #E3F2FD;	
+    border: 1.5px solid #d5f2ed;
+    padding: 15px;
+    margin: 10px;
+	border-radius: 25px;
+}  
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 5px;
+} 
+
+table {
+  margin: 12px 0px;
+}
+
+ol, ul, li {
+  margin: 0;
+  margin-left: 10px;
+  padding: 0;
+  padding-bottom: 5px;
+}     
+
+table, th, td {
+	border: 1px solid black;
+}
+
+img {
+	border: 1.5px solid #d5f2ed
+	
+}
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #545454;
+    background-color: transparent;
+}
+
+div.wrapdesc{
+	width: 90%;
+	margin: auto;
+}
+
+div.imagedesc{
+	width: 85%;
+	margin: auto;
+}
+
+.center {
+    margin: auto; 
+    display: block;
+}
+
+</style>
+    
+<head>
+   
+<title>Mapping V2 to FHIR - Case studies</title></head>
+    
+<body>
+<div id="body">
+<h1>Mapping V2 to FHIR - Case studies</h1>
+<ul>
+<li><a href="https://dev-itel.atlassian.net/wiki/spaces/NEXTAGORA/overview" target="web">Confluence space: Nextagora</a>  &nbsp;&nbsp;&nbsp;
+ <a href="https://dev-itel.atlassian.net/wiki/spaces/UNIBO/overview" target="web">Confluence space: UNIBO</a>  &nbsp;&nbsp;&nbsp;
+ <a href="https://bitbucket.org/itelunibo/workspace/projects/" target="web">Projects on bitbucket</a> &nbsp;&nbsp;&nbsp;
+ <!--
+ <a href="https://bitbucket.org/itelunibo/overviewrepo/src/master/it.unibo.itel/userDocs/3-LogicalArch/HDA_Disi.html" target="web">HDA_Disi.html (overviewrepo)</a>
+ &nbsp;&nbsp;&nbsp;-->
+ </li>
+<li><a href="https://confluence.hl7.org/display/OO/2-To-FHIR+Project">2-To-FHIR Project - Mappings Tables</a> &nbsp;&nbsp;&nbsp;
+ <a href="https://github.com/microsoft/FHIR-Converter">Microsoft FHIR Converter</a></li>
+<hr/>
+
+</ul>
+
+<h2>ORM - Order Message</h2>
+Un messaggio ORM rappresenta una richiesta per servizi(analisi, referto), materiali (e.g., 500ml of 2.5% saline) o informazioni.
+La transmissione degli ordini avviene tra l’applicazione che dispone l’ordine (the placer) all’applicazione che compilerà la richiesta (the filler).
+I messaggi ORM trovano maggiore impiego per l'invio di Radiology Orders e Lab Orders.<br><br>
+Alcune informazioni degne di nota:
+<ul>
+    <li>il messaggio ORM pu&ograve; non essere associato ad un paziente, di conseguenza il PID diventa opzionale;</li>
+    <li>il segmento OBX &egrave; opzionale ed il suo uso &egrave; differente rispetto al caso di ORU; in questo caso OBX favorisce l'interpretazione del messaggio lato sistema ricevente;</li>
+    <li>generalmente per trasmettere ordini ci si avvale del messaggio <b>ORM-O01</b>;</li>
+</ul>
+<h3>ORM - Case Study</h3>
+Tipicamente un medico sottomette una richiesta attraverso un sistema placer, nella Fig.1 lo HIS. La richiesta tradotta in un messaggio HL7 ORM giunger&agrave; fino al sistema filler, nella Fig.1 il RIS, il quale risponder&agrave; con un ACK.
+<figure style='text-align: center;'>
+    <img src="images/orm-radiology.png" />
+    <figcaption>Fig.1 - Invio di una richiesta radiologica</figcaption>
+</figure>
+Si prenda il caso in cui un <u>uomo</u>, <u>afroamericano</u>, di nome <u>John Applessed</u>,
+MRN:<u>20891312</u>, SSN:<u>123-45-7890</u>, nato il <u>1/12/1996</u>, con account number <u>11480003</u>,
+necessita di una lastra alla caviglia (X-Ray - ankle).<br>
+La richiesta viene effettuata dal <u>Dr. James Matthews</u>. L'esatta procedura da eseguire &egrave; <u>X-RAY ANKLE 3+ VW</u> con codice CPT <u>73610</u>.<br>
+Basandosi su queste informazioni si pu&ograve; procedere con la costruzione del messaggio.
+<h6>MSH - Message Header</h6>
+Dati HIS (sistema mittente), RIS (sistema destinatario) ed assumendo che la richiesta sia stata effettuata il 18/04/2014 alle 17:33:14.
+<pre>MSH|^~\&|HIS|RIS|||20140418173314|1148|ORM^O01|497|D|2.3||</pre>
+
+<h6>PID - Patient Identification</h6>
+Dato che la richiesta dipende su uno specifico paziente, questo deve essere incluso nel messaggio mediante il segmento PID.
+<pre>PID|1||20891312^^^^EPI||APPLESEED^JOHN^A^^MR.^||19661201|M||AfrAm|505 S. HAMILTON AVE^^MADISON^WI^53505^US^^^DN |DN|(608)123-4567|(608)123-5678||S|| 11480003|123-45-7890||||^^^WI^^</pre>
+
+<h6>PD1 - Patient Additional demographics</h6>
+PD1 contiene il nome e l'ID della struttura e dell'operatore che ha effettuato l'ordine.
+<pre>PD1|||FACILITY(EAST)^^12345|1173^MATTHEWS^JAMES^A^^^</pre>
+
+
+<h6>PV1 - Patient Visit</h6>
+Il segmento di esempio contiene solamente il medico che ha inoltrato la richiesta.
+<pre>PV1|||^^^CARE HEALTH SYSTEMS^^^^^||| |1173^MATTHEWS^JAMES^A^^^||||||||||||610613||||||||||||||||||||||||||||||||V</pre>
+
+<h6>ORC - Common Order</h6>
+ORC conserva i dettagli della richiesta come NW (new order), il numero originario dell'ordine (987654) creato dal <i>placer system</i> e quello (76543) inserito dal <i>filling system</i>.
+<pre>ORC|NW|987654^HIS|76543^EPC||Final||^^^20140418170014^^^^||20140418173314|1148^PATTERSON^JAMES^^^^||1173^MATTHEWS^JAMES^A^^^|1133^^^222^^^^^|(618)222-1122||</pre>
+
+<h6>OBX - Observation request</h6>
+<pre>OBR|1|363463^EPC|1858^EPC|<b>73610^X-RAY ANKLE 3+ VW^^^X-RAY ANKLE</b>||||||||||||<b>1173^MATTHEWS^JAMES^A^^^</b>|(608)258-8866||||||||Final||^^^20140418170014^^^^|||||<b>6064^MANSFIELD^JEREMY^^^^</b>||1148010^1A^EAST^X-RAY^^^|^</pre>
+I campi principali del segmento:
+<ul>
+    <li>dettagli dell'ordine: 73610^X-RAY ANKLE 3+ VW</li>
+    <li>info mittente: 1173^MATTHEWS^JAMES^A^^^</li>
+    <li>info destinatario: 6064^MANSFIELD^JEREMY^^^^</li>
+</ul>
+
+<h6>DG1 - Diagnosis</h6>
+Tramite il segmento DG1 si forniscono ulteriori informazioni sulla 
+diagnosi cos&igrave; da permettere ai sistemi di fatturazione di compiere i propri calcoli.
+<pre>DG1||I10|S82^ANKLE FRACTURE^I10|ANKLE FRACTURE||</pre>
+<small>ankle fracture &egrave; codificato tramite S82.</small>
+
+<h6>Bringing it all together</h6>
+<pre>
+MSH|^~\&|HIS|MedCenter|RIS|MedCenter|20140418173314|1148|ORM^O01|497|D|2.3||
+PID|1||20891312^^^^EPI||APPLESEED^JOHN^A^^MR.^||19661201|M||AfrAm|505 S. HAMILTON AVE^^MADISON^WI^53505^US^^^DN |DN|(608)123-4567|(608)123-5678||S|| 11480003|123-45-7890||||^^^WI^^
+PD1|||FACILITY(EAST)^^12345|1173^MATTHEWS^JAMES^A^^^
+PV1|||^^^CARE HEALTH SYSTEMS^^^^^||| |1173^MATTHEWS^JAMES^A^^^||||||||||||610613||||||||||||||||||||||||||||||||V
+ORC|NW|987654^HIS|76543^EPC||Final||^^^20140418170014^^^^||20140418173314|1148^PATTERSON^JAMES^^^^||1173^MATTHEWS^JAMES^A^^^|1133^^^222^^^^^|(618)222-1122||
+OBR|1|363463^EPC|1858^EPC|73610^X-RAY ANKLE 3+ VW^^^X-RAY ANKLE ||||||||||||1173^MATTHEWS^JAMES^A^^^|(608)258-
+8866||||||||Final||^^^20140418170014^^^^|||||6064^MANSFIELD^JEREMY^^^^||1148010^1A^EAST^X-RAY^^^|^|
+DG1||I10|S82^ANKLE FRACTURE^I10|ANKLE FRACTURE||
+</pre>
+<h3>ORM_O01 - v2ToFHIR</h2>
+<figure style="text-align: center;">
+    <img src="images/ORM_O01-Mappings.png"/>
+    <figcaption>Fig.2 - rappresentazione di ORM_O01 tramite risorse FHIR</figcaption>
+</figure>
+La Fig.2 mostra le risorse FHIR coinvolte durante la conversione di un messaggio ORM_O01 da v2 a FHIR. Tramite apposite freccie vengono illustrare le relazioni tra le risorse (Reference) indicando inoltre anche il campo della risorsa interessato (e.g Patient.id).
+I riquadri colorati rappresentano segmenti HL7 v2; la loro collocazione nel disegno determina la semantica, la quale pu&ograve; esprimersi mediante una relazione oppure attraverso una singola risorsa FHIR.<br>
+Per la realizzazione del grafico ci si &egrave; avvalsi delle <a href="https://confluence.hl7.org/display/OO/2-To-FHIR+Project">tabelle di Mappings</a> offerte dalla community HL7.
+
+<h4>Microsoft FHIR Converter - DISI template</h4>
+Le relazioni prensenti nella Fig.2 sono state impiegate nella costruzione di un template per il messaggio ORM_O01. Il template mostrato in Fig.3 e&grave; input valido per il <a href="https://github.com/microsoft/FHIR-Converter">Microsoft FHIR Converter</a>. 
+La conversione effettuata da quest'ultimo porter&agrave; all'implementazione di una FHIR Transaction.
+<figure style="text-align: center;">
+    <img src="images/disi_template.png"/>
+    <figcaption>Fig.3 - template ORM_O01 (handlebars)</figcaption>
+</figure>
+
+<div style="background-color:rgba(86, 56, 253, 0.9); width:100%;text-align:center;font-size:small;color:white">
+By AN Unibo-DISI  
+</div> 
+
+</body>
+</html>
+
+
+ 
