@@ -168,7 +168,12 @@ fall into the realm of <ks>workflow</ks>.
 
 <tr><td> <ks>Workflow</ks> resources describe things that can be done (<k>definitions</k>), are desired to be done (<k>requests</k>) or that have been done (<k>events</k>). 
 </td>
-<td><a href="https://www.hl7.org/fhir/workflow.html#relationships" target="fhirweb">12.5.1.2 Workflow Resource Relationships </a></td>
+<td><a href="https://www.hl7.org/fhir/workflow.html#relationships" target="fhirweb">See 12.5.1.2 Workflow Resource Relationships </a>
+<br/>
+<img src="./img/workflow-relations.png" alt="workflow-relations.png" width="50%"><br/>
+
+ 
+</td>
 </tr>
 
 <tr><td> <ks>Pattern Event</ks> is <k>NOT</k> a resource. 
@@ -177,20 +182,33 @@ It includes resources that primarily describe the "result" of an activity or wha
 Examples include encounters, procedures, completed questionnaires, representations of state transitions, etc. 
 It does not include resources that describe objects or roles (e.g. patient, device, location).
 </td>
-<td><a href="https://www.hl7.org/fhir/event.html#statemachine" target="fhirweb">12.4.6 State Machine </a></td>
+<td><a href="https://www.hl7.org/fhir/event.html" target="fhirweb">12.4 Pattern event. See 12.4.6 State Machine </a>
+
+<br/><br/>
+<img src="./img/event-state-machine.svg" alt="event-state-machine.svg" width="50%"><br/>
+
+</td>
 </tr>
 
 
 <tr><td>An <ks>ActivityDefinition</ks> is a shareable, consumable description of some activity to be performed. It may be used to specify actions to be taken 
 as part of a workflow, order set, or protocol, or it may be used independently as part of a catalog of activities such as orderables. 
 </td>
-<td><a href="https://www.hl7.org/fhir/activitydefinition.html#12.17.3.3" target="fhirweb">12.17.3.3 Applying an ActivityDefinition</a></td>
+<td><a href="https://www.hl7.org/fhir/activitydefinition.html" target="fhirweb">12.17 Resource ActivityDefinition See 12.17.3.3 Applying an ActivityDefinition</a>
+<br/><br/>
+<img src="./img/action-and-activity-definition.png" alt="action-and-activity-definition.png" width="90%"><br/>
+ 
+</td>
 </tr>
 
 <tr><td>A <ks>Task</ks> resource describes an activity that can be performed and tracks the state of completion of that activity. 
 It is a representation that an activity should be or has been initiated, and eventually, represents the successful or unsuccessful completion of that activity.
 </td>
-<td><a href="https://www.hl7.org/fhir/task.html" target="fhirweb">12.1 Resource Task</a></td>
+<td><a href="https://www.hl7.org/fhir/task.html" target="fhirweb">12.1 Resource Task, 12.1.6 See Task State Machine</a>
+<br/><br/>
+<img src="./img/task-state-machine.svg" alt="task-state-machine.svg" width="50%"><br/>
+ 
+</td>
 </tr>
 
 </table>
