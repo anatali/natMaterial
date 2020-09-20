@@ -156,23 +156,72 @@ table, th, td {
 
 
 <h2>Introduzione</h2>
- 
+ <a href="https://www.hl7.org/fhir/workflow.html" target="fhirweb"><ks>Workflow</ks> (FHIR 12.5 Workflow Description)</a> 
+ is an essential part of healthcare - orders, care protocols, referrals are the drivers of most activity within in-patient settings 
+ and a great deal of activity in community care as well. 
+ <br/><br/>
+ FHIR is concerned with workflow when there's a need to <b>share information about workflow state or relationships</b>, 
+ when there's a need to <b>coordinate or drive</b> the execution of workflow across systems and when there's a need to <b>define allowed actions, 
+ dependencies and conditions</b> on behavior.
+ <br/><br/>
+ FHIR <b>does not need to be used</b> for the execution of workflow. 
+ Orders, care plans, lab results, hospital admissions, claim payments and other records can all be shared using FHIR resources 
+ without the process to solicit fulfillment of those orders or requesting payment of those claims being driven by a FHIR transaction. 
+ <i>Interoperable support for workflow execution</i> is a more advanced FHIR activity because it requires a <b>higher degree of standardization</b>. 
+ Rather than merely standardizing the data to exchange, interoperable workflow execution requires standardization of the processes, 
+ roles and activities across the different systems. 
+ <br/><br/>
+FHIR supports a variety of interoperability paradigms and most of them (<ks>REST, Messaging and Services</ks>) provide support for driving workflow execution. 
+
+  <br/><br/>
+ However, even without using FHIR for workflow execution, there's still a need to standardize the data elements related to workflow.
+   <br/><br/>
+   
  <table style="width:100%" border="1">
-<tr><td style="width:50%">
-A large proportion of the FHIR resources are devoted to the description of activities in one fashion or another and almost all of these 
-fall into the realm of <ks>workflow</ks>.
+ <tr><td style="width:50%"><ks>Workflow definition</ks>
+ The definition of protocols, order sets, guidelines and other structures that define what sorts of activities should occur, 
+ what order they should occur on, what dependencies they have, in what circumstances they should start or end, etc. is handled by a pair of resources:
+
+<ul>
+<li> <a href="#plandef" target="fhirweb">PlanDefinition</a>     defines the interrelationships of steps and the rules around their execution</li>
+<li> <a href="#activitydef" target="fhirweb">ActivityDefinition</a>  defines an activity to be performed as a single step</li>
+</ul>
+ 
+FHIR defines three categories of resources that are involved in activities - requests, events and definitions.
+Each of these categories has a <k>"pattern"</k> associated with it.
 <br/><br/>
  <ks>Workflow</ks> resources describe things that can be done (<k>definitions</k>), are desired to be done (<k>requests</k>) or that have been done (<k>events</k>). 
 
-
+ 
+ 
 </td>
-<td><a href="https://www.hl7.org/fhir/workflow.html" target="fhirweb">FHIR 12.5 Workflow Description  See 12.5.1.2 Workflow Resource Relationships </a>
+<td><a href="https://www.hl7.org/fhir/workflow.html" target="fhirweb">FHIR 12.5 Workflow Description</a> <m>( 12.5.1 Wflw Resource Patterns  )</m>
 <br/>
 <img src="./img/workflow-relations.png" alt="workflow-relations.png" width="50%"><br/>
 
- 
 </td>
 </tr>
+
+<tr><td> <ks>Workflow Resources</ks>  
+Not all resources in FHIR are related to workflow - many are used to describe entities and roles (patients, medications, etc.) or 
+infrastructure (structure definitions, value sets, etc.). 
+<br/>
+However, a large proportion of the FHIR resources are devoted to the description of activities in one fashion or another and almost 
+all of these fall into the realm of workflow - they describe things that can be done (definitions), 
+are desired to be done (requests) or that have been done (events). 
+The table summarizes the list of workflow-relevant resources.
+</td>
+<td><a href="https://www.hl7.org/fhir/workflow.html" target="fhirweb">FHIR 12.5 Workflow Description</a> <m>(12.5.1.1 Workflow resources)</m>
+
+<img src="./img/FHIRWorkflowResources.png" alt="FHIRWorkflowResources.png" width="100%"><br/>
+ 
+
+<br/><br/>
+ 
+
+</td>
+</tr>
+
 
 <tr><td> <ks>Pattern Event</ks> is <k>NOT</k> a resource. 
 An "event" is any description of an activity that has already taken place or that is currently ongoing. 
@@ -183,28 +232,91 @@ It does not include resources that describe objects or roles (e.g. patient, devi
 <td><a href="https://www.hl7.org/fhir/event.html" target="fhirweb">12.4 Pattern event. See 12.4.6 State Machine </a>
 
 <br/><br/>
-<img src="./img/event-state-machine.svg" alt="event-state-machine.svg" width="50%"><br/>
+<img src="./img/event-state-machine.svg" alt="event-state-machine.svg" width="65%"><br/>
 
 </td>
 </tr>
 
 
-<tr><td>An <ks>ActivityDefinition</ks> is a shareable, consumable description of some activity to be performed. It may be used to specify actions to be taken 
-as part of a workflow, order set, or protocol, or it may be used independently as part of a catalog of activities such as orderables. 
-</td>
-<td><a href="https://www.hl7.org/fhir/activitydefinition.html" target="fhirweb">12.17 Resource ActivityDefinition See 12.17.3.3 Applying an ActivityDefinition</a>
+<tr><td> <ks>Workflow Communication Patterns</ks>. 
+Many FHIR resources can be used within workflows <k>without using</k> FHIR to manage the execution of the workflows. <br/>
+When we want to manage workflow execution with FHIR, there are several mechanisms available. <br/>
+Prior to reviewing this list of options, readers are encouraged to be familiar with the following pages and resources: 
+<tt>REST, messaging, operations, services</tt> and the <tt>Subscription</tt> resource.<br/>
+The workflow state is represented by the <ks>Task</ks> resource. 
+
 <br/><br/>
-<img src="./img/action-and-activity-definition.png" alt="action-and-activity-definition.png" width="90%"><br/>
- 
+In addition to managing workflow with FHIR, there are also cases where management of workflow execution is not necessary, 
+and supporting workflow becomes simply the use of the resource patterns in an ad-hoc fashion.
+</td>
+<td><a href="https://www.hl7.org/fhir/workflow-communications.html" target="fhirweb">12.6 Workflow Execution and Communication Patterns</a>
+12.6.2 Workflow State. 12.6.3 List of patterns
+
+
+<br/><br/>
+<img src="./img/task-state-machine.svg" alt="task-state-machine.svg" width="60%"><br/>
+
 </td>
 </tr>
 
-<tr><td>A <ks>Task</ks> resource describes an activity that can be performed and tracks the state of completion of that activity. 
+
+
+<tr  id="activitydef"><td>An <ks>ActivityDefinition</ks> is a shareable, consumable description of some activity to be performed. It may be used to specify actions to be taken 
+as part of a workflow, order set, or protocol, or it may be used independently as part of a catalog of activities such as orderables. 
+
+<br/><br/>
+An activity definition is simply a <b>conceptual description</b> of some specific action that should be taken. 
+An instance of an <tt>ActivityDefinition</tt> does not indicate that any action has been performed (as an event resource does), 
+nor does it indicate the actual intent to carry out any particular action (as a request resource does).<br/> 
+Instead, an activity definition provides a <i>reusable template</i> that can be used to construct specific request resources such as 
+<tt>ServiceRequest</tt> and <tt>MedicationRequest</tt>.
+<br/><br/>
+this is conceptually similar to the <a href="#Taskl" target="fhirweb">Task</a>  resource as well, 
+with the distinction being that <tt>ActivityDefinition</tt> represents the <b>description of a task in the abstract</b>, 
+while the <a href="#Taskl" target="fhirweb">Task</a> resource is used to track a specific instance of a task as it moves through the steps of a workflow.
+<br/><br/>
+This resource is referenced by <tt>CarePlan, CatalogEntry, Communication, DeviceRequest, EvidenceVariable, FamilyMemberHistory, MessageDefinition, 
+NutritionOrder, PlanDefinition, Procedure, ServiceRequest</tt> and <a href="#Taskl" target="fhirweb">Task</a>.
+
+</td>
+<td><a href="https://www.hl7.org/fhir/activitydefinition.html" target="fhirweb">12.17 Resource ActivityDefinition</a> (12.17.3.3 Applying an ActivityDefinition)
+<br/><br/>
+ The following diagram illustrates the relationship between the PlanDefinition and ActivityDefinition resources, as well as a typical application to 
+ CarePlan, RequestGroup, and Request resources<br/>
+<img src="./img/action-and-activity-definition.png" alt="action-and-activity-definition.png" width="100%"><br/>
+
+To accommodate the variability in systems and use cases, this specification is not prescriptive about exactly how an ActivityDefinition 
+is applied to produce target request or event resources. However, the approach depicted above provides a general framework for the process, 
+and the following steps provide more detail on the potential approach (see 12.17.3.3).
+
+</td>
+</tr>
+
+<tr id="Task"><td>A <ks>Task</ks> resource describes an activity that can be performed and tracks the state of completion of that activity. <br/>
 It is a representation that an activity should be or has been initiated, and eventually, represents the successful or unsuccessful completion of that activity.
 </td>
 <td><a href="https://www.hl7.org/fhir/task.html" target="fhirweb">12.1 Resource Task, 12.1.6 See Task State Machine</a>
 <br/><br/>
-<img src="./img/task-state-machine.svg" alt="task-state-machine.svg" width="50%"><br/>
+<img src="./img/task-state-machine.svg" alt="task-state-machine.svg" width="65%"><br/>
+ 
+</td>
+</tr>
+
+<tr id="plandef"><td>A <ks>Plan</ks> resource is a <i>definition resource</i> from a FHIR workflow perspective.
+<br/><br/>
+A plan definition is a pre-defined group of actions to be taken in particular circumstances, often including conditional elements, 
+options, and other decision points. <br/>
+The resource is flexible enough to be used to represent a variety of workflows, as well as clinical decision support and quality improvement assets, 
+including order sets, protocols, and decision support rules.
+ 
+</td>
+<td><a href="https://www.hl7.org/fhir/plandefinition.html" target="fhirweb">12.18 Resource PlanDefinition</a> (12.18.3.3 Applying a PlanDefinition)
+<br/><br/>
+The following diagram illustrates the relationship between the PlanDefinition and ActivityDefinition resources, 
+as well as a typical application to CarePlan, RequestGroup, and Request resources. <br/>
+The resources depicted on the left side of the arrow are definition resources, while the ones on the right side of the arrow are request resources, 
+with the arrow representing the <tt>$apply</tt> operation:<br/><br/>
+<img src="./img/action-and-activity-definition.png" alt="action-and-activity-definition.png" width="100%"><br/>
  
 </td>
 </tr>
@@ -230,9 +342,8 @@ It is a representation that an activity should be or has been initiated, and eve
 <br/><br/> 	
 </div>  
 
-<div style="background-color:rgba(86, 56, 253, 0.9); width:60%;text-align:left;color:white">
-By  AN  | DISI Unibo  
-<!-- <img src="./img/emiglio.png" alt="mbot" width="15%" height="15%"> -->
-</div> 
+<div style="background-color:rgba(86, 56, 253, 0.9); width:100%;text-align:center;font-size:small;color:white">
+By AN  Unibo-DISI
+</div>
 </body>
 </html>
