@@ -176,6 +176,7 @@ FHIR supports a variety of interoperability paradigms and most of them (<ks>REST
   <br/><br/>
  However, even without using FHIR for workflow execution, there's still a need to standardize the data elements related to workflow.
    <br/><br/>
+
    
  <table style="width:100%" border="1">
  <tr><td style="width:50%"><ks>Workflow definition</ks>
@@ -183,59 +184,63 @@ FHIR supports a variety of interoperability paradigms and most of them (<ks>REST
  what order they should occur on, what dependencies they have, in what circumstances they should start or end, etc. is handled by a pair of resources:
 
 <ul>
-<li> <a href="#plandef" target="fhirweb">PlanDefinition</a>     defines the interrelationships of steps and the rules around their execution</li>
 <li> <a href="#activitydef" target="fhirweb">ActivityDefinition</a>  defines an activity to be performed as a single step</li>
+<li> <a href="#plandef" target="fhirweb">PlanDefinition</a>     defines the interrelationships of steps and the rules around their execution</li>
 </ul>
  
 FHIR defines three categories of resources that are involved in activities - requests, events and definitions.
 Each of these categories has a <k>"pattern"</k> associated with it.
 <br/><br/>
- <ks>Workflow</ks> resources describe things that can be done (<k>definitions</k>), are desired to be done (<k>requests</k>) or that have been done (<k>events</k>). 
-
+ <ks>Workflow</ks> resources describe 
+	<ul>
+	<li>things that can be done (<k>definitions</k>)</li>
+	<li>things that are desired to be done (<k>requests</k>)</li>
+	<li>things that have been done (<k>events</k>)</li>
+	</ul>
  
+
  
 </td>
 <td><a href="https://www.hl7.org/fhir/workflow.html" target="fhirweb">FHIR 12.5 Workflow Description</a> <m>( 12.5.1 Wflw Resource Patterns  )</m>
 <br/>
-<img src="./img/workflow-relations.png" alt="workflow-relations.png" width="50%"><br/>
 
- 
+	<table style="width:100%" border="1">
+	<tr>
+	<td style="width:50%"><img src="./img/workflow-relations.png" alt="workflow-relations.png" width="100%"><br/>
+	</td>
+	<td><ul>
+	<li>requests, events and definitions can point to their respective definitions</li>
+	<li>events and requests can point to the proposals, plans or orders they are based on</li>
+	<li>events and definitions can be organized into parent-child relationships of parents and components</li>
+	<li>definitions and requests can both replace prior versions of the same type of artifact</li>
+	</ul>
+	 
+	This list of relationships is not exhaustive, but covers those that are "standardized" as part of the patterns. 
+	Further description and guidance on these relationships can be found in the 
+	<a href="#patternrequest">Request</a>, <a href="#patternevent">Event</a> and <a href="#patterndefinition">Definition</a>
+	logical patterns.</td>
+	</tr>
+	</table>
+
+
 
 </td>
 </tr>
 
-<tr>
-<td ><a href="https://www.hl7.org/fhir/definition.html" target="fhirweb">FHIR 12.2 Pattern definition</a> 
-</td>
-<td><img src="./img/definition-state-machine.svg" alt="definition-state-machine.svg" width="10%"> 
-</li></td>
-</tr>
-
-<tr>
-<td ><a href="https://www.hl7.org/fhir/request.html" target="fhirweb">FHIR 12.3 Pattern request</a> 
-</td>
-<td><img src="./img/request-state-machine.svg" alt="request-state-machine.svg" width="40%"> </td>
-</tr>
-
-<tr>
-<td ><a href="https://www.hl7.org/fhir/event.html" target="fhirweb">FHIR 12.4 Pattern event</a> 
-
-</td>
-<td><img src="./img/event-state-machine.svg" alt="event-state-machine.svg" width="40%"> </td>
-</tr>
 
 
 
-<tr><td> <ks>Workflow Resources</ks>  
+
+<tr><td><h3><a href="https://www.hl7.org/fhir/workflow.html" target="fhirweb">    12.5.1.1 Workflow resources</h3></a>
 Not all resources in FHIR are related to workflow - many are used to describe entities and roles (patients, medications, etc.) or 
 infrastructure (structure definitions, value sets, etc.). 
-<br/>
+<br/><br/>
 However, a large proportion of the FHIR resources are devoted to the description of activities in one fashion or another and almost 
 all of these fall into the realm of workflow - they describe things that can be done (definitions), 
-are desired to be done (requests) or that have been done (events). 
+are desired to be done (requests) or that have been done (events). <br/><br/>
 The table summarizes the list of workflow-relevant resources.
 </td>
-<td><a href="https://www.hl7.org/fhir/workflow.html" target="fhirweb">FHIR 12.5 Workflow Description</a> <m>(12.5.1.1 Workflow resources)</m>
+<td>
 
 <img src="./img/FHIRWorkflowResources.png" alt="FHIRWorkflowResources.png" width="100%"><br/>
  
@@ -247,45 +252,16 @@ The table summarizes the list of workflow-relevant resources.
 </tr>
 
 
-<tr><td> <ks>Pattern Event</ks> is <k>NOT</k> a resource. 
-An "event" is any description of an activity that has already taken place or that is currently ongoing. 
-It includes resources that primarily describe the "result" of an activity or what was found (e.g. a condition or observation). <br/>
-Examples include encounters, procedures, completed questionnaires, representations of state transitions, etc. 
-It does not include resources that describe objects or roles (e.g. patient, device, location).
-</td>
-<td><a href="https://www.hl7.org/fhir/event.html" target="fhirweb">12.4 Pattern event. See 12.4.6 State Machine </a>
-
-<br/><br/>
-<img src="./img/event-state-machine.svg" alt="event-state-machine.svg" width="65%"><br/>
-
-</td>
-</tr>
-
-
-<tr><td> <ks>Workflow Communication Patterns</ks>. 
-Many FHIR resources can be used within workflows <k>without using</k> FHIR to manage the execution of the workflows. <br/>
-When we want to manage workflow execution with FHIR, there are several mechanisms available. <br/>
-Prior to reviewing this list of options, readers are encouraged to be familiar with the following pages and resources: 
-<tt>REST, messaging, operations, services</tt> and the <tt>Subscription</tt> resource.<br/>
-The workflow state is represented by the <ks>Task</ks> resource. 
-
-<br/><br/>
-In addition to managing workflow with FHIR, there are also cases where management of workflow execution is not necessary, 
-and supporting workflow becomes simply the use of the resource patterns in an ad-hoc fashion.
-</td>
-<td><a href="https://www.hl7.org/fhir/workflow-communications.html" target="fhirweb">12.6 Workflow Execution and Communication Patterns</a>
-12.6.2 Workflow State. 12.6.3 List of patterns
-
-
-<br/><br/>
-<img src="./img/task-state-machine.svg" alt="task-state-machine.svg" width="60%"><br/>
-
-</td>
-</tr>
 
 
 
-<tr  id="activitydef"><td>An <ks>ActivityDefinition</ks> is a shareable, consumable description of some activity to be performed. It may be used to specify actions to be taken 
+
+
+
+
+<tr  id="activitydef"><td>
+<h3><a href="https://www.hl7.org/fhir/activitydefinition.html" target="fhirweb">12.17 Resource ActivityDefinition</a></h3>
+An <ks>ActivityDefinition</ks> is a shareable, consumable description of some activity to be performed. It may be used to specify actions to be taken 
 as part of a workflow, order set, or protocol, or it may be used independently as part of a catalog of activities such as orderables. 
 
 <br/><br/>
@@ -303,7 +279,7 @@ This resource is referenced by <tt>CarePlan, CatalogEntry, Communication, Device
 NutritionOrder, PlanDefinition, Procedure, ServiceRequest</tt> and <a href="#Taskl" target="fhirweb">Task</a>.
 
 </td>
-<td><a href="https://www.hl7.org/fhir/activitydefinition.html" target="fhirweb">12.17 Resource ActivityDefinition</a> (12.17.3.3 Applying an ActivityDefinition)
+<td> 12.17.3.3 Applying an ActivityDefinition
 <br/><br/>
  The following diagram illustrates the relationship between the PlanDefinition and ActivityDefinition resources, as well as a typical application to 
  CarePlan, RequestGroup, and Request resources<br/>
@@ -316,17 +292,21 @@ and the following steps provide more detail on the potential approach (see 12.17
 </td>
 </tr>
 
-<tr id="Task"><td>A <ks>Task</ks> resource describes an activity that can be performed and tracks the state of completion of that activity. <br/>
+<tr id="Task"><td>
+<h3><a href="https://www.hl7.org/fhir/task.html" target="fhirweb">12.1 Resource Task</a></h3>
+A <ks>Task</ks> resource describes an activity that can be performed and tracks the state of completion of that activity. <br/>
 It is a representation that an activity should be or has been initiated, and eventually, represents the successful or unsuccessful completion of that activity.
 </td>
-<td><a href="https://www.hl7.org/fhir/task.html" target="fhirweb">12.1 Resource Task, 12.1.6 See Task State Machine</a>
+<td>, 12.1.6 Task State Machine 
 <br/><br/>
 <img src="./img/task-state-machine.svg" alt="task-state-machine.svg" width="65%"><br/>
  
 </td>
 </tr>
 
-<tr id="plandef"><td>A <ks>Plan</ks> resource is a <i>definition resource</i> from a FHIR workflow perspective.
+<tr id="plandef"><td>
+<h3><a href="https://www.hl7.org/fhir/plandefinition.html" target="fhirweb">12.18 Resource PlanDefinition</a></h3>
+A <ks>Plan</ks> resource is a <i>definition resource</i> from a FHIR workflow perspective.
 <br/><br/>
 A plan definition is a pre-defined group of actions to be taken in particular circumstances, often including conditional elements, 
 options, and other decision points. <br/>
@@ -334,7 +314,7 @@ The resource is flexible enough to be used to represent a variety of workflows, 
 including order sets, protocols, and decision support rules.
  
 </td>
-<td><a href="https://www.hl7.org/fhir/plandefinition.html" target="fhirweb">12.18 Resource PlanDefinition</a> (12.18.3.3 Applying a PlanDefinition)
+<td>12.18.3.3 Applying a PlanDefinition
 <br/><br/>
 The following diagram illustrates the relationship between the PlanDefinition and ActivityDefinition resources, 
 as well as a typical application to CarePlan, RequestGroup, and Request resources. <br/>
@@ -347,14 +327,241 @@ with the arrow representing the <tt>$apply</tt> operation:<br/><br/>
 
 </table>
 
+<!--
+========================================================================================
+-->
+
+<h2 id="Workflowpatterns">Workflow Resource Patterns</h2>
+
+<table style="width:100%" border="1">
+<tr>
+<td style="width:50%">
+</td>
+<td></td>
+</tr>
+<tr id="patterndefinition">
+<td ><h3><a href="https://www.hl7.org/fhir/definition.html" target="fhirweb">FHIR 12.2 Pattern definition</a></h3> 
+This is <k>NOT</k> a resource. It is not part of the FHIR schema and cannot appear directly in FHIR instances. 
+It is a logical model that defines a pattern adhered to by other resources.<br/><br/>
+</td>
+<td><img src="./img/definition-state-machine.svg" alt="definition-state-machine.svg" width="15%"> 
+</li></td>
+</tr>
+
+<tr id="patternrequest">
+<td><h3><a href="https://www.hl7.org/fhir/request.html" target="fhirweb">FHIR 12.3 Pattern request</a></h3> 
+This is <k>NOT</k> a resource. It is not part of the FHIR schema and cannot appear directly in FHIR instances. 
+It is a logical model that defines a pattern adhered to by other resources.
+</td>
+<td><img src="./img/request-state-machine.svg" alt="request-state-machine.svg" width="60%"> </td>
+</tr>
+
+<tr id="patternevent">
+<td ><h3><a href="https://www.hl7.org/fhir/event.html" target="fhirweb">FHIR 12.4 Pattern event</a></h3> 
+This is <k>NOT</k> a resource. It is not part of the FHIR schema and cannot appear directly in FHIR instances. 
+It is a logical model that defines a pattern adhered to by other resources.<br/><br/>
+An "event" is any description of an activity that has already taken place or that is currently ongoing. 
+It includes resources that primarily describe the "result" of an activity or what was found (e.g. a condition or observation). <br/>
+Examples include encounters, procedures, completed questionnaires, representations of state transitions, etc. 
+It does not include resources that describe objects or roles (e.g. patient, device, location).
+</td>
+<td><a href="https://www.hl7.org/fhir/event.html" target="fhirweb">See 12.4.6 State Machine </a>
+
+<br/><br/>
+<img src="./img/event-state-machine.svg" alt="event-state-machine.svg" width="65%"><br/>
 
 
+</td>
+ 
+</tr>
+</table>
 
+<!--
+========================================================================================
+-->
+
+<h2 id="Workflowpatterns">Workflow patterns</h2>
+
+Many FHIR resources can be used within workflows <k>without using</k> FHIR to manage the execution of the workflows. <br/>
+When we want to manage workflow execution with FHIR, there are several mechanisms available. <br/>
+Prior to reviewing this list of options, readers are encouraged to be familiar with the following pages and resources: 
+<tt>REST, messaging, operations, services</tt> and the <tt>Subscription</tt> resource.<br/>
+The workflow state is represented by the <ks>Task</ks> resource. 
+
+	<ul>
+	<li><a href="https://www.hl7.org/fhir/workflow-communications.html" target="fhirweb">12.6 Workflow Execution and Communication Patterns</a>   </li>
+	<li><a href="https://www.hl7.org/fhir/workflow-ad-hoc.html" target="fhirweb">12.7 Ad-Hoc Workflow Communication Patterns</a>  </li>
+	<li><a href="https://www.hl7.org/fhir/workflow-management.html" target="fhirweb">12.8 Workflow Management Communication Patterns</a>  </li>
+	</ul> 
+
+<table style="width:100%" border="1">
+
+
+<tr><td style="width:50%">
+<h3 id="12.6"><a href="https://www.hl7.org/fhir/workflow-communications.html" target="fhirweb">12.6 <ks>Workflow Execution and Communication</ks> Patterns</a></h3> 
+Many FHIR resources can be used within workflows <k>without using</k> FHIR to manage the execution of the workflows. <br/>
+When we want to manage workflow execution with FHIR, there are several mechanisms available. <br/>
+Prior to reviewing this list of options, readers are encouraged to be familiar with the following pages and resources: 
+<tt>REST, messaging, operations, services</tt> and the <tt>Subscription</tt> resource.<br/>
+The workflow state is represented by the <ks>Task</ks> resource. 
+
+<br/><br/>
+In addition to managing workflow with FHIR, there are also cases where management of workflow execution is not necessary, 
+and supporting workflow becomes simply the use of the resource patterns in an ad-hoc fashion.
+</td>
+<td>
+12.6.2 Workflow State. <br/>
+<img src="./img/task-state-machine.svg" alt="task-state-machine.svg" width="60%"><br/>
+<a href="#12.6.2.1">12.6.2.1 Example: Workflow states for a lab order for a blood test</a> <br/>
+<a href="#12.6.2.2">12.6.2.2 Example: Workflow states for a referral from a PCP to a specialist</a> <br/>
+<a href="#12.6.3">12.6.3 List of patterns</a> <br/> 
+</td>
+</tr>
+
+
+<tr><td><h3 id="12.7"><a href="https://www.hl7.org/fhir/workflow-ad-hoc.html" target="fhirweb">12.7 <ks>Ad-Hoc</ks> Workflow Communication Patterns</a></h3> 
+ 
+<br/><br/>
+ <br/><br/>
+ 
+</td>
+<td></td>
+</tr>
+
+<tr><td><h3  id="12.8"><a href="https://www.hl7.org/fhir/workflow-management.html" target="fhirweb">12.8 <ks>Workflow Management</ks> Communication Patterns</a></h3> 
+ 
+<br/><br/>
+ <br/><br/>
+ 
+</td>
+<td></td>
+</tr>
+
+
+</table>
 
 <!-- <img src="./img/itelDisiHealthArch1.png" alt="itelDisiHealthArch1.png" width="80%"><br/> -->
 <br/>
-  
+ 
+ 
+ 
+<!--
+===========================================================================================
+--> 
+<h2 id="">Workflow examples</h2>
 
+<h3 id="12.6.2.1">12.6.2.1 Workflow states for a lab order for a blood test </h3>
+The following table shows the steps for a simple blood test order, and the corresponding values of the Task attributes. 
+A lot of details on other attributes have been omitted in order to focus on the state changes.</p>
+
+        <table class="grid">
+            <tr>
+                <th>
+                    Workflow step
+                </th>
+                <th>
+                    <a href="task-definitions.html#Task.status">Task.status</a>
+                </th>
+                <th>
+                    <a href="task-definitions.html#Task.statusReason">Task.statusReason</a>
+                </th>
+                <th>
+                    <a href="task-definitions.html#Task.businessStatus">Task.businessStatus</a>
+                </th>
+
+                  <!-- <th>
+                    <a href="task-operations.html">Task operation</a>
+                </th> -->
+            </tr>
+            <tr>
+                <td>
+                    Provider orders a blood test for a patient. A <a href="https://www.hl7.org/fhir/servicerequest.html">ServiceRequest</a> resource 
+					is created to represent the order, and a <a href="https://www.hl7.org/fhir/task.html">Task</a> resource is created to represent the request to the lab.
+                    <a href="https://www.hl7.org/fhir/task-definitions.html#Task.basedOn">Task.basedOn</a> points to the ServiceRequest instance.
+                </td>
+                <td>
+                    Requested
+                </td>
+                <td>
+                    New order
+                </td>
+                <td>
+                    Ordered
+                </td>
+                  <!-- <td>
+                    N/A
+                </td> -->
+            </tr>
+            <tr>
+                <td>
+                    The lab accepts the order.
+                </td>
+                <td>
+                    Accepted
+                </td>
+                <td>
+                    Able to perform the test.
+                </td>
+                <td>
+                    Accepted
+                </td>
+                  <!-- <td>
+                    N/A
+                </td> -->
+            </tr>
+            <tr>
+                <td>
+                    The patient is at the lab, and blood is drawn.
+                </td>
+                <td>
+                    In progress
+                </td>
+                <td>
+                    Obtained the specimen
+                </td>
+                <td>
+                    Specimen available
+                </td>
+                  <!-- <td>
+                    <a href="task-operation-start.html">Start Task</a>
+                </td> -->
+            </tr>
+            <tr>
+                <td>
+                    Work on the blood sample is in progress, preliminary results are available, a <a href="https://www.hl7.org/fhir/diagnosticreport.html">DiagnosticReport</a> resource is created, and 
+					<a href="https://www.hl7.org/fhir/task-definitions.html#Task.output.value_x_">Task.output.value[1]</a>                    references the DiagnosticReport resource.
+                </td>
+                <td>
+                    In progress
+                </td>
+                <td>
+                    Preliminary results available
+                </td>
+                <td>
+                    Preliminary results
+                </td>
+                  <!-- <td>
+                    <a href="task-operation-set.html-output">Set Task Output</a>
+                </td> -->
+            </tr>
+            <tr>
+                <td>
+                    Final results are available
+                </td>
+                <td>
+                    Complete
+                </td>
+                <td>
+                    Final results are available
+                </td>
+                <td>
+                    Final results
+                </td>
+                  <!-- <td>
+                    <a href="task-operation-finish.html">Finish Task</a>
+                </td> -->
+            </tr>
+        </table>
 <table style="width:100%" border="1">
 <tr>
 <td style="width:50%">
@@ -363,6 +570,352 @@ with the arrow representing the <tt>$apply</tt> operation:<br/><br/>
 </tr>
 </table>
 	      	
+<h3 id="12.6.2.2">12.6.2.2 Example: Workflow states for a referral from a PCP to a specialist</h3>		
+
+The following table shows the steps for a referral workflow, and the corresponding values of the Task attributes. 
+A lot of details on other attributes have been omitted in order to focus on the state changes.</p>
+
+        <table class="grid">
+            <tr>
+                <th>
+                    Workflow step
+                </th>
+                <th>
+                    <a href="https://www.hl7.org/fhir/task-definitions.html#Task.status">Task.status</a>
+                </th>
+                <th>
+                    <a href="https://www.hl7.org/fhir/task-definitions.html#Task.statusReason">Task.statusReason</a>
+                </th>
+                <th>
+                    <a href="https://www.hl7.org/fhir/task-definitions.html#Task.businessStatus">Task.businessStatus</a>
+                </th>
+                  <!-- <th>
+                    <a href="task-operations.html">Task operation</a>
+                </th> -->
+            </tr>
+            <tr>
+                <td>Provider A is seeing a patient with a specific complaint. Based on the exam, Provider A refers the patient to a specialist at clinic B. It is an urgent referral, requesting to see the specialist within 4 days. 
+				A <a href="https://www.hl7.org/fhir/servicerequest.html">ServiceRequest</a>                    
+				resource is created to represent the referral order, and a <a href="https://www.hl7.org/fhir/task.html">Task</a> resource is created with 
+				<a href="https://www.hl7.org/fhir/task-definitions.html#Task.priority">Task.priority</a> set to Urgent, and 
+				<a href="https://www.hl7.org/fhir/task-definitions.html#Task.restriction.period">Task.restriction.period.end</a>                    
+				set to 4 days in the future.
+                </td>
+                <td>
+                    Requested
+                </td>
+                <td>
+                    New referral
+                </td>
+                <td>
+                    Referred
+                </td>
+                  <!-- <td>
+                    N/A
+                </td> -->
+            </tr>
+            <tr>
+                <td>
+                    Clinic B receives the referral and puts it on the urgent queue to be reviewed.
+                </td>
+                <td>
+                    Received
+                </td>
+                <td>
+                    Received by organization
+                </td>
+                <td>
+                    Pending
+                </td>
+                  <!-- <td>
+                    N/A
+                </td> -->
+            </tr>
+            <tr>
+                <td>
+                    Upon reviewing the referral, the clinic determines they have no capacity to see the patient within the specified time period, and they decline the referral.
+                </td>
+                <td>
+                    Rejected
+                </td>
+                <td>
+                    Provider unavailable
+                </td>
+                <td>
+                    Declined
+                </td>
+                  <!-- <td>
+                    N/A
+                </td> -->
+            </tr>
+            <tr>
+                <td>
+                    Provider A changes the referral request to clinic C. This creates a new <a href="https://www.hl7.org/fhir/task.html">Task</a> resource, 
+					with the appropriate information
+                </td>
+                <td>
+                    Requested
+                </td>
+                <td>
+                    Changed the referred to provider
+                </td>
+                <td>
+                    Referred
+                </td>
+                  <!-- <td>
+                    N/A
+                </td> -->
+            </tr>
+            <tr>
+                <td>
+                    Clinic C accepts the referral and it is placed on a scheduler's queue.
+                </td>
+                <td>
+                    Accepted
+                </td>
+                <td>
+                    Able to provide the service.
+                </td>
+                <td>
+                    Accepted
+                </td>
+                  <!-- <td>
+                    N/A
+                </td> -->
+            </tr>
+            <tr>
+                <td>
+                    An appointment is scheduled for the patient at Clinic C.
+                </td>
+                <td>
+                    In progress
+                </td>
+                <td>
+                    Appointment scheduled
+                </td>
+                <td>
+                    Scheduled
+                </td>
+                  <!-- <td>
+                    <a href="task-operation-start.html">Start Task</a>
+                </td> -->
+            </tr>
+            <tr>
+                <td>
+                    Soon after the appointment is scheduled, the patient calls provider A to ask for a different location for the referral appointment, as he lost his transportation, and he cannot reach Clinic C. The provider requests a cancel for the referral.
+                </td>
+                <td>
+                    Suspended
+                </td>
+                <td>
+                    Patient unable to make appointment.
+                </td>
+                <td>
+                    Cancel requested
+                </td>
+                  <!-- <td>
+                    <a href="task-operation-suspend.html">Suspend Task</a>
+                </td> -->
+            </tr>
+            <tr>
+                <td>
+                    Clinic C confirms the cancellation of the existing task.
+                </td>
+                <td>
+                    In progress<br/> Failed
+                </td>
+                <td>
+                    Referral cancelled
+                </td>
+                <td>
+                    Cancelled as requested
+                </td>
+                  <!-- <td>
+                    <a href="task-operation-resume.html">Resume Task</a> followed by <a href="task-operation-fail.html">Fail Task</a>
+                </td> -->
+            </tr>
+            <tr>
+                <td>
+                    Provider A changes the referral to Clinic D, which is located close to where the patient lives, and can be conveniently reached using public transportation. 
+					This creates a new <a href="https://www.hl7.org/fhir/task.html">Task</a> resource, with the appropriate
+                    information.
+                </td>
+                <td>
+                    Requested
+                </td>
+                <td>
+                    Changed the referred to provider
+                </td>
+                <td>
+                    Referred
+                </td>
+                  <!-- <td>
+                    N/A
+                </td> -->
+            </tr>
+            <tr>
+                <td>
+                    Clinic D accepts the referral and it is placed on a scheduler's queue.
+                </td>
+                <td>
+                    Accepted
+                </td>
+                <td>
+                    Able to provide the service.
+                </td>
+                <td>
+                    Accepted
+                </td>
+                  <!-- <td>
+                    N/A
+                </td> -->
+            </tr>
+            <tr>
+                <td>
+                    An appointment is scheduled for the patient at Clinic D.
+                </td>
+                <td>
+                    In progress
+                </td>
+                <td>
+                    Appointment scheduled
+                </td>
+                <td>
+                    Scheduled
+                </td>
+                  <!-- <td>
+                    <a href="task-operation-start.html">Start Task</a>
+                </td> -->
+            </tr>
+            <tr>
+                <td>
+                    Patient is seen at Clinic D. A diagnosis is made by the specialist, a prescription is given, and a follow-up appointment is made at clinic D. <a href="task-definitions.html#Task.output.value_x_">Task.output.value[1]</a> references
+                    a <a href="https://www.hl7.org/fhir/composition.html">Compositions</a> resource, which contains the encounter summary.
+                </td>
+                <td>
+                    In progress
+                </td>
+                <td>
+                    Intermediary consultation note available
+                </td>
+                <td>
+                    Preliminary notes
+                </td>
+                  <!-- <td>
+                    <a href="task-operation-set.html-output">Set Task Output</a>
+                </td> -->
+            </tr>
+            <tr>
+                <td>
+                    Patient comes for follow-up appointment at clinic D. The specialist is satisfied by the progress the patient has made and creates the final consultation note. 
+					<a href="https://www.hl7.org/fhir/task-definitions.html#Task.output.value_x_">Task.output.value[2]</a>                    references a 
+					<a href="https://www.hl7.org/fhir/composition.html">Compositions</a> resource, which contains consultation note.
+                </td>
+                <td>
+                    Completed
+                </td>
+                <td>
+                    Final consultation note available
+                </td>
+                <td>
+                    Final notes
+                </td>
+                  <!-- <td>
+                    <a href="task-operation-finish.html">Finish Task</a>
+                </td> -->
+            </tr>
+        </table>	
+		
+		
+<h3 id="12.6.3">12.6.3 List of patterns</h3>		
+The patterns that facilitate the execution of workflow using the <a href="#Task">Task</a> resource are grouped in the Workflow Management Patterns section. 
+The patterns where no Task resource is used are grouped in the Ad-hoc Workflow Patterns section. The list of patterns is as follows:
+        </p>
+        <table>
+            <tbody>
+                <tr>
+                    <th>
+                        <a href="#12.7">Ad-Hoc Workflow Patterns</a>
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="https://www.hl7.org/fhir/workflow-ad-hoc.html#optiona">12.7.1 Option A: Simple RESTful POST or PUT</a>
+                          <!-- <a href="#optiona">Option A: Creation of Task on placer's system</a> -->
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="https://www.hl7.org/fhir/workflow-ad-hoc.html#optionb">12.7.2  Option B: Direct POST of request to fulfiller's system</a>
+                          <!-- <a href="#optionb">Option B: POST of Task to fulfiller's system</a> -->
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="https://www.hl7.org/fhir/workflow-ad-hoc.html#optionc">12.7.3 Option C: POST of request to placer/queue server system, receiver uses polling or subscription</a>
+                          <!-- <a href="#optionc">Option C: POST of Task to a workflow broker</a> -->
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="https://www.hl7.org/fhir/workflow-ad-hoc.html#optiond">12.7.4 Option D: Messaging request from placer to filler &amp; acknowledgment</a>
+                          <!-- <a href="#optiond">Option D: Messaging Task from placer to fulfiller</a> -->
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="https://www.hl7.org/fhir/workflow-ad-hoc.html#optione">12.7.5 Option E: Services request from placer to filler &amp; acknowledgment</a>
+                          <!-- <a href="#optione">Option E: Service request referencing Task from placer to fullfiller</a> -->
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <a href="#12.8">Workflow Management Patterns</a>
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="https://www.hl7.org/fhir/workflow-management.html#optionf">12.8.1 Option F: Creation of Task on placer's system</a>
+                          <!-- <a href="#optionf">Option F: Simple RESTful POST or PUT</a> -->
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="https://www.hl7.org/fhir/workflow-management.html#optiong">12.8.2 Option G: POST of Task to fulfiller's system</a>
+                          <!-- <a href="#optiong">Option G: Direct POST of request to fulfiller's system</a> -->
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="https://www.hl7.org/fhir/workflow-management.html#optionh">12.8.3  Option H: POST of Task to a workflow broker</a>
+                          <!-- <a href="#optionh">Option H: POST of request to placer/queue server system, receiver uses polling or subscription</a> -->
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="https://www.hl7.org/fhir/workflow-management.html#optioni">12.8.4 Option I: POST of Task to fulfiller's system, POST of sub-Task on placer's system</a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <a href="https://www.hl7.org/fhir/workflow-management.html#optionj">12.8.5  Option J: Messaging Task from placer to fulfiller</a>
+                          <!-- <a href="#optioni">Option I: POST of "request" resource for filler system, response via Task</a> -->
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="https://www.hl7.org/fhir/workflow-management.html#optionk">12.8.6  Option K: Service request referencing Task from placer to fullfiller</a>
+                          <!-- <a href="#optionj">Option J: Messaging request from placer to filler &amp; acknowledgment</a> -->
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="https://www.hl7.org/fhir/workflow-ad-hoc.html#additional">12.8.7 Additional Scenarios and Variations</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>		
 <br/><br/> 	
 </div>  
 
