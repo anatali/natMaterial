@@ -199,8 +199,32 @@ Each of these categories has a <k>"pattern"</k> associated with it.
 <br/>
 <img src="./img/workflow-relations.png" alt="workflow-relations.png" width="50%"><br/>
 
+ 
+
 </td>
 </tr>
+
+<tr>
+<td ><a href="https://www.hl7.org/fhir/definition.html" target="fhirweb">FHIR 12.2 Pattern definition</a> 
+</td>
+<td><img src="./img/definition-state-machine.svg" alt="definition-state-machine.svg" width="10%"> 
+</li></td>
+</tr>
+
+<tr>
+<td ><a href="https://www.hl7.org/fhir/request.html" target="fhirweb">FHIR 12.3 Pattern request</a> 
+</td>
+<td><img src="./img/request-state-machine.svg" alt="request-state-machine.svg" width="40%"> </td>
+</tr>
+
+<tr>
+<td ><a href="https://www.hl7.org/fhir/event.html" target="fhirweb">FHIR 12.4 Pattern event</a> 
+
+</td>
+<td><img src="./img/event-state-machine.svg" alt="event-state-machine.svg" width="40%"> </td>
+</tr>
+
+
 
 <tr><td> <ks>Workflow Resources</ks>  
 Not all resources in FHIR are related to workflow - many are used to describe entities and roles (patients, medications, etc.) or 
@@ -271,7 +295,7 @@ nor does it indicate the actual intent to carry out any particular action (as a 
 Instead, an activity definition provides a <i>reusable template</i> that can be used to construct specific request resources such as 
 <tt>ServiceRequest</tt> and <tt>MedicationRequest</tt>.
 <br/><br/>
-this is conceptually similar to the <a href="#Taskl" target="fhirweb">Task</a>  resource as well, 
+This is conceptually similar to the <a href="#Taskl" target="fhirweb">Task</a>  resource as well, 
 with the distinction being that <tt>ActivityDefinition</tt> represents the <b>description of a task in the abstract</b>, 
 while the <a href="#Taskl" target="fhirweb">Task</a> resource is used to track a specific instance of a task as it moves through the steps of a workflow.
 <br/><br/>
