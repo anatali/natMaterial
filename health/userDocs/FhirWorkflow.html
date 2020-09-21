@@ -208,7 +208,17 @@ Each of these categories has a <k>"pattern"</k> associated with it.
 	<tr>
 	<td style="width:50%"><img src="./img/workflow-relations.png" alt="workflow-relations.png" width="100%"><br/>
 	</td>
-	<td><ul>
+	<td><m>
+	<ul>
+	<li><k>Requests</k> are resources that represent the <i>proposal, plan or order for an activity</i> to occur.
+	A <a href="#patternrequest" target="fhirweb">Request pattern</a>  defines the common elements typically present on all request resources.</li>
+	<li><k>Events</k> are resources that represent the <i>ongoing or completed execution of some activity or observation</i>.
+	An <a href="#patternevent" target="fhirweb">Event pattern</a>  defines the common elements typically present on all event resources.</li>
+	<li><k>Definitions</k> are resources that represent <i>activities that could be performed in a time and subject-independent manner</i> such as a protocol, order set, clinical guideline, etc. 
+	A <a href="#patterndefinition" target="fhirweb">Definition pattern</a> defines the common elements typically present on all definition resources.</li>
+	</ul>
+	
+	<ul>
 	<li>requests, events and definitions can point to their respective definitions</li>
 	<li>events and requests can point to the proposals, plans or orders they are based on</li>
 	<li>events and definitions can be organized into parent-child relationships of parents and components</li>
@@ -216,9 +226,16 @@ Each of these categories has a <k>"pattern"</k> associated with it.
 	</ul>
 	 
 	This list of relationships is not exhaustive, but covers those that are "standardized" as part of the patterns. 
+	<!--
 	Further description and guidance on these relationships can be found in the 
 	<a href="#patternrequest">Request</a>, <a href="#patternevent">Event</a> and <a href="#patterndefinition">Definition</a>
-	logical patterns.</td>
+	logical patterns.-->
+	
+ 
+	
+	</m>
+	
+	</td>
 	</tr>
 	</table>
 
