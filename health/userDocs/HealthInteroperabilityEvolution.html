@@ -1,0 +1,522 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+ 
+<style type="text/css">
+body
+{
+    margin-left:  30px;
+    margin-right: 30px;
+};
+
+P
+{
+    font-family: Tahoma;
+    font-size: 10pt;
+};
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #545454;
+    background-color: transparent;
+}
+
+a:hover {
+    background-color: #cccccc;
+}
+
+
+hr {
+    clear: both;
+    height: 1px;
+    color: #242424;
+    background-color: transparent;
+}
+
+h1, h2, h3 {
+    color: #242424;
+    clear: left;
+    font: 100% Tahoma, Helvetica, Arial, sans-serif;
+    margin-bottom: 0.5em;
+    padding-top: 0.5em;
+	border-radius: 10px;
+	padding: 5px;
+}
+
+top {
+	width: 100%;
+}
+
+
+#i {
+    color: #ff1010;
+}
+tt{
+	font-family: "Arial";
+    font-size: 80%;
+	color: #006600;
+}
+em{
+	font-family: "Arial";
+    font-size: 80%;
+	font-weight: bold;
+	border-style:solid;
+	border-color: #abe876;
+    color: #1632cc;
+}
+bc{
+	font-family: "Arial";
+	font-size: 80%;
+	font-weight: bold;
+    color: #990000;
+	background-color: #fcf8c7;
+}
+ks{
+	font-family: "Arial";
+	font-weight: bold;
+    color: #0000CD	;
+	 
+}
+kc{
+	font-family: "Arial";
+	font-weight: bold;
+    color: #008000	;
+	 
+}
+pre{
+	font-family: "Consolas";
+	font-size: 85%;
+	background-color: #f5f5f5;
+	border: 1.5px solid silver;
+	padding: 5px;
+}
+m{
+	font-family: "Helvetica";
+	line-height: 100%;
+ 	font-size: 75%;
+}
+div.body{
+	width: 700px;
+    font-size: 15px;
+}
+k{
+    color: #990000;
+	font-weight: bold;
+}
+h1 {
+    font-size: 150%;
+    background-color: #b2c0ff;
+	padding: 10px; 
+}
+
+h2 {
+    background-color: #9ed8ff;
+    font-size: 130%;
+}
+
+h3 {
+	background-color: #e6ccff;
+    font-size: 100%;
+}
+h4 {
+    background-color: #C0F0E0;
+    font-size: 100%;
+	width: 95%;
+	border-radius: 5px;
+	padding: 2px;
+}
+h5 {
+    background-color: #d5ffb0;
+    font-size: 100%;
+	
+}    
+div.req{
+	background-color: #d9ffb3;
+    font-size: 18px;
+	width: 700px;
+    border: 3px solid green;
+    padding: 15px;
+    margin: 10px;
+}       
+div.remark{
+	background-color: #E3F2FD;	
+    border: 1.5px solid #d5f2ed;
+    padding: 15px;
+    margin: 10px;
+	border-radius: 25px;
+}  
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+} 
+
+ol, ul, li {
+  margin: 0;
+  margin-left: 10px;
+  padding: 0;
+  padding-bottom: 5px;
+}     
+
+table, th, td {
+	border: 1px solid black;
+}
+
+img {
+	border: 1.5px solid #d5f2ed
+	
+}
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #545454;
+    background-color: transparent;
+}
+
+div.wrapdesc{
+	width: 90%;
+	margin: auto;
+}
+
+div.imagedesc{
+	width: 85%;
+	margin: auto;
+}
+</style>
+    
+<head>
+   
+<title>HealthInteroperabilityEvolution</title></head>
+    
+<body>
+<div id="body">
+<h1>DISI | Health Interoperability Evolution (in natmaterial\health)<font size="5"></font> </h1>
+<li><a href="HealthReferences.html" target="web">DISI | HealthReferences.html</li>   
+
+<h2>Overview</h2>
+
+<h3>EHR (Electronic Health Record)</h3>
+todo ...
+
+<h3>Hl7v2</h3>
+The initial focus of HL7 (1987) was on exchanging information about admissions, discharges and transfers (ADT) within hospitals. (pg. 223)<br/>
+The HL7 v2 standard has been in continuous development for more than 25 years. (pg. 223) <br/>
+During its long development period the scope and size of v2 has increased greatly. (pg. 224) <br/>
+To understand the HL7 v2 documentation , you need to know about the message syntax and data types.  (pg. 225) <br/>
+The full documentation has almost 2500 pages and almost one million words. It contains an enormous amount of 
+knowledge and experience about health informatics. (pg. 223)  
+
+<br/><br/>
+HL7 v2 was developed in an ad hoc and unplanned way. (pg. 243) <br/>
+HL7  v2 provides multiple ways of doing the same thing, leading to the well-founded jibe: <i>" when you have seen one implementation
+of v2, you have seen one implementation; every one is different"</i>. (pg. 243) <br/>
+The HL7 web site explains the rationale for v3 as follows: (pg. 243) <br/>
+<div class="remark">
+Offering lots of optionality and thus fl exibility, the v2.x series of messages are widely implemented
+and very successful. These messages evolved over several years using a “bottomup”
+approach that has addressed individual needs through an evolving ad-hoc methodology.
+There is neither a consistent view of that data that HL7 moves nor that data’s relationship
+to other data.
+</div>
+
+<h3>Hl7v3</h3>
+HL7 v3 was designed to be comprehensive in scope, complete in detail, extensible as requirements change, up-to-date and model-based, conformance testable
+and technology independent.	
+It uses an object-oriented development methodology and a <i>Reference Information Model</i> (<k>RIM</k>) to create messages. (pg. 244) <br/>
+ <br/>
+
+The <k>RIM</k> was conceived as a universal reference model for healthcare interoperability,
+covering the entire healthcare domain. Each message specifi cation would be
+a view into this common model. The RIM is at the core of HL7 Version 3. You cannot
+understand v3 without understanding the RIM. (pg. 244) <br/>
+The <k>RIM</k> is <b>not a model of healthcare</b> although it is healthcare specific <b>nor is it a model of any
+message</b> although it is used in messages. (pg. 245) <br/>
+
+<h3>RIM (Reference Information Model)</h3>
+The effort to develop the RIM took place in two distinct phases (1992/1999 - many people considered this model to be just too large to
+learn and use - and 2000/today - <i>Unified Service Action Model</i> (<k>USAM</k>).  (pg. 244) <br/>
+ <br/>
+ <k>USAM</k> is based on two key ideas. (pg. 244) <br/>
+The first idea is that most <ks>healthcare documentation</ks> is concerned with 'happenings',
+in which human and other things participate in various ways.(pg. 244) <br/>
+The second idea is that the same people and things can perform different roles
+when participating different types of happening. (pg. 244) <br/>
+
+The <k>RIM</k> backbone has a small number of
+core classes and permitted relationships between them. However it presents quite a
+steep learning curve. (pg. 245) <br/>
+HL7 v3 uses a graphical representation (see <a href="https://wiki.hl7.org/RMIM_Diagram_Representation" target="web">RMIM Diagram Representation</a>, 
+called <i>Refined Message Information Model</i> (<k>RMIM</k>) to display the structure of a message as a color-coded diagram. (pg. 245) 
+
+<br/><br/>
+At the root of HL7 V3 lies the <k>RIM</k>. Everything else is a <k>constraint</k> on the RIM. Constrained specifications are
+called <k>profiles</k>. The use of profiles is a way to <i>enforce a particular interpretation</i> to ensure interoperability.(pg. 265)  <br/>
+
+The following types of constrained model are recognised within HL7 V3, starting
+with the broadest, proceeding to the narrowest (Fig. 14.1 ). (pg. 265)  <br/>
+<ul>
+<li><k>DMIM</k> Domain Message Information Model : a general model of a domain in
+HL7 notation from which a related family of message specifi cations can be derived. pg. 265)  <br/>
+DMIMs do not have a hierarchical structure and cannot be serialized. (pg. 265)  <br/>
+DMIM cannot be implemented as it is but needs to be further constrained as RMIMs.(pg. 265)  <br/>
+</li>
+<li><k>RMIM</k> Refined Message Information Model: may be thought of as a diagram of a message specification. (pg. 266)  <br/>
+RMIMs and DMIMs use the same notation. One important difference is
+that an RMIM has only one point of entry and can be expressed in a serialized format. (pg. 266)  <br/>
+</li>
+<li><k>HMD</k> Hierarchical Message Description: an RMIM expressed in a tabular format. (pg. 266)  <br/> 
+</li>
+<li><k>MT</k> Message Type: a specifi c specifi cation of a message, which can be used in a data interchange. (pg. 266)  <br/>
+
+</li>
+<li><k>CMET</k> Common Message Element Type: reusable modules, which can be used in multiple messages, rather like a program sub-routine. (pg. 266) 
+
+</li>
+</ul>
+The <k>RIM</k>, <k>DMIM</k>s and <k>RMIM</k>s can be constrained by <ks>omission , cloning, multiplicity,
+optionality, data type constraint and code binding</ks>. (pg. 268)  <br/>
+
+
+HL7 templates are used to constrain and verify conformance to profi led HL7 Version
+3 Refi ned Message Information Models (RMIMs). Templates are used widely in CDA (pg. 274)  <br/>
+
+
+HL7 uses a <b>special graphical notation</b> for specifying RMIMs and DMIMs. (pg. 272)  <br/>
+
+RMIMs are built using a special tool-set developed by HL7. The original tools,
+based on Microsoft Access and Visio are in the process of being replaced by a new
+generation of tools, which use a slightly modified notation.	(pg. 274)  <br/>
+
+The basis of these tools is a set of inter-related XML schema, known as <i>Model
+Interchange Format</i> (<k>MIF</k>). <k>MIF</k> defi nes the primary artefacts that can be developed
+or exchanged as a result of HL7 V3 standards development and implementation.  (pg. 274)  <br/>
+
+
+<h3>CDA  (Clinical Document Architecture)</h3>
+<i>Clinical Document Architecture</i> (<k>CDA</k>) is the most widely adopted application of HL7 V3. (pg. 283)  <br/>
+The <k>CDA</k> paradigm takes the document metaphor seriously. It is
+illuminating to compare the differences between the database and document metaphors. (pg. 283)  <br/>
+CDA has been widely adopted for information exchange
+between loosely coupled healthcare systems around the world. (pg. 329)  <br/>
+
+<br/><br/>
+In contrast (to a database structure), a document, electronic or paper, is organized as a stand-alone artefact
+to convey human understanding.(pg. 283)  <br/>
+
+Documents are human-readable . The meaning understood by a human reader is
+paramount, even when there is coded machine-readable information within the
+same statement.(pg. 285)  <br/>
+
+CDA templates are used to specify how CDA is to be used for particular purposes
+and specifi c use cases. (pg. 296)  <br/>
+
+
+<h3>HL7 Dynamic model</h3>
+An <k>interaction</k> is a unique association between a specific message type,
+a particular trigger event that initiates or triggers the transfer, and the application
+roles that send and receive the message type. (pg. 303)  <br/>
+
+In HL7 Version 3, each interaction is described in a table with its name and artefact
+ID, together with the sending and receiving Application roles, the trigger event,
+the message type, the trigger event type and the wrapper types and their artefact
+identifiers. (pg. 303)  <br/> 
+
+<h3>IHE XDS </h3>
+<i>Integrating the Health Enterprise</i> (<k>IHE</k>) <i>Cross-Enterprise Document Sharing</i>
+(<k>XDS</k>) enables healthcare documents to be shared over a wide area network,
+between hospitals, primary care providers and social services. It is part of the <i>IHE
+IT Infrastructure Technical Framework Integration Profiles</i> (<k>ITI-TF-1</k>). (pg. 311)  <br/> 
+
+Rather than having one big database at the center, IHE XDS offers a <b>distributed
+collaborative approach to sharing clinical documents</b> held by different healthcare
+organisations. It is based on <k>standardized metadata</k>. (pg. 311)  
+
+<br/> <br/> 
+<k>Metadata</k> is information about an information item that is used in search to find
+it later. It describes the content (what), time (when), people (who) and locations
+(where) applicable to any item. (pg. 312)  <br/> 
+
+Clinical and patient portals rely on common metadata
+to find the information being sought. Unless every source system supplies
+metadata in the same way, there is a risk that information from some sources cannot
+be found. This is a clinical safety risk. (pg. 312)  
+<br/> <br/> 
+The <k>ebXML</k> registry standard  provides a broad specifi cation for business
+portals. It is the foundation on which XDS has been built. (pg. 312)  <br/> 
+
+HL7 CDA contains a common document
+header, which can be thought of as metadata. However, IHE XDS and CDA are
+not tightly aligned. (pg. 312)  <br/> 
+
+<h3>FHIR (Fast Healthcare Interoperability Resources)</h3>
+Consistency: hile v3 excelled at producing consistent definitions,
+the consequence of this was that it was actually harder to use it inconsistently,
+and v3's rigorous consistency turned out to be a false advantage,
+since across the healthcare system, there is little
+consensus about what information should be used, how it should be represented,
+and when it should be exchanged. (pg. 330)  <br/>
+
+The FHIR team has adopted a manifesto, a declaration of the goals and priorities of
+the FHIR project. (pg. 344)  <br/>
+
+<br/> <br/> 
+Complexity: in order to implement successfully, the specification designers and the
+implementers must read and understand many layers of v3/RIM documents.  (pg. 330) <br/>
+Further, the custom tooling stack that HL7 had to produce to string all the layers together
+requires its own expertise, and the end outcome is engineering artefacts that do not
+align with what else is commonly used in the industry. (pg. 330) <br/>
+Truly successful implementations of v3 or CDA – and there are some – require an extensive custom stack of
+libraries and templates. (pg. 330)  
+<br/> <br/> 
+While the <k>v3/RIM</k> program had met its own goals, it was unfortunately clear that
+it had not met HL7's wider goals of <b>making interoperability cheaper and easier</b> (or,
+alternatively, of <i>producing standards that could compete in the market</i>, since healthcare
+interoperability standards is a market of its own). (pg. 330)  
+<br/> <br/> 
+In response to the growing awareness of this issue, HL7 created a ‘Fresh Look’
+task force that was asked to examine the best ways HL7 could create interoperability
+solutions, with no pre-conditions on what those solutions might be. (pg. 330)  
+
+<br/> <br/> 
+FHIR aspires to follow RESTful principles as much as possible.... (pg. 331)  <br/>
+... by adopting the form of interoperability, called an <i>Application Programming Interface</i> (<k>API</k>) ... (pg. 331)<br/> .
+... rather the form based on the <i>Service Orientated Architecture</i> (<k>SOA</k>). (pg. 331)
+
+<br/> <br/> 
+Interoperability specifications can be grouped into one of several different
+approaches: (pg. 331)
+<ul>
+<li><ks> Messages </ks>  : define a series of fixed information that can be exchanged between applications when a specifi c event occurs.</li>
+<li><ks> Services </ks>: define a set of functional operations that one system exposes for others
+to use, along with the expectations of behaviour around these.</li>
+<li><ks> Documents </ks>: define a set of fixed information packages that can be exchanged or stored for later use.</li> 
+</ul>
+ 
+As a <i>RESTful specification</i>, <k>FHIR</k> is organised around the concept of a <b>repository</b>,
+which is a list of resources of a particular kind. (pg. 331)<br/>
+<br/>
+Most of the significant content of the FHIR specification is in the definition of the
+particular types of resource. FHIR defines around 100 types of resource, representing
+widely different types of content.(pg. 334)
+ 
+Most of the functionality of a FHIR interface is provided by  three services   (pg. 334)<br/>
+<ul>
+<li><ks> Instance Service </ks></li>
+<li><ks> Type Service </ks></li>
+<li><ks> System Service </ks></li>
+</ul>
+
+The <k>FHIR API</k> provides a <b>record centric approach</b> to data exchange. Instead of
+asking the server to perform some operation, the client tells the server what the
+contents of the record should be. These services are often called <ks>CRUD</ks> services (pg. 334)
+
+
+<br/><br/>
+In addition to these base services that apply to all the types of resources defined
+by FHIR, FHIR allows for the <b>additional special services</b> that provide specific functionality
+beyond simple CRUD services. FHIR defi nes a number of useful services
+itself, such as asking a server whether it considers a resource is valid, linking two
+patients, or retrieving all the records associated with a particular patient. (pg. 334)<br/>
+
+Servers can define their own addition services.(pg. 334)<br/>
+
+
+
+<h3><a href="https://www.hl7.org/fhir/comparison.html" target="web">The Relationship between FHIR and other HL7 Standards</a>
+</h3>
+
+<ul>
+<li><a href="https://www.hl7.org/fhir/comparison-v3.html" target="web">7.17.2 HL7 v3 (and ISO 21090)</a></li>
+<li><a href="https://www.hl7.org/fhir/comparison-v3.html" target="web">7.17.2 HL7 v3 (and ISO 21090)</a> </li>
+<li><a href="https://www.hl7.org/fhir/comparison-cda.html" target="web">7.17.3 Clinical Document Architecture (CDA)</a></li>
+</ul>
+
+ 
+ 
+
+
+
+
+  
+
+ 
+ 
+
+ 
+ <h2>RIM (Reference Information Model)</h2>
+ Core concepts: entity, role, partecipation, act).<br/>
+ <img src="./img/RIMCoreConcepts.png" alt="RIMCoreConcepts.png" width="50%"  />
+ <br/>
+ 
+ Now: <a href=" https://wiki.hl7.org/Application_Implementation_and_Design" target="web">Application Implementation and Design HL7 "User Group" </a>
+  <br/>
+ 
+   <br/>
+ <a href="http://www.hl7.org/implement/standards/rim.cfm" target="web">V3 RMIM Designer (in Visio)</a>
+  <br/> <br/>
+ <a href=" https://gforge.hl7.org/gf/project/visio-rmim-desi/" target="web">Tools for RIM based software development</a> <br/>
+<a href="https://wiki.hl7.org/Tools_for_RIM_based_software_development" target="web">Tools for RIM based software development</a> <br/>
+
+  <a href="http://www.openmapsw.com/" target="web">Open Mapping Software</a> (Transforms By Example-TBX )<br/>
+  <a href="http://www.openmapsw.com/TBE/TBEHealth.htm" target="web">Transforms By Example in Healthcare</a><br/>
+  <a href="https://github.com/robertworden/TBX-For-V2-and-FHIR" target="web">TBX-For-V2-and-FHIR</a>
+
+ <br/> <br/>
+ <a href="http://phitechnology.insielmercato.it/web/phi/phi-technology" target="web">phi TECHNOLOGY</a>
+  <br/>
+ <a href=" https://www.ringholm.com/docs/03100_en.htm" target="web">The RIMBAA Technology Matrix</a>
+
+ 
+ 
+ <h2>FHIR (Fast Healthcare Interoperability Resources)</h2>
+ V3 based on RIM is often impratical in the real world. FHIR aims at using the best parts of RIM, while keeping complexity under control.
+ Moreover it is 'EHR agnostic'.
+ 
+ 
+
+
+  
+<h2>CDA (Clinical Document Architecture)</h2>
+ <a href="https://wiki.hl7.org/Software_Implementation_of_CDA" target="web">Software Implementation of CDA</a>   <br/>
+ <a href=" https://wiki.hl7.org/Model_Interchange_Format" target="web">Model Interchange Format</a>    <br/>
+  <a href=" https://wiki.hl7.org/MIF_based_code_generation" target="web">MIF based code generation</a>
+   <br/>
+ There are some HL7 version 3 based projects that don't have a published set of MIFs - they only have normative XML schema. 
+ These projects mostly date from the early days of HL7 version 3, when MIF had not established itself as the metamodel expression used for HL7 version 3.   
+
+<h2>DICOM (Digital Imaging and Communication in Medicine)</h2>
+
+<h2>IHE (Integrating Healthcare Enterprise)</h2>
+ 
+<h2>CCD (CONTINUITY OF CARE)</h2>
+ <a href="https://www.spheregen.com/parsing-continuity-of-care-ccd-using-mirth-and-mdht/" target="web">PARSING CCD USING MIRTH AND MDHT</a>   <br/>
+ 
+
+
+ <br/><br/>
+<table style="width:98%">
+<tbody>	
+<tr>
+<td style="width:50%" >
+</td>
+<td>
+</td>
+</tr>
+<tr><td>
+</td>
+<td></td>
+</tr>
+ </tbody>
+</table>
+ <br/><br/>
+ </div>    
+
+ 
+
+<div style="background-color:rgba(86, 56, 253, 0.9); width:100%;text-align:center;font-size:small;color:white">
+By AN Unibo-DISI  
+</div> 
+
+</body>
+</html>
+
+
+ 
