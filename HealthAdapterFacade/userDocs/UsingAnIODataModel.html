@@ -326,8 +326,8 @@ Sembra opportuno/necessario definire/realizzare (in modo cooperativo-incremental
 
 <ol>
 <li>Una definizione precisa della <k>ITel20API dell'HealthAdapter</k> che dovranno essere usate dal ITel20</li>
-<li>Un <k>Legacy-Mock</k> che invia (riceve) dati con le regole (protocolli, rappresentazione dei dati) 'reali' del caso di studio</li>
-<li>Un <k>InputServer</k> utilizzato dal Legacy-Mock per interagire con l'applicativo ITel. Questo server dovrebbe includere il componente di trasformazione dei dati in <k>IODM20</k>
+<li>Un <k>LegacyMockServerDed</k> che invia (riceve) dati con le regole (protocolli, rappresentazione dei dati) 'reali' del caso di studio</li>
+<li>Un <k>InputServerDed</k> utilizzato dal Legacy-Mock per interagire con l'applicativo ITel. Questo server dovrebbe includere il componente di trasformazione dei dati in <k>IODM20</k>
 e interagire con l'HealthAdapter in un modo da definire (al momento si potrebbero escludere ulteriori API rispetto al punto 1).</li>
 </ol>
 
@@ -357,9 +357,9 @@ Questo componente deve
  
 Questo componente deve  
 <ul>
-<li>avere un riferimento a <k>Legacy-Mock-Ded</k> e ad altri server relativi al CentroHealth; ad esempio, nel <tt>CaseStudyDed</tt>,
+<li>avere un riferimento a <k>LegacyMockServerDed</k> e ad altri server relativi al CentroHealth; ad esempio, nel <tt>CaseStudyDed</tt>,
 l'indirizzo del server FHIR cui chiedere informazioni aggiuntive sul paziente (API <tt>import</tt>) </li>
-<li>attivare <k>InputServer-Ded</k> che realizza  il mapping dei dati dal formato  <tt>CaseStudyDed</tt> a/da FHIR via <k>IODM20</k> </li>
+<li>attivare <k>InputServerDed</k> che realizza  il mapping dei dati dal formato  <tt>CaseStudyDed</tt> a/da FHIR via <k>IODM20</k> </li>
 <li>realizzare la 'business logic' relativa alla interazione con il <tt>LegacyDedServer</tt> </li>	
 
 </ul>
