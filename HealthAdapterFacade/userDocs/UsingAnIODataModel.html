@@ -188,7 +188,7 @@ div.imagedesc{
     
 <body>
 <div id="body">
-<h1>DISI | Using a DataModel related to Input/Output with legacy servers</h1>
+<h1>DISI | Towards a Input/Output DataModel </h1>
 
 <h2>References <m>(<a href="http://htmlpreview.github.io/?https://github.com/anatali/natMaterial/blob/master/HealthAdapterFacade/userDocs/DISIMaterial.html" target="code">
 DISIMaterial.html</a> )</m></h2>
@@ -248,8 +248,8 @@ qui sotto a sinistra, con riferimento a un primo caso di studio riportato nella 
 </table>
 
   <br/><br/>
- Per ogni CentroHealth legacy occorre introdurre all'interno dell'<tt>HealthAdapter</tt> un componente specifico che realizza le interazioni
- con tale centro e include un componente di 'conversioni dati di I/O' che mappa la rappresentazioni dei dati di I/O usata dal CentroHealth
+ Per ogni CentroHealth legacy, occorre introdurre all'interno dell'<tt>HealthAdapter</tt> un componente specifico che realizza le interazioni
+ con tale centro e include un componente di 'conversioni dati di I/O' (in figura denominato <ks>LegacyDedIO</ks>) che mappa la rappresentazioni dei dati di I/O usata dal CentroHealth
  in una rappresentazione 'standard' che possiamo qui denominare <k>IODataModelItel20</k> o piu' semplicemente <k>IODM20</k>.
  
  <br/><br/>
@@ -273,6 +273,9 @@ Questo componente contiene le (uniche) parti specializzate.<br/><br/>
 </tr>
  </tbody>
 </table>
+<br/><br/>
+Nella figura, il componente <ks>LegacyDedIO</ks> si suppone utlizzato in un <k>InputServerDed</k> che riceve i messaggi inviati dal <tt>LegacyDedServer</tt>.
+
 
 <h2>Verso la specifica di <k>IODM20</k> (<i>IO data model ITel20</i>) </h2>
  
@@ -343,22 +346,22 @@ per tenere conto delle <k>ITel20API</k>
 Questo componente deve  
 	<ul>
 	<li>avere un riferimento a <k>FHIRServerItel20</k> </li>
-	<li>implmentanre i nuovi metodi introdotti in 
+	<li>implmentare i nuovi metodi introdotti in 
 	<a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthServiceInterface.java" target="code">public interface HealthServiceInterface</a>. 
 	</li>
 	</ul>
 </li>
 
-<li>Realizzazione di 
+<li>Realizzazione di <ks>HealthServiceLegacyDed</ks>
 <pre><a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthServiceLegacyDed.java" target="code">public class HealthServiceLegacyDed extends HealthServiceItel20</a>
 </pre>
  
 Questo componente deve  
 <ul>
-<li>avere un riferimento a <k>Legacy-Mock-Ded</k> e ad altri server relativi al CentroHealth; ad esempio, nel CaseStudyDed,
+<li>avere un riferimento a <k>Legacy-Mock-Ded</k> e ad altri server relativi al CentroHealth; ad esempio, nel <tt>CaseStudyDed</tt>,
 l'indirizzo del server FHIR cui chiedere informazioni aggiuntive sul paziente (API <tt>import</tt>) </li>
-<li>attivare <k>Server-Like-Ded</k> </li>
-<li>fare il mapping dei dati dal formato CaseStudyDed a/da <k>IODM20</k> </li>	
+<li>attivare <k>InputServer-Ded</k> che realizza  il mapping dei dati dal formato  <tt>CaseStudyDed</tt> a/da FHIR via <k>IODM20</k> </li>
+<li>realizzare la 'business logic' relativa alla interazione con il <tt>LegacyDedServer</tt> </li>	
 
 </ul>
 
