@@ -1,0 +1,388 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+ 
+<style type="text/css">
+body
+{
+    margin-left:  30px;
+    margin-right: 30px;
+};
+
+P
+{
+    font-family: Tahoma;
+    font-size: 10pt;
+};
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #545454;
+    background-color: transparent;
+}
+
+a:hover {
+    background-color: #cccccc;
+}
+
+
+hr {
+    clear: both;
+    height: 1px;
+    color: #242424;
+    background-color: transparent;
+}
+
+h1, h2, h3 {
+    color: #242424;
+    clear: left;
+    font: 100% Tahoma, Helvetica, Arial, sans-serif;
+    margin-bottom: 0.5em;
+    padding-top: 0.5em;
+	border-radius: 10px;
+	padding: 5px;
+}
+
+top {
+	width: 100%;
+}
+
+
+#i {
+    color: #ff1010;
+}
+tt{
+	font-family: "Arial";
+    font-size: 80%;
+	color: #006600;
+}
+em{
+	font-family: "Arial";
+    font-size: 80%;
+	font-weight: bold;
+	border-style:solid;
+	border-color: #abe876;
+    color: #1632cc;
+}
+bc{
+	font-family: "Arial";
+	font-size: 80%;
+	font-weight: bold;
+    color: #990000;
+	background-color: #fcf8c7;
+}
+ks{
+	font-family: "Arial";
+	font-weight: bold;
+    color: #0000CD	;
+	 
+}
+kc{
+	font-family: "Arial";
+	font-weight: bold;
+    color: #008000	;
+	 
+}
+pre{
+	font-family: "Consolas";
+	font-size: 85%;
+	background-color: #f5f5f5;
+	border: 1.5px solid silver;
+	padding: 5px;
+}
+m{
+	font-family: "Helvetica";
+	line-height: 100%;
+ 	font-size: 75%;
+}
+div.body{
+	width: 700px;
+    font-size: 15px;
+}
+k{
+    color: #990000;
+	font-weight: bold;
+}
+h1 {
+    font-size: 150%;
+    background-color: #b2c0ff;
+	padding: 10px; 
+}
+
+h2 {
+    background-color: #9ed8ff;
+    font-size: 130%;
+}
+
+h3 {
+	background-color: #e6ccff;
+    font-size: 100%;
+}
+h4 {
+    background-color: #C0F0E0;
+    font-size: 100%;
+	width: 95%;
+	border-radius: 5px;
+	padding: 2px;
+}
+h5 {
+    background-color: #d5ffb0;
+    font-size: 100%;
+	
+}    
+div.req{
+	background-color: #d9ffb3;
+    font-size: 18px;
+	width: 700px;
+    border: 3px solid green;
+    padding: 15px;
+    margin: 10px;
+}       
+div.remark{
+	background-color: #E3F2FD;	
+    border: 1.5px solid #d5f2ed;
+    padding: 15px;
+    margin: 10px;
+	border-radius: 25px;
+}  
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+} 
+
+ol, ul, li {
+  margin: 0;
+  margin-left: 10px;
+  padding: 0;
+  padding-bottom: 5px;
+}     
+
+table, th, td {
+	border: 1px solid black;
+}
+
+img {
+	border: 1.5px solid #d5f2ed
+	
+}
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #545454;
+    background-color: transparent;
+}
+
+div.wrapdesc{
+	width: 90%;
+	margin: auto;
+}
+
+div.imagedesc{
+	width: 85%;
+	margin: auto;
+}
+</style>
+    
+<head>
+   
+<title>UsingAnIODataModel</title></head>
+    
+<body>
+<div id="body">
+<h1>DISI | Using a DataModel related to Input/Output with legacy servers</h1>
+
+<h2>References <m>(<a href="http://htmlpreview.github.io/?https://github.com/anatali/natMaterial/blob/master/HealthAdapterFacade/userDocs/DISIMaterial.html" target="code">
+DISIMaterial.html</a> )</m></h2>
+<m> 
+<ul>
+<li><a href="https://dev-itel.atlassian.net/wiki/spaces/NEXTAGORA/overview" target="web">Confluence space: Nextagora</a>  &nbsp;&nbsp;&nbsp;
+ <a href="https://dev-itel.atlassian.net/wiki/spaces/UNIBO/overview" target="web">Confluence space: UNIBO</a>  &nbsp;&nbsp;&nbsp;
+ <a href="https://bitbucket.org/itelunibo/workspace/projects/" target="web">Projects on bitbucket</a>  &nbsp;&nbsp;&nbsp;
+ <a href="../../health/userDocs/ITelAppl.html" target="web">ITelAppl (in <tt>health</tt>)</a> &nbsp;&nbsp;&nbsp; </li>
+<!--
+<li><a href="https://bitbucket.org/itelunibo/overviewrepo/src/master/it.unibo.itel/userDocs/3-LogicalArch/HDA_Disi.html" target="web">HDA_Disi.html (overviewrepo)</a> </li>
+-->
+<hr/>
+<li> <a href="https://www.hl7.org/fhir/R4/" target="web">FHIR </a>&nbsp;&nbsp;&nbsp;
+ <a href="https://hapifhir.io/hapi-fhir/apidocs/hapi-fhir-structures-r4/index-all.html" target="web">FHIR Api structures docs</a>&nbsp;&nbsp; 
+ <a href="https://www.hl7.org/fhir/R4/patient.html" target="web">FHIR 8.1 Resource Patient - Content</a>  &nbsp;&nbsp;&nbsp; 
+  <a href="http://docs.smarthealthit.org/dstu2-examples/" target="web">FHIR examples</a> &nbsp;&nbsp;&nbsp; 
+</li>
+ 
+
+ 
+<li><a href="http://www.hl7.org/participate/toolsandresources.cfm?ref=nav" target="web">HL7 Tools & Resources</a> &nbsp;&nbsp;&nbsp; 
+<a href="https://hl7messageparser.azurewebsites.net/Parse/ParseView" target="web">HL7 ParseView</a> &nbsp;&nbsp;&nbsp; 
+<a href="https://hapifhir.github.io/hapi-hl7v2" target="web">HL7 v2 Java API</a>&nbsp;&nbsp;&nbsp;
+<a href="https://github.com/hapifhir/hapi-hl7v2" target="web">hapi-hl7v2 GITHUB</a> (included in
+	<a href="https://github.com/hapifhir" target="web">hapifhir FHIR GITHUB</a>)&nbsp;&nbsp;&nbsp; 
+<!--
+  <a href="https://hapifhir.github.io/hapi-hl7v2/base/apidocs/index.html" target="web">HAPI - Java HL7 API - Base Module 2.3 API</a> &nbsp;&nbsp; 
+  <a href="https://hapifhir.github.io/hapi-hl7v2/v23/apidocs/" target="web">HAPI - Java HL7 API - Generated Structures v2.3 2.3 API</a> &nbsp;&nbsp; 
+  
+  <a href="https://www.hl7.org/implement/standards/product_brief.cfm?product_id=142" target="web">HL7 Messaging Standard Version 2.4</a> &nbsp;&nbsp; 
+  <a href="https://hapifhir.github.io/hapi-hl7v2/v281/apidocs/index.html" target="web">HAPI - Java HL7 API - Generated Structures v2.8.1 2.3 API</a>&nbsp;&nbsp; 
+ -->
+</li>
+</ul></m>
+
+
+<h2>Introduzione</h2>
+In questo lavoro ci occupiamo di come pervenire <b><i>in modo incrementale</i></b> alla realizzazione di un <tt>HealthAdapter</tt> organizzato come riportato nella figura 
+qui sotto a sinistra, con riferimento a un primo caso di studio riportato nella figura a destra.
+
+<br/><br/>
+<table style="width:98%">
+<tbody>	
+
+<tr>
+<td style="width:50%" >
+<img src="./img/healthAdapter20A.png" alt="healthAdapter20A.png" width="100%">
+
+</td>
+<td><h3>CaseStudyDed</h3>
+<img src="./img/exampleDed.png" alt="exampleDed.png" width="100%">
+
+</td>
+</tr>
+ </tbody>
+</table>
+
+  <br/><br/>
+ Per ogni CentroHealth legacy occorre introdurre all'interno dell'<tt>HealthAdapter</tt> un componente specifico che realizza le interazioni
+ con tale centro e include un componente di 'conversioni dati di I/O' che mappa la rappresentazioni dei dati di I/O usata dal CentroHealth
+ in una rappresentazione 'standard' che possiamo qui denominare <k>IODataModelItel20</k> o piu' semplicemente <k>IODM20</k>.
+ 
+ <br/><br/>
+<table style="width:98%">
+<tbody>	
+
+<tr>
+<td style="width:50%" >
+<img src="./img/healthproduct0209Interactions.png" alt="healthproduct0209Interactions.png" width="100%">
+
+</td>
+<td><h3>IOModel</h3>
+<img src="./img/exampleded19MVVM.png" alt="exampleded19MVVM.png" width="100%">
+
+</td>
+</tr>
+ </tbody>
+</table>
+
+<h2>Verso la specifica di <k>IODM20</k> (<i>IO data model ITel20</i>) </h2>
+ 
+ Il (meta)modello <k>IODM20</k> parte dalla considerazione che un CentroHealth legacy può  - in generale - 
+ trasmettere/ricevere (usando protocolli standard come TCP/HHTP) dati di tre  diverse tipologie:
+ 
+ <div class="remark">
+ <ol>
+ <li>Dati in formato 'health standard' come HL7v2, HL7v3, FHIRv4, ...</li>
+ <li>Dati espressi in un formato proprietario, di norma concordato con ITel, ma al momento forse anche diverso a seconda del CentroHealth</li>
+ <li>Dati espressi in un formato 'misto', in cui dati 'health standard' possono essere trasmessi/ricevuti insieme a dati in formato proprietario</li>
+</ol>
+</div>
+
+L'obiettivo e' pervenire alla definizione di un insieme di classi Java  che possano costituire la rappresentazione di un meta-modello
+standard di riferimento ITel per la ricezione/trasmissione di dati di I/O.
+<br/><br/>
+Il meta-modello <k>IODM20</k> dovrebbe essere definito in modo da includere i casi attualmente gia' realizzati e in modo da costituire un
+punto fisso di riferimento per le 'negoziazioni' ITel per applicazioni future.
+<br/><br/>
+In questa prospettiva sarebbe necessario sviluppare:
+
+<ul>
+<li>Un convertitore per ciascun  CentroHealth legacy, che trasformi un dato di I/O in una istanza  di  <k>IODM20</k> (modello dei dati) e viceversa</li>
+<li>Un UNICO convertitore da <k>IODM20</k> a FHIR (realizzato in tecnologia Handlebar) per 'standardizzare' la parte dati relativa all 
+interazione con la business logica Itel20 che avverrà attraverso API in corso di definizione.</li>
+</ul>
+
+
+<h3>Analisi del problema</h3>
+
+Il problema piu' spinoso sembra essere al momento relativo ai possibili riferimenti tra dati nel caso di formati proprietari.
+Sarebbe interessante conoscere 
+ <div class="remark">
+i principi/concetti ITel19 ha basato la specifica dei dati di I/O e in prarticolare dei riferimenti tra dati
+ </div>
+
+ Al momento abbiamo un esempio di <tt>CarePlan</tt> espresso in HL7v3 (<k>CDA</k>) quindi con uno standard 
+ (anche se sembra non completamente tale sul piano sematico), me ci sono altri casi?
+
+
+
+
+<h2>Verso una sperimentazione prototipale</h2>
+Sembra opportuno/necessario definire/realizzare (in modo cooperativo-incrementale):
+
+<ol>
+<li>Una definizione precisa della <k>ITel20API dell'HealthAdapter</k> che dovranno essere usate dal ITel20</li>
+<li>Un <k>Legacy-Mock</k> che invia (riceve) dati con le regole (protocolli, rappresentazione dei dati) 'reali' del caso di studio</li>
+<li>Un <k>Server-Like</k> di riferimento per il Legacy-Mock. Questo server dovrebbe includere il componente di trasformazione dei dati in <k>IODM20</k>
+e interagire con l'HealthAdapter in un modo da definire (al momento si potrebbero escludere ulteriori API rispetto al punto 1).</li>
+</ol>
+
+<h3>Possibile riuso del codice fino ad ora sviluppato</h3>
+
+<ol>
+<li>Estensione di 
+<pre><a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthServiceInterface.java" target="code">public interface HealthServiceInterface</a></pre>
+per tenere conto delle <k>ITel20API</k>
+</li>
+
+<li>Realizzazione di 
+<pre><a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthServiceItel20.java" target="code">public class HealthServiceItel20 implements HealthServiceInterface </a>
+</pre>
+Questo componente deve  
+	<ul>
+	<li>avere un riferimento a <k>FHIRServerItel20</k> </li>
+	<li>implmentanre i nuovi metodi introdotti in 
+	<a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthServiceInterface.java" target="code">public interface HealthServiceInterface</a>. 
+	</li>
+	</ul>
+</li>
+
+<li>Realizzazione di 
+<pre><a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthServiceLegacyDed.java" target="code">public class HealthServiceLegacyDed extends HealthServiceItel20</a>
+</pre>
+ 
+Questo componente deve  
+<ul>
+<li>avere un riferimento a <k>Legacy-Mock-Ded</k> e ad altri server relativi al CentroHealth; ad esempio, nel CaseStudyDed,
+l'indirizzo del server FHIR cui chiedere informazioni aggiuntive sul paziente (API <tt>import</tt>) </li>
+<li>attivare <k>Server-Like-Ded</k> </li>
+<li>fare il mapping dei dati dal formato CaseStudyDed a/da <k>IODM20</k> </li>	
+
+</ul>
+
+
+</li>
+<li></li>
+<li></li>
+<li></li>
+
+</ol>
+
+<br/><br/>
+<!-- TEMPLATE -->
+<table style="width:98%">
+<tbody>	
+<tr>
+<td style="width:50%" >
+</td>
+<td>
+</td>
+</tr>
+ </tbody>
+</table>
+ <br/><br/>
+</div>  
+
+<div style="background-color:rgba(86, 56, 253, 0.9); width:100%;text-align:center;font-size:small;color:white">
+By  AN Unibo-DISI  
+</div> 
+
+</body>
+</html>
+
+
+ 

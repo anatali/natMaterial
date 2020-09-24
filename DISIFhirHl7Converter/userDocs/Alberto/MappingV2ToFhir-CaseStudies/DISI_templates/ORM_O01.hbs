@@ -2,40 +2,50 @@
     "resourceType": "Bundle",
     "type": "transaction",
     "entry": [
-        {{#with (getFirstSegments msg.v2 'PID' 'PD1' 'PV1' 'PV2')}}
-    
+        {{#with (getFirstSegments msg.v2 'MSH' 'PID' 'PD1' 'PV1' 'PV2')}}
+        
+            {{>Resources/MessageHeader.hbs MSH=MSH ID=(generateUUID MSH)}},            
             {{>Resources/Patient.hbs PID=PID PD1=PD1 ID=(generateUUID PID-3-1)}},
             {{>Resources/Encounter.hbs PV1=PV1 PV2=PV2 ID=(generateUUID PV1)}},
             {{>References/Encounter/subject.hbs ID=(generateUUID PV1) REF=(concat 'Patient/' (generateUUID PID-3-1))}}, 
-            {{>References/Encounter/participant.individual.hbs ID=(generateUUID PV1) REF=(concat 'Practitioner?identifier' (escapeSpecialChars "=") PV1-7-1)}},    
-            
-            {{#with (getSegmentLists ../msg.v2 'DG1')}}
-                {{#each DG1 as |DG1Instance|}}
-    
-                    {{>Resources/Condition.hbs DG1=DG1Instance ID=(generateUUID (concat "Condition" DG1Instance))}},
-                    {{>References/Condition/subject.hbs ID=(generateUUID (concat "Condition" DG1Instance)) REF=(concat 'Patient/' (generateUUID ../../PID-3-1))}},
-    
-                {{/each}}  
-            {{/with}}
-            
+                            
             {{#with (getSegmentLists ../msg.v2 'ORC')}}
                 {{#each ORC as |ORCInstance|}}
                 
+                    {{>Resources/ServiceRequest.hbs ORC=ORCInstance ID=(generateUUID (concat "ServiceRequest" ORCInstance))}},
+                    {{>References/ServiceRequest/subject.hbs ID=(generateUUID (concat "ServiceRequest" ORCInstance)) REF=(concat 'Patient/' (generateUUID  ../../PID-3-1))}}
+                    
+                    {{>Resources/Provenance.hbs ORC=ORCInstance ID=(generateUUID (concat "Provenance" ORCInstance))}},
+                    {{>References/Provenance/target.hbs ID=(generateUUID (concat "Provenance" ORCInstance)) REF=(concat 'MessageHeader/' (generateUUID ../../MSH))}}
+                
                     {{>Resources/Task.hbs ORC=ORCInstance ID=(generateUUID (concat "Task" ORCInstance))}},
+                    {{>References/Task/for.hbs ID=(generateUUID (concat "Task" ORCInstance)) REF=(concat 'Patient/' (generateUUID ../../PID-3-1))}},                 
+                    {{>References/Task/encounter.hbs ID=(generateUUID (concat "Task" ORCInstance)) REF=(concat 'Encounter/' (generateUUID ../../PV1))}},
                 
                     {{#with (getRelatedSegmentList ../../../msg.v2 'ORC' ORCInstance-1 'OBR')}}
                         {{#each OBR as |OBRInstance|}}
     
-                            {{>Resources/ServiceRequest.hbs OBR=OBRInstance ID=(generateUUID (concat "ServiceRequest" OBRInstance))}},
-                            {{>References/ServiceRequest/subject.hbs ID=(generateUUID (concat "ServiceRequest" OBRInstance)) REF=(concat 'Patient/' (generateUUID ../../../../PID-3-1))}},          
-                            {{>References/Task/basedOn.hbs ID=(generateUUID (concat "Task" ORCInstance)) REF=(generateUUID (concat "ServiceRequest" OBRInstance))}},
+                            {{>Resources/ServiceRequest.hbs OBR=OBRInstance ID=(generateUUID (concat "ServiceRequest" ORCInstance))}},
+                            {{>References/Task/basedOn.hbs ID=(generateUUID (concat "Task" ORCInstance)) REF=(concat 'ServiceRequest/' (generateUUID (concat "ServiceRequest" ORCInstance)))}},
                         
                         {{/each}}  
+                    {{/with}}
+                    
+                    {{#with (getRelatedSegmentList ../../../msg.v2 'ORC' ORCInstance-1 'DG1')}}
+                        {{#each DG1 as |DG1Instance|}}
+    
+                            {{>Resources/Condition.hbs DG1=DG1Instance ID=(generateUUID DG1Instance)}},
+                            {{>References/Condition/subject.hbs ID=(generateUUID DG1Instance) REF=(concat 'Patient/' (generateUUID ../../../../PID-3-1))}},
+                            {{>References/ServiceRequest/reasonReference.hbs ID=(generateUUID (concat "ServiceRequest" ORCInstance)) REF=(concat 'Condition/' (generateUUID DG1Instance))}},
+                            {{>References/Encounter/diagnosis.condition.hbs ID=(generateUUID ../../../../PV1) REF=(concat 'Condition/' (generateUUID DG1Instance))}},
+                            {{>References/Task/reasonReference.hbs ID=(generateUUID (concat "Task" ORCInstance)) REF=(concat 'Condition/' (generateUUID DG1Instance))}},
+
+                        {{/each}}
                     {{/with}}
     
                 {{/each}}  
             {{/with}}
-                  
+                 
     {{/with}}
     ] 
 }

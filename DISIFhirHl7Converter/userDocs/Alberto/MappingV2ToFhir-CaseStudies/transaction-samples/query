@@ -1,0 +1,127 @@
+_include
+
+1) Partendo da un Task (ORC common order) seleziona anche il Patient (PDI patient) interessato 
+   https://hapi.fhir.org/baseR4/Task?_id=0d519d35-01bd-33af-a36f-e1f199d22350&_include=Task:patient
+   
+
+2) Partendo da un Encounter (visita PV1) seleziona anche le Condition (diagnosi DG1)
+   https://hapi.fhir.org/baseR4/Encounter?_id=e118c406-6bd2-3307-a2cd-6c223bb147bb&_include=Encounter:diagnosis
+
+
+_revinclude
+
+1) Partendo da un Patient (PDI patient) seleziona anche l'Encounter (visita PV1) che ha un riferimento al primo
+    https://hapi.fhir.org/baseR4/Patient?_id=272b3e0c-36e3-3b8b-809e-aa6b4cee0461&_revinclude=Encounter:patient
+
+
+Bundle Transaction Response
+
+{
+  "resourceType": "Bundle",
+  "id": "bb226d0b-aae3-4472-b15b-3b35eb0f8d88",
+  "type": "transaction-response",
+  "link": [ {
+    "relation": "self",
+    "url": "http://hapi.fhir.org/baseR4"
+  } ],
+  "entry": [ {
+    "response": {
+      "status": "201 Created",
+      "location": "MessageHeader/73d409f5-cbd4-3f94-a76d-aca9be082225/_history/1",
+      "etag": "1",
+      "lastModified": "2020-09-18T15:50:12.924+00:00"
+    }
+  }, {
+    "response": {
+      "status": "201 Created",
+      "location": "Patient/272b3e0c-36e3-3b8b-809e-aa6b4cee0461/_history/1",
+      "etag": "1",
+      "lastModified": "2020-09-18T15:50:12.924+00:00"
+    }
+  }, {
+    "response": {
+      "status": "201 Created",
+      "location": "Encounter/e118c406-6bd2-3307-a2cd-6c223bb147bb/_history/1",
+      "etag": "1",
+      "lastModified": "2020-09-18T15:50:12.924+00:00"
+    }
+  }, {
+    "response": {
+      "status": "201 Created",
+      "location": "ServiceRequest/bf17f8a9-9470-3f81-bdfd-1e96c57c429b/_history/1",
+      "etag": "1",
+      "lastModified": "2020-09-18T15:50:12.924+00:00"
+    }
+  }, {
+    "response": {
+      "status": "201 Created",
+      "location": "Provenance/b0048a52-a213-3235-9807-af26b15e176f/_history/1",
+      "etag": "1",
+      "lastModified": "2020-09-18T15:50:12.924+00:00"
+    }
+  }, {
+    "response": {
+      "status": "201 Created",
+      "location": "Task/0d519d35-01bd-33af-a36f-e1f199d22350/_history/1",
+      "etag": "1",
+      "lastModified": "2020-09-18T15:50:12.924+00:00"
+    }
+  }, {
+    "response": {
+      "status": "201 Created",
+      "location": "Condition/9a7b5d47-5856-3fa7-a646-d51b5832b6eb/_history/1",
+      "etag": "1",
+      "lastModified": "2020-09-18T15:50:12.924+00:00"
+    }
+  }, {
+    "response": {
+      "status": "201 Created",
+      "location": "Condition/7d37ef13-32fc-3111-80ff-0a701c780c58/_history/1",
+      "etag": "1",
+      "lastModified": "2020-09-18T15:50:12.924+00:00"
+    }
+  } ]
+}
+
+Bundle Transaction Reponse (2)
+
+{
+  "resourceType": "Bundle",
+  "id": "556f7f52-9c4d-465e-82c9-c0fd54b5ffbb",
+  "type": "transaction-response",
+  "link": [ {
+    "relation": "self",
+    "url": "http://hapi.fhir.org/baseR4"
+  } ],
+  "entry": [ {
+    "response": {
+      "status": "201 Created",
+      "location": "Patient/1475600/_history/1",
+      "etag": "1",
+      "lastModified": "2020-09-21T08:29:30.720+00:00"
+    }
+  }, {
+    "response": {
+      "status": "201 Created",
+      "location": "Encounter/1475601/_history/1",
+      "etag": "1",
+      "lastModified": "2020-09-21T08:29:30.720+00:00"
+    }
+  }, {
+    "response": {
+      "status": "201 Created",
+      "location": "ServiceRequest/1475602/_history/1",
+      "etag": "1",
+      "lastModified": "2020-09-21T08:29:30.720+00:00"
+    }
+  }, {
+    "response": {
+      "status": "201 Created",
+      "location": "Task/1475603/_history/1",
+      "etag": "1",
+      "lastModified": "2020-09-21T08:29:30.720+00:00"
+    }
+  } ]
+
+
+    

@@ -212,22 +212,19 @@ div.imagedesc{
 <div id="body">
 <h1>Mapping V2 to FHIR - Case studies</h1>
 <ul>
-<li><a href="https://dev-itel.atlassian.net/wiki/spaces/NEXTAGORA/overview" target="web">Confluence space: Nextagora</a>  &nbsp;&nbsp;&nbsp;
- <a href="https://dev-itel.atlassian.net/wiki/spaces/UNIBO/overview" target="web">Confluence space: UNIBO</a>  &nbsp;&nbsp;&nbsp;
- <a href="https://bitbucket.org/itelunibo/workspace/projects/" target="web">Projects on bitbucket</a> &nbsp;&nbsp;&nbsp;
- <!--
- <a href="https://bitbucket.org/itelunibo/overviewrepo/src/master/it.unibo.itel/userDocs/3-LogicalArch/HDA_Disi.html" target="web">HDA_Disi.html (overviewrepo)</a>
- &nbsp;&nbsp;&nbsp;-->
- </li>
-<li><a href="https://confluence.hl7.org/display/OO/2-To-FHIR+Project">2-To-FHIR Project - Mappings Tables</a> &nbsp;&nbsp;&nbsp;
- <a href="https://github.com/microsoft/FHIR-Converter">Microsoft FHIR Converter</a></li>
+<li><a href="https://dev-itel.atlassian.net/wiki/spaces/NEXTAGORA/overview" target="web">Confluence space: Nextagora</a> </li>
+<li><a href="https://dev-itel.atlassian.net/wiki/spaces/UNIBO/overview" target="web">Confluence space: UNIBO</a> </li>
+<li><a href="https://bitbucket.org/itelunibo/workspace/projects/" target="web">Projects on bitbucket</a> </li>
+<li><a href="https://bitbucket.org/itelunibo/overviewrepo/src/master/it.unibo.itel/userDocs/3-LogicalArch/HDA_Disi.html" target="web">HDA_Disi.html (overviewrepo)</a></li>
+<li><a href="https://confluence.hl7.org/display/OO/2-To-FHIR+Project">2-To-FHIR Project - Mappings Tables</a></li>
+<li><a href="https://github.com/microsoft/FHIR-Converter">Microsoft FHIR Converter</a></li>
 <hr/>
 
 </ul>
 
 <h2>ORM - Order Message</h2>
 Un messaggio ORM rappresenta una richiesta per servizi(analisi, referto), materiali (e.g., 500ml of 2.5% saline) o informazioni.
-La transmissione degli ordini avviene tra l’applicazione che dispone l’ordine (the placer) all’applicazione che compilerà la richiesta (the filler).
+La transmissione degli ordini avviene tra l’applicazione che dispone l’ordine (the placer) all’applicazione che compiler&agrave; la richiesta (the filler).
 I messaggi ORM trovano maggiore impiego per l'invio di Radiology Orders e Lab Orders.<br><br>
 Alcune informazioni degne di nota:
 <ul>
@@ -238,7 +235,7 @@ Alcune informazioni degne di nota:
 <h3>ORM - Case Study</h3>
 Tipicamente un medico sottomette una richiesta attraverso un sistema placer, nella Fig.1 lo HIS. La richiesta tradotta in un messaggio HL7 ORM giunger&agrave; fino al sistema filler, nella Fig.1 il RIS, il quale risponder&agrave; con un ACK.
 <figure style='text-align: center;'>
-    <img src="images/orm-radiology.png" />
+    <img src="images/orm-radiology.png" style="width: 620px;"/>
     <figcaption>Fig.1 - Invio di una richiesta radiologica</figcaption>
 </figure>
 Si prenda il caso in cui un <u>uomo</u>, <u>afroamericano</u>, di nome <u>John Applessed</u>,
@@ -267,8 +264,8 @@ Il segmento di esempio contiene solamente il medico che ha inoltrato la richiest
 ORC conserva i dettagli della richiesta come NW (new order), il numero originario dell'ordine (987654) creato dal <i>placer system</i> e quello (76543) inserito dal <i>filling system</i>.
 <pre>ORC|NW|987654^HIS|76543^EPC||Final||^^^20140418170014^^^^||20140418173314|1148^PATTERSON^JAMES^^^^||1173^MATTHEWS^JAMES^A^^^|1133^^^222^^^^^|(618)222-1122||</pre>
 
-<h6>OBX - Observation request</h6>
-<pre>OBR|1|363463^EPC|1858^EPC|<b>73610^X-RAY ANKLE 3+ VW^^^X-RAY ANKLE</b>||||||||||||<b>1173^MATTHEWS^JAMES^A^^^</b>|(608)258-8866||||||||Final||^^^20140418170014^^^^|||||<b>6064^MANSFIELD^JEREMY^^^^</b>||1148010^1A^EAST^X-RAY^^^|^</pre>
+<h6>OBR - Observation request</h6>
+<pre>OBR|1|363463^EPC|1858^EPC|<b>73610^X-RAY ANKLE 3+ VW^^^X-RAY ANKLE</b>||||||||||||<b>1173^MATTHEWS^JAMES^A^^^</b>|(608)258-8866||||||||Final||^^^20140418170014^^^^|||||<b>6064^MANSFIELD^JEREMY^^^^</b>|<br>|1148010^1A^EAST^X-RAY^^^|^</pre>
 I campi principali del segmento:
 <ul>
     <li>dettagli dell'ordine: 73610^X-RAY ANKLE 3+ VW</li>
@@ -284,7 +281,7 @@ diagnosi cos&igrave; da permettere ai sistemi di fatturazione di compiere i prop
 
 <h6>Bringing it all together</h6>
 <pre>
-MSH|^~\&|HIS|MedCenter|RIS|MedCenter|20140418173314|1148|ORM^O01|497|D|2.3||
+MSH|^~\&|HIS|RadCenter|RIS|MedCenter|20140418173314|1148|ORM^O01|497|D|2.3||
 PID|1||20891312^^^^EPI||APPLESEED^JOHN^A^^MR.^||19661201|M||AfrAm|505 S. HAMILTON AVE^^MADISON^WI^53505^US^^^DN |DN|(608)123-4567|(608)123-5678||S|| 11480003|123-45-7890||||^^^WI^^
 PD1|||FACILITY(EAST)^^12345|1173^MATTHEWS^JAMES^A^^^
 PV1|||^^^CARE HEALTH SYSTEMS^^^^^||| |1173^MATTHEWS^JAMES^A^^^||||||||||||610613||||||||||||||||||||||||||||||||V
@@ -295,7 +292,7 @@ DG1||I10|S82^ANKLE FRACTURE^I10|ANKLE FRACTURE||
 </pre>
 <h3>ORM_O01 - v2ToFHIR</h2>
 <figure style="text-align: center;">
-    <img src="images/ORM_O01-Mappings.png"/>
+    <img src="images/ORM_O01-Mappings.png" style="min-width: 60%; max-width: 90%"/>
     <figcaption>Fig.2 - rappresentazione di ORM_O01 tramite risorse FHIR</figcaption>
 </figure>
 La Fig.2 mostra le risorse FHIR coinvolte durante la conversione di un messaggio ORM_O01 da v2 a FHIR. Tramite apposite freccie vengono illustrare le relazioni tra le risorse (Reference) indicando inoltre anche il campo della risorsa interessato (e.g Patient.id).
@@ -306,12 +303,70 @@ Per la realizzazione del grafico ci si &egrave; avvalsi delle <a href="https://c
 Le relazioni prensenti nella Fig.2 sono state impiegate nella costruzione di un template per il messaggio ORM_O01. Il template mostrato in Fig.3 e&grave; input valido per il <a href="https://github.com/microsoft/FHIR-Converter">Microsoft FHIR Converter</a>. 
 La conversione effettuata da quest'ultimo porter&agrave; all'implementazione di una FHIR Transaction.
 <figure style="text-align: center;">
-    <img src="images/disi_template.png"/>
+    <img src="images/disi_template.png" style="min-width: 60%; max-width: 90%"/>
     <figcaption>Fig.3 - template ORM_O01 (handlebars)</figcaption>
 </figure>
+<h5>ORM_O01 Transactions</h5>
+Utilizzando il file ORM_O01 HL7 sopracitato ed il template mostrato nella Fig.3 sono state prodotte 4 transaction che si contraddistinguono principalmente per il campo <i>request</i>:
+<ul>
+  <li><a href="transaction-samples/ORM_O01-transaction.json">Transaction 1</a>: le risorse FHIR convertite vengono processate mediante PUT. Se lato server la risorsa &egrave; presente questa viene aggiornata, in caso contrario viene creata;
+        <pre>
+        "request": {
+          "method": "PUT",
+          "url": "Patient/272b3e0c-36e3-3b8b-809e-aa6b4cee0461"
+        }</pre>
+  </li>
+  <li><a href="transaction-samples/ORM_O01-transaction2.json">Transaction 2</a>: le risorse FHIR convertite vengono processate mediante POST. In questo caso le risorse del Bundle sono prive, a priori, di un campo <i>id</i>. Sar&agrave; il server FHIR ad assegnare gli <i>id</id>, sostituendo questi con quelli temporanei (<b>urn:uuid:</b>).
+  	<pre>
+	"request": {
+          "method": "POST",
+          "url": "<b>urn:uuid:</b>64bac34e-e611-3549-848b-89416176aa0b"
+        }</pre>
+  </li>
+  <li><a href="transaction-samples/ORM_O01-transaction3.json">Transaction 3</a>: partendo dal caso precedente, il campo request della risorsa Patient &egrave; stato modificato per permettere l'esecuzione di una <u>Conditional Update</u>.
+        <pre>
+	"request": {
+            "method": "PUT",
+            "url": "urn:uuid:64bac34e-e611-3549-848b-89416176aa0b<b>?identifier=</b>http://hl7.org/fhir/sid/us-ssn<b>|</b>123121235"
+         }</pre>    
+     	La transaction andr&agrave; a buon fine solamente se il server FHIR trover&agrave; una risorsa Patient con attributi <u>system=http://hl7.org/fhir/sid/us-ssn</u> e <u>code/value=123121235</u>.
+  </li>
+  <li><a href="transaction-samples/ORM_O01-transaction4.json">Transaction 4</a>: partendo dal secondo caso, il campo request della risorsa Patient &egrave; stato modificato per permettere l'esecuzione di una <u>Conditional Create</u>.
+  	<pre>
+	"request": {
+            "method": "POST",
+            "url": "Patient/urn:uuid:64bac34e-e611-3549-848b-89416176aa0b",
+            "<b>ifNoneExist</b>": "identifier=http://hl7.org/fhir/sid/us-ssn|123121235"
+  	}</pre>
+	Se lato server FHIR &egrave; gi&agrave; presente una risorsa Patient con attributi <u>system=http://hl7.org/fhir/sid/us-ssn</u> e <u>code/value=123121235</u> allora questa sar&agrave; ignorata, altrimenti sar&agrave; creata. La transaction rimane valida in entrambi i casi.
+  </li>
+</ul>
+<h2>ORU - Obervation Result</h2>
+Un messaggio ORU rappresenta osservazioni o risultati prodotti da un certo sistema sulla base di analisi o referti. Il messaggio viene trasmesso verso un altro sistema, il quale tipicamente archivier&agrave; i risultati<br><br>
+La tipologia di ORU pi&ugrave; comune &egrave; <b>ORU-R01</b>; questo viene usato per trasmettere osservazioni e risultati di un analisi o di un esame. I Segmenti principali sono OBR che contiene le richieste ed OBX che contiene i risultati delle richieste.
+<h3>ORM - Case Study</h3>
+Un Centro di Radiologia (RIS) riceve un order messages ORM^O01 da un ospedale esterno (HIS), per il quale deve completare gli esami e inviare il referto via HL7 utilizzando un messaggio di tipo ORU^R01. Il centro di Radiologia esegue i suoi ordini interni e i risultati sono inviati al centro HIS.
+<figure style='text-align: center;'>
+    <img src="images/oru_radiology.png" style="width: 620px;" />
+    <figcaption>Fig.4 - Invio di esami a fronte di una richiesta radiologica</figcaption>
+</figure>
+A seguire viene proposto un esempio di messaggio HL7 inviato da un sistema RIS verso un centro HIS. 
+<pre>
+MSH|^~\&|RIS|RadCenter|HIS|MedCenter|20160102101112||ORU^R01|ABC0000000001|P|2.4
+PID|||9999999999^^^NHS^NH||Smith^John^Joe^^Mr||19700101|M|||My flat name^1, The Road^London^London^SW1A 1AA^GBR||john.smith@hotmail.com^NET~07123456789^PRS|||||||||||||||||N|
+OBR|1|P123|F123|500^CHEST XRAY^L||201408080948|201408080000||||||||555-55-5555^PRIMARY^PATRICIA P^^^^MD^^|||||||||F||||||444-44-4444^HIPPOCRATES^HOWARD H^^^^MD
+OBX|1|ED|502^CHEST XRAY^L||^IM^TIFF^Base64^JVi0xLjMKJeTjz9IKNAw||||||F|||201408080000
+</pre>
+Il messaggio rappresenta il risultato di una lastra al torace eseguita sul paziente John Smith. La richiesta &egrave; stata ordinata da Particia Primary MD e svolta da Howard Hippocrates MD.
+<h3>ORU_O01 - v2ToFHIR</h2>
+<figure style="text-align: center;">
+    <img src="images/ORU-O01-Mappings.png" style="min-width: 60%; max-width: 90%"/>
+    <figcaption>Fig.5 - rappresentazione di ORU_O01 tramite risorse FHIR</figcaption>
+</figure>
+Le considerazioni fatte per la Fig.2 valgono anche per la Fig.5. A differenza della precedente, nella Fig.5 sono presenti dei numeri cerchiati che permettono di definire istanze differenti di una stessa risorsa FHIR.
 
 <div style="background-color:rgba(86, 56, 253, 0.9); width:100%;text-align:center;font-size:small;color:white">
-By AM Unibo-DISI  
+By AN Unibo-DISI  
 </div> 
 
 </body>
