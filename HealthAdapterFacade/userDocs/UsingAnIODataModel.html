@@ -273,9 +273,9 @@ Questo componente contiene le (uniche) parti specializzate.<br/><br/>
 </tr>
  </tbody>
 </table>
-<br/><br/>
+<br/>
 Nella figura, il componente <ks>LegacyDedIO</ks> si suppone utlizzato in un <k>InputServerDed</k> che riceve i messaggi inviati dal <tt>LegacyDedServer</tt>.
-
+In questo modo le interazioni di qui in poi dovrebbero utilizzare solo dati FHIR. 
 
 <h2>Verso la specifica di <k>IODM20</k> (<i>IO data model ITel20</i>) </h2>
  
@@ -284,11 +284,10 @@ Nella figura, il componente <ks>LegacyDedIO</ks> si suppone utlizzato in un <k>I
  
  <div class="remark">
  <ol>
- <li>Dati in formato 'health standard' come HL7v2, HL7v3, FHIRv4, ...</li>
- <li>Dati espressi in un formato proprietario, di norma concordato con ITel, ma al momento forse anche diverso a seconda del CentroHealth</li>
- <li>Dati espressi in un formato 'misto', in cui dati 'health standard' possono essere trasmessi/ricevuti insieme a dati in formato proprietario</li>
-</ol>
-</div>
+ <li>Dati in <ks>formato 'health standard'</ks> come HL7v2, HL7v3, FHIRv4, ...</li>
+ <li>Dati espressi in un <ks>formato proprietario</ks>, di norma concordato con ITel, ma al momento forse anche diverso a seconda del CentroHealth</li>
+ <li>Dati espressi in un <ks>formato 'misto'</ks>, in cui dati 'health standard' possono essere trasmessi/ricevuti insieme a dati in formato proprietario</li>
+</ol></div>
 
 L'obiettivo e' pervenire alla definizione di un insieme di classi Java  che possano costituire la rappresentazione di un meta-modello
 standard di riferimento ITel per la ricezione/trasmissione di dati di I/O.
@@ -316,8 +315,8 @@ i <b>principi/concetti ITel19</b> su cui e' stata basata la specifica (negoziata
  </div>
 
  Al momento abbiamo un esempio di <tt>CarePlan</tt> espresso in HL7v3 (<k>CDA</k>) quindi con uno standard 
- (anche se sembra non completamente tale sul piano sematico), me ci sono altri casi da cui poter enucleare (se non gia' esplicitamente definito) 
-  un insieme di principi/concetti?
+ (anche se sembra non completamente tale sul piano sematico), me ci si chiede se vi siano altri casi significativi 
+  da cui poter enucleare (se non gia' esplicitamente definito)   un tale insieme di principi/concetti.
 
 
 
