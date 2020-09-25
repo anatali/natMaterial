@@ -333,7 +333,9 @@ e interagire con l'HealthAdapter in un modo da definire (al momento si potrebber
 
 <h3>Possibile riuso del codice fino ad ora sviluppato</h3>
 
-<ol>
+<center><img src="./img/healthAdapterIODom20Impl0.png" alt="healthAdapterIODom20Impl0.png" width="40%"></center>
+
+ <ol>
 <li>Estensione di <ks>HealthServiceInterface</ks>
 <pre><a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthServiceInterface.java" target="code">public interface HealthServiceInterface</a></pre>
 per tenere conto delle <k>ITel20API</k>
@@ -360,7 +362,7 @@ Questo componente deve
 <li>avere un riferimento a <k>LegacyMockServerDed</k> e ad altri server relativi al CentroHealth; ad esempio, nel <tt>CaseStudyDed</tt>,
 l'indirizzo del server FHIR cui chiedere informazioni aggiuntive sul paziente (API <tt>import</tt>) </li>
 <li>attivare <k>InputServerDed</k> che realizza  il mapping dei dati dal formato  <tt>CaseStudyDed</tt> a/da FHIR via <k>IODM20</k> </li>
-<li>realizzare la 'business logic' relativa alla interazione con il <tt>LegacyDedServer</tt> </li>	
+<li>realizzare la 'business logic' relativa alla interazione con il <tt>LegacyMockServerDed</tt> </li>	
 
 </ul>
 
