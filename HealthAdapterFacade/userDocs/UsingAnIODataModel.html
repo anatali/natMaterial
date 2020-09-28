@@ -188,7 +188,7 @@ div.imagedesc{
     
 <body>
 <div id="body">
-<h1>DISI | Using a DataModel related to Input/Output with legacy servers</h1>
+<h1>DISI | Towards a Input/Output DataModel </h1>
 
 <h2>References <m>(<a href="http://htmlpreview.github.io/?https://github.com/anatali/natMaterial/blob/master/HealthAdapterFacade/userDocs/DISIMaterial.html" target="code">
 DISIMaterial.html</a> )</m></h2>
@@ -236,11 +236,11 @@ qui sotto a sinistra, con riferimento a un primo caso di studio riportato nella 
 
 <tr>
 <td style="width:50%" >
-<img src="./img/healthAdapter20A.png" alt="healthAdapter20A.png" width="100%">
+<img src="./img/healthAdapter20A.png" alt="healthAdapter20A.png" width="70%">
 
 </td>
 <td><h3>CaseStudyDed</h3>
-<img src="./img/exampleDed.png" alt="exampleDed.png" width="100%">
+<img src="./img/exampleDed.png" alt="exampleDed.png" width="70%">
 
 </td>
 </tr>
@@ -248,8 +248,8 @@ qui sotto a sinistra, con riferimento a un primo caso di studio riportato nella 
 </table>
 
   <br/><br/>
- Per ogni CentroHealth legacy occorre introdurre all'interno dell'<tt>HealthAdapter</tt> un componente specifico che realizza le interazioni
- con tale centro e include un componente di 'conversioni dati di I/O' che mappa la rappresentazioni dei dati di I/O usata dal CentroHealth
+ Per ogni CentroHealth legacy, occorre introdurre all'interno dell'<tt>HealthAdapter</tt> un componente specifico che realizza le interazioni
+ con tale centro e include un componente di 'conversioni dati di I/O' (in figura denominato <ks>LegacyDedIO</ks>) che mappa la rappresentazioni dei dati di I/O usata dal CentroHealth
  in una rappresentazione 'standard' che possiamo qui denominare <k>IODataModelItel20</k> o piu' semplicemente <k>IODM20</k>.
  
  <br/><br/>
@@ -258,16 +258,24 @@ qui sotto a sinistra, con riferimento a un primo caso di studio riportato nella 
 
 <tr>
 <td style="width:50%" >
-<img src="./img/healthproduct0209Interactions.png" alt="healthproduct0209Interactions.png" width="100%">
+<img src="./img/HealthServiceLegacyDed.png" alt="HealthServiceLegacyDed.png" width="80%">
 
 </td>
-<td><h3>IOModel</h3>
-<img src="./img/exampleded19MVVM.png" alt="exampleded19MVVM.png" width="100%">
-
+<td><h3>LegacyDedIO</h3>
+Questo componente contiene le (uniche) parti specializzate.<br/><br/>
+<img src="./img/LegacyDedIO.png" alt="LegacyDedIO.png" width="80%">
+<br/><br/>
+<ul>
+<li><ks>InputHandlerDed</ks>: oggetto specializzato che elabora i dati inviati da <tt>LegacyDedServer</tt> e li trasforma in un modello <k>IODM</k></li>
+<li><ks>cvtToFHIR</ks>: oggetto (unico) che realizza la conversione  <k>IODM-FHIR</k></li>
+</ul>
 </td>
 </tr>
  </tbody>
 </table>
+<br/>
+Nella figura, il componente <ks>LegacyDedIO</ks> si suppone utlizzato in un <k>InputServerDed</k> che riceve i messaggi inviati dal <tt>LegacyDedServer</tt>.
+In questo modo le interazioni di qui in poi dovrebbero utilizzare solo dati FHIR. 
 
 <h2>Verso la specifica di <k>IODM20</k> (<i>IO data model ITel20</i>) </h2>
  
@@ -276,14 +284,15 @@ qui sotto a sinistra, con riferimento a un primo caso di studio riportato nella 
  
  <div class="remark">
  <ol>
- <li>Dati in formato 'health standard' come HL7v2, HL7v3, FHIRv4, ...</li>
- <li>Dati espressi in un formato proprietario, di norma concordato con ITel, ma al momento forse anche diverso a seconda del CentroHealth</li>
- <li>Dati espressi in un formato 'misto', in cui dati 'health standard' possono essere trasmessi/ricevuti insieme a dati in formato proprietario</li>
-</ol>
-</div>
+ <li>Dati in <ks>formato 'health standard'</ks> come HL7v2, HL7v3, FHIRv4, ...</li>
+ <li>Dati espressi in un <ks>formato proprietario</ks>, di norma concordato con ITel, ma al momento forse anche diverso a seconda del CentroHealth</li>
+ <li>Dati espressi in un <ks>formato 'misto'</ks>, in cui dati 'health standard' possono essere trasmessi/ricevuti insieme a dati in formato proprietario</li>
+</ol></div>
 
 L'obiettivo e' pervenire alla definizione di un insieme di classi Java  che possano costituire la rappresentazione di un meta-modello
 standard di riferimento ITel per la ricezione/trasmissione di dati di I/O.
+<br/><br/>
+<center><img src="./img/IODM20.png" alt="IODM20.png" width="30%"></center>
 <br/><br/>
 Il meta-modello <k>IODM20</k> dovrebbe essere definito in modo da includere i casi attualmente gia' realizzati e in modo da costituire un
 punto fisso di riferimento per le 'negoziazioni' ITel per applicazioni future.
@@ -302,11 +311,12 @@ interazione con la business logica Itel20 che avverrà attraverso API in corso d
 Il problema piu' spinoso sembra essere al momento relativo ai possibili riferimenti tra dati nel caso di formati proprietari.
 Sarebbe interessante conoscere 
  <div class="remark">
-i principi/concetti ITel19 ha basato la specifica dei dati di I/O e in prarticolare dei riferimenti tra dati
+i <b>principi/concetti ITel19</b> su cui e' stata basata la specifica (negoziata) dei dati di I/O e in prarticolare dei <k>riferimenti tra dati</k>	
  </div>
 
  Al momento abbiamo un esempio di <tt>CarePlan</tt> espresso in HL7v3 (<k>CDA</k>) quindi con uno standard 
- (anche se sembra non completamente tale sul piano sematico), me ci sono altri casi?
+ (anche se sembra non completamente tale sul piano sematico), me ci si chiede se vi siano altri casi significativi 
+  da cui poter enucleare (se non gia' esplicitamente definito)   un tale insieme di principi/concetti.
 
 
 
@@ -316,41 +326,43 @@ Sembra opportuno/necessario definire/realizzare (in modo cooperativo-incremental
 
 <ol>
 <li>Una definizione precisa della <k>ITel20API dell'HealthAdapter</k> che dovranno essere usate dal ITel20</li>
-<li>Un <k>Legacy-Mock</k> che invia (riceve) dati con le regole (protocolli, rappresentazione dei dati) 'reali' del caso di studio</li>
-<li>Un <k>Server-Like</k> di riferimento per il Legacy-Mock. Questo server dovrebbe includere il componente di trasformazione dei dati in <k>IODM20</k>
+<li>Un <k>LegacyMockServerDed</k> che invia (riceve) dati con le regole (protocolli, rappresentazione dei dati) 'reali' del caso di studio</li>
+<li>Un <k>InputServerDed</k> utilizzato dal Legacy-Mock per interagire con l'applicativo ITel. Questo server dovrebbe includere il componente di trasformazione dei dati in <k>IODM20</k>
 e interagire con l'HealthAdapter in un modo da definire (al momento si potrebbero escludere ulteriori API rispetto al punto 1).</li>
 </ol>
 
 <h3>Possibile riuso del codice fino ad ora sviluppato</h3>
 
-<ol>
-<li>Estensione di 
+<center><img src="./img/healthAdapterIODom20Impl0.png" alt="healthAdapterIODom20Impl0.png" width="40%"></center>
+
+ <ol>
+<li>Estensione di <ks>HealthServiceInterface</ks>
 <pre><a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthServiceInterface.java" target="code">public interface HealthServiceInterface</a></pre>
 per tenere conto delle <k>ITel20API</k>
 </li>
 
-<li>Realizzazione di 
+<li>Realizzazione di <ks>HealthServiceItel20</ks>
 <pre><a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthServiceItel20.java" target="code">public class HealthServiceItel20 implements HealthServiceInterface </a>
 </pre>
 Questo componente deve  
 	<ul>
 	<li>avere un riferimento a <k>FHIRServerItel20</k> </li>
-	<li>implmentanre i nuovi metodi introdotti in 
+	<li>implmentare i nuovi metodi introdotti in 
 	<a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthServiceInterface.java" target="code">public interface HealthServiceInterface</a>. 
 	</li>
 	</ul>
 </li>
 
-<li>Realizzazione di 
+<li>Realizzazione di <ks>HealthServiceLegacyDed</ks>
 <pre><a href="../src/main/java/it/unibo/HealthAdapterFacade/HealthServiceLegacyDed.java" target="code">public class HealthServiceLegacyDed extends HealthServiceItel20</a>
 </pre>
  
 Questo componente deve  
 <ul>
-<li>avere un riferimento a <k>Legacy-Mock-Ded</k> e ad altri server relativi al CentroHealth; ad esempio, nel CaseStudyDed,
+<li>avere un riferimento a <k>LegacyMockServerDed</k> e ad altri server relativi al CentroHealth; ad esempio, nel <tt>CaseStudyDed</tt>,
 l'indirizzo del server FHIR cui chiedere informazioni aggiuntive sul paziente (API <tt>import</tt>) </li>
-<li>attivare <k>Server-Like-Ded</k> </li>
-<li>fare il mapping dei dati dal formato CaseStudyDed a/da <k>IODM20</k> </li>	
+<li>attivare <k>InputServerDed</k> che realizza  il mapping dei dati dal formato  <tt>CaseStudyDed</tt> a/da FHIR via <k>IODM20</k> </li>
+<li>realizzare la 'business logic' relativa alla interazione con il <tt>LegacyMockServerDed</tt> </li>	
 
 </ul>
 
