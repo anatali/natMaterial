@@ -1,0 +1,2 @@
+com/example/accessingdatajpa/CustomerRepositoryTests.java
+ com.example.accessingdatajpa.CustomerRepositoryTests

@@ -1,9 +1,0 @@
-template: |
-  <p>{{firstname}} {{lastname}}</p>
-preparationScript: |
-  // Handlebars.registerHelper('loud', function(string) {
-  //    return string.toUpperCase()
-  // });
-input:
-  firstname: Yehuda
-  lastname: Katz

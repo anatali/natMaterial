@@ -1,4 +1,0 @@
-{ "resourceType": "CarePlan", 
-  "status": "active", 
-  "intent": "plan"
-} 
