@@ -1,4 +1,4 @@
-package com.example.multimodule.service;
+package it.unibo.springboot.mmlibrary.service;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

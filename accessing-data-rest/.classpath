@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="output" path="bin/default"/>
 	<classpathentry output="bin/main" kind="src" path="src/main/java">
 		<attributes>
 			<attribute name="gradle_scope" value="main"/>
@@ -14,6 +13,7 @@
 			<attribute name="test" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="output" path="bin/default"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8/"/>
 	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-data-jpa/2.3.2.RELEASE/40b980c3e213ec72a04cf24ad7bee0deb6e6ca94/spring-boot-starter-data-jpa-2.3.2.RELEASE-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-data-jpa/2.3.2.RELEASE/bff2a17cb69019d2aeca4bd06c7854092d5e903d/spring-boot-starter-data-jpa-2.3.2.RELEASE.jar">
 		<attributes>

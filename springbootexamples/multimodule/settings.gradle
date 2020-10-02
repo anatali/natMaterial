@@ -1,0 +1,4 @@
+rootProject.name = 'mmmodule'
+
+include 'mmlibrary'
+include 'mmapplication'

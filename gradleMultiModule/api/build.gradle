@@ -1,0 +1,5 @@
+dependencies {
+      compile project(':common')
+      compile 'org.apache.commons:commons-lang3:3.4'
+      compile 'org.apache.logging.log4j:log4j-core:2.6.2'
+   }

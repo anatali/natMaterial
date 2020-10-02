@@ -16,4 +16,8 @@ public class MyService {
   public String message() {
     return this.serviceProperties.getMessage();
   }
+  
+  public static void main(String[] args) {
+	  System.out.println("MyService hello world");
+  }
 }

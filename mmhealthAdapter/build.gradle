@@ -1,0 +1,28 @@
+allprojects {
+  //Put instructions for all projects
+
+    task explain{	//additional configuration to the task hello
+        doLast { task ->
+            println "Hello, I'm $task.project.name project"
+        }
+    }	
+
+}
+
+subprojects {
+  //Put instructions for each sub project
+	//apply plugin: 'org.springframework.boot'
+	//apply plugin: 'io.spring.dependency-management'
+	apply plugin: 'java-library'
+	apply plugin: 'java'
+	sourceCompatibility = '1.8'
+	version = '0.0.1-SNAPSHOT'
+	
+  repositories {
+    mavenCentral()
+  }
+
+  dependencies {
+     testCompile "junit:junit:4+"
+  }
+}

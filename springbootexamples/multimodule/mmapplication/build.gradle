@@ -1,0 +1,36 @@
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	api project(":mmlibrary")
+
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+}
+
+bootJar {
+	enabled = false
+}
+
+/*
+----------------------------------------------------------------------------------
+From https://docs.gradle.org/current/userguide/multi_project_builds.html
+----------------------------------------------------------------------------------
+*/
+ext.important = true
+
+hello.doLast {
+  println "- I'm an application that uses the mmlibrary"
+}
+
+/*
+Gradle looks down the hierarchy, starting with the current dir, for tasks with the name hello 
+and executes them. One thing is very important to note. 
+Gradle always evaluates every project of the multi-project build and 
+creates all existing task objects. 
+Then, according to the task name arguments and the current dir, 
+Gradle filters the tasks which should be executed. 
+Because of Gradle’s cross project configuration every project has to be evaluated 
+before any task gets executed.
+*/

@@ -1,0 +1,5 @@
+rootProject.name = 'mmhealthAdapter'
+
+include 'haAdapter'
+include 'haApplication'
+include ":haLibrary", ":haDomain"
