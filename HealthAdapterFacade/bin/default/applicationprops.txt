@@ -1,0 +1,21 @@
+server.port=8081
+
+spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration
+
+server.port=8081
+
+human.logo   = HealthItelDisi : Gui for human-machine interaction
+machine.logo = HealthItelDisi : welcome to m2m interaction 
+
+management.security.enabled=false
+
+management.endpoint.health.show-details=ALWAYS
+management.endpoint.beans.enabled=true
+management.endpoint.autoconfig.enabled=true 
+management.endpoint.env.enabled=true
+management.endpoint.mappings.enabled=true
+management.endpoint.metrics.enabled=true
+management.endpoint.trace.enabled=true
+management.endpoint.dump.enabled=true
+management.endpoints.web.exposure.include=* 
+spring.jmx.enabled = true

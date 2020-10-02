@@ -1,0 +1,20 @@
+{  "resourceType": "Patient",
+    "identifier": [ {
+    "system": "http://it.unibo/disi",
+    "value": "987654321"
+  } ],
+  "name": [ {
+    "family": "Unibo",
+    "given": [ "AliceCesena"  ]
+  } ],
+  "telecom": [ {
+    "value": "Contact Unibo"
+  } ],
+  "gender": "female",
+  "birthDate": "1998-01-01",
+  "address": [ {
+    "text": "student",
+    "city": "Cesena",
+    "country": "Italy"
+  } ]
+}

@@ -1,0 +1,20 @@
+{  "resourceType": "Patient",
+   "identifier": [ {
+    "system": "http://it.unibo/disi",
+    "value": "123456789"
+  } ],
+  "name": [ {
+    "family": "Unibo",
+    "given": [ "ElenaBologna", "Maria" ]
+  } ],
+  "telecom": [ {
+    "value": "Contact Unibo"
+  } ],
+  "gender": "female",
+  "birthDate": "2000-11-18",
+  "address": [ {
+    "text": "some text",
+    "city": "Bologna",
+    "country": "Italy"
+  } ]
+}
