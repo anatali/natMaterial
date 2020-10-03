@@ -348,59 +348,114 @@ Then, according to the task name arguments and the current dir,  Gradle filters 
 </li>
 <li>Add build istructions common to all subprojects
 <pre>
-<a href="../build.gradle" target="code">build.gradle</a> 	<kc>//initial version that defines the basic configuration that is shared across all sub-modules. </kc>
+<a href="../build.gradle" target="code">build.gradle</a> 	<kc>//defines the basic configuration that is shared across all sub-modules. </kc>
 </pre>
 </li>
 
-
- 
 </ol>
-
-<h3>Modules</h3>
-
-<ol>
-<li><pre>
-<a href="../haAdapters/build.gradle" target="code">haAdapters/build.gradle</a> 	<kc>// </kc>
-</pre>
-</li>
-<li><pre>
-<a href="../haApplication/build.gradle" target="code">haApplication/build.gradle</a> 	<kc>// </kc>
-</pre>
-</li>
-<li><pre>
-<a href="../haCommon/build.gradle" target="code">haCommon/build.gradle</a> 	<kc>// </kc>
-</pre>
-</li>
-<li><pre>
-<a href="../haDomain/build.gradle" target="code">haDomain/build.gradle</a> 	<kc>// </kc>
-</pre>
-</li>
- 
-</ol>
-
-
-<h3>The configuration</h3>
-<pre>
-<a href="../haCnfiguration/build.gradle" target="code">haCnfiguration/build.gradle</a> 	<kc>// </kc>
-</pre>
-
-<br/><br/>
-<table style="width:98%">
-<tbody>	
-
-<tr>
-<td style="width:50%" >
 
 <!--
 <img src="./img/healthAdapter20A.png" alt="healthAdapter20A.png" width="70%">
 -->
 
+<h3>Modules</h3>
+
+<table style="width:98%">
+<tbody>	
+
+<tr>
+<td style="width:30%" ><h4>The parent (root)</h4>
+<pre>
+<a href="../build.gradle" target="code">build.gradle</a> 	
+</pre>
+</td>
+<td>
+
+Here :
+<ul>
+<li>we declare that we use the 
+<a href="https://docs.spring.io/dependency-management-plugin/docs/current/reference/html/" target="code">
+<ks>io.spring.dependency-management</ks> </a> SpringBoot plugin.
+<br/><br/>
+Since Gradle 5+ supports <k>BOM</k> (<i>Bill Of Materials</i>) files, you don't need the dependency-management plugin anymore. <br/>
+The SpringBoot plugin is still needed to provide tasks such as <ks>bootJar</ks> and <ks>bootRun</ks>.
+</li>
+<li>we specify what all <k>subprojects</k> require</li>
+<li>we say that the only dependency we add to each subproject is to the <k>BOM of Spring Boot</k>. <br/>
+This BOM includes all dependencies that a Spring Boot application potentially might need in the exact version 
+that is compatible with a given Spring Boot version (2.3.4.RELEASE in our case). <br/>
+Thus, we don’t need to list every single dependency on our own and potentially get the version wrong. </li>
+</ul>
+
+</td>
+</tr>
+
+<tr>
+<td><h4>The Application</h4>
+<pre>
+<a href="../haApplication/build.gradle" target="code">haApplication/build.gradle</a> 	
+</pre>
+</td>
+<td>We include here the business logic, including our domain specification.
+</td>
+</tr>
+
+
+<tr>
+<td><h4>The Web layer</h4>
+<pre>
+<a href="../haAdapters/haWeb/build.gradle" target="code">haAdapters/haweb/build.gradle</a> 	
+</pre>
+</td>
+<td>Here :
+<ul>
+<li>we declare a dependency to the  
+</li>
+</ul>
+</td>
+</tr>
+
+
+
+<tr>
+<td><pre>
+<a href="../haCommon/build.gradle" target="code">haCommon/build.gradle</a> 	
+</pre>
 </td>
 <td>
 </td>
 </tr>
+
+<!--
+<tr>
+<td><pre>
+<a href="../haDomain/build.gradle" target="code">haDomain/build.gradle</a> 	
+</pre>
+</td>
+<td>
+</td>
+</tr>
+-->
+
+<tr>
+<td><h4>The configurator</h4>
+<pre>
+<a href="../haConfiguration/build.gradle" target="code">haCnfiguration/build.gradle</a> 	
+</pre>
+</td>
+<td>
+</td>
+</tr>
+
+
  </tbody>
 </table>
+
+ 
+
+
+
+
 
  
 <br/><br/>

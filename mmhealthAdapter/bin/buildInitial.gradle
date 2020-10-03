@@ -1,0 +1,14 @@
+allprojects {
+  //Put instructions for all projects
+
+    task explain{	 
+        doLast { task ->
+            println "Hello, I'm $task.project.name project"
+        }
+    }	
+
+}
+
+subprojects {
+  //Put instructions for each sub project
+}

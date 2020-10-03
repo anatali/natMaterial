@@ -1,0 +1,429 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+ 
+<style type="text/css">
+body
+{
+    margin-left:  30px;
+    margin-right: 30px;
+};
+
+P
+{
+    font-family: Tahoma;
+    font-size: 10pt;
+};
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #545454;
+    background-color: transparent;
+}
+
+a:hover {
+    background-color: #cccccc;
+}
+
+
+hr {
+    clear: both;
+    height: 1px;
+    color: #242424;
+    background-color: transparent;
+}
+
+h1, h2, h3 {
+    color: #242424;
+    clear: left;
+    font: 100% Tahoma, Helvetica, Arial, sans-serif;
+    margin-bottom: 0.5em;
+    padding-top: 0.5em;
+	border-radius: 10px;
+	padding: 5px;
+}
+
+top {
+	width: 100%;
+}
+
+
+#i {
+    color: #ff1010;
+}
+tt{
+	font-family: "Arial";
+    font-size: 80%;
+	color: #006600;
+}
+em{
+	font-family: "Arial";
+    font-size: 80%;
+	font-weight: bold;
+	border-style:solid;
+	border-color: #abe876;
+    color: #1632cc;
+}
+bc{
+	font-family: "Arial";
+	font-size: 80%;
+	font-weight: bold;
+    color: #990000;
+	background-color: #fcf8c7;
+}
+ks{
+	font-family: "Arial";
+	font-weight: bold;
+    color: #0000CD	;
+	 
+}
+kc{
+	font-family: "Arial";
+	font-weight: bold;
+    color: #008000	;
+	 
+}
+pre{
+	font-family: "Consolas";
+	font-size: 85%;
+	background-color: #f5f5f5;
+	border: 1.5px solid silver;
+	padding: 5px;
+}
+m{
+	font-family: "Helvetica";
+	line-height: 100%;
+ 	font-size: 75%;
+}
+div.body{
+	width: 700px;
+    font-size: 15px;
+}
+k{
+    color: #990000;
+	font-weight: bold;
+}
+h1 {
+    font-size: 150%;
+    background-color: #b2c0ff;
+	padding: 10px; 
+}
+
+h2 {
+    background-color: #9ed8ff;
+    font-size: 130%;
+}
+
+h3 {
+	background-color: #e6ccff;
+    font-size: 100%;
+}
+h4 {
+    background-color: #C0F0E0;
+    font-size: 100%;
+	width: 95%;
+	border-radius: 5px;
+	padding: 2px;
+}
+h5 {
+    background-color: #d5ffb0;
+    font-size: 100%;
+	
+}    
+div.req{
+	background-color: #d9ffb3;
+    font-size: 18px;
+	width: 700px;
+    border: 3px solid green;
+    padding: 15px;
+    margin: 10px;
+}       
+div.remark{
+	background-color: #E3F2FD;	
+    border: 1.5px solid #d5f2ed;
+    padding: 15px;
+    margin: 10px;
+	border-radius: 25px;
+}  
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+} 
+
+ol, ul, li {
+  margin: 0;
+  margin-left: 10px;
+  padding: 0;
+  padding-bottom: 5px;
+}     
+
+table, th, td {
+	border: 1px solid black;
+}
+
+img {
+	border: 1.5px solid #d5f2ed
+	
+}
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #545454;
+    background-color: transparent;
+}
+
+div.wrapdesc{
+	width: 90%;
+	margin: auto;
+}
+
+div.imagedesc{
+	width: 85%;
+	margin: auto;
+}
+</style>
+    
+<head>
+   
+<title>mmhealthAdapter</title></head>
+    
+<body>
+<div id="body">
+<h1>DISI | Heath Adapter multi-modules</h1>
+
+<h2>References <m>(<a href="http://htmlpreview.github.io/?https://github.com/anatali/natMaterial/blob/master/HealthAdapterFacade/userDocs/DISIMaterial.html" target="code">
+DISIMaterial.html</a> )</m></h2>
+<m> 
+<ul>
+<li><a href="https://dev-itel.atlassian.net/wiki/spaces/NEXTAGORA/overview" target="web">Confluence space: Nextagora</a>  &nbsp;&nbsp;&nbsp;
+ <a href="https://dev-itel.atlassian.net/wiki/spaces/UNIBO/overview" target="web">Confluence space: UNIBO</a>  &nbsp;&nbsp;&nbsp;
+ <a href="https://bitbucket.org/itelunibo/workspace/projects/" target="web">Projects on bitbucket</a>  &nbsp;&nbsp;&nbsp;
+ <a href="../../health/userDocs/ITelAppl.html" target="web">ITelAppl (in <tt>health</tt>)</a> &nbsp;&nbsp;&nbsp; </li>
+<!--
+<li><a href="https://bitbucket.org/itelunibo/overviewrepo/src/master/it.unibo.itel/userDocs/3-LogicalArch/HDA_Disi.html" target="web">HDA_Disi.html (overviewrepo)</a> </li>
+-->
+<hr/>
+<li> <a href="https://www.hl7.org/fhir/R4/" target="web">FHIR </a>&nbsp;&nbsp;&nbsp;
+ <a href="https://hapifhir.io/hapi-fhir/apidocs/hapi-fhir-structures-r4/index-all.html" target="web">FHIR Api structures docs</a>&nbsp;&nbsp; 
+ <a href="https://www.hl7.org/fhir/R4/patient.html" target="web">FHIR 8.1 Resource Patient - Content</a>  &nbsp;&nbsp;&nbsp; 
+  <a href="http://docs.smarthealthit.org/dstu2-examples/" target="web">FHIR examples</a> &nbsp;&nbsp;&nbsp; 
+</li>
+ 
+
+ 
+<li><a href="http://www.hl7.org/participate/toolsandresources.cfm?ref=nav" target="web">HL7 Tools & Resources</a> &nbsp;&nbsp;&nbsp; 
+<a href="https://hl7messageparser.azurewebsites.net/Parse/ParseView" target="web">HL7 ParseView</a> &nbsp;&nbsp;&nbsp; 
+<a href="https://hapifhir.github.io/hapi-hl7v2" target="web">HL7 v2 Java API</a>&nbsp;&nbsp;&nbsp;
+<a href="https://github.com/hapifhir/hapi-hl7v2" target="web">hapi-hl7v2 GITHUB</a> (included in
+	<a href="https://github.com/hapifhir" target="web">hapifhir FHIR GITHUB</a>)&nbsp;&nbsp;&nbsp; 
+<!--
+  <a href="https://hapifhir.github.io/hapi-hl7v2/base/apidocs/index.html" target="web">HAPI - Java HL7 API - Base Module 2.3 API</a> &nbsp;&nbsp; 
+  <a href="https://hapifhir.github.io/hapi-hl7v2/v23/apidocs/" target="web">HAPI - Java HL7 API - Generated Structures v2.3 2.3 API</a> &nbsp;&nbsp; 
+  
+  <a href="https://www.hl7.org/implement/standards/product_brief.cfm?product_id=142" target="web">HL7 Messaging Standard Version 2.4</a> &nbsp;&nbsp; 
+  <a href="https://hapifhir.github.io/hapi-hl7v2/v281/apidocs/index.html" target="web">HAPI - Java HL7 API - Generated Structures v2.8.1 2.3 API</a>&nbsp;&nbsp; 
+ -->
+</li>
+</ul></m>
+
+
+<h2>Introduzione</h2>
+
+
+<ol>
+<li>Why would we make the effort to split up our codebase into multiple modules when everything works just fine with a single, monolithic module?
+<br/>
+The main reason is that a single monolithic codebase is susceptible to <ks>architectural decay</ks>.<br/>
+Java packages aren’t very good at protecting architectural boundaries: dependencies between classes within a single monolithic codebase 
+tend to quickly degrade into a <ks>big ball of mud</ks>.<br/>
+See <a href="https://reflectoring.io/spring-boot-gradle-multi-module/" target="web">Building a Multi-Module Spring Boot Application with Gradle</a> (by Hombergs).
+</li>
+<li>If we split up the codebase into multiple smaller modules that each has clearly defined dependencies to other modules, 
+we take a big step towards an easily maintainable codebase.<br/>
+We can split an application up along <ks>technical layers</ks>, or along <ks>functional boundaries</ks>, or both.
+</li>
+<li>It could have sense to cut a Spring application context into multiple Spring modules along the same boundaries.
+The base for a Spring Module is a <kc>@Configuration-annotated</kc> class along the lines of Spring’s Java configuration feature.<br/>
+See  <a href=" https://reflectoring.io/spring-boot-modules/" target="web">Modularizing a Spring Boot Application</a> (by Hombergs).
+</li>
+<li>However, to <k>better enforce module boundaries</k>, we could split up a monolithic codebase into multiple build modules with Gradle.
+<br/>
+See <a href="https://spring.io/guides/gs/gradle/" target="web">Building Java Projects with Gradle </a> or
+<a href="https://rominirani.com/gradle-tutorial-part-3-multiple-java-projects-5b1c4d1fbd8d" target="web">Gradle Tutorial : Part 3 : Multiple Java Projects</a>
+<pre>
+gradle -v		<kc>//Gradle 6.2.2, but we should use >= 6.3 for Spring 2.3.4</kc>
+gradle -q help
+gradle properties
+</pre>
+</li>
+</ol>
+
+<h2>Una suddivisione ispirata ad architettural-boundaries </h2>
+
+<h3>Start-up (prepare the Parent)</h3>
+<ol>
+<li>Set up the working directory:
+<pre><k>.
+├── haAdapters
+	├── haPersistence	<kc>//Perhaps empty</kc>
+	├── haWeb
+├── haApplication   
+├── haCommon
+├── haCnfiguration
+├── haDomain</k>
+├── uerDocs 
+ </pre>
+ </li>
+ 
+<li>Define the system modules in the parent build and the top-level gradle build file
+
+
+<pre><a href="../settings.gradle" target="code">settings.gradle</a>
+<a href="../buildInitial.gradle" target="code">build.gradle</a> 	<kc>//initial version that includes an explanation task for each subproject</kc>
+</pre>
+</li> 
+<li>Prepare Gradle Wrapper in the parent build directory:
+<pre>
+<k>gradle wrapper --gradle-version 6.3 --distribution-type all</k>
+See the generated <a href="../gradle/wrapper/gradle-wrapper.properties" target="code">gradle/wrapper/gradle-wrapper.properties</a>
+</pre>
+</li>
+ 
+<li>
+<pre>
+gradlew build	<kc>//Gradle will automatically resolve any dependencies between the modules  
+				<kc>//and build them in the correct order, regardless of the order they are listed in settings.gradle. </kc>
+</pre>
+</li>
+<li>Execute the explanation task:
+<pre>
+<k>gradlew -q explain</k>
+<ks>Outpput ---------------------------------</ks>
+Hello, I'm mmhealthAdapter project
+Hello, I'm haAdapters project
+Hello, I'm haApplication project
+Hello, I'm haCommon project
+Hello, I'm haConfiguration project
+Hello, I'm haDomain project
+</pre>
+</li>
+<li>
+Add istructions specific to a subproject<br/>
+<pre>.
+├── haAdapter
+<k>├── haApplication   
+	└── <a href="../haApplication/buildExample.gradle" target="code">build.gradle</a></k> (just an example, at the moment)
+├── haDomain
+├── haLibrary</k>
+├── uerDocs
+... </pre>
+
+
+</li>
+<li>Execute the explanation task again
+<pre>
+<k>gradlew -q explain</k>
+<ks>Outpput ---------------------------------</ks>
+Hello, I'm mmhealthAdapter project
+Hello, I'm haAdapters project
+Hello, I'm haApplication project
+<k>- I'm the main application that uses haCommon</k>
+Hello, I'm haCommon project
+Hello, I'm haConfiguration project
+Hello, I'm haDomain project
+</pre>
+
+
+</li>
+<li>Execute just the project-specific build
+<pre>
+<k>gradlew -q :haApplication:explain</k>
+<ks>Outpput ---------------------------------</ks>
+Hello, I'm haApplication project
+- I'm the main application that uses the haCommon 
+</pre>
+<div class="remark">
+Gradle always evaluates every project of the multi-project build and  creates all existing task objects. <br/>
+Then, according to the task name arguments and the current dir,  Gradle filters the tasks which should be executed. 
+</div>
+</li>
+<li>Add build istructions common to all subprojects
+<pre>
+<a href="../build.gradle" target="code">build.gradle</a> 	<kc>//initial version that defines the basic configuration that is shared across all sub-modules. </kc>
+</pre>
+</li>
+
+
+ 
+</ol>
+
+<h3>Modules</h3>
+
+<ol>
+<li><pre>
+<a href="../haAdapters/build.gradle" target="code">haAdapters/build.gradle</a> 	<kc>// </kc>
+</pre>
+</li>
+<li><pre>
+<a href="../haApplication/build.gradle" target="code">haApplication/build.gradle</a> 	<kc>// </kc>
+</pre>
+</li>
+<li><pre>
+<a href="../haCommon/build.gradle" target="code">haCommon/build.gradle</a> 	<kc>// </kc>
+</pre>
+</li>
+<li><pre>
+<a href="../haDomain/build.gradle" target="code">haDomain/build.gradle</a> 	<kc>// </kc>
+</pre>
+</li>
+ 
+</ol>
+
+
+<h3>The configuration</h3>
+<pre>
+<a href="../haConfiguration/build.gradle" target="code">haCnfiguration/build.gradle</a> 	<kc>// </kc>
+</pre>
+
+<br/><br/>
+<table style="width:98%">
+<tbody>	
+
+<tr>
+<td style="width:50%" >
+
+<!--
+<img src="./img/healthAdapter20A.png" alt="healthAdapter20A.png" width="70%">
+-->
+
+</td>
+<td>
+</td>
+</tr>
+ </tbody>
+</table>
+
+ 
+<br/><br/>
+<!-- TEMPLATE -->
+<table style="width:98%">
+<tbody>	
+<tr>
+<td style="width:50%" >
+</td>
+<td>
+</td>
+</tr>
+ </tbody>
+</table>
+ <br/><br/>
+</div>  
+
+<div style="background-color:rgba(86, 56, 253, 0.9); width:100%;text-align:center;font-size:small;color:white">
+By  AN Unibo-DISI  
+</div> 
+
+</body>
+</html>
+
+
+ 

@@ -1,0 +1,51 @@
+ 
+plugins {
+		id 'org.springframework.boot' version '2.3.4.RELEASE'
+	    //id "io.spring.dependency-management" version "1.0.9.RELEASE"
+	    id 'java'
+}    
+ 
+allprojects {
+  //Put instructions for all projects
+	
+    task explain{	//additional configuration to the task hello
+        doLast { task ->
+            println "Hello, I'm $task.project.name project"
+        }
+    }	
+    
+	dependencies {
+		implementation 'org.springframework.boot:spring-boot-starter-web'
+		//implementation 'org.springframework.boot:spring-boot-starter'
+		testImplementation('org.springframework.boot:spring-boot-starter-test') {
+			exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+		}
+	}    
+}
+
+subprojects {
+  //Put instructions for each sub project
+  	group   = 'it.unibo.healthAdapter'
+  	version = '0.0.1-SNAPSHOT'
+	sourceCompatibility = '1.8'
+  	
+	//apply plugin: 'java'
+ 	//apply plugin: 'io.spring.dependency-management'
+	apply plugin: 'java-library'
+ 	
+  repositories {
+    mavenCentral()
+    jcenter()
+  }
+  
+  dependencyManagement {	//Most important closure
+    imports {
+      mavenBom("org.springframework.boot:spring-boot-dependencies:2.3.4.RELEASE")
+      /*
+	This BOM includes all dependencies that a Spring Boot application potentially might need 
+	in the exact version that is compatible with a given Spring Boot version (2.3.2.RELEASE in this case). 
+	Thus, we don’t need to list every single dependency on our own and potentially get the version wrong.      
+      */
+    }
+  }  
+}
