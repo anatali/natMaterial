@@ -1,0 +1,3 @@
+explain.doLast {	//additional configuration to the task explain
+  println "	- I'm the web adapter that does not know nothing about persistence"
+}

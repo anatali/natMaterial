@@ -1,5 +1,8 @@
 rootProject.name = 'mmhealthAdapter'
 
-include 'haAdapter'
+include ':haAdapters:haWeb'
 include 'haApplication'
-include ":haLibrary", ":haDomain"
+include "haCommon"
+include "haConfiguration"
+include "haDomain"
+

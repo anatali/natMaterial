@@ -229,45 +229,82 @@ DISIMaterial.html</a> )</m></h2>
 <h2>Introduzione</h2>
 
 
+<ol>
+<li>Why would we make the effort to split up our codebase into multiple modules when everything works just fine with a single, monolithic module?
+<br/>
+The main reason is that a single monolithic codebase is susceptible to <ks>architectural decay</ks>.<br/>
+Java packages aren’t very good at protecting architectural boundaries: dependencies between classes within a single monolithic codebase 
+tend to quickly degrade into a <ks>big ball of mud</ks>.<br/>
+See <a href="https://reflectoring.io/spring-boot-gradle-multi-module/" target="web">Building a Multi-Module Spring Boot Application with Gradle</a> (by Hombergs).
+</li>
+<li>If we split up the codebase into multiple smaller modules that each has clearly defined dependencies to other modules, 
+we take a big step towards an easily maintainable codebase.<br/>
+We can split an application up along <ks>technical layers</ks>, or along <ks>functional boundaries</ks>, or both.
+</li>
+<li>It could have sense to cut a Spring application context into multiple Spring modules along the same boundaries.
+The base for a Spring Module is a <kc>@Configuration-annotated</kc> class along the lines of Spring’s Java configuration feature.<br/>
+See  <a href=" https://reflectoring.io/spring-boot-modules/" target="web">Modularizing a Spring Boot Application</a> (by Hombergs).
+</li>
+<li>However, to <k>better enforce module boundaries</k>, we could split up a monolithic codebase into multiple build modules with Gradle.
+<br/>
+See <a href="https://spring.io/guides/gs/gradle/" target="web">Building Java Projects with Gradle </a> or
+<a href="https://rominirani.com/gradle-tutorial-part-3-multiple-java-projects-5b1c4d1fbd8d" target="web">Gradle Tutorial : Part 3 : Multiple Java Projects</a>
+<pre>
+gradle -v		<kc>//Gradle 6.2.2, but we should use >= 6.3 for Spring 2.3.4</kc>
+gradle -q help
+gradle properties
+</pre>
+</li>
+</ol>
 
+<h2>Una suddivisione ispirata ad architettural-boundaries </h2>
 
- 
+<h3>Start-up (prepare the Parent)</h3>
 <ol>
 <li>Set up the working directory:
 <pre><k>.
-├── haAdapter
+├── haAdapters
+	├── haPersistence	<kc>//Perhaps empty</kc>
+	├── haWeb
 ├── haApplication   
-├── haDomain
-├── haLibrary
-├── uerDocs</k>
-<a href="../settings.gradle" target="code">settings.gradle</a>
-<a href="../buildInitial.gradle" target="code">build.gradle</a> (initial version)
+├── haCommon
+├── haCnfiguration
+├── haDomain</k>
+├── uerDocs 
  </pre>
  </li>
-<li>Prepare radle wrapper:
+ 
+<li>Define the system modules in the parent build and the top-level gradle build file
+
+
+<pre><a href="../settings.gradle" target="code">settings.gradle</a>
+<a href="../buildInitial.gradle" target="code">build.gradle</a> 	<kc>//initial version that includes an explanation task for each subproject</kc>
+</pre>
+</li> 
+<li>Prepare Gradle Wrapper in the parent build directory:
 <pre>
-gradle -v		<kc>//Gradle 6.2.2</kc>
-gradle -q help
-gradle properties
-
-<k>gradle wrapper</k>
-See <a href="../gradle/wrapper/gradle-wrapper.properties" target="code">gradle/wrapper/gradle-wrapper.properties</a>
-
+<k>gradle wrapper --gradle-version 6.3 --distribution-type all</k>
+See the generated <a href="../gradle/wrapper/gradle-wrapper.properties" target="code">gradle/wrapper/gradle-wrapper.properties</a>
 </pre>
 </li>
-<li>Execute the explanation task (works in aphabetic order)
+ 
+<li>
+<pre>
+gradlew build	<kc>//Gradle will automatically resolve any dependencies between the modules  
+				<kc>//and build them in the correct order, regardless of the order they are listed in settings.gradle. </kc>
+</pre>
+</li>
+<li>Execute the explanation task:
 <pre>
 <k>gradlew -q explain</k>
 <ks>Outpput ---------------------------------</ks>
 Hello, I'm mmhealthAdapter project
-Hello, I'm haAdapter project
+Hello, I'm haAdapters project
 Hello, I'm haApplication project
+Hello, I'm haCommon project
+Hello, I'm haConfiguration project
 Hello, I'm haDomain project
-Hello, I'm haLibrary project
 </pre>
-</li>
-<li>Add build istructions common to all subprojects<br/>
-<a href="../build.gradle" target="code">build.gradle</a> 
 </li>
 <li>
 Add istructions specific to a subproject<br/>
@@ -276,8 +313,8 @@ Add istructions specific to a subproject<br/>
 <k>├── haApplication   
 	└── <a href="../haApplication/buildExample.gradle" target="code">build.gradle</a></k> (just an example, at the moment)
 ├── haDomain
-├── haLibrary
-├── uerDocs</k>
+├── haLibrary</k>
+├── uerDocs
 ... </pre>
 
 
@@ -287,29 +324,66 @@ Add istructions specific to a subproject<br/>
 <k>gradlew -q explain</k>
 <ks>Outpput ---------------------------------</ks>
 Hello, I'm mmhealthAdapter project
-Hello, I'm haAdapter project
+Hello, I'm haAdapters project
 Hello, I'm haApplication project
-<k>- I'm the main application that uses the haLibrary</k>
+<k>- I'm the main application that uses haCommon</k>
+Hello, I'm haCommon project
+Hello, I'm haConfiguration project
 Hello, I'm haDomain project
-Hello, I'm haLibrary project 
 </pre>
 
 
 </li>
-<li>Execute just the project-specific build</li>
+<li>Execute just the project-specific build
 <pre>
 <k>gradlew -q :haApplication:explain</k>
 <ks>Outpput ---------------------------------</ks>
 Hello, I'm haApplication project
-- I'm the main application that uses the haLibrary 
+- I'm the main application that uses the haCommon 
 </pre>
 <div class="remark">
 Gradle always evaluates every project of the multi-project build and  creates all existing task objects. <br/>
 Then, according to the task name arguments and the current dir,  Gradle filters the tasks which should be executed. 
 </div>
-<li></li>
-</ol>
+</li>
+<li>Add build istructions common to all subprojects
+<pre>
+<a href="../build.gradle" target="code">build.gradle</a> 	<kc>//initial version that defines the basic configuration that is shared across all sub-modules. </kc>
+</pre>
+</li>
+
+
  
+</ol>
+
+<h3>Modules</h3>
+
+<ol>
+<li><pre>
+<a href="../haAdapters/build.gradle" target="code">haAdapters/build.gradle</a> 	<kc>// </kc>
+</pre>
+</li>
+<li><pre>
+<a href="../haApplication/build.gradle" target="code">haApplication/build.gradle</a> 	<kc>// </kc>
+</pre>
+</li>
+<li><pre>
+<a href="../haCommon/build.gradle" target="code">haCommon/build.gradle</a> 	<kc>// </kc>
+</pre>
+</li>
+<li><pre>
+<a href="../haDomain/build.gradle" target="code">haDomain/build.gradle</a> 	<kc>// </kc>
+</pre>
+</li>
+ 
+</ol>
+
+
+<h3>The configuration</h3>
+<pre>
+<a href="../haCnfiguration/build.gradle" target="code">haCnfiguration/build.gradle</a> 	<kc>// </kc>
+</pre>
+
 <br/><br/>
 <table style="width:98%">
 <tbody>	
@@ -322,17 +396,7 @@ Then, according to the task name arguments and the current dir,  Gradle filters 
 -->
 
 </td>
-<td><h3>Gradle</h3>
-<a href="https://spring.io/guides/gs/gradle/" target="web">Building Java Projects with Gradle </a>
-
-<br/><br/>
-<a href="https://docs.gradle.org/current/userguide/multi_project_builds.html" target="web">Authoring Multi-Project Builds with Gradle </a>
-
-
-<br/><br/>
-<a href="https://rominirani.com/gradle-tutorial-part-3-multiple-java-projects-5b1c4d1fbd8d" target="web">Gradle Tutorial : Part 3 : Multiple Java Projects</a>
-
-
+<td>
 </td>
 </tr>
  </tbody>
