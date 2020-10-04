@@ -235,19 +235,41 @@ DISIMaterial.html</a> )</m></h2>
 The main reason is that a single monolithic codebase is susceptible to <ks>architectural decay</ks>.<br/>
 Java packages aren’t very good at protecting architectural boundaries: dependencies between classes within a single monolithic codebase 
 tend to quickly degrade into a <ks>big ball of mud</ks>.<br/>
-See <a href="https://reflectoring.io/spring-boot-gradle-multi-module/" target="web">Building a Multi-Module Spring Boot Application with Gradle</a> (by Hombergs).
 </li>
 <li>If we split up the codebase into multiple smaller modules that each has clearly defined dependencies to other modules, 
-we take a big step towards an easily maintainable codebase.<br/>
-We can split an application up along <ks>technical layers</ks>, or along <ks>functional boundaries</ks>, or both.
+we take a big step towards an easily maintainable codebase. A <ks>module</ks> <i>is a 
+<b>codebase that can be maintained and built separately from other modules’ codebases</b></i>. It ...<br/>
+<ul>
+<li>… has a codebase that is separate from other modules’ code</li>
+<li>… is transformed into a separate artifact (JAR file) during a build</li>
+<li>… can define dependencies to other modules or third-party libraries</li>
+</ul>
+
+We can split an application up along <ks>technical layers</ks>, or along <ks>functional boundaries</ks>, or both.<br/>
+See <a href="https://reflectoring.io/spring-boot-gradle-multi-module/" target="web">Building a Multi-Module Spring Boot Application with Gradle</a> 
+(by Hombergs / A).
 </li>
-<li>It could have sense to cut a Spring application context into multiple Spring modules along the same boundaries.
-The base for a Spring Module is a <kc>@Configuration-annotated</kc> class along the lines of Spring’s Java configuration feature.<br/>
-See  <a href=" https://reflectoring.io/spring-boot-modules/" target="web">Modularizing a Spring Boot Application</a> (by Hombergs).
-</li>
-<li>However, to <k>better enforce module boundaries</k>, we could split up a monolithic codebase into multiple build modules with Gradle.
+<li>It could have sense to cut a Spring application context into multiple Spring modules along the same boundaries.<br/> <br/>
+
+See  <a href="https://reflectoring.io/spring-boot-modules/" target="web">Modularizing a Spring Boot Application</a> 
+(by SpringBoot, project <tt>code-examples/spring-boot/modular</tt>) - 
+<i>Explains some Spring Boot features that help to split up your Spring Boot application into several modules</i>
+(a <ks>module</ks> in the sense of this article is a set of Spring components loaded into the application context).<br/> 
+The base for a Spring Module is a <kc>@Configuration</kc>-annotated class. 
+There are several ways to define what beans should be loaded by such a configuration class <tt>@ComponentScan, @Bean, @ConditionalOn</tt>.
 <br/>
-See <a href="https://spring.io/guides/gs/gradle/" target="web">Building Java Projects with Gradle </a> or
+Having created a module, we need to import it into the application using <tt>@Import, our own @Enable..., Auto-Configuration</tt>.
+ <br/><br/>
+See also: 
+<a href="https://spring.io/guides/gs/multi-module/" target="web">Spring: Creating a Multi Module Project</a> 
+(by SpringBoot, project <tt>gs-multi-module/complete</tt>) - <i>Shows  how to create a multi-module project with Spring Boot. </i>
+The project will have a <ks>library jar</ks> and a main application that uses the library. 
+ 
+
+</li>
+<li>However, to <k>better enforce module boundaries</k>, we could split up a monolithic codebase into multiple build modules with Gradle,
+which is based on
+<a href="https://spring.io/guides/gs/gradle/" target="web">Building Java Projects with Gradle </a> or
 <a href="https://rominirani.com/gradle-tutorial-part-3-multiple-java-projects-5b1c4d1fbd8d" target="web">Gradle Tutorial : Part 3 : Multiple Java Projects</a>
 <pre>
 gradle -v		<kc>//Gradle 6.2.2, but we should use >= 6.3 for Spring 2.3.4</kc>
