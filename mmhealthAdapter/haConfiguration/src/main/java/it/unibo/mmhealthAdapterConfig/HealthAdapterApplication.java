@@ -1,4 +1,4 @@
-package it.unibo.mmhealthAdapter;
+package it.unibo.mmhealthAdapterConfig;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

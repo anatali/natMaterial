@@ -356,6 +356,15 @@ Then, according to the task name arguments and the current dir,  Gradle filters 
 
 <!--
 <img src="./img/healthAdapter20A.png" alt="healthAdapter20A.png" width="70%">
+/* 
+bootJar {
+	enabled = false
+}
+ 
+jar {
+	enabled = true
+}
+*/
 -->
 
 <h3>Modules</h3>
@@ -364,9 +373,10 @@ Then, according to the task name arguments and the current dir,  Gradle filters 
 <tbody>	
 
 <tr>
-<td style="width:30%" ><h4>The parent (root)</h4>
+<td style="width:25%" ><h4>The parent (root)</h4>
 <pre>
-<a href="../build.gradle" target="code">build.gradle</a> 	
+<ks>.</ks>
+└── <a href="../build.gradle" target="code">build.gradle</a>
 </pre>
 </td>
 <td>
@@ -375,28 +385,59 @@ Here :
 <ul>
 <li>we declare that we use the 
 <a href="https://docs.spring.io/dependency-management-plugin/docs/current/reference/html/" target="code">
-<ks>io.spring.dependency-management</ks> </a> SpringBoot plugin.
+<k>io.spring.dependency-management</k> </a> SpringBoot plugin.
 <br/><br/>
-Since Gradle 5+ supports <k>BOM</k> (<i>Bill Of Materials</i>) files, you don't need the dependency-management plugin anymore. <br/>
-The SpringBoot plugin is still needed to provide tasks such as <ks>bootJar</ks> and <ks>bootRun</ks>.
+Since Gradle 5+ supports <k>BOM</k> (<i>Bill Of Materials</i>) files, you don't need the dependency-management plugin anymore,
+but the SpringBoot plugin is still needed to provide tasks such as <ks>bootJar</ks> and <ks>bootRun</ks>.
 </li>
-<li>we specify what all <k>subprojects</k> require</li>
-<li>we say that the only dependency we add to each subproject is to the <k>BOM of Spring Boot</k>. <br/>
-This BOM includes all dependencies that a Spring Boot application potentially might need in the exact version 
-that is compatible with a given Spring Boot version (2.3.4.RELEASE in our case). <br/>
-Thus, we don’t need to list every single dependency on our own and potentially get the version wrong. </li>
+<li>we specify what all <k>subprojects</k> require. 
+The <i>only dependency</i> we add to each subproject is to the <k>BOM of Spring Boot</k>. <br/>
+<m>This BOM includes all dependencies that a Spring Boot application potentially might need in the exact version 
+that is compatible with a given Spring Boot version (2.3.4.RELEASE in our case). 
+Thus, we don’t need to list every single dependency on our own and potentially get the version wrong.</m> </li>
 </ul>
 
 </td>
 </tr>
 
 <tr>
-<td><h4>The Application</h4>
+<td><h4>The Configurator layer</h4>
 <pre>
-<a href="../haApplication/build.gradle" target="code">haApplication/build.gradle</a> 	
+├──<ks>haCnfiguration</ks>   
+  ├── <kc>src/main/java/it/unibo/mmhealthAdapterConfig</kc>	
+    └──  <a href="../haConfiguration/src/main/java/it/unibo/mmhealthAdapterConfig/HealthAdapterApplication.java" target="code"><k>HealthAdapterApplication.java</k></a>
+  └── <a href="../haConfiguration/build.gradle" target="code">build.gradle</a> 	
 </pre>
 </td>
-<td>We include here the business logic, including our domain specification.
+<td>Here, in <a href="../haConfiguration/build.gradle" target="code">build.gradle</a>, we specify:
+<ul>
+<li>the modules that compose the system  </li>
+<li>that we will use the Spring Boot plugin version 2.3.4.RELEASE </li>
+</ul>
+The module includes the 
+<a href="../haConfiguration/src/main/java/it/unibo/mmhealthAdapterConfig/HealthAdapterApplication.java" target="code"><k>HealthAdapterApplication.java</k></a>
+annoted with <ks>@SpringBootApplication</ks>.
+</td>
+</tr>
+
+<tr>
+<td><h4>The Application layer</h4>
+<pre>
+├── <ks>haApplication</ks>   
+  ├── <kc>src/main/java/it/unibo/mmhealthAdapterAppl</kc>	
+    └── <a href="../haApplication/src/main/java/it/unibo/mmhealthAdapterConfig/HealthAdapterApplLogic.java" target="code"><k>HealthAdapterApplLogic.java</k></a>
+  └── <a href="../haApplication/build.gradle" target="code">build.gradle</a> 	
+</pre>
+</td>
+<td>
+Here, in <a href="../haApplication/build.gradle" target="code">haApplication/build.gradle</a> we declare :
+<ul>
+<li>the dependencies required by the business logic software 	
+</li>
+</ul>
+The (quite naive, at the moment) business logic is defined in
+<a href="../haApplication/src/main/java/it/unibo/mmhealthAdapterAppl/HealthAdapterApplLogic.java" target="code">
+<k>HealthAdapterApplLogic.java</k></a> . 
 </td>
 </tr>
 
@@ -404,14 +445,45 @@ Thus, we don’t need to list every single dependency on our own and potentially
 <tr>
 <td><h4>The Web layer</h4>
 <pre>
-<a href="../haAdapters/haWeb/build.gradle" target="code">haAdapters/haweb/build.gradle</a> 	
+├── <ks>haAdapters
+  ├── haWeb</ks>
+    ├── <kc>src/main/java/it/unibo/mmhealthAdapter</kc>	
+      └── <a href="../haAdapters/haWeb/src/main/java/it/unibo/mmhealthAdapter/HIDemoController.java" target="code"><k>HIDemoController.java</k></a>
+      └── <a href="../haAdapters/haWeb/src/main/java/it/unibo/mmhealthAdapter/MIDemoController.java" target="code"><k>MIDemoController.java</k></a>
+    ├── <kc>src/main/resources/templates</kc>
+      └── <a href="../haAdapters/haWeb/src/main/resources/templates/gui.html" target="code"><k>gui.html</k></a>
+  └──<a href="../haAdapters/haWeb/build.gradle" target="code">build.gradle</a> 	
 </pre>
 </td>
-<td>Here :
+<td>Here, in <a href="../haAdapters/haWeb/build.gradle" target="code">haweb/build.gradle</a>, we declare:
 <ul>
-<li>we declare a dependency to the  
+<li>a dependency to the  <ks>haApplication</ks> module, since we are following the hexagonal-architecture principles.</li>
+<li>a dependency to the  <a href="https://www.javatpoint.com/spring-boot-starter-web" target="code">
+<k>Spring Boot Starter Web</k> </a>, 
+i.e. the starter for building web, including RESTful, applications using Spring MVC, that uses Tomcat as the default embedded container.
 </li>
+<li>a dependency to the  <a href="https://www.javatpoint.com/restful-web-services-spring-boot-actuator" target="code">
+<k>Spring Boot Starter Actuator</k> </a>, i.e. the tool that helps us to monitor and manage applications.
+<pre>
+http://localhost:8080/actuator/health
+</pre>
+</li>
+ 
 </ul>
+The module includes the following code:
+<ul>
+<li>
+<a href="../haAdapters/haWeb/src/main/java/it/unibo/mmhealthAdapter/HIDemoController.java" target="code">
+<k>HIDemoController.java</k></a> for Human-Machine interaction,	that implements a GET for <tt>/</tt> and <tt>/gui</tt>
+</li>
+<li>
+<a href="../haAdapters/haWeb/src/main/java/it/unibo/mmhealthAdapter/MIDemoController.java" target="code">
+<k>MIDemoController.java</k></a> for Machine-Machine interaction, that implements a GET for <tt>/msg</tt> that calls the
+business logic.
+</li>
+
+</ul>
+
 </td>
 </tr>
 
@@ -437,15 +509,7 @@ Thus, we don’t need to list every single dependency on our own and potentially
 </tr>
 -->
 
-<tr>
-<td><h4>The configurator</h4>
-<pre>
-<a href="../haConfiguration/build.gradle" target="code">haCnfiguration/build.gradle</a> 	
-</pre>
-</td>
-<td>
-</td>
-</tr>
+
 
 
  </tbody>

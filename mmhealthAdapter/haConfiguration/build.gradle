@@ -1,3 +1,4 @@
+ 
 plugins {
     id "org.springframework.boot" version "2.3.4.RELEASE"
 }
@@ -7,22 +8,15 @@ explain.doLast {	//additional configuration to the task explain
 }
 
 dependencies {
-  println "	- Configuration dependencies ..."
+  println "	- haConfiguration dependencies ..."
   //implementation project(':haCommon')
   implementation project(':haApplication')
   //implementation project(':haAdapters:haPersistence')
   implementation project(':haAdapters:haWeb')
+  
   implementation ('org.springframework.boot:spring-boot-starter-web')
+  //developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
   // ... more dependencies
 }
 
-/* 
-bootJar {
-	enabled = false
-}
- 
-jar {
-	enabled = true
-}
-*/

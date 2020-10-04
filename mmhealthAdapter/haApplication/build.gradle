@@ -1,14 +1,7 @@
-/*
-plugins {
-    id "org.springframework.boot" version "2.3.4.RELEASE"
-}
-*/
 explain.doLast {	//additional configuration to the task explain
   println "	- I'm the main application that uses the haCommon"
 }
 
 dependencies {
 	println "	- haApplication dependencies ..."
-	//implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	//implementation 'org.springframework.boot:spring-boot-starter-web'
 }
