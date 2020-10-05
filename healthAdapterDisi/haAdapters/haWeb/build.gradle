@@ -1,0 +1,14 @@
+
+explain.doLast {	//additional configuration to the task explain
+  println "	- I'm the web adapter that does not know nothing about persistence"
+}
+
+dependencies {
+	println "	- haWeb adapter dependencies ..."
+    implementation project(':haApplication')   
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    
+    
+}

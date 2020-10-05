@@ -32,7 +32,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.FluxSink;
 import reactor.core.publisher.Mono;
  
-
 public class FhirServiceClient {
 	private String serverBase    =  ""; //"https://hapi.fhir.org/baseR4";  http://example.com/fhirBaseUrl
 	public static final String templateFileName   = 
