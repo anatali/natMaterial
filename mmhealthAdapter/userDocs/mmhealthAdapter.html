@@ -235,19 +235,41 @@ DISIMaterial.html</a> )</m></h2>
 The main reason is that a single monolithic codebase is susceptible to <ks>architectural decay</ks>.<br/>
 Java packages aren’t very good at protecting architectural boundaries: dependencies between classes within a single monolithic codebase 
 tend to quickly degrade into a <ks>big ball of mud</ks>.<br/>
-See <a href="https://reflectoring.io/spring-boot-gradle-multi-module/" target="web">Building a Multi-Module Spring Boot Application with Gradle</a> (by Hombergs).
 </li>
 <li>If we split up the codebase into multiple smaller modules that each has clearly defined dependencies to other modules, 
-we take a big step towards an easily maintainable codebase.<br/>
-We can split an application up along <ks>technical layers</ks>, or along <ks>functional boundaries</ks>, or both.
+we take a big step towards an easily maintainable codebase. A <ks>module</ks> <i>is a 
+<b>codebase that can be maintained and built separately from other modules’ codebases</b></i>. It ...<br/>
+<ul>
+<li>… has a codebase that is separate from other modules’ code</li>
+<li>… is transformed into a separate artifact (JAR file) during a build</li>
+<li>… can define dependencies to other modules or third-party libraries</li>
+</ul> 
+
+We can split an application up along <ks>technical layers</ks>, or along <ks>functional boundaries</ks>, or both.<br/>
+See <a href="https://reflectoring.io/spring-boot-gradle-multi-module/" target="web">Building a Multi-Module Spring Boot Application with Gradle</a> 
+(by Hombergs / A).
 </li>
-<li>It could have sense to cut a Spring application context into multiple Spring modules along the same boundaries.
-The base for a Spring Module is a <kc>@Configuration-annotated</kc> class along the lines of Spring’s Java configuration feature.<br/>
-See  <a href=" https://reflectoring.io/spring-boot-modules/" target="web">Modularizing a Spring Boot Application</a> (by Hombergs).
-</li>
-<li>However, to <k>better enforce module boundaries</k>, we could split up a monolithic codebase into multiple build modules with Gradle.
+<li>It could have sense to cut a Spring application context into multiple Spring modules along the same boundaries.<br/> <br/>
+
+See  <a href="https://reflectoring.io/spring-boot-modules/" target="web">Modularizing a Spring Boot Application</a> 
+(by SpringBoot, project <tt>code-examples/spring-boot/modular</tt>) - 
+<i>Explains some Spring Boot features that help to split up your Spring Boot application into several modules</i>
+(a <ks>module</ks> in the sense of this article is a set of Spring components loaded into the application context).<br/> 
+The base for a Spring Module is a <kc>@Configuration</kc>-annotated class. 
+There are several ways to define what beans should be loaded by such a configuration class <tt>@ComponentScan, @Bean, @ConditionalOn</tt>.
 <br/>
-See <a href="https://spring.io/guides/gs/gradle/" target="web">Building Java Projects with Gradle </a> or
+Having created a module, we need to import it into the application using <tt>@Import, our own @Enable..., Auto-Configuration</tt>.
+ <br/><br/>
+See also: 
+<a href="https://spring.io/guides/gs/multi-module/" target="web">Spring: Creating a Multi Module Project</a> 
+(by SpringBoot, project <tt>gs-multi-module/complete</tt>) - <i>Shows  how to create a multi-module project with Spring Boot. </i>
+The project will have a <ks>library jar</ks> and a main application that uses the library. 
+ 
+
+</li>
+<li>However, to <k>better enforce module boundaries</k>, we could split up a monolithic codebase into multiple build modules with Gradle,
+which is based on
+<a href="https://spring.io/guides/gs/gradle/" target="web">Building Java Projects with Gradle </a> or
 <a href="https://rominirani.com/gradle-tutorial-part-3-multiple-java-projects-5b1c4d1fbd8d" target="web">Gradle Tutorial : Part 3 : Multiple Java Projects</a>
 <pre>
 gradle -v		<kc>//Gradle 6.2.2, but we should use >= 6.3 for Spring 2.3.4</kc>
@@ -368,25 +390,6 @@ jar {
 -->
 
 <h3>Modules</h3>
-Before entering in the code, we recall that <tt>@SpringBootApplication</tt> annotation is a shortcut for a set of annotations that
-usually prefix the code of a Main application class in SpringBoot:
-
-<ul>
-<li><tt>@Configuration</tt> to enable Java-based configuration</li>
-<li><tt>@ComponentScan</tt> to enable component scanning</li> 
-<li><tt>@EnableAutoConfiguration</tt> to enable Spring Boot's auto-configuration feature</li>
-</ul>
-
-To make things more explicit, for each module, we could define a <k>specific package name</k> for its software. In this way, the auto-configuration feature 
-included in the <ks>@SpringBootApplication</ks> annotation of the configuration module 
-<a href="../haConfiguration/src/main/java/it/unibo/mmhealthAdapterConfig/HealthAdapterApplication.java" target="code"><k>HealthAdapterApplication.java</k></a>
-does not work, and we are forced to use explicit declarations (e.g. using an <ks>@Import</ks> annotation).
-
-<br/><br/> 
-
-However, if we put the configuration class under the 'root' package <t>it.unibo</tt>, all its sub-packages and classes will be searched during
-an auto-configuration phase.
-
 
 <table style="width:98%">
 <tbody>	
@@ -396,9 +399,6 @@ an auto-configuration phase.
 <pre>
 <ks>.</ks>
 └── <a href="../build.gradle" target="code">build.gradle</a>
-
-gradlew build
-gradlew bootRun	<kc>// To execute</kc>
 </pre>
 </td>
 <td>
@@ -423,15 +423,12 @@ Thus, we don’t need to list every single dependency on our own and potentially
 </tr>
 
 <tr>
-<td><h4>The Configurator module</h4>
+<td><h4>The Configurator layer</h4>
 <pre>
-├──<ks>haConfiguration</ks>   
+├──<ks>haCnfiguration</ks>   
   ├── <kc>src/main/java/it/unibo/mmhealthAdapterConfig</kc>	
     └──  <a href="../haConfiguration/src/main/java/it/unibo/mmhealthAdapterConfig/HealthAdapterApplication.java" target="code"><k>HealthAdapterApplication.java</k></a>
   └── <a href="../haConfiguration/build.gradle" target="code">build.gradle</a> 	
-  
-gradlew :haConfiguration:build  
-gradlew :haConfiguration:bootRun  <kc>// To execute</kc>
 </pre>
 </td>
 <td>Here, in <a href="../haConfiguration/build.gradle" target="code">build.gradle</a>, we specify:
@@ -446,14 +443,12 @@ annoted with <ks>@SpringBootApplication</ks>.
 </tr>
 
 <tr>
-<td><h4>The Application module</h4>
+<td><h4>The Application layer</h4>
 <pre>
 ├── <ks>haApplication</ks>   
   ├── <kc>src/main/java/it/unibo/mmhealthAdapterAppl</kc>	
     └── <a href="../haApplication/src/main/java/it/unibo/mmhealthAdapterConfig/HealthAdapterApplLogic.java" target="code"><k>HealthAdapterApplLogic.java</k></a>
   └── <a href="../haApplication/build.gradle" target="code">build.gradle</a> 	
-  
-gradlew :haApplication:build   
 </pre>
 </td>
 <td>
@@ -470,19 +465,16 @@ The (quite naive, at the moment) business logic is defined in
 
 
 <tr>
-<td><h4>The Web module</h4>
+<td><h4>The Web layer</h4>
 <pre>
 ├── <ks>haAdapters
   ├── haWeb</ks>
     ├── <kc>src/main/java/it/unibo/mmhealthAdapter</kc>	
-      └── <a href="../haAdapters/haWeb/src/main/java/it/unibo/mmhealthAdapterWeb/HIDemoController.java" target="code"><k>HIDemoController.java</k></a>
-      └── <a href="../haAdapters/haWeb/src/main/java/it/unibo/mmhealthAdapterWeb/MIDemoController.java" target="code"><k>MIDemoController.java</k></a>
+      └── <a href="../haAdapters/haWeb/src/main/java/it/unibo/mmhealthAdapter/HIDemoController.java" target="code"><k>HIDemoController.java</k></a>
+      └── <a href="../haAdapters/haWeb/src/main/java/it/unibo/mmhealthAdapter/MIDemoController.java" target="code"><k>MIDemoController.java</k></a>
     ├── <kc>src/main/resources/templates</kc>
       └── <a href="../haAdapters/haWeb/src/main/resources/templates/gui.html" target="code"><k>gui.html</k></a>
   └──<a href="../haAdapters/haWeb/build.gradle" target="code">build.gradle</a> 	
-  
-  
-gradlew :haAdapters:haWeb:build 
 </pre>
 </td>
 <td>Here, in <a href="../haAdapters/haWeb/build.gradle" target="code">haweb/build.gradle</a>, we declare:
@@ -503,11 +495,11 @@ http://localhost:8080/actuator/health
 The module includes the following code:
 <ul>
 <li>
-<a href="../haAdapters/haWeb/src/main/java/it/unibo/mmhealthAdapterWeb/HIDemoController.java" target="code">
+<a href="../haAdapters/haWeb/src/main/java/it/unibo/mmhealthAdapter/HIDemoController.java" target="code">
 <k>HIDemoController.java</k></a> for Human-Machine interaction,	that implements a GET for <tt>/</tt> and <tt>/gui</tt>
 </li>
 <li>
-<a href="../haAdapters/haWeb/src/main/java/it/unibo/mmhealthAdapterWeb/MIDemoController.java" target="code">
+<a href="../haAdapters/haWeb/src/main/java/it/unibo/mmhealthAdapter/MIDemoController.java" target="code">
 <k>MIDemoController.java</k></a> for Machine-Machine interaction, that implements a GET for <tt>/msg</tt> that calls the
 business logic.
 </li>
@@ -520,11 +512,9 @@ business logic.
 
 
 <tr>
-<td><!--
-<pre>
+<td><pre>
 <a href="../haCommon/build.gradle" target="code">haCommon/build.gradle</a> 	
 </pre>
--->
 </td>
 <td>
 </td>

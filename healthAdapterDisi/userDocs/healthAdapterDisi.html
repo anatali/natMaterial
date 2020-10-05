@@ -345,7 +345,7 @@ the auto-configuration phase fired by <tt>@SpringBootApplication</tt>.
 <tbody>	
 
 <tr>
-<td style="width:25%" ><h4>The parent (root)</h4>
+<td style="width:35%" ><h4>The parent (root)</h4>
 <pre>
 <ks>.</ks>
 └── <a href="../settings.gradle" target="code">settings.gradle</a>
@@ -403,8 +403,13 @@ annoted with <ks>@SpringBootApplication</ks>.
 <td><h4>The Application module</h4>
 <pre>
 ├── <ks>haApplication</ks>   
-  ├── <kc>src/main/java/healthAdapter/mmhealthAdapterAppl</kc>	
-    └── <a href="../haApplication/src/main/java/healthAdapter/healthAdapterAppl/HealthAdapterApplLogic.java" target="code"><k>HealthAdapterApplLogic.java</k></a>
+  ├── <kc>src/main/java/healthAdapter/healthAdapterAppl</kc>	
+    └── <a href="../haApplication/src/main/java/healthAdapter/healthAdapterAppl/HealthAdapterService.java" target="code"><k>HealthAdapterService.java</k></a>
+    └── <a href="../haApplication/src/main/java/healthAdapter/healthAdapterAppl/NaiveUseCaseService.java" target="code"><k>NaiveUseCaseService.java</k></a>
+  ├── <kc>src/main/java/healthAdapter/port/in</kc>	
+    └── <a href="../haApplication/src/main/java/healthAdapter/port/in/NaiveUseCase.java" target="code"><k>NaiveUseCase.java</k></a>
+  ├── <kc>src/main/java/healthAdapter/port/out</kc>	
+    └── <a href="../haApplication/src/main/java/healthAdapter/port/in/NaiveUseCase.java" target="code"><k>todo.java</k></a>  
   └── <a href="../haApplication/build.gradle" target="code">build.gradle</a> 	
   
 gradlew :haApplication:build   
@@ -417,8 +422,8 @@ Here, in <a href="../haApplication/build.gradle" target="code">haApplication/bui
 </li>
 </ul>
 The (quite naive, at the moment) business logic is defined in
-<a href="../haApplication/src/main/java/healthAdapter/healthAdapterAppl/HealthAdapterApplLogic.java" target="code">
-<k>HealthAdapterApplLogic.java</k></a> . 
+<a href="../haApplication/src/main/java/healthAdapter/healthAdapterAppl/HealthAdapterService.java" target="code">
+<k>HealthAdapterService.java</k></a> . 
 </td>
 </tr>
 
@@ -428,9 +433,9 @@ The (quite naive, at the moment) business logic is defined in
 <pre>
 ├── <ks>haAdapters
   ├── haWeb</ks>
-    ├── <kc>src/main/java/healthAdapter/mmhealthAdapter</kc>	
-      └── <a href="../haAdapters/haWeb/src/main/java/healthAdapter/healthAdapterWeb/HIDemoController.java" target="code"><k>HIDemoController.java</k></a>
-      └── <a href="../haAdapters/haWeb/src/main/java/healthAdapter/healthAdapterWeb/MIDemoController.java" target="code"><k>MIDemoController.java</k></a>
+    ├── <kc>src/main/java/healthAdapter/healthAdapter/healthAdapterWeb</kc>	
+      └── <a href="../haAdapters/haWeb/src/main/java/healthAdapter/healthAdapterWeb/HIController.java" target="code"><k>HIController.java</k></a>
+      └── <a href="../haAdapters/haWeb/src/main/java/healthAdapter/healthAdapterWeb/MIController.java" target="code"><k>MIController.java</k></a>
     ├── <kc>src/main/resources/templates</kc>
       └── <a href="../haAdapters/haWeb/src/main/resources/templates/gui.html" target="code"><k>gui.html</k></a>
   └──<a href="../haAdapters/haWeb/build.gradle" target="code">build.gradle</a> 	
@@ -457,12 +462,12 @@ http://localhost:8080/actuator/health
 The module includes the following code:
 <ul>
 <li>
-<a href="../haAdapters/haWeb/src/main/java/healthAdapter/healthAdapterWeb/HIDemoController.java" target="code">
-<k>HIDemoController.java</k></a> for Human-Machine interaction,	that implements a GET for <tt>/</tt> and <tt>/gui</tt>
+<a href="../haAdapters/haWeb/src/main/java/healthAdapter/healthAdapterWeb/HIController.java" target="code">
+<k>HIController.java</k></a> for Human-Machine interaction,	that implements a GET for <tt>/</tt> and <tt>/gui</tt>
 </li>
 <li>
-<a href="../haAdapters/haWeb/src/main/java/healthAdapter/healthAdapterWeb/MIDemoController.java" target="code">
-<k>MIDemoController.java</k></a> for Machine-Machine interaction, that implements a GET for <tt>/msg</tt> that calls the
+<a href="../haAdapters/haWeb/src/main/java/healthAdapter/healthAdapterWeb/MIController.java" target="code">
+<k>MIController.java</k></a> for Machine-Machine interaction, that implements a GET for <tt>/msg</tt> that calls the
 business logic.
 </li>
 

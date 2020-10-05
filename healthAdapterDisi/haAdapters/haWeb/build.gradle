@@ -5,6 +5,7 @@ explain.doLast {	//additional configuration to the task explain
 
 dependencies {
 	println "	- haWeb adapter dependencies ..."
+	//implementation project(':haCommon')
     implementation project(':haApplication')   
     implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'

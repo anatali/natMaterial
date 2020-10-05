@@ -4,4 +4,5 @@ explain.doLast {	//additional configuration to the task explain
 
 dependencies {
 	println "	- haApplication dependencies ..."
+	implementation project(':haCommon')   
 }
