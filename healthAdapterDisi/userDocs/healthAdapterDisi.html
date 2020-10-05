@@ -278,7 +278,6 @@ gradle properties
 
 
 <pre><a href="../settings.gradle" target="code">settings.gradle</a>
-<a href="../buildInitial.gradle" target="code">build.gradle</a> 	<kc>//initial version that includes an explanation task for each subproject</kc>
 </pre>
 </li> 
 <li>Prepare Gradle Wrapper in the parent build directory:
@@ -349,6 +348,7 @@ the auto-configuration phase fired by <tt>@SpringBootApplication</tt>.
 <td style="width:25%" ><h4>The parent (root)</h4>
 <pre>
 <ks>.</ks>
+└── <a href="../settings.gradle" target="code">settings.gradle</a>
 └── <a href="../build.gradle" target="code">build.gradle</a>
 
 gradlew build
@@ -357,14 +357,14 @@ gradlew bootRun	<kc>// To execute</kc>
 </td>
 <td>
 
-Here :
+Here, in <a href="../build.gradle" target="code">build.gradle</a>, :
 <ul>
 <li>we declare that we use the 
 <a href="https://docs.spring.io/dependency-management-plugin/docs/current/reference/html/" target="code">
 <k>io.spring.dependency-management</k> </a> SpringBoot plugin.
-<br/><br/>
+<br/><m>
 Since Gradle 5+ supports <k>BOM</k> (<i>Bill Of Materials</i>) files, you don't need the dependency-management plugin anymore,
-but the SpringBoot plugin is still needed to provide tasks such as <ks>bootJar</ks> and <ks>bootRun</ks>.
+but the SpringBoot plugin is still needed to provide tasks such as <ks>bootJar</ks> and <ks>bootRun</ks>.</m>
 </li>
 <li>we specify what all <k>subprojects</k> require. 
 The <i>only dependency</i> we add to each subproject is to the <k>BOM of Spring Boot</k>. <br/>
@@ -441,7 +441,7 @@ gradlew :haAdapters:haWeb:build
 </td>
 <td>Here, in <a href="../haAdapters/haWeb/build.gradle" target="code">haweb/build.gradle</a>, we declare:
 <ul>
-<li>a dependency to the  <ks>haApplication</ks> module, since we are following the hexagonal-architecture principles.</li>
+<li>a dependency to the  <ks>haApplication</ks> module, since we are following the <b>hexagonal-architecture principles</b>.</li>
 <li>a dependency to the  <a href="https://www.javatpoint.com/spring-boot-starter-web" target="code">
 <k>Spring Boot Starter Web</k> </a>, 
 i.e. the starter for building web, including RESTful, applications using Spring MVC, that uses Tomcat as the default embedded container.
