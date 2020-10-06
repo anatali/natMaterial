@@ -188,7 +188,7 @@ div.imagedesc{
     
 <body>
 <div id="body">
-<h1>DISI | Heath Adapter multi-module </h1>
+<h1>DISI | Heath Adapter Iter0  hexagonal</h1>
 
 <h2>References <m>(<a href="http://htmlpreview.github.io/?https://github.com/anatali/natMaterial/blob/master/HealthAdapterFacade/userDocs/DISIMaterial.html" target="code">
 DISIMaterial.html</a> )</m></h2>
@@ -268,7 +268,7 @@ gradle properties
 	├── haWeb
 ├── haApplication   
 ├── haCommon	<kc>//Perhaps empty</kc>
-├── haCnfiguration
+├── haConfiguration
 ├── haDomain</k>	<kc>//Perhaps empty</kc>
 ├── uerDocs 
  </pre>
@@ -344,11 +344,19 @@ does not work, and we are forced to use explicit declarations (e.g. using an <ks
 
 <tr>
 <td style="width:35%" ><h4>Overview</h4>
-For each module, we define a <k>specific package name</k> under the <tt>root package</tt> <ks>healthAdapter</ks>.<br/><br/>
-The configuration class <a href="../haConfiguration/src/main/java/healthAdapter/HAApplication.java" target="code"><k>HAApplication.java</k></a>
-is defined within the <tt>root package</tt>, so that all its sub-packages and classes will be searched during
+For each module, we include the software into a <i>specific package name</i> under the <k>root package</k> <ks>healthAdapter</ks>.<br/><br/>
+The configuration class <a href="../haConfiguration/src/main/java/healthAdapter/HAApplication.java" target="code"><k>healthAdapter/HAApplication.java</k></a>
+is defined within the <tt>root package</tt> in the <ks>haConfiguration</ks> module, 
+so that all the sub-packages and classes composing the <i>HealthAdapter</i> will be searched during
 the auto-configuration phase fired by <tt>@SpringBootApplication</tt>. 
-
+<br/><br/>
+The business logic (Use Cases) is included in the class
+<a href="../haApplication/src/main/java/healthAdapter/healthAdapterAppl/HAService.java" target="code">healthAdapter/healthAdapterAppl/<k>HAService.java</k></a> 
+of the <ks>haApplication</ks> module. <br/>
+This class implements <a href="../haApplication/src/main/java/healthAdapter/port/in/HAServiceInterface.java" target="code">
+healthAdapter/port/in/<k>HAServiceInterface.java</k></a> that represents the  'InputPort' used by the 
+<a href="../haAdapters/haWeb/src/main/java/healthAdapter/healthAdapterWeb/MIController.java" target="code">
+healthAdapter/healthAdapterWeb/<k>MIController.java</k></a> defined in the <ks>haWeb</ks>  module. 
 </td>
 <td>
 <img src="./img/HAiter0Arch.png" alt="HAiter0Arch.png" width="100%">

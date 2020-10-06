@@ -2,8 +2,6 @@ plugins {
 	id "io.spring.dependency-management" version "1.0.9.RELEASE"
 }    
  
-
-
 allprojects {
   //Put instructions for all projects	
     task explain{	//additional configuration to the task hello
@@ -20,7 +18,7 @@ subprojects {
  	apply plugin: 'io.spring.dependency-management'
 	apply plugin: 'java-library'
 
-  	group   = 'it.unibo.mmhealthAdapter'
+  	group   = 'it.unibo.healthAdapterDisiIter0'
   	version = '0.0.1-SNAPSHOT'
 	sourceCompatibility = '1.8'
   	

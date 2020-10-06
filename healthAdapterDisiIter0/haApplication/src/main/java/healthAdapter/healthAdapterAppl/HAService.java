@@ -23,5 +23,11 @@ public class HAService implements HAServiceInterface {
 		String outS = "HAService importPatient for patientIdentifier=" + patientIdentifier;
 		System.out.println(outS);
 		return "todoImportPatientAnswer";
+		
+		/*
+		 * Chiamo search su server esterno usando patientIdentifier come search-key
+		 * Ottenuta la risposta ( json, xml ) estraggo i campi Itel-utili e
+		 * faccio una PUT (che crea o update) a ITEL-FHIR
+		 */
 	}
 }

@@ -6,7 +6,7 @@ dependencies {
 	println "	- haApplication dependencies ..."
 	implementation project(':haCommon')   
 	//implementation 'org.springframework.boot:spring-boot-starter-webflux'	//INAPPROPRIATE
-	// https://mvnrepository.com/artifact/io.projectreactor/reactor-core
+	//https://mvnrepository.com/artifact/io.projectreactor/reactor-core
 	//compile group: 'io.projectreactor', name: 'reactor-core' //, version: '3.3.10.RELEASE' //EXCLUDED AT THE MOMENT
 	
 }
@@ -15,5 +15,5 @@ dependencies {
 WARNING: 
 the application logic should not depends on Spring WebFlux
 The dependency on io.projectreactor seems accetable
-HOWEVER, AT THE MOMENT WE WILL DEFINE SYCH OPS ONLY
+HOWEVER, AT THE MOMENT WE WILL DEFINE SYNCH OPS ONLY
 */
