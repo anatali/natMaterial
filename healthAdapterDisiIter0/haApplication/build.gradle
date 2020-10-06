@@ -5,4 +5,15 @@ explain.doLast {	//additional configuration to the task explain
 dependencies {
 	println "	- haApplication dependencies ..."
 	implementation project(':haCommon')   
+	//implementation 'org.springframework.boot:spring-boot-starter-webflux'	//INAPPROPRIATE
+	// https://mvnrepository.com/artifact/io.projectreactor/reactor-core
+	//compile group: 'io.projectreactor', name: 'reactor-core' //, version: '3.3.10.RELEASE' //EXCLUDED AT THE MOMENT
+	
 }
+
+/*
+WARNING: 
+the application logic should not depends on Spring WebFlux
+The dependency on io.projectreactor seems accetable
+HOWEVER, AT THE MOMENT WE WILL DEFINE SYCH OPS ONLY
+*/

@@ -330,22 +330,35 @@ usually prefix the code of a Main application class in SpringBoot:
 
 To make things more explicit, for each module, we could define a <k>specific package name</k> for its software. In this way, the auto-configuration feature 
 included in the <ks>@SpringBootApplication</ks> annotation of the configuration module 
-<a href="../haConfiguration/src/main/java/healthAdapter/HealthAdapterApplication.java" target="code"><k>HealthAdapterApplication.java</k></a>
+<a href="../haConfiguration/src/main/java/healthAdapter/HAApplication.java" target="code"><k>HAApplication.java</k></a>
 does not work, and we are forced to use explicit declarations (e.g. using an <ks>@Import</ks> annotation).
 
 <br/><br/> 
 -->
-For each module, we define a <k>specific package name</k> under the <tt>root package</tt> <ks>healthAdapter</ks>.<br/>
-The configuration class <a href="../haConfiguration/src/main/java/healthAdapter/HealthAdapterApplication.java" target="code"><k>HealthAdapterApplication.java</k></a>
-is defined within the <tt>root package</tt>, so that all its sub-packages and classes will be searched during
-the auto-configuration phase fired by <tt>@SpringBootApplication</tt>. 
+
+
 
 
 <table style="width:98%">
 <tbody>	
 
 <tr>
-<td style="width:35%" ><h4>The parent (root)</h4>
+<td style="width:35%" ><h4>Overview</h4>
+For each module, we define a <k>specific package name</k> under the <tt>root package</tt> <ks>healthAdapter</ks>.<br/><br/>
+The configuration class <a href="../haConfiguration/src/main/java/healthAdapter/HAApplication.java" target="code"><k>HAApplication.java</k></a>
+is defined within the <tt>root package</tt>, so that all its sub-packages and classes will be searched during
+the auto-configuration phase fired by <tt>@SpringBootApplication</tt>. 
+
+</td>
+<td>
+<img src="./img/HAiter0Arch.png" alt="HAiter0Arch.png" width="100%">
+
+</td>
+<td>
+
+
+<tr>
+<td><h4>The parent (root)</h4>
 <pre>
 <ks>.</ks>
 └── <a href="../settings.gradle" target="code">settings.gradle</a>
@@ -381,7 +394,7 @@ Thus, we don’t need to list every single dependency on our own and potentially
 <pre>
 ├──<ks>haConfiguration</ks>   
   ├── <kc>src/main/java/healthAdapter</kc>	
-    └──  <a href="../haConfiguration/src/main/java/healthAdapter/HealthAdapterApplication.java" target="code"><k>HealthAdapterApplication.java</k></a>
+    └──  <a href="../haConfiguration/src/main/java/healthAdapter/HAApplication.java" target="code"><k>HAApplication.java</k></a>
   └── <a href="../haConfiguration/build.gradle" target="code">build.gradle</a> 	
   
 gradlew :haConfiguration:build  
@@ -394,7 +407,7 @@ gradlew :haConfiguration:bootRun  <kc>// To execute</kc>
 <li>that we will use the Spring Boot plugin version 2.3.4.RELEASE </li>
 </ul>
 The module includes the 
-<a href="../haConfiguration/src/main/java/healthAdapter/HealthAdapterApplication.java" target="code"><k>HealthAdapterApplication.java</k></a>
+<a href="../haConfiguration/src/main/java/healthAdapter/HAApplication.java" target="code"><k>HAApplication.java</k></a>
 annoted with <ks>@SpringBootApplication</ks>.
 </td>
 </tr>
@@ -404,12 +417,11 @@ annoted with <ks>@SpringBootApplication</ks>.
 <pre>
 ├── <ks>haApplication</ks>   
   ├── <kc>src/main/java/healthAdapter/healthAdapterAppl</kc>	
-    └── <a href="../haApplication/src/main/java/healthAdapter/healthAdapterAppl/HealthAdapterService.java" target="code"><k>HealthAdapterService.java</k></a>
-    └── <a href="../haApplication/src/main/java/healthAdapter/healthAdapterAppl/NaiveUseCaseService.java" target="code"><k>NaiveUseCaseService.java</k></a>
+    └── <a href="../haApplication/src/main/java/healthAdapter/healthAdapterAppl/HAService.java" target="code"><k>HAService.java</k></a>
   ├── <kc>src/main/java/healthAdapter/port/in</kc>	
-    └── <a href="../haApplication/src/main/java/healthAdapter/port/in/NaiveUseCase.java" target="code"><k>NaiveUseCase.java</k></a>
+    └── <a href="../haApplication/src/main/java/healthAdapter/port/in/HAServiceInterface.java" target="code"><k>HAServiceInterface.java</k></a>
   ├── <kc>src/main/java/healthAdapter/port/out</kc>	
-    └── <a href="../haApplication/src/main/java/healthAdapter/port/in/NaiveUseCase.java" target="code"><k>todo.java</k></a>  
+    └── <a href="../haApplication/src/main/java/healthAdapter/port/out/HAOutputInterface.java" target="code"><k>HAOutputInterface.java</k></a>  
   └── <a href="../haApplication/build.gradle" target="code">build.gradle</a> 	
   
 gradlew :haApplication:build   
@@ -453,9 +465,7 @@ i.e. the starter for building web, including RESTful, applications using Spring 
 </li>
 <li>a dependency to the  <a href="https://www.javatpoint.com/restful-web-services-spring-boot-actuator" target="code">
 <k>Spring Boot Starter Actuator</k> </a>, i.e. the tool that helps us to monitor and manage applications.
-<pre>
-http://localhost:8080/actuator/health
-</pre>
+ 
 </li>
  
 </ul>
@@ -479,13 +489,18 @@ business logic.
 
 
 <tr>
-<td><!--
-<pre>
-<a href="../haCommon/build.gradle" target="code">haCommon/build.gradle</a> 	
-</pre>
--->
+<td> 
+<h3>Run</h3>
+
 </td>
-<td>
+<td><pre>
+http://localhost:8080/actuator/health	<kc>//actuator at work ....</kc>
+http://localhost:8080/			<kc>//just to show something ....</kc>
+http://localhost:8080/gui		<kc>//just to show something ....</kc>
+
+http://localhost:8080/setImportPolicy
+http://localhost:8080/import
+</pre>
 </td>
 </tr>
 
