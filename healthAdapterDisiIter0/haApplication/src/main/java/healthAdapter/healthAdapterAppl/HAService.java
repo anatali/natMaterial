@@ -9,8 +9,9 @@ public class HAService implements HAServiceInterface {
 		System.out.println("			 %%% HAService CREATED");
 	}
 
+
 	/*
-	 *  SYNCH
+	 *  IMPLEMENTATION SYNCH
 	 */
 	
 	public String setImportPolicy( String  policy) {
@@ -20,14 +21,10 @@ public class HAService implements HAServiceInterface {
 	}
 	
 	public String importPatient(String  patientIdentifier )  {
-		String outS = "HAService importPatient for patientIdentifier=" + patientIdentifier;
+		//String outS = "HAService importPatient for patientIdentifier=" + patientIdentifier;
+		String outS = "importPatient: search in HCServer a patient with id=" + patientIdentifier 
+				+" and next do a PUT of (part of) the answer) to ITEL-FHIR";
 		System.out.println(outS);
-		return "todoImportPatientAnswer";
-		
-		/*
-		 * Chiamo search su server esterno usando patientIdentifier come search-key
-		 * Ottenuta la risposta ( json, xml ) estraggo i campi Itel-utili e
-		 * faccio una PUT (che crea o update) a ITEL-FHIR
-		 */
+		return patientIdentifier+"(todo)";		
 	}
 }

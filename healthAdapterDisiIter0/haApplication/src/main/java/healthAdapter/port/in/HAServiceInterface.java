@@ -9,6 +9,11 @@ ITEL-FHIR 	= I-Tel Fhir Server
  */
 
 public interface HAServiceInterface {
+	/*	
+	 * URI
+	 */
+		public final String setImportPolicyUri    	="/setImportPolicy";		
+		public final String importPatientUri    	="/importPatient";
 	/*
 	 * ============================================================
 	 *  SYNCH API ONLY (ate the moment?)

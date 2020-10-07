@@ -11,10 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller 
 public class HIController {
 
-	@RequestMapping("/")
-	public String index(Model model) {
-		return  "reacHtmlOnlyt0";
- 	}
 	@RequestMapping("/gui")
 	public String gui(Model model) {
  		return  "gui";

@@ -398,11 +398,11 @@ Thus, we don’t need to list every single dependency on our own and potentially
 </tr>
 
 <tr>
-<td><h4>The Configurator module</h4>
+<td><h4>The Configurator module (startup)</h4>
 <pre>
 ├──<ks>haConfiguration</ks>   
   ├── <kc>src/main/java/healthAdapter</kc>	
-    └──  <a href="../haConfiguration/src/main/java/healthAdapter/HAApplication.java" target="code"><k>HAApplication.java</k></a>
+    └──  <a href="../haConfiguration/src/main/java/healthAdapter/HAStartup.java" target="code"><k>HAStartup.java</k></a>
   └── <a href="../haConfiguration/build.gradle" target="code">build.gradle</a> 	
   
 gradlew :haConfiguration:build  
@@ -415,13 +415,13 @@ gradlew :haConfiguration:bootRun  <kc>// To execute</kc>
 <li>that we will use the Spring Boot plugin version 2.3.4.RELEASE </li>
 </ul>
 The module includes the 
-<a href="../haConfiguration/src/main/java/healthAdapter/HAApplication.java" target="code"><k>HAApplication.java</k></a>
+<a href="../haConfiguration/src/main/java/healthAdapter/HAStartup.java" target="code"><k>HAStartup.java</k></a>
 annoted with <ks>@SpringBootApplication</ks>.
 </td>
 </tr>
 
 <tr>
-<td><h4>The Application module</h4>
+<td><h4>The Application module (business logic)</h4>
 <pre>
 ├── <ks>haApplication</ks>   
   ├── <kc>src/main/java/healthAdapter/healthAdapterAppl</kc>	
@@ -442,7 +442,7 @@ Here, in <a href="../haApplication/build.gradle" target="code">haApplication/bui
 </li>
 </ul>
 The (quite naive, at the moment) business logic is defined in
-<a href="../haApplication/src/main/java/healthAdapter/healthAdapterAppl/HealthAdapterService.java" target="code">
+<a href="../haApplication/src/main/java/healthAdapter/healthAdapterAppl/HAService.java" target="code">
 <k>HealthAdapterService.java</k></a> . 
 </td>
 </tr>
@@ -502,26 +502,60 @@ business logic.
 
 </td>
 <td><pre>
-http://localhost:8080/actuator/health	<kc>//actuator at work ....</kc>
-http://localhost:8080/			<kc>//just to show something ....</kc>
-http://localhost:8080/gui		<kc>//just to show something ....</kc>
+http://localhost:8080/actuator/health	<m><kc>//actuator at work ....</kc></m>
+http://localhost:8080/gui		<m><kc>//just to show something ....</kc></m>
 
-http://localhost:8080/setImportPolicy
-http://localhost:8080/import
+http://localhost:8080/	<m><kc>//WELCOME TO healthAdapter BY MIController</kc></m>
+
+curl -X PUT -H "Content-Type:application/json" 
+  -d <k>"{\"pid\": \"12345\"}"</k>
+  <ks>http://localhost:8080/importPatient</ks> 
+<b>Output:</b><kc>imported patient with id=12345(todo) </kc>
 </pre>
 </td>
 </tr>
 
-<!--
+ 
 <tr>
-<td><pre>
-<a href="../haDomain/build.gradle" target="code">haDomain/build.gradle</a> 	
+<td><h4>SmartEven  simulator</h4>
+<pre>
+<pre>
+├── <ks>haAdapters
+  ├── evenSimulator</ks>
+    ├── <kc>src/main/java/smartEven/haEVENSimulator.java</kc>	
+      └── <a href="../evenSimulator/src/main/java/smartEven/haEVENSimulator.java" target="code"><k>haEVENSimulator.java</k></a>
+  └──<a href="../evenSimulator/build.gradle" target="code">build.gradle</a> 	
+
+gradlew :evenSimulator:fatJar
+java -jar evenSimulator-1.0.jar (In evenSimulator\build\libs)
+
+<b>Command done by evenSimulator:</b> 
+HttpSupport.put(
+   String answer = hostaddr+"/importPatient",
+   "{\"pid\": \"12345\"}",
+   javax.ws.rs.core.MediaType.APPLICATION_JSON );
+ 
+</pre> 
 </pre>
 </td>
+
 <td>
+<b>Output</b><br/>
+<pre>
+<m>HttpSupport PUT http://localhost:8080/importPatient contentType=application/json
+HttpSupport PUT http://localhost:8080/importPatient status=200</m>
+imported patient with id=12345(todo)
+BYE
+</pre>
+<b>Todo (<tt>importPatient</tt> in <a href="../haApplication/src/main/java/healthAdapter/healthAdapterAppl/HAService.java" target="code"><k>HAService.java</k></a>)</b>
+<div class="remark">
+search in HCServer a patient with id=12345 and next do a PUT of (part of) the answer) to ITEL-FHIR.
+</div>
+In fact, <tt>PUT</tt> is idempotent and creates a patient if it does not exists.
+<tt>PUT</tt>  replaces the resource in its entirety. Use <tt>PATCH</tt>  if request updates part of the resource.
 </td>
 </tr>
--->
+ 
 
 
 

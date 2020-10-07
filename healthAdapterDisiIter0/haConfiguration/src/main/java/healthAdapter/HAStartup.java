@@ -7,10 +7,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class HAApplication {
+public class HAStartup {
 
 	public static void main(String[] args) {
-		SpringApplication.run(HAApplication.class, args);
+		SpringApplication.run(HAStartup.class, args);
 	}
 
 }

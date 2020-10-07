@@ -1,0 +1,29 @@
+explain.doLast {	//additional configuration to the task explain
+  println "	- I'm an evenSimulator used to test the HA"
+}
+version = '1.0'
+
+dependencies {
+	println "	- evenSimulator dependencies ..."
+	// https://mvnrepository.com/artifact/org.json/json
+	compile group: 'org.json', name: 'json', version: '20090211'	
+	
+	// https://mvnrepository.com/artifact/javax.ws.rs/javax.ws.rs-api
+	compile group: 'javax.ws.rs', name: 'javax.ws.rs-api', version: '2.0'
+	
+}
+
+//create a single Jar with all dependencies
+task fatJar(type: Jar) {
+	manifest {
+        attributes 'Implementation-Title': 'Gradle Jar File Example',
+        	'Implementation-Version': version,
+        	'Main-Class': 'smartEven.haEVENSimulator'
+    }
+    baseName = project.name 
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+//gradlew :evenSimulator:fatJar
+//java -jar evenSimulator-1.0.jar (In C:\Progetti\natmaterial\healthAdapterDisiIter0\evenSimulator\build\libs)
