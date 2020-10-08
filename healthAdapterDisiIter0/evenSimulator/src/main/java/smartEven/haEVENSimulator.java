@@ -24,13 +24,21 @@ public class haEVENSimulator {
 	}
 */	
 	public static void do_importPatientHTTP() {
+		String payload = "{\"pid\": \"12345\"}";
 		String answer = HttpSupport.put( 
-				hostaddr+"/importPatient", "{\"pid\": \"12345\"}", javax.ws.rs.core.MediaType.APPLICATION_JSON );
+				hostaddr+"/importPatient", payload, javax.ws.rs.core.MediaType.APPLICATION_JSON );
+		System.out.println( answer  );
+	}
+	public static void do_enrollment() {
+		String payload = "..."; //TODO JC json con CDA embedded
+		String answer = HttpSupport.post( 
+				hostaddr+"/enrollment", payload, javax.ws.rs.core.MediaType.APPLICATION_JSON );
 		System.out.println( answer  );
 	}
 	
     public static void main(String[] args)   {
-    	do_importPatientHTTP( );
+    	//do_importPatientHTTP( );
+    	do_enrollment();
     	System.out.println( "BYE");		
     }
 
