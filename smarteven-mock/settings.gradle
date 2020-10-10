@@ -1,4 +1,0 @@
-rootProject.name = 'smarteven-mock'
-
-include 'healthadapter-api'
-

@@ -1,0 +1,9 @@
+rootProject.name = 'healthAdapterDisi'
+
+include ':haAdapters:haWeb'
+include 'haApplication'
+include "haCommon"
+include "haConfiguration"
+//include "haDomain"
+include "evenSimulator"		//not an application component
+

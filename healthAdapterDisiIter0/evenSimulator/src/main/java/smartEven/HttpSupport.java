@@ -153,4 +153,18 @@ public class HttpSupport {
 		return result;
 	}
 	*/
+
+	public static void do_test() {
+		String args   = "{\"pid\": \"12345\"}";
+		post("localhots:8080/test", args, MediaType.APPLICATION_JSON);
+		System.out.println( answer.block() );
+	}
+
+	   public static void main(String[] args)   {
+	    	do_test();
+//	    	do_importPatient( );
+//	    	HealthService.delay(10000);
+	    	System.out.println( "BYE");		
+	    }
+	
 }

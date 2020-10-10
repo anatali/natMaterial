@@ -1,0 +1,59 @@
+<!--
+ * See https://www.baeldung.com/spring-boot-change-port
+ * https://howtodoinjava.com/spring-webflux/spring-webflux-tutorial/
+ * https://docs.spring.io/spring-framework/docs/5.0.0.BUILD-SNAPSHOT/spring-framework-reference/html/web-reactive.html
+ * BAD REQUEST ( enctype="text/plain") https://www.ionos.it/digitalguide/hosting/tecniche-hosting/messaggio-di-errore-http-400-alla-ricerca-delle-cause/
+
+Content type 'application/x-www-form-urlencoded' not supported
+when we use application/x-www-form-urlencoded, Spring doesn't understand it as a RequestBody
+-->
+
+<!DOCTYPE html >
+<html>
+<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>RobotWebGui</title>
+      
+<style>
+		table, th, td {
+		  border: 1px solid black;
+		  border-collapse: collapse;
+		}    
+
+.button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 5px px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+</style>      
+
+ </head>
+<body>
+<h1><span th:text="${arg}">Our Arg</span></h1>
+
+
+<p>I am <i>webspring.intro - templates/gui.html</i></p>
+
+
+<form action="/movegui" method="post" enctype='text/plain'>
+	<input type="submit" style="font-size:20px;" value="open the move gui">
+</form>
+<br/><br/>
+<form action="/w" method="post">
+	<input name="move" id="move" value="move ahead" style="font-size:20px;" >
+	<button>w</button>
+</form>
+
+ 
+<div id="led" align="left"></div>
+
+   	
+</body>
+</html>

@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="output" path="bin/default"/>
+	<classpathentry output="bin/main" kind="src" path="src/main/java">
+		<attributes>
+			<attribute name="gradle_scope" value="main"/>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8/"/>
+	<classpathentry kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.json/json/20090211/c183aa3a2a6250293808bba12262c8920ce5a51c/json-20090211.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/javax.ws.rs/javax.ws.rs-api/2.0/6800b5f794beb9809d8fef83d21e157b0db6ee19/javax.ws.rs-api-2.0-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/javax.ws.rs/javax.ws.rs-api/2.0/61f0983eb190954ccdede31e786a9e0bd9767c4a/javax.ws.rs-api-2.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-webflux/2.3.4.RELEASE/9d014781a84d2e5048acfc67ab2c6b980d401143/spring-boot-starter-webflux-2.3.4.RELEASE-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-webflux/2.3.4.RELEASE/42b5804b8e7bdc63c94fd23ca847c33be73855ef/spring-boot-starter-webflux-2.3.4.RELEASE.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-json/2.3.4.RELEASE/c1ab495080b4e6b34b3b31d84d35a56acab2a473/spring-boot-starter-json-2.3.4.RELEASE-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-json/2.3.4.RELEASE/1fac4d2fa9d2827e5e7a2c11ccc50f8dea2e95b/spring-boot-starter-json-2.3.4.RELEASE.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter/2.3.4.RELEASE/819f6e3ae65f04ba27df3985760914a3b9503fd9/spring-boot-starter-2.3.4.RELEASE-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter/2.3.4.RELEASE/cfeb7cce94a342b4b31b64c42a82c287c2f17207/spring-boot-starter-2.3.4.RELEASE.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-reactor-netty/2.3.4.RELEASE/587e57b222bfa381ce56f47e8b5c160ade8550f6/spring-boot-starter-reactor-netty-2.3.4.RELEASE-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-reactor-netty/2.3.4.RELEASE/b204d15044f57810b3408997e6fdccb54fed0c01/spring-boot-starter-reactor-netty-2.3.4.RELEASE.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.springframework/spring-webflux/5.2.9.RELEASE/6d51de10bf26edde3121a3d012bba6f2cffb4ac3/spring-webflux-5.2.9.RELEASE-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.springframework/spring-webflux/5.2.9.RELEASE/c62f1230a10bde828161379f16d31ed5051a46fe/spring-webflux-5.2.9.RELEASE.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.springframework/spring-web/5.2.9.RELEASE/90886dd59f07146e3bac519c2d8593c947eaa8f8/spring-web-5.2.9.RELEASE-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.springframework/spring-web/5.2.9.RELEASE/4bc4a60b74ea0a92ed09d41c675f8426324b4e56/spring-web-5.2.9.RELEASE.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.synchronoss.cloud/nio-multipart-parser/1.1.0/e91b7bc68116a16d96232f58f6acfd934e7daa32/nio-multipart-parser-1.1.0-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.synchronoss.cloud/nio-multipart-parser/1.1.0/c6c417fec6612584b1c34d4dd98c5a4e47e8c754/nio-multipart-parser-1.1.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-autoconfigure/2.3.4.RELEASE/ab1099fd038676548eb763db1d1176d1b92828d1/spring-boot-autoconfigure-2.3.4.RELEASE-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-autoconfigure/2.3.4.RELEASE/ff9efafb9d62c17d8c3c1faec7afad147c924263/spring-boot-autoconfigure-2.3.4.RELEASE.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot/2.3.4.RELEASE/efefbf178f7a5c48ef0aca6bb73aeebe58d39d28/spring-boot-2.3.4.RELEASE-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot/2.3.4.RELEASE/f23f14ae4062d5983db89b7c7336166b6734fc57/spring-boot-2.3.4.RELEASE.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-logging/2.3.4.RELEASE/677a66ac80e88cefaaca64e72b5523eb4836b7ae/spring-boot-starter-logging-2.3.4.RELEASE-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-logging/2.3.4.RELEASE/677a66ac80e88cefaaca64e72b5523eb4836b7ae/spring-boot-starter-logging-2.3.4.RELEASE.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/jakarta.annotation/jakarta.annotation-api/1.3.5/1ad35f11d17abb52426bfe15ea7b4c583795012/jakarta.annotation-api-1.3.5-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/jakarta.annotation/jakarta.annotation-api/1.3.5/59eb84ee0d616332ff44aba065f3888cf002cd2d/jakarta.annotation-api-1.3.5.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.springframework/spring-context/5.2.9.RELEASE/ba93c8327245240522c9d7f8403ffbb93ade7aa1/spring-context-5.2.9.RELEASE-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.springframework/spring-context/5.2.9.RELEASE/4003ef2db8b5e4b22330fc6d67aae7ac5d304319/spring-context-5.2.9.RELEASE.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.springframework/spring-aop/5.2.9.RELEASE/ea7d32bac929c067e9f40bd0982c812fc1da9b94/spring-aop-5.2.9.RELEASE-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.springframework/spring-aop/5.2.9.RELEASE/6ae14b8a11b4a30f22a15c8f97ac4b5d0979a4ef/spring-aop-5.2.9.RELEASE.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.springframework/spring-beans/5.2.9.RELEASE/efcc6babb0cbd975ce2b2083cce0790dd31f689a/spring-beans-5.2.9.RELEASE-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.springframework/spring-beans/5.2.9.RELEASE/80e722ffa73a43459f639d36e25aa4e4a08d8d79/spring-beans-5.2.9.RELEASE.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.springframework/spring-expression/5.2.9.RELEASE/57566cb936d6da49aaff7a1d458907f1e86c7a38/spring-expression-5.2.9.RELEASE-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.springframework/spring-expression/5.2.9.RELEASE/c8584de306be115ef1715b7ed9d50fb2802867aa/spring-expression-5.2.9.RELEASE.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.springframework/spring-core/5.2.9.RELEASE/30e0efc25bf36d306bb807aab06609d0ab2e088c/spring-core-5.2.9.RELEASE-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.springframework/spring-core/5.2.9.RELEASE/400a6fdb45bfa5318aa7d06360f4495b75080bb5/spring-core-5.2.9.RELEASE.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.yaml/snakeyaml/1.26/1f369166f21abc8c07e618c2b9c0897f405d0999/snakeyaml-1.26-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.yaml/snakeyaml/1.26/a78a8747147d2c5807683e76ec2b633e95c14fe9/snakeyaml-1.26.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.datatype/jackson-datatype-jdk8/2.11.2/637c9c8e9db0ec317d4c66c2b91fc70124730a4/jackson-datatype-jdk8-2.11.2-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.datatype/jackson-datatype-jdk8/2.11.2/d4c1933a8d62db65c3d5a5cd809511e021a189c0/jackson-datatype-jdk8-2.11.2.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.datatype/jackson-datatype-jsr310/2.11.2/f875f6b480580c65b761d02963efc5d372a618ee/jackson-datatype-jsr310-2.11.2-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.datatype/jackson-datatype-jsr310/2.11.2/e6235e5eb3cf3edd2a95cd0dc96bc48aeb309e8a/jackson-datatype-jsr310-2.11.2.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.module/jackson-module-parameter-names/2.11.2/24b91098993f2315d81fa46f6f7a810581a335f0/jackson-module-parameter-names-2.11.2-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.module/jackson-module-parameter-names/2.11.2/c0dc526fcef5a3aae0273fc516ecf3505f7a5de8/jackson-module-parameter-names-2.11.2.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-databind/2.11.2/4f0c6c172892b0fb6b7f09a54cc616b9f9516bca/jackson-databind-2.11.2-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-databind/2.11.2/ee08bbd8975dde844307fe8309dfcd5ec7ee129d/jackson-databind-2.11.2.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/io.projectreactor.netty/reactor-netty/0.9.12.RELEASE/769e7f9093c4dfcdb5c5110c3c8883a43e99efcc/reactor-netty-0.9.12.RELEASE-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/io.projectreactor.netty/reactor-netty/0.9.12.RELEASE/41022546d07f1499fb9d8617bba4a1a89d3549db/reactor-netty-0.9.12.RELEASE.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/io.projectreactor/reactor-core/3.3.10.RELEASE/9a7c58edbaa142da715ac841cbb91fde7fc1b700/reactor-core-3.3.10.RELEASE-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/io.projectreactor/reactor-core/3.3.10.RELEASE/f5787f994a9a810c0986418232e06fcf4afc1216/reactor-core-3.3.10.RELEASE.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.synchronoss.cloud/nio-stream-storage/1.1.3/f69f446db8539d5442378606c3fcf48f4a45a55a/nio-stream-storage-1.1.3-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.synchronoss.cloud/nio-stream-storage/1.1.3/986dba5f6e5eed20f0dba6ddc8e8a64a9ebdc2f3/nio-stream-storage-1.1.3.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-classic/1.2.3/cfd5385e0c5ed1c8a5dce57d86e79cf357153a64/logback-classic-1.2.3-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-classic/1.2.3/7c4f3c474fb2c041d8028740440937705ebb473a/logback-classic-1.2.3.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-to-slf4j/2.13.3/de5b2dbbd7cc08eac97c2bdc96ff36178a32d8d7/log4j-to-slf4j-2.13.3-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-to-slf4j/2.13.3/966f6fd1af4959d6b12bfa880121d4a2b164f857/log4j-to-slf4j-2.13.3.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.slf4j/jul-to-slf4j/1.7.30/f9e7f2ae73c3ef9c375a325cea1ef1dcc2613579/jul-to-slf4j-1.7.30-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.slf4j/jul-to-slf4j/1.7.30/d58bebff8cbf70ff52b59208586095f467656c30/jul-to-slf4j-1.7.30.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.30/71a1fdefa224da50f1db6306ce609981e20186c9/slf4j-api-1.7.30-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.30/b5a4b6d16ab13e34a88fae84c35cd5d68cac922c/slf4j-api-1.7.30.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.springframework/spring-jcl/5.2.9.RELEASE/d3967660c275e551559ca4c2c504488c07a5e04c/spring-jcl-5.2.9.RELEASE-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.springframework/spring-jcl/5.2.9.RELEASE/39777c3eeaf3d0957d9fdffbb75e3ff8a89caf62/spring-jcl-5.2.9.RELEASE.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-annotations/2.11.2/128e08218b68149f37f56b209fc8ccc5b5321142/jackson-annotations-2.11.2-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-annotations/2.11.2/e0a7f61fce3e3eac38a079c11831868269de2ea/jackson-annotations-2.11.2.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-core/2.11.2/f08c2af3b8715d9ace84dc111170cb1e28e104ef/jackson-core-2.11.2-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-core/2.11.2/bc022ab0f0c83c07f9c52c5ab9a6a4932b15cc35/jackson-core-2.11.2.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/io.netty/netty-codec-http2/4.1.52.Final/864a44c4bf4914a1c4c387d9efdf3964103b9d45/netty-codec-http2-4.1.52.Final-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/io.netty/netty-codec-http2/4.1.52.Final/1e06a41e2b67cd6f91bf97935f4729c843ac1a57/netty-codec-http2-4.1.52.Final.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/io.netty/netty-handler-proxy/4.1.52.Final/5ceb9c88ed542a1ec31ecbebc48a692a6d29dfc8/netty-handler-proxy-4.1.52.Final-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/io.netty/netty-handler-proxy/4.1.52.Final/e5701741e851d83b5ef15738f84c825ba2c0688e/netty-handler-proxy-4.1.52.Final.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/io.netty/netty-codec-http/4.1.52.Final/3312bcb8275fa8b2c7488683eb84bdd3cff615d6/netty-codec-http-4.1.52.Final-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/io.netty/netty-codec-http/4.1.52.Final/e0d75d03edf6e4d0682c85e8b26762bcde34697d/netty-codec-http-4.1.52.Final.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/io.netty/netty-handler/4.1.52.Final/818b66b1cf92300bcf0cb9a114becffca764945d/netty-handler-4.1.52.Final-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/io.netty/netty-handler/4.1.52.Final/eb7d4fa554f4fdc8dacb80dce7e3f806fd1dc2db/netty-handler-4.1.52.Final.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/io.netty/netty-transport-native-epoll/4.1.52.Final/ef90202a9f8570abf219bc9e86951d55fa5d8ab5/netty-transport-native-epoll-4.1.52.Final-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/io.netty/netty-transport-native-epoll/4.1.52.Final/5cfac181f741082a1e69ceecdf11e379abb0d136/netty-transport-native-epoll-4.1.52.Final-linux-x86_64.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.reactivestreams/reactive-streams/1.0.3/e6ffdff8c438d959376c91d94b319457354a84c5/reactive-streams-1.0.3-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.reactivestreams/reactive-streams/1.0.3/d9fb7a7926ffa635b3dcaa5049fb2bfa25b3e7d0/reactive-streams-1.0.3.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-core/1.2.3/3ebabe69eba0196af9ad3a814f723fb720b9101e/logback-core-1.2.3-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-core/1.2.3/864344400c3d4d92dfeb0a305dc87d953677c03c/logback-core-1.2.3.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-api/2.13.3/735efba8bfdacf25716fa1e2e82f57b2837f8300/log4j-api-2.13.3-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-api/2.13.3/ec1508160b93d274b1add34419b897bae84c6ca9/log4j-api-2.13.3.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/io.netty/netty-codec-socks/4.1.52.Final/30a52312a4582d4173bc64374224426f4cbfdc7/netty-codec-socks-4.1.52.Final-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/io.netty/netty-codec-socks/4.1.52.Final/93170f664ae83ec70c35752b91cb733f9b80bf90/netty-codec-socks-4.1.52.Final.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/io.netty/netty-codec/4.1.52.Final/38910357bc0b5cf34fae572fb9f1142ecdefca18/netty-codec-4.1.52.Final-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/io.netty/netty-codec/4.1.52.Final/d98ad5bb86707c3c1a7105a346119dac332bdf23/netty-codec-4.1.52.Final.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/io.netty/netty-transport-native-unix-common/4.1.52.Final/f1be1cc9dd4c74332d13136540a8f96832873d4c/netty-transport-native-unix-common-4.1.52.Final-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/io.netty/netty-transport-native-unix-common/4.1.52.Final/bec4d7135ae82ab1f90938bb6625e43b4b15e165/netty-transport-native-unix-common-4.1.52.Final.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/io.netty/netty-transport/4.1.52.Final/5e1cdca343cc14e5297a37fc7619a2d2c34e9f7a/netty-transport-4.1.52.Final-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/io.netty/netty-transport/4.1.52.Final/970ee3790f504452bd32692f6b208a590c51f0ee/netty-transport-4.1.52.Final.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/io.netty/netty-buffer/4.1.52.Final/38f00df34eb88e514a42b46dca50abf05229a2d/netty-buffer-4.1.52.Final-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/io.netty/netty-buffer/4.1.52.Final/fdf681985f50d84fac625df52f34b6d6cb699bda/netty-buffer-4.1.52.Final.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/io.netty/netty-resolver/4.1.52.Final/3b0608fdb318634d05516f51dcb65888d7192eb6/netty-resolver-4.1.52.Final-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/io.netty/netty-resolver/4.1.52.Final/1fd5a58ff5df4dc9bb3027a6fbf114767d9278d5/netty-resolver-4.1.52.Final.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/io.netty/netty-common/4.1.52.Final/534e3204b0aa97289f6200d85553541aee6b7a27/netty-common-4.1.52.Final-sources.jar" kind="lib" path="C:/Users/anatali/.gradle/caches/modules-2/files-2.1/io.netty/netty-common/4.1.52.Final/715bfadb9f3bf86da38fa12b97b4aaa9828b4789/netty-common-4.1.52.Final.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+</classpath>

@@ -1,0 +1,37 @@
+plugins {
+	id "io.spring.dependency-management" version "1.0.9.RELEASE"
+}    
+ 
+allprojects {
+  //Put instructions for all projects	
+    task explain{	//additional configuration to the task hello
+        doLast { task ->
+            println "Hello, I'm $task.project.name project"
+        }
+    }	
+}
+
+subprojects {
+  //Put instructions for each sub project
+ 
+	apply plugin: 'java'
+ 	apply plugin: 'io.spring.dependency-management'
+	apply plugin: 'java-library'
+
+  	group   = 'it.unibo.healthAdapterDisiIter0'
+  	version = '0.0.1-SNAPSHOT'
+	sourceCompatibility = '1.8'
+  	
+ 	
+  repositories {
+    mavenCentral()
+    jcenter()
+  }
+  
+  dependencyManagement {	//Most important closure
+    imports {
+      mavenBom("org.springframework.boot:spring-boot-dependencies:2.3.4.RELEASE")
+     }
+  }  
+
+}
