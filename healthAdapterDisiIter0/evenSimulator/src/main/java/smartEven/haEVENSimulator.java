@@ -28,9 +28,15 @@ public class haEVENSimulator {
 				hostaddr+"/importPatient", "{\"pid\": \"12345\"}", javax.ws.rs.core.MediaType.APPLICATION_JSON );
 		System.out.println( answer  );
 	}
+	public static void do_importPatientItel() {
+		System.out.println( "do_importPatientItel");		
+		String answer = HttpSupport.post( 
+				hostaddr+"/import", "{\"identifier\": \"12345\"}", javax.ws.rs.core.MediaType.APPLICATION_JSON );
+		System.out.println( answer  );
+	}
 	
     public static void main(String[] args)   {
-    	do_importPatientHTTP( );
+    	do_importPatientItel( );
     	System.out.println( "BYE");		
     }
 

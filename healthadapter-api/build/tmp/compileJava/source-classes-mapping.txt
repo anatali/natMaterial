@@ -1,0 +1,8 @@
+com/itel/healthadapter/api/StatusReference.java
+ com.itel.healthadapter.api.StatusReference
+com/itel/healthadapter/api/Constants.java
+ com.itel.healthadapter.api.Constants
+com/itel/healthadapter/api/EnrollmentPayload.java
+ com.itel.healthadapter.api.EnrollmentPayload
+com/itel/healthadapter/api/HealthAdapterAPI.java
+ com.itel.healthadapter.api.HealthAdapterAPI
