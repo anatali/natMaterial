@@ -1,0 +1,5 @@
+rootProject.name = 'healthadapter-sandbox'
+
+include 'smarteven-mock'
+include 'healthadapter-api'
+

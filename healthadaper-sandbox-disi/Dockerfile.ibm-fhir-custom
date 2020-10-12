@@ -1,0 +1,3 @@
+FROM ibmcom/ibm-fhir-server
+COPY fhir-server-config.json /opt/ol/wlp/usr/servers/fhir-server/config/default/fhir-server-config.json
+COPY server.xml /opt/ol/wlp/usr/servers/fhir-server/server.xml

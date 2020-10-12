@@ -1,0 +1,24 @@
+com/itel/healthadapter/sandbox/cda/parser/CDAParseResult.java
+ com.itel.healthadapter.sandbox.cda.parser.CDAParseResult
+com/itel/healthadapter/sandbox/cda/parser/Measurement.java
+ com.itel.healthadapter.sandbox.cda.parser.Measurement
+com/itel/healthadapter/sandbox/cda/parser/CDAParser.java
+ com.itel.healthadapter.sandbox.cda.parser.CDAParser
+com/itel/healthadapter/sandbox/cda/parser/DayOfWeekType.java
+ com.itel.healthadapter.sandbox.cda.parser.DayOfWeekType
+com/itel/healthadapter/sandbox/HealthAdapterController.java
+ com.itel.healthadapter.sandbox.HealthAdapterController
+com/itel/healthadapter/sandbox/HealthadapterSandboxApplication.java
+ com.itel.healthadapter.sandbox.HealthadapterSandboxApplication
+com/itel/healthadapter/sandbox/HIController.java
+ com.itel.healthadapter.sandbox.HIController
+com/itel/healthadapter/sandbox/cda/parser/CDAParserException.java
+ com.itel.healthadapter.sandbox.cda.parser.CDAParserException
+com/itel/healthadapter/sandbox/cda/parser/Catalog.java
+ com.itel.healthadapter.sandbox.cda.parser.Catalog
+com/itel/healthadapter/sandbox/cda/parser/MeasurementParser.java
+ com.itel.healthadapter.sandbox.cda.parser.MeasurementParser
+com/itel/healthadapter/sandbox/HealthAdapterConfigurationProperties.java
+ com.itel.healthadapter.sandbox.HealthAdapterConfigurationProperties
+com/itel/healthadapter/sandbox/HealthAdapterSandboxConfiguration.java
+ com.itel.healthadapter.sandbox.HealthAdapterSandboxConfiguration

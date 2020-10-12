@@ -36,6 +36,7 @@ public class EVENSimulator {
 	}
 	
 	public static void do_enrollment() {
+		System.out.println( "do_enrollment on " +  hostaddr);		
 		String payload = CDA; // JC json con CDA embedded
 		String answer = HttpSupport.post(hostaddr+"/enrollment", payload, APPLICATION_JSON);
 		System.out.println( answer  );

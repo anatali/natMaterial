@@ -1,0 +1,4 @@
+FROM openjdk:11-jdk-slim
+COPY /build/libs/*.jar /opt/app.jar
+WORKDIR /opt
+ENTRYPOINT ["java", "-jar", "app.jar"]

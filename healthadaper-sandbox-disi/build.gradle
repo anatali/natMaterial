@@ -1,0 +1,73 @@
+plugins {
+	id 'org.springframework.boot' version '2.3.0.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+	id 'java'
+	id 'eclipse'
+}
+
+group = 'com.itel'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+
+	maven { url 'https://dl.bintray.com/ibm-watson-health/ibm-fhir-server-releases/' }
+
+	flatDir {
+		dirs 'libs'
+	}
+}
+
+dependencies {
+
+	implementation project(":healthadapter-api")
+
+	// HAPI FHIR Client
+	implementation 'ca.uhn.hapi.fhir:hapi-fhir-base:5.0.2'
+	implementation 'ca.uhn.hapi.fhir:hapi-fhir-client:5.0.2'
+	implementation 'ca.uhn.hapi.fhir:hapi-fhir-structures-r4:5.0.2'
+
+	// Eclipse MDHT
+	implementation name: 'lpg.runtime.java-2.0.17.v201004271640'
+	implementation name: 'org.eclipse.emf.common-2.13.0.v20170609-0707'
+	implementation name: 'org.eclipse.emf.ecore.xmi-2.13.0.v20170609-0707'
+	implementation name: 'org.eclipse.emf.ecore-2.13.0.v20170609-0707'
+	implementation name: 'org.eclipse.mdht.emf.runtime-3.0.0.202006170501'
+	implementation name: 'org.eclipse.mdht.uml.cda-3.0.0.202006170501'
+	implementation name: 'org.eclipse.mdht.uml.hl7.datatypes-3.0.0.202006170501'
+	implementation name: 'org.eclipse.mdht.uml.hl7.rim-3.0.0.202006170501'
+	implementation name: 'org.eclipse.mdht.uml.hl7.vocab-3.0.0.202006170501'
+	implementation name: 'org.eclipse.ocl.common-1.4.200.v20160613-1518'
+	implementation name: 'org.eclipse.ocl.ecore-3.6.200.v20170522-1736'
+	implementation name: 'org.eclipse.ocl-3.6.200.v20170522-1736'
+	implementation name: 'org.eclipse.uml2.common-2.1.0.v20170605-1616'
+	implementation name: 'org.eclipse.uml2.types-2.0.0.v20170605-1616'
+	implementation name: 'org.hl7.security.ds4p.contentprofile-3.0.0.20200617'
+	implementation name: 'org.openhealthtools.mdht.uml.cda.consol2-3.0.0.20200617'
+	implementation name: 'org.openhealthtools.mdht.uml.cda.mu2consol-3.0.0.20200617'
+
+	// Immutables
+	annotationProcessor "org.immutables:value:2.8.8"
+	compileOnly "org.immutables:value:2.8.8"
+	compileOnly "org.immutables:builder:2.8.8"
+
+	// Spring Cloud
+//	implementation 'org.springframework.cloud:spring-cloud-starter'
+//	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-ribbon:2.2.5.RELEASE'
+	// Spring Boot
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+	// Testcontainers
+	implementation group: 'com.playtika.testcontainers', name: 'testcontainers-common', version: '1.82'
+
+	// Testing
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+}
+
+test {
+	useJUnitPlatform()
+}
