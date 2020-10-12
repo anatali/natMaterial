@@ -1,0 +1,1050 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:hl7-org:v3 XSD_CDA_PAI.xsd ">
+	<realmCode code="IT" />
+	<typeId extension="POCD_HD000040" root="2.16.840.1.113883.1.3" />
+	<templateId extension="PRRP_GPC_1.0" root="2.16.840.1.113883.2.9.2.30.10.7" />
+	
+	<!-- **************** -->
+	<!-- ID DEL DOCUMENTO -->
+	<!-- **************** -->
+	<id assigningAuthorityName="Regione" extension="STRINGA GENERATA PER OGNI AGGIORNAMENTO" root="2.16.840.1.113883.2.9.2.30.4.4" />
+	<code code="18776-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="PLAN OF CARE">
+		<translation code="31" codeSystem="2.16.840.1.113883.2.9.2.30.3.1.6.10" codeSystemName="CRS-SISS" displayName="PIANO ASSISTENZIALE INDIVIDUALE" />
+	</code>
+	<title>PIANO ASSISTENZIALE INDIVIDUALE</title>
+	<effectiveTime value="20180530095001+0100" />
+	<confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25" codeSystemName="HL7 Confidentiality" displayName="Normale" />
+	<languageCode code="it-IT" />
+	
+	<!-- ******************* -->
+	<!-- SETID DEL DOCUMENTO -->
+	<!-- ******************* -->
+	<setId assigningAuthorityName="Regione" extension="STRINGA GENERATA UNIVOCA PER IL DOCUMENTO E I SUCCESSIVI AGGIORNAMENTI" root="2.16.840.1.113883.2.9.2.30.4.4" />
+	
+	<!-- VERSIONE DEL DOCUMENTO  -->
+	<!-- LA PRIMA VERSIONE RIPORTERÀ ID E SETID UGUALI, NELLE SUCCESSIVE VERSIONI (esempio: <versionNumber value="2"/>) IL SETID RIMANE UGUALE L'ID CAMBIA   -->
+	<versionNumber value="1"/>
+	<recordTarget>
+	
+	<!-- *****************  -->
+	<!-- DATI DEL PAZIENTE  -->
+	<!-- *****************  -->
+		<patientRole>
+					<!--	CODICE FISCALE PAZIENTE-->
+			<id assigningAuthorityName="MEF" displayable="true" extension="BNCPLA43S41D643Q" root="2.16.840.1.113883.2.9.4.3.2" />
+	<!-- Tipo di indirizzo. Valori ammessi:
+		 - H : indirizzo di residenza
+		 - HP :indirizzo di domicilio  -->	 
+			<addr use="HP">
+				<country>ITA</country>
+				<city>NERVIANO</city>
+				<censusTract>015154</censusTract>
+				<postalCode>20014</postalCode>
+				<streetAddressLine>VIA DELLA STRADA 5 </streetAddressLine>
+			</addr>
+			<addr use="H">
+				<country>ITA</country>
+				<city>NERVIANO</city>
+				<censusTract>015154</censusTract>
+				<postalCode>20014</postalCode>
+				<streetAddressLine>VIA DELLA STRADA 5 </streetAddressLine>
+			</addr>
+			<patient>
+				<name>
+					<family>BIANCHI</family>
+					<given>PAOLA</given>
+				</name>
+					<!-- SESSO DEL PAZIENTE   CODE = M|F  displayName = MASCHIO|FEMMINA-->
+				<administrativeGenderCode code="F" codeSystem="2.16.840.1.113883.5.1" codeSystemName="HL7 AdministrativeGender" displayName="FEMMINA" />
+				<birthTime value="19370613" />
+			</patient>
+			<providerOrganization>
+					<!-- CODICE CASA DELLA SALUTE ESEMPIO: COD001-->
+				<id assigningAuthorityName="Regione" extension="COD001" root="2.16.840.1.113883.2.9.2.30.4.11" />
+			</providerOrganization>
+		</patientRole>
+	</recordTarget>
+		<!-- ***********************************************  -->
+		<!-- ************ AUTORE DEL DOCUMENTO *************  -->
+		<!-- DATI AUTORE extension = "CODICE FISCALE AUTORE"  -->
+		<!-- ***********************************************  -->
+		<!-- 		  OPERATORE CHE INVIA IL CDA 			  -->
+	<author>
+		<time value="20180530095001+0100" /> <!-- DATA DI CREAZIONE FORMATO YYYYMMddhhmmss+|-ZZzz  -->
+		<assignedAuthor>
+			<id assigningAuthorityName="MEF" displayable="true" extension="VLGSLG81A41E514M" root="2.16.840.1.113883.2.9.4.3.2" />
+			<assignedPerson>
+				<name>
+					<family>COGNOME AUTORE</family>
+					<given>NOME AUTORE</given>
+				</name>
+			</assignedPerson>
+			<representedOrganization>
+						<!-- CODICE CASA DELLA SALUTE ESEMPIO: COD001-->
+				<id assigningAuthorityName="Regione" extension="COD001" root="2.16.840.1.113883.2.9.2.30.4.11" />
+			</representedOrganization>
+		</assignedAuthor>
+	</author>
+	<custodian>
+    	<assignedCustodian>
+        	<representedCustodianOrganization>
+					<!-- CODICE CASA DELLA SALUTE ESEMPIO: COD001-->
+            	<id root="2.16.840.1.113883.2.9.2.30.4.11" assigningAuthorityName="Regione" extension="COD001"/>
+        	</representedCustodianOrganization>
+    	</assignedCustodian>
+	</custodian>
+	<!-- *************** -->
+	<!-- DATI DEL MEDICO -->
+	<!-- *************** -->
+	<legalAuthenticator>
+		<time value="20170221120000+0100" /> <!-- DATA DI CREAZIONE FORMATO YYYYMMddhhmmss+|-ZZzz  -->
+		<signatureCode code="S" />
+		<assignedEntity>
+		
+	<!-- DATI MEDICO EXTENSION = CODICE FISCALE  -->
+			<id assigningAuthorityName="MEF" displayable="false" extension="VLGSLG81A41E514M" root="2.16.840.1.113883.2.9.4.3.2" />
+			<assignedPerson>
+				<name>
+					<prefix>SPECIALISTA - DOTT - DOTT.SSA</prefix>
+					<family>COGNOME MEDICO</family>
+					<given>NOME MEDICO</given>
+				</name>
+			</assignedPerson>
+			<representedOrganization>
+						<!-- CODICE CASA DELLA SALUTE ESEMPIO: COD001-->
+				<id assigningAuthorityName="Regione" extension="COD001" root="2.16.840.1.113883.2.9.2.30.4.11" />
+			</representedOrganization>
+		</assignedEntity>
+	</legalAuthenticator>
+	<documentationOf>
+		<serviceEvent />
+	</documentationOf>
+
+	
+	<!-- QUESTA PARTE DEVE ESSERE COMPILATA NEL CASO DI VERSIONI SUCCESSIVE DELLO STESSO CDA
+		 ALL'INIZIO DEL DOCUMENTO, NEL CASO DELLA VERSIONE 1, I VALORI ID E SETID SONO UGUALI,
+		 NEL CASO DI VERSIONI SUCCESSIVE SI DOVRÀ COMPILARE LA PARTE SOTTO <relatedDocument> INSERENDO SU EXTENSION IL VECCHIO ID (OLD_ID) DELLA VERSIONE PRECEDENTE  -->
+	<relatedDocument typeCode="RPLC">
+    	<parentDocument>
+     	 	<id root="2.16.840.1.113883.2.9.2.30.4.4" extension="OLD_ID" assigningAuthorityName="Regione" displayable="true"/>
+      		<versionNumber value="1"/>
+   	 	</parentDocument>
+  	</relatedDocument>
+	
+	<!-- ********************************************************************************************************************** -->
+	<!-- ********************************** QUI INIZIA LA PARTE STRUTTURATA SUDDIVISA PER SEZIONI ********************************** -->
+	<!-- ********************************************************************************************************************** -->
+	<!-- ********************** LE SEZIONI NEL DOCUMENTO CDA VENGONO CHIAMATI COMPONENT <component> *************************** -->
+	<!-- I COMPONENT SONO STRUTTURATI CON L'INTESTAZIONE (NEL CASO SUBITO SOTTO SI PARLA DEL COMPONENT 'ATTRIBUTI DI SISTEMA'), -->
+	<!-- UNA PARTE CHE RIPORTA LA STRUTTURA HTML (*) DEI DATI INSERITI (UTILE PER ESTRARRE DAL CDA I DATI IN MODO VISIBILE),    -->
+	<!-- ********************** E UNA PARTE STRUTTURATA (**) CON IL DATO VERO E PROPRIO DEL CDA ******************************* -->
+	<!-- ********************************************************************************************************************** -->
+	
+	<!-- NELLA SEZIONE ID="ATTRIBUTI_DI_SISTEMA" VENGONO INSERITI I DATI RELATIVI ALLA COMPILAZIONE DEL PIANO ASSISTENZIALE -->
+	<component>
+		<structuredBody>
+		
+			 <component>
+                <section ID="ATTRIBUTI_DI_SISTEMA">
+                    <code code="1" codeSystem="2.16.840.1.113883.2.9.2.30.3.1.3.13.6.1" codeSystemName="CRS-SISS" displayName="Attributi di Sistema"/>
+                    <!-- *********************** -->
+                    <!-- (*) INIZIO SEZIONE HTML -->
+                    <!-- *********************** -->
+                    <title>Attributi di Sistema</title>
+                    <text>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Data di Compilazione</th>
+                                    <th>Data di inizio validità  della pianificazione</th>
+                                    <th>Data di fine validità  della pianificazionee</th>
+                                    <th>Data di chiusura della programmazione</th>
+                                    <th>Data di aggiornamento della programmazione</th>
+                                    <th>Motivo di chiusura della programmazione</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>20180529</td>
+                                    <td>20180529</td>
+                                    <td>20190528</td>
+                                    <td/>
+                                    <td/>
+                                    <td/>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </text>
+                    <!-- ******************************* -->
+					<!-- (**) INIZIO SEZIONE STRUTTURATA -->
+                    <!-- ******************************* -->
+                    <entry typeCode="DRIV">
+                        <observation classCode="OBS" moodCode="DEF">
+                            <code nullFlavor="NA"/>
+                            <entryRelationship typeCode="COMP">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <code code="1" codeSystem="2.16.840.1.113883.2.9.2.30.3.1.3.13.6.5" codeSystemName="CRS-SISS" displayName="Data di Compilazione"/>
+                                    <effectiveTime value="20180529"/>
+                                </observation>
+                            </entryRelationship>
+                            <entryRelationship typeCode="COMP">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <code code="2" codeSystem="2.16.840.1.113883.2.9.2.30.3.1.3.13.6.5" codeSystemName="CRS-SISS" displayName="Data di inizio validità  della pianificazione"/>
+                                    <effectiveTime value="20180529"/>
+                                </observation>
+                            </entryRelationship>
+                            <entryRelationship typeCode="COMP">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <code code="3" codeSystem="2.16.840.1.113883.2.9.2.30.3.1.3.13.6.5" codeSystemName="CRS-SISS" displayName="Data di fine validità  della pianificazione"/>
+                                    <effectiveTime value="20190528"/>
+                                </observation>
+                            </entryRelationship>
+                        </observation>
+                    </entry>
+                </section>
+            </component>
+            <!-- NELLA SEZIONE ID="PROGRAMMAZIONE_CLINICO_ASSISTENZIALE" VENGONO INSERITI I DATI RELATIVI AL PIANO ASSISTENZIALE CON LA LISTA DI
+            	 PRESTAZIONI DA ASSOCIARE AL PAZIENTE PER IL RELATIVO PIANO ASSISTENZIALE INDIVIDUALE -->
+			  <component>
+                <section ID="PROGRAMMAZIONE_CLINICO_ASSISTENZIALE">
+                    <code code="4" codeSystem="2.16.840.1.113883.2.9.2.30.3.1.3.13.6.1" codeSystemName="CRS-SISS" displayName="Programmazione Clinico Assistenziale"/>
+                    <!-- (*) INIZIO SEZIONE HTML -->
+                    <title>Programmazione Clinico Assistenziale</title>
+                    <text>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Tipologia Prestazione</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td/>
+                                </tr>
+                                <tr>
+                                    <td/>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </text>
+              		<!-- ******************************* -->
+              		<!-- (**) INIZIO SEZIONE STRUTTURATA -->
+              		<!-- ******************************* -->
+                    <entry typeCode="DRIV">
+                    
+              		<!-- QUI INSERIAMO IL TIPO DI PRESTAZIONE AMBULATORIALE/FARMACEUTICA ECC ECC, IL CODE CAMBIA IN BASE ALLA TIPOLOGIA DI PRESTAZIONE
+              			 NEL CASI ESEMPIO AMBULATORIALE CORRISPONDE AL CODICE 00, IN QUESTO ESEMPIO RIPORTIAMO 2 PRESTAZIONI
+              			 Prestazione_1 = [0090271.01 GLUCOSIO (GLICEMIA)] & Prestazione_2 = [0090281 EMOGLOBINA GLICATA] -->
+                        
+                        <!-- [0090271.01 GLUCOSIO (GLICEMIA)]  -->
+                        <observation classCode="OBS" moodCode="DEF">
+                            <code nullFlavor="NA"/>
+                          
+<!--                           PRESTAZIONE DI TIPO AMBULATORIALE: CODE = 00 -->
+                            <entryRelationship typeCode="COMP">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <code code="00" codeSystem="2.16.840.1.113883.2.9.2.30.3.1.3.13.6.18" codeSystemName="CRS-SISS" displayName="Ambulatoriale"/>
+                                </observation>
+                            </entryRelationship>
+                            
+              		<!-- QUI INSERIAMO LA PRESTAZIONE AMBULATORIALE/FARMACEUTICA ECC ECC, CODICE PRESTAZIONE -->
+                            <entryRelationship typeCode="COMP">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <code code="0090271.01" codeSystem="2.16.840.1.113883.2.9.2.30.6.11" codeSystemName="CRS-SISS" displayName="0090271.01 GLUCOSIO (GLICEMIA)"/>
+                                </observation>
+                            </entryRelationship>
+              		
+              		<!-- QUI INSERIAMO LA QUANTITÀ ANNUA DELLA PRESTAZIONE -->
+                            <entryRelationship typeCode="COMP">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <code code="24" codeSystem="2.16.840.1.113883.2.9.2.30.3.1.3.13.6.17" codeSystemName="CRS-SISS" displayName="Quantità annua"/>
+              		<!-- VALORE DELLA QUANTITÀ ANNUA = 2 -->
+                                    <value xsi:type="ST">2</value>
+                                </observation>
+                            </entryRelationship>
+              		
+              		<!-- QUI SI INSERISCONO GLI INTERVALLI, DEVO CORRISPONDERE ALLA QUANTITÀ ANNUA, IN QUESTO CASO 2 QUANTITÀ CORRISPONDONO A 2 INTERVALLI  -->
+              		<!-- INTERVALLO 1 dataInizio (low) dataFine (high) -->
+                            <entryRelationship typeCode="COMP">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <code code="24" codeSystem="2.16.840.1.113883.2.9.2.30.3.1.3.13.6.17" codeSystemName="CRS-SISS" displayName="Intervallo"/>
+                                    <effectiveTime>
+                                        <low value="20180529"/>
+                                        <high value="20181130"/>
+                                    </effectiveTime>
+                                </observation>
+                            </entryRelationship>
+              		<!-- INTERVALLO 2 dataInizio (low) dataFine (high) -->
+                            <entryRelationship typeCode="COMP">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <code code="24" codeSystem="2.16.840.1.113883.2.9.2.30.3.1.3.13.6.17" codeSystemName="CRS-SISS" displayName="Intervallo"/>
+                                    <effectiveTime>
+                                        <low value="20190201"/>
+                                        <high value="20190528"/>
+                                    </effectiveTime>
+                                </observation>
+                            </entryRelationship>
+                        </observation>
+                    </entry>
+                        <!-- ******* PRESTAZIONE 1 *******  -->
+                        <!--  [0090281 EMOGLOBINA GLICATA]  -->
+                        <!-- *****************************  -->                   
+ 					<entry typeCode="DRIV">
+                        <observation classCode="OBS" moodCode="DEF">
+                            <code nullFlavor="NA"/>
+                            <entryRelationship typeCode="COMP">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <code code="00" codeSystem="2.16.840.1.113883.2.9.2.30.3.1.3.13.6.18" codeSystemName="CRS-SISS" displayName="Ambulatoriale"/>
+                                </observation>
+                            </entryRelationship>
+                            <entryRelationship typeCode="COMP">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <code code="0090281" codeSystem="2.16.840.1.113883.2.9.2.30.6.11" codeSystemName="CRS-SISS" displayName="0090281 EMOGLOBINA GLICATA"/>
+                                </observation>
+                            </entryRelationship>
+                            <entryRelationship typeCode="COMP">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <code code="23" codeSystem="2.16.840.1.113883.2.9.2.30.3.1.3.13.6.17" codeSystemName="CRS-SISS" displayName="Quantità annua"/>
+                                    <value xsi:type="ST">2</value>
+                                </observation>
+                            </entryRelationship>
+                            <entryRelationship typeCode="COMP">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <code code="24" codeSystem="2.16.840.1.113883.2.9.2.30.3.1.3.13.6.17" codeSystemName="CRS-SISS" displayName="Intervallo"/>
+                                    <effectiveTime>
+                                        <low value="20180529"/>
+                                        <high value="20181130"/>
+                                    </effectiveTime>
+                                </observation>
+                            </entryRelationship>
+                            <entryRelationship typeCode="COMP">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <code code="24" codeSystem="2.16.840.1.113883.2.9.2.30.3.1.3.13.6.17" codeSystemName="CRS-SISS" displayName="Intervallo"/>
+                                    <effectiveTime>
+                                        <low value="20190201"/>
+                                        <high value="20190528"/>
+                                    </effectiveTime>
+                                </observation>
+                            </entryRelationship>
+                        </observation>
+                    </entry>
+                </section>
+            </component>
+              <component>
+                <section ID="COMPLIANCE_TERAPEUTICA">
+                    <code code="5" codeSystem="2.16.840.1.113883.2.9.2.30.3.1.3.13.6.1" codeSystemName="CRS-SISS" displayName="Compliance Terapeutica"/>
+                    <!-- (*) INIZIO SEZIONE HTML -->
+                    <title>Compliance Terapeutica</title>
+                    <text>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </text>
+              		<!-- ******************************* -->
+              		<!-- (**) INIZIO SEZIONE STRUTTURATA -->
+              		<!-- ******************************* -->
+					<!--               		ITERARE QUI LA ENTRY PER OGNI FARMACO-->
+					<!--               		PRIMA ITERAZIONE PER FARMACO 1-->
+                    <entry typeCode="DRIV">
+                        <observation classCode="OBS" moodCode="DEF">
+                            <code nullFlavor="NA"/>
+                        
+              				<!-- QUI INSERIAMO LA PRESTAZIONE FARMACEUTICA CODICE DESCRIZIONE -->
+                            <entryRelationship typeCode="COMP">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <code code="CODICE_FARMACO" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.16" codeSystemName="TELE" displayName="Farmaco_1"/>
+                                </observation>
+                            </entryRelationship>
+                            
+                            	<!-- 								ID Assunzione  -->
+							 <entryRelationship typeCode="COMP">
+									<observation moodCode="INT" classCode="CASE">
+										<code code="100" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.14" codeSystemName="TELE" displayName="Id Assunzione"/>                    	
+									</observation>
+							 </entryRelationship>
+							
+							<!--                            FASCIA -->
+                            <entryRelationship typeCode="COMP">
+                             <observation moodCode="INT" classCode="CASE">
+								<code code="61" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.3" codeSystemName="TELE" displayName="Dopo Pranzo"/>                   	
+							 </observation>
+                            </entryRelationship>
+							
+							
+							<!-- 								  Notifica -->
+								<entryRelationship typeCode="COMP">
+									 <observation classCode="OBS" moodCode="EVN">
+		                                    <code code="21" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.7" codeSystemName="TELE" displayName="NotificaStandard"/>
+		                                </observation>
+								</entryRelationship>
+								
+							
+									<!--                             Quantità -->
+                            <entryRelationship typeCode="COMP">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <code code="23" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.10" codeSystemName="TELE" displayName="Quantità Inalazione"/>
+                                    <value xsi:type="ST">1</value>
+                                </observation>
+                            </entryRelationship>
+              		
+                            
+                            <!-- 								Giorno della settimana  -->
+								 <entryRelationship typeCode="COMP">
+									<observation moodCode="INT" classCode="CASE">
+										<code code="1" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.5" codeSystemName="TELE" displayName="SUNDAY"/>                    	
+									</observation>
+								 </entryRelationship>
+								
+								<!-- 								  Orario Promemoria -->
+								 <entryRelationship typeCode="COMP">
+									 <observation classCode="OBS" moodCode="EVN">
+		                                    <code code="1" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.6" codeSystemName="TELE" displayName="reminderTime"/>
+		                                    <effectiveTime>
+		                                       <center value="1200"/>
+		                                    </effectiveTime>
+		                                </observation>
+								 </entryRelationship>
+								
+								<!-- 								  Orario Assunzione -->
+								 <entryRelationship typeCode="COMP">
+									 <observation classCode="OBS" moodCode="EVN">
+		                                    <code code="2" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.6" codeSystemName="TELE" displayName="intakeTime"/>
+		                                    <effectiveTime>
+		                                       <center value="1200"/>
+		                                    </effectiveTime>
+		                                </observation>
+								 </entryRelationship>
+                            
+								<!--                           >Tipo di Assunzione -->
+                            
+                            <entryRelationship typeCode="COMP">
+                                <observation  classCode="OBS" moodCode="EVN">
+                            	    <code code="1" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.9" codeSystemName="TELE" displayName="PROGRAMMATA"/>
+                                </observation>
+                            </entryRelationship>
+                            
+                            		<!--                           >Note Assunzione -->
+                            
+                            <entryRelationship typeCode="COMP">
+                                <observation  classCode="OBS" moodCode="EVN">
+                            	    <code code="1" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.15" codeSystemName="TELE" displayName="Note Assunzione"/>
+	                            	  <methodCode>
+	  										<originalText>nota assunzione</originalText>
+	  								  </methodCode>
+                                </observation>
+                            </entryRelationship>
+                            
+                            	<!--               		Data Inizio e Fine programmazione -->
+                            <entryRelationship typeCode="COMP">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <code codeSystem="2.16.840.1.113883.2.9.3.12.4.42.8" codeSystemName="TELE" displayName="Intervallo"/>
+                                    <effectiveTime>
+                                        <low value="20190415"/>
+                                        <high value="20191015"/>
+                                    </effectiveTime>
+                                </observation>
+                            </entryRelationship>
+                       
+                        </observation>
+                    </entry>
+                    <!--               		SECONDA ITERAZIONE PER FARMACO 2-->
+                    <entry typeCode="DRIV">
+                        <observation classCode="OBS" moodCode="DEF">
+                            <code nullFlavor="NA"/>
+                        
+              				<!-- QUI INSERIAMO LA PRESTAZIONE FARMACEUTICA CODICE DESCRIZIONE -->
+                            <entryRelationship typeCode="COMP">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <code code="CODICE_FARMACO_2" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.16" codeSystemName="TELE" displayName="Farmaco_2"/>
+                                </observation>
+                            </entryRelationship>
+                            
+                            	<!-- 								ID Assunzione  -->
+							 <entryRelationship typeCode="COMP">
+									<observation moodCode="INT" classCode="CASE">
+										<code code="101" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.14" codeSystemName="TELE" displayName="Id Assunzione"/>                    	
+									</observation>
+							 </entryRelationship>
+							
+							<!--                            FASCIA -->
+                            <entryRelationship typeCode="COMP">
+                             <observation moodCode="INT" classCode="CASE">
+								<code code="61" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.3" codeSystemName="TELE" displayName="Dopo Pranzo"/>                   	
+							 </observation>
+                            </entryRelationship>
+							
+							
+							<!-- 								  Notifica -->
+								<entryRelationship typeCode="COMP">
+									 <observation classCode="OBS" moodCode="EVN">
+		                                    <code code="21" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.7" codeSystemName="TELE" displayName="NotificaStandard"/>
+		                                </observation>
+								</entryRelationship>
+								
+							
+									<!--                             Quantità -->
+                            <entryRelationship typeCode="COMP">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <code code="23" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.10" codeSystemName="TELE" displayName="Quantità Inalazione"/>
+                                    <value xsi:type="ST">1</value>
+                                </observation>
+                            </entryRelationship>
+              		
+                            
+                            <!-- 								Giorno della settimana  -->
+								 <entryRelationship typeCode="COMP">
+									<observation moodCode="INT" classCode="CASE">
+										<code code="1" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.5" codeSystemName="TELE" displayName="SUNDAY"/>                    	
+									</observation>
+								 </entryRelationship>
+								
+								<!-- 								  Orario Promemoria -->
+								 <entryRelationship typeCode="COMP">
+									 <observation classCode="OBS" moodCode="EVN">
+		                                    <code code="1" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.6" codeSystemName="TELE" displayName="reminderTime"/>
+		                                    <effectiveTime>
+		                                       <center value="1200"/>
+		                                    </effectiveTime>
+		                                </observation>
+								 </entryRelationship>
+								
+								<!-- 								  Orario Assunzione -->
+								 <entryRelationship typeCode="COMP">
+									 <observation classCode="OBS" moodCode="EVN">
+		                                    <code code="2" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.6" codeSystemName="TELE" displayName="intakeTime"/>
+		                                    <effectiveTime>
+		                                       <center value="1200"/>
+		                                    </effectiveTime>
+		                                </observation>
+								 </entryRelationship>
+                            
+								<!--                           >Tipo di Assunzione -->
+                            
+                            <entryRelationship typeCode="COMP">
+                                <observation  classCode="OBS" moodCode="EVN">
+                            	    <code code="1" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.9" codeSystemName="TELE" displayName="PROGRAMMATA"/>
+                                </observation>
+                            </entryRelationship>
+                            
+                            		<!--                           >Note Assunzione -->
+                            
+                            <entryRelationship typeCode="COMP">
+                                <observation  classCode="OBS" moodCode="EVN">
+                            	    <code code="1" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.15" codeSystemName="TELE" displayName="Note Assunzione"/>
+	                            	  <methodCode>
+	  										<originalText>nota assunzione</originalText>
+	  								  </methodCode>
+                                </observation>
+                            </entryRelationship>
+                            
+                            	<!--               		Data Inizio e Fine programmazione -->
+                            <entryRelationship typeCode="COMP">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <code code="24" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.8" codeSystemName="TELE" displayName="Intervallo"/>
+                                    <effectiveTime>
+                                        <low value="20190415"/>
+                                        <high value="20191015"/>
+                                    </effectiveTime>
+                                </observation>
+                            </entryRelationship>
+                       
+                        </observation>
+                    </entry>
+               
+               
+                </section>
+            </component>
+            <component>
+                <section ID="RILEVAZIONE_PARAMETRI">
+                    <code code="6" codeSystem="2.16.840.1.113883.2.9.2.30.3.1.3.13.6.1" codeSystemName="CRS-SISS" displayName="Rilevazione Parametri"/>
+                    <!-- (*) INIZIO SEZIONE HTML -->
+                    <title>Rilevazione Parametri</title>
+                    <text>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </text>
+              		<!-- ******************************* -->
+              		<!-- (**) INIZIO SEZIONE STRUTTURATA -->
+              		<!-- ******************************* -->
+                    <entry typeCode="DRIV">
+
+                        <observation classCode="OBS" moodCode="DEF">
+                            <code nullFlavor="NA"/>
+                          	<!-- 								Numero inventario KIT  -->
+                            <entryRelationship typeCode="COMP">
+									<observation moodCode="INT" classCode="CASE">
+										<code code="101" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.12" codeSystemName="TELE" displayName="KitAlpha-NomeCasaSalute-1"/>                    	
+									</observation>
+                            </entryRelationship>
+						
+							<!--                        PRIMO  PARAMETRO VITALE - BISOGNA ITERARE LA entryRelationship QUI -->
+                            <entryRelationship typeCode="COMP">
+								<!--                             Parametri Vitali -->
+								<organizer moodCode="INT" classCode="BATTERY">
+									<code code="11" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.1" displayName="Ossigenazione Sanguigna"/>				
+									<statusCode code="completed"/>
+								<!-- 								ID Misurazione  -->
+								<component>
+									<observation moodCode="INT" classCode="CASE">
+										<code code="601" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.14" codeSystemName="TELE" displayName="Id Misurazione"/>                    	
+									</observation>
+								</component>
+								<!-- 								Parametri misurabili							 -->
+								<component>
+									<observation moodCode="INT" classCode="CASE">
+										<code code="11" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.2" codeSystemName="TELE" displayName="SpO2"/>
+								<!-- 								Soglia							 -->
+									<referenceRange>
+										<observationRange>
+											<value xsi:type="IVL_PQ">
+												<low value="0"/>
+												<high value="100"/>
+											</value>
+										</observationRange>
+									</referenceRange>
+									</observation>
+								</component>
+								<!-- 								FASCIA  -->
+								<component>
+									<observation moodCode="INT" classCode="CASE">
+										<code code="51" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.3" codeSystemName="TELE" displayName="Mezzogiorno"/>                     	
+									</observation>
+								</component>
+								<!-- 								Giorno della settimana  -->
+								<component>
+									<observation moodCode="INT" classCode="CASE">
+										<code code="1" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.5" codeSystemName="TELE" displayName="SUNDAY"/>                    	
+									</observation>
+								</component>
+								<!-- 								  Orario Promemoria -->
+								<component>
+									 <observation classCode="OBS" moodCode="EVN">
+		                                    <code code="1" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.6" codeSystemName="TELE" displayName="reminderTime"/>
+		                                    <effectiveTime>
+		                                       <center value="1200"/>
+		                                    </effectiveTime>
+		                                </observation>
+								</component>
+								<!-- 								  Orario Misurazione -->
+								<component>
+									 <observation classCode="OBS" moodCode="EVN">
+		                                    <code code="2" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.6" codeSystemName="TELE" displayName="intakeTime"/>
+		                                    <effectiveTime>
+		                                       <center value="1200"/>
+		                                    </effectiveTime>
+		                                </observation>
+								</component>
+								<!-- 								  Notifica -->
+								<component>
+									 <observation classCode="OBS" moodCode="EVN">
+		                                    <code code="1" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.7" codeSystemName="TELE" displayName="NotificaStandard"/>
+		                             </observation>
+								</component>
+								<!--               		Data Inizio e Fine programmazione -->
+								<component>
+									 <observation classCode="OBS" moodCode="EVN">
+		                                    <code code="1" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.8" codeSystemName="TELE" displayName="Intervallo"/>
+		                                   <effectiveTime>
+		                                        <low value="20190415"/>
+		                                        <high value="20191015"/>
+                                  		  </effectiveTime>
+		                              </observation>
+								</component>
+								 <!--                           >Tipo di Misurazione -->
+								<component>
+									  <observation  classCode="OBS" moodCode="EVN">
+                            	    	<code code="1" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.9" codeSystemName="TELE" displayName="PROGRAMMATA"/>
+                                	</observation>
+								</component>
+								 <!--                           >Note Misurazione -->
+	                         	<component>
+	                                <observation  classCode="OBS" moodCode="EVN">
+	                            	    <code code="1" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.15" codeSystemName="TELE" displayName="Note Misurazione"/>
+		                            	  <methodCode>
+		  										<originalText>NoteMisurazionee</originalText>
+		  								  </methodCode>
+	                                </observation>
+	                         	</component>
+								</organizer>
+                            </entryRelationship>
+							
+							<!--                        SECONDO  PARAMETRO VITALE SECONDA ITERAZIONE della entryRelationship  -->
+                            <entryRelationship typeCode="COMP">
+								<!--                             Parametri Vitali -->
+								<organizer moodCode="INT" classCode="BATTERY">
+									<code code="31" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.1" displayName="Pressione Arteriosa"/>				
+									<statusCode code="completed"/>
+								<!-- 								ID Misurazione  -->
+								<component>
+									<observation moodCode="INT" classCode="CASE">
+										<code code="602" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.14" codeSystemName="TELE" displayName="Id Misurazione"/>                    	
+									</observation>
+								</component>
+								<!-- 							PRIMO	Parametro misurabile							 -->
+								<component>
+									<observation moodCode="INT" classCode="CASE">
+										<code code="31" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.2" codeSystemName="TELE" displayName="pressione sistolica"/>
+								<!-- 								Soglia							 -->
+									<referenceRange>
+										<observationRange>
+											<value xsi:type="IVL_PQ">
+												<low value="60"/>
+												<high value="220"/>
+											</value>
+										</observationRange>
+									</referenceRange>
+									</observation>
+								</component>
+								
+									<!-- 						SECONDO		Parametro misurabile							 -->
+								<component>
+									<observation moodCode="INT" classCode="CASE">
+										<code code="41" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.2" codeSystemName="TELE" displayName="pressione diastolica"/>
+								<!-- 								Soglia							 -->
+									<referenceRange>
+										<observationRange>
+											<value xsi:type="IVL_PQ">
+												<low value="60"/>
+												<high value="220"/>
+											</value>
+										</observationRange>
+									</referenceRange>
+									</observation>
+								</component>
+								<!-- 								FASCIA  -->
+								<component>
+									<observation moodCode="INT" classCode="CASE">
+										<code code="51" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.3" codeSystemName="TELE" displayName="Mezzogiorno"/>                     	
+									</observation>
+								</component>
+								<!-- 								Giorno della settimana  -->
+								<component>
+									<observation moodCode="INT" classCode="CASE">
+										<code code="1" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.5" codeSystemName="TELE" displayName="TUESDAY"/>                    	
+									</observation>
+								</component>
+								<!-- 								  Orario Promemoria -->
+								<component>
+									 <observation classCode="OBS" moodCode="EVN">
+		                                    <code code="1" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.6" codeSystemName="TELE" displayName="reminderTime"/>
+		                                    <effectiveTime>
+		                                       <center value="1200"/>
+		                                    </effectiveTime>
+		                                </observation>
+								</component>
+								<!-- 								  Orario Misurazione -->
+								<component>
+									 <observation classCode="OBS" moodCode="EVN">
+		                                    <code code="2" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.6" codeSystemName="TELE" displayName="intakeTime"/>
+		                                    <effectiveTime>
+		                                       <center value="1200"/>
+		                                    </effectiveTime>
+		                                </observation>
+								</component>
+								<!-- 								  Notifica -->
+								<component>
+									 <observation classCode="OBS" moodCode="EVN">
+		                                    <code code="1" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.7" codeSystemName="TELE" displayName="NotificaStandard"/>
+		                             </observation>
+								</component>
+								<!--               		Data Inizio e Fine programmazione -->
+								<component>
+									 <observation classCode="OBS" moodCode="EVN">
+		                                    <code code="1" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.8" codeSystemName="TELE" displayName="Intervallo"/>
+		                                   <effectiveTime>
+		                                        <low value="20190415"/>
+		                                        <high value="20191015"/>
+                                  		  </effectiveTime>
+		                              </observation>
+								</component>
+								 <!--                           >Tipo di Misurazione -->
+								<component>
+									  <observation  classCode="OBS" moodCode="EVN">
+                            	    	<code code="1" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.9" codeSystemName="TELE" displayName="PROGRAMMATA"/>
+                                	</observation>
+								</component>
+								 <!--                           >Note Misurazione -->
+	                         	<component>
+	                                <observation  classCode="OBS" moodCode="EVN">
+	                            	    <code code="1" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.15" codeSystemName="TELE" displayName="Note Misurazione"/>
+		                            	  <methodCode>
+		  										<originalText>NoteMisurazionee</originalText>
+		  								  </methodCode>
+	                                </observation>
+	                         	</component>
+								</organizer>
+                            </entryRelationship>
+						
+                        </observation>
+                    </entry>
+                </section>
+            </component>
+             <component>
+                <section ID="REMINDER_ATTIVITA">
+                    <code code="7" codeSystem="2.16.840.1.113883.2.9.2.30.3.1.3.13.6.1" codeSystemName="CRS-SISS" displayName="Reminder Attività"/>
+                    <!-- (*) INIZIO SEZIONE HTML -->
+                    <title>Reminder Attività</title>
+                    <text>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </text>
+              		<!-- ******************************* -->
+              		<!-- (**) INIZIO SEZIONE STRUTTURATA -->
+              		<!-- ******************************* -->
+                   	<!--                        PRIMA  ATTIVITÀ - BISOGNA ITERARE LA ENTRY QUI -->
+                    <entry typeCode="DRIV">
+
+                        <observation classCode="OBS" moodCode="DEF">
+                            <code nullFlavor="NA"/>
+                           	<!--                           Attività -->
+                            <entryRelationship typeCode="COMP">
+                                <observation  classCode="OBS" moodCode="EVN">
+                            	    <code code="1" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.11" codeSystemName="TELE" displayName="PHOTO"/>
+	                            	  <methodCode>
+	  										<originalText>Inviare una foto del piede</originalText>
+	  								  </methodCode>
+                                </observation>
+                            </entryRelationship>   
+                            <!-- 								ID Attività  -->
+							 <entryRelationship typeCode="COMP">
+									<observation moodCode="INT" classCode="CASE">
+										<code code="101" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.14" codeSystemName="TELE" displayName="Id Attività"/>                    	
+									</observation>
+							 </entryRelationship>
+                			 <!-- 								FASCIA  -->
+								 <entryRelationship typeCode="COMP">
+									<observation moodCode="INT" classCode="CASE">
+										<code code="51" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.3" codeSystemName="TELE" displayName="Dopo Pranzo"/>                     	
+									</observation>
+								</entryRelationship>
+                         	  <!-- 								  Orario Promemoria -->
+								<entryRelationship typeCode="COMP">
+									 <observation classCode="OBS" moodCode="EVN">
+		                                    <code code="1" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.6" codeSystemName="TELE" displayName="reminderTime"/>
+		                                    <effectiveTime>
+		                                       <center value="1200"/>
+		                                    </effectiveTime>
+		                                </observation>
+								</entryRelationship>
+								<!-- 								  Orario Attività -->
+								<entryRelationship typeCode="COMP">
+									 <observation classCode="OBS" moodCode="EVN">
+		                                    <code code="2" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.6" codeSystemName="TELE" displayName="intakeTime"/>
+		                                    <effectiveTime>
+		                                       <center value="1200"/>
+		                                    </effectiveTime>
+		                                </observation>
+								</entryRelationship>
+								<!-- 								Giorno della settimana  -->
+								<entryRelationship typeCode="COMP">
+									<observation moodCode="INT" classCode="CASE">
+										<code code="1" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.5" codeSystemName="TELE" displayName="SUNDAY"/>                    	
+									</observation>
+								</entryRelationship>
+								<!-- 								  Notifica -->
+								<entryRelationship typeCode="COMP">
+									 <observation classCode="OBS" moodCode="EVN">
+		                                    <code code="21" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.7" codeSystemName="TELE" displayName="NotificaStandard"/>
+		                                </observation>
+								</entryRelationship>
+								<!--               		Data Inizio e Fine programmazione -->
+								<entryRelationship typeCode="COMP">
+									 <observation classCode="OBS" moodCode="EVN">
+		                                    <code code="1" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.8" codeSystemName="TELE" displayName="Intervallo"/>
+		                                   <effectiveTime>
+		                                        <low value="20190415"/>
+		                                        <high value="20191015"/>
+                                  		  </effectiveTime>
+		                              </observation>
+								</entryRelationship>
+								<!--                           >Tipo di Attività -->
+								<entryRelationship typeCode="COMP">
+									  <observation  classCode="OBS" moodCode="EVN">
+                            	    	<code code="1" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.9" codeSystemName="TELE" displayName="PROGRAMMATA"/>
+                                	</observation>
+								</entryRelationship>
+								<!--                           >Note Attività -->
+                            <entryRelationship typeCode="COMP">
+                                <observation  classCode="OBS" moodCode="EVN">
+                            	    <code code="1" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.15" codeSystemName="TELE" displayName="Note Attività"/>
+	                            	  <methodCode>
+	  										<originalText>Si richiede l’invio della foto del piede destro</originalText>
+	  								  </methodCode>
+                                </observation>
+                            </entryRelationship>
+                        </observation>
+                    </entry>
+              		<!--                        SECONDA  ATTIVITÀ - BISOGNA ITERARE LA ENTRY QUI -->
+                 	<entry typeCode="DRIV">
+
+                        <observation classCode="OBS" moodCode="DEF">
+                            <code nullFlavor="NA"/>
+                           	<!--                           Attività -->
+                            <entryRelationship typeCode="COMP">
+                                <observation  classCode="OBS" moodCode="EVN">
+                            	    <code code="2" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.11" codeSystemName="TELE" displayName="MEDICAL_EXAMINATION/"/>
+	                            	  <methodCode>
+	  										<originalText>MEDICAL EXAMINATION CAMPO DESCRITTIVO</originalText>
+	  								  </methodCode>
+                                </observation>
+                            </entryRelationship>   
+                            <!-- 								ID Attività  -->
+							 <entryRelationship typeCode="COMP">
+									<observation moodCode="INT" classCode="CASE">
+										<code code="102" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.14" codeSystemName="TELE" displayName="Id Attività"/>                    	
+									</observation>
+							 </entryRelationship>
+                			 <!-- 								FASCIA  -->
+								 <entryRelationship typeCode="COMP">
+									<observation moodCode="INT" classCode="CASE">
+										<code code="51" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.3" codeSystemName="TELE" displayName="Dopo Pranzo"/>                     	
+									</observation>
+								</entryRelationship>
+                         	  <!-- 								  Orario Promemoria -->
+								<entryRelationship typeCode="COMP">
+									 <observation classCode="OBS" moodCode="EVN">
+		                                    <code code="1" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.6" codeSystemName="TELE" displayName="reminderTime"/>
+		                                    <effectiveTime>
+		                                       <center value="1200"/>
+		                                    </effectiveTime>
+		                                </observation>
+								</entryRelationship>
+								<!-- 								  Orario Attività -->
+								<entryRelationship typeCode="COMP">
+									 <observation classCode="OBS" moodCode="EVN">
+		                                    <code code="2" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.6" codeSystemName="TELE" displayName="intakeTime"/>
+		                                    <effectiveTime>
+		                                       <center value="1200"/>
+		                                    </effectiveTime>
+		                                </observation>
+								</entryRelationship>
+								<!-- 								Giorno della settimana  -->
+								<entryRelationship typeCode="COMP">
+									<observation moodCode="INT" classCode="CASE">
+										<code code="1" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.5" codeSystemName="TELE" displayName="SUNDAY"/>                    	
+									</observation>
+								</entryRelationship>
+								<!-- 								  Notifica -->
+								<entryRelationship typeCode="COMP">
+									 <observation classCode="OBS" moodCode="EVN">
+		                                    <code code="11" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.7" codeSystemName="TELE" displayName="Notifica bassa priorità"/>
+		                                </observation>
+								</entryRelationship>
+								<!--               		Data Inizio e Fine programmazione -->
+								<entryRelationship typeCode="COMP">
+									 <observation classCode="OBS" moodCode="EVN">
+		                                    <code code="1" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.8" codeSystemName="TELE" displayName="Intervallo"/>
+		                                   <effectiveTime>
+		                                        <low value="20190415"/>
+		                                        <high value="20190415"/>
+                                  		  </effectiveTime>
+		                              </observation>
+								</entryRelationship>
+								<!--                           >Tipo di Attività -->
+								<entryRelationship typeCode="COMP">
+									  <observation  classCode="OBS" moodCode="EVN">
+                            	    	<code code="2" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.9" codeSystemName="TELE" displayName="ISTANTANEA"/>
+                                	</observation>
+								</entryRelationship>
+								<!--                           >Note Attività -->
+                            <entryRelationship typeCode="COMP">
+                                <observation  classCode="OBS" moodCode="EVN">
+                            	    <code code="1" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.15" codeSystemName="TELE" displayName="Note Attività"/>
+	                            	  <methodCode>
+	  										<originalText>Si richiede un esame medico</originalText>
+	  								  </methodCode>
+                                </observation>
+                            </entryRelationship>
+                        </observation>
+                    </entry>
+               
+                </section>
+            </component>
+            <component>
+                <section ID="QUESTIONARIO">
+                    <code code="8" codeSystem="2.16.840.1.113883.2.9.2.30.3.1.3.13.6.1" codeSystemName="CRS-SISS" displayName="Questionario"/>
+                    <!-- (*) INIZIO SEZIONE HTML -->
+                    <title>Questionario</title>
+                    <text>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </text>
+              	
+              		<!-- ******************************* -->
+              		<!-- (**) INIZIO SEZIONE STRUTTURATA -->
+              		<!-- ******************************* -->
+                    <entry typeCode="DRIV">
+                        <observation classCode="OBS" moodCode="DEF">
+                            <code nullFlavor="NA"/>
+								<!-- 									TEMPLATE -->
+								<entryRelationship typeCode="COMP">
+									<observation moodCode="INT" classCode="CASE">
+										<code code="711" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.13" codeSystemName="TELE" displayName="Aderenza Terapeutica"/>                    	
+									</observation>
+								</entryRelationship>
+								
+								  <!-- 								Questionario  -->
+								 <entryRelationship typeCode="COMP">
+										<observation moodCode="INT" classCode="CASE">
+											<code code="101" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.14" codeSystemName="TELE" displayName="nome questionario"/>                    	
+										</observation>
+								 </entryRelationship>
+								
+								<!--               		Data Inizio e Fine programmazione -->
+								<entryRelationship typeCode="COMP">
+									 <observation classCode="OBS" moodCode="EVN">
+		                                    <code code="1" codeSystem="2.16.840.1.113883.2.9.3.12.4.42.8" codeSystemName="TELE" displayName="Intervallo"/>
+		                                   <effectiveTime>
+		                                        <low value="20190415"/>
+		                                        <high value="20191015"/>
+                                  		  </effectiveTime>
+		                              </observation>
+								</entryRelationship>
+                        </observation>
+                    </entry>
+               
+                </section>
+            </component>
+		</structuredBody>
+	</component>
+</ClinicalDocument>
+

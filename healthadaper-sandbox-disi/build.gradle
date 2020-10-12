@@ -71,3 +71,10 @@ dependencies {
 test {
 	useJUnitPlatform()
 }
+
+//Added by AN to avoid duplication in src (Thanks Gozzi)
+eclipse {
+    classpath {
+        sourceSets -= [sourceSets.main, sourceSets.test]	
+    }	
+}

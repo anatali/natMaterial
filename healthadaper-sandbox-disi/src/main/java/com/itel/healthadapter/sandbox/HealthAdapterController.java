@@ -42,7 +42,7 @@ public class HealthAdapterController implements HealthAdapterAPI {
     //Added to show something in a browser
 	 @GetMapping( "/" )	 
 	 public  String entry( ) {
-		 return "HealthAdapterController | Welcome from com.itel.healthadapter.sandbox" ;
+		 return "HealthAdapterController | Welcome from com.itel.healthadapter.sandbox.disi" ;
 	 }
     
 	 @PostMapping( "/test" )
