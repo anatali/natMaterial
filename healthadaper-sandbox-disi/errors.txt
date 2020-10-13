@@ -1,0 +1,89 @@
+itel-fhir_1  | [AUDIT   ] CWWKF0011I: The fhir-server server is ready to run a smarter planet. The fhir-server server started in 57.157 seconds.
+itel-fhir_1  | [AUDIT   ] CWWKZ0022W: Application fhir-bulkimportexport-webapp has not started in 30.011 seconds.
+itel-fhir_1  | [AUDIT   ] CWWKZ0022W: Application fhir-server-webapp has not started in 30.002 seconds.
+itel-fhir_1  | [AUDIT   ] CWWKT0016I: Web application available (default_host): http://95e32b57dc71:9442/fhir-server/api/v4/
+itel-fhir_1  | [AUDIT   ] CWWKT0016I: Web application available (default_host): http://95e32b57dc71:9442/fhir-bulkimportexport-webapp/
+itel-fhir_1  | [AUDIT   ] CWWKZ0001I: Application fhir-bulkimportexport-webapp started in 72.525 seconds.
+itel-fhir_1  | [WARNING ] SearchParameter with code 'onset-date' already exists with a different expression;
+itel-fhir_1  | replacing [url=http://hl7.org/fhir/SearchParameter/Condition-onset-date, expression=Condition.onset.as(dateTime) | Condition.onset.as(Period)] with [url=http://hl7.org/fhir/us/core/SearchParameter/us-core-condition-onset-date, expression=Condition.onset.as(dateTime)]
+itel-fhir_1  | [WARNING ] SearchParameter with code 'name' already exists with a different expression;
+itel-fhir_1  | replacing [url=http://hl7.org/fhir/SearchParameter/Organization-name, expression=Organization.name | Organization.alias] with [url=http://hl7.org/fhir/us/core/SearchParameter/us-core-organization-name, expression=Organization.name]
+itel-fhir_1  | [WARNING ] SearchParameter with code 'name' already exists with a different expression;
+itel-fhir_1  | replacing [url=http://hl7.org/fhir/SearchParameter/Location-name, expression=Location.name | Location.alias] with [url=http://hl7.org/fhir/us/core/SearchParameter/us-core-location-name, expression=Location.name]
+itel-fhir_1  | [WARNING ] SearchParameter with code 'name' already exists with a different expression;
+itel-fhir_1  | replacing [url=http://hl7.org/fhir/us/core/SearchParameter/us-core-organization-name, expression=Organization.name] with [url=http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/organization-name, expression=Organization.name | Organization.alias]
+iitel-fhir_1  | [WARNING ] [ONCE] Derby does not support CREATE VARIABLE for: SV_TENANT_ID
+itel-fhir_1  | [WARNING ] [ONCE] Create procedure not supported in Derby
+itel-fhir_1  | [WARNING ] [ONCE] Derby does not support multi-tenancy on: [PARAMETER_NAMES]
+itel-fhir_1  | [WARNING ] [ONCE] Derby does not support CREATE PERMISSION for: PARAMETER_NAMES_TENANT
+itel-fhir_1  | [WARNING ] [ONCE] Derby does not support ROW ACCESS CONTROL for table: PARAMETER_NAMES
+itel-fhir_1  | [WARNING ] [ONCE] Not supported in Derby: ALTER TABLE APP.APPOINTMENT_STR_VALUES ALTER COLUMN ROW_ID SET CACHE 1000
+itel-fhir_1  | [ERROR   ] DSRA0304E:  XAException occurred. XAException contents and details are: .
+itel-fhir_1  | [ERROR   ] DSRA0302E:  XAException occurred.  Error code is: XA_RBROLLBACK (100).  Exception is: null
+itel-fhir_1  | [ERROR   ] J2CA0026E: Method addSync caught javax.transaction.RollbackException: Transaction rolled back
+itel-fhir_1  |  at com.ibm.tx.jta.impl.TransactionImpl.registerSynchronization(TransactionImpl.java:2284)
+itel-fhir_1  |  at [internal classes]
+itel-fhir_1  |  at com.ibm.fhir.database.utils.common.JdbcTarget.runStatement(JdbcTarget.java:37)
+itel-fhir_1  |  at com.ibm.fhir.database.utils.common.CommonDatabaseAdapter.runStatement(CommonDatabaseAdapter.java:225)
+itel-fhir_1  |  at com.ibm.fhir.database.utils.common.CommonDatabaseAdapter.createForeignKeyConstraint(CommonDatabaseAdapter.java:355)
+itel-fhir_1  |  at com.ibm.fhir.database.utils.derby.DerbyAdapter.createForeignKeyConstraint(DerbyAdapter.java:277)
+itel-fhir_1  |  at com.ibm.fhir.database.utils.model.ForeignKeyConstraint.apply(ForeignKeyConstraint.java:112)
+itel-fhir_1  |  at com.ibm.fhir.database.utils.model.Table.apply(Table.java:126)
+itel-fhir_1  |  at com.ibm.fhir.database.utils.model.Table.apply(Table.java:145)
+itel-fhir_1  |  at com.ibm.fhir.database.utils.model.BaseObject.applyVersion(BaseObject.java:262)
+itel-fhir_1  |  at com.ibm.fhir.database.utils.model.ObjectGroup.applyVersion(ObjectGroup.java:67)
+itel-fhir_1  |  at com.ibm.fhir.database.utils.model.PhysicalDataModel.applyWithHistory(PhysicalDataModel.java:133)
+itel-fhir_1  |  at com.ibm.fhir.persistence.jdbc.util.DerbyBootstrapper.bootstrap(DerbyBootstrapper.java:133)
+itel-fhir_1  |  at com.ibm.fhir.persistence.jdbc.util.DerbyBootstrapper.bootstrapDb(DerbyBootstrapper.java:81)
+itel-fhir_1  |  at com.ibm.fhir.server.listener.FHIRServletContextListener.bootstrapFhirDb(FHIRServletContextListener.java:286)
+itel-fhir_1  |  at com.ibm.fhir.server.listener.FHIRServletContextListener.bootstrapDerbyDatabases(FHIRServletContextListener.java:220)
+itel-fhir_1  |  at com.ibm.fhir.server.listener.FHIRServletContextListener.contextInitialized(FHIRServletContextListener.java:181)
+itel-fhir_1  |  at com.ibm.ws.webcontainer.webapp.WebApp.notifyServletContextCreated(WebApp.java:2433)
+itel-fhir_1  |  at [internal classes]
+itel-fhir_1  |  while trying to register the Resource Adapter with the Synchronization Manager for the current transaction, and threw a ResourceException.
+itel-fhir_1  | [WARNING ] DSRA9400E: Fatal error occurred during Connection reassociation: javax.resource.ResourceException: addSync: caught Exception
+itel-fhir_1  |  at com.ibm.ejs.j2c.XATransactionWrapper.addSync(XATransactionWrapper.java:180)
+itel-fhir_1  |  at [internal classes]
+itel-fhir_1  |  at com.ibm.fhir.database.utils.common.JdbcTarget.runStatement(JdbcTarget.java:37)
+itel-fhir_1  |  at com.ibm.fhir.database.utils.common.CommonDatabaseAdapter.runStatement(CommonDatabaseAdapter.java:225)
+itel-fhir_1  |  at com.ibm.fhir.database.utils.common.CommonDatabaseAdapter.createForeignKeyConstraint(CommonDatabaseAdapter.java:355)
+itel-fhir_1  |  at com.ibm.fhir.database.utils.derby.DerbyAdapter.createForeignKeyConstraint(DerbyAdapter.java:277)
+itel-fhir_1  |  at com.ibm.fhir.database.utils.model.ForeignKeyConstraint.apply(ForeignKeyConstraint.java:112)
+itel-fhir_1  |  at com.ibm.fhir.database.utils.model.Table.apply(Table.java:126)
+itel-fhir_1  |  at com.ibm.fhir.database.utils.model.Table.apply(Table.java:145)
+itel-fhir_1  |  at com.ibm.fhir.database.utils.model.BaseObject.applyVersion(BaseObject.java:262)
+itel-fhir_1  |  at com.ibm.fhir.database.utils.model.ObjectGroup.applyVersion(ObjectGroup.java:67)
+itel-fhir_1  |  at com.ibm.fhir.database.utils.model.PhysicalDataModel.applyWithHistory(PhysicalDataModel.java:133)
+itel-fhir_1  |  at com.ibm.fhir.persistence.jdbc.util.DerbyBootstrapper.bootstrap(DerbyBootstrapper.java:133)
+itel-fhir_1  |  at com.ibm.fhir.persistence.jdbc.util.DerbyBootstrapper.bootstrapDb(DerbyBootstrapper.java:81)
+itel-fhir_1  |  at com.ibm.fhir.server.listener.FHIRServletContextListener.bootstrapFhirDb(FHIRServletContextListener.java:286)
+itel-fhir_1  |  at com.ibm.fhir.server.listener.FHIRServletContextListener.bootstrapDerbyDatabases(FHIRServletContextListener.java:220)
+itel-fhir_1  |  at com.ibm.fhir.server.listener.FHIRServletContextListener.contextInitialized(FHIRServletContextListener.java:181)
+itel-fhir_1  |  at com.ibm.ws.webcontainer.webapp.WebApp.notifyServletContextCreated(WebApp.java:2433)
+itel-fhir_1  |  at [internal classes]
+itel-fhir_1  | Caused by: javax.transaction.RollbackException: Transaction rolled back
+itel-fhir_1  |  at com.ibm.tx.jta.impl.TransactionImpl.registerSynchronization(TransactionImpl.java:2284)
+itel-fhir_1  |  ... 18 more
+itel-fhir_1  |
+itel-fhir_1  | [WARNING ] Statement failed (java.sql.SQLException: addSync: caught Exception) ALTER TABLE APP.ALLERGYINTOLERANCE_QUANTITY_VALUES ADD CONSTRAINT FK_ALLERGYINTOLERANCE_QUANTITY_VALUES_PN FOREIGN KEY(PARAMETER_NAME_ID) REFERENCES APP.PARAMETER_NAMES
+itel-fhir_1  | [ERROR   ] Encountered an exception while bootstrapping the FHIR database
+itel-fhir_1  | java.sql.SQLException: addSync: caught Exception
+itel-fhir_1  | [ERROR   ] transaction rollback failed
+itel-fhir_1  | No Global Transaction exists to commit.
+itel-fhir_1  | [ERROR   ] Encountered an exception while initializing the servlet context.
+itel-fhir_1  | javax.transaction.RollbackException
+itel-fhir_1  | [ERROR   ] SRVE0283E: Exception caught while initializing context: java.lang.RuntimeException: Encountered an exception while initializing the servlet context.
+itel-fhir_1  |  at com.ibm.fhir.server.listener.FHIRServletContextListener.contextInitialized(FHIRServletContextListener.java:199)
+itel-fhir_1  |  at com.ibm.ws.webcontainer.webapp.WebApp.notifyServletContextCreated(WebApp.java:2433)
+itel-fhir_1  |  at [internal classes]
+itel-fhir_1  | Caused by: javax.transaction.RollbackException
+itel-fhir_1  |  at com.ibm.tx.jta.impl.TransactionImpl.stage3CommitProcessing(TransactionImpl.java:978)
+itel-fhir_1  |  at [internal classes]
+itel-fhir_1  |  at com.ibm.fhir.server.listener.FHIRServletContextListener.bootstrapFhirDb(FHIRServletContextListener.java:290)
+itel-fhir_1  |  at com.ibm.fhir.server.listener.FHIRServletContextListener.bootstrapDerbyDatabases(FHIRServletContextListener.java:220)
+itel-fhir_1  |  at com.ibm.fhir.server.listener.FHIRServletContextListener.contextInitialized(FHIRServletContextListener.java:181)
+itel-fhir_1  |  ... 2 more
+itel-fhir_1  |
+itel-fhir_1  | [AUDIT   ] CWWKZ0001I: Application fhir-server-webapp started in 228.365 seconds.
+itel-fhir_1  | [ERROR   ] The FHIR Server web application cannot process requests because it did not initialize correctly
+itel-fhir_1  | The FHIR Server web application cannot process requests because it did not initialize correctly
