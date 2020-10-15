@@ -23,15 +23,15 @@ public class HealthServiceFhirUsageSynch {
   	} 
  	
 //CREATE  	
-	public Long createResourceFromFile( String fname ) {
+	public String createResourceFromFile( String fname ) {
 		String jsonRep      = HttpFhirSupport.readFromFileJson( fname );
-		Long id             = healthService.createResourceSynch( jsonRep );
+		String id           = healthService.createResourceSynch( jsonRep );
 		return id;
  	}
 
 //READ	
-	public void readResource( String resourceType, Long id )   {
-		String answer = healthService.readResourceSynch(resourceType, id.toString());
+	public void readResource( String resourceType, String id )   {
+		String answer = healthService.readResourceSynch(resourceType, id );
 		System.out.println("readResource answer=" + answer );
   	}
 
@@ -42,18 +42,18 @@ public class HealthServiceFhirUsageSynch {
   	}
 
  //UPDATE
- 	public void updateResourceFromFile( String fname, Long id ) {
+ 	public void updateResourceFromFile( String fname, String id ) {
  		DomainResource newresource = ResourceUtility.createResourceFromFileJson( fname );
  		//Inject the id
- 		ResourceUtility.injectId(newresource, id.toString() );
+ 		ResourceUtility.injectId(newresource, id  );
  		String newresourceJsonStr =  ResourceUtility.getJsonRep(newresource);
  		String answer = healthService.updateResourceSynch(newresourceJsonStr);
 		System.out.println("updateResourceFromFile answer=" + answer );
   	}
 
 //DELETE
- 	public void deleteResource(  String resourceType, Long id ) {
- 		String answer = healthService.deleteResourceSynch(resourceType, id.toString());
+ 	public void deleteResource(  String resourceType, String id ) {
+ 		String answer = healthService.deleteResourceSynch(resourceType, id );
 		System.out.println("deleteResource answer=" + answer );
   	}
 	
@@ -68,7 +68,7 @@ public class HealthServiceFhirUsageSynch {
 				"{ \"resourceType\": \"Patient\", \"address\": { \"city\": \"Cesena\", \"country\": \"Italy\" } }"; 
   
 		System.out.println(" %%% CREATE  ------------------------------ "); 		
-		Long id = appl.createResourceFromFile(resourceFileName);		 
+		String id = appl.createResourceFromFile(resourceFileName);		 
 		
 		System.out.println(" %%% READ    ------------------------------ ");
 		appl.readResource( "Patient", id );	

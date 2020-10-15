@@ -46,7 +46,7 @@
 		serveraddr = document.getElementById("serveraddr");
 		var message =  JSON.stringify( {argchoice: choice, argserveraddr: serveraddr.value} ) ;
 		//alert( message );
-        fetch("/selectHealthCenter", {method: "POST", body: message}).then(function (response) {
+        fetch("/selectHealthCenterSynch", {method: "POST", body: message}).then(function (response) {
         	if (response.ok) {
  	            $("i.infoArea").text(  "selectHealthCenter " + choice + "  done" );	
             }

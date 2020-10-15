@@ -18,6 +18,8 @@ import javax.script.ScriptEngineManager;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.DomainResource;
+
+import it.unibo.HealthAdapterFacade.HealthService.HealthCenterType;
 import it.unibo.HealthResource.ResourceUtility;
 import reactor.core.publisher.Flux;
 
@@ -48,10 +50,10 @@ public class HealthServiceFhir implements HealthServiceInterface {
 //	CREATE
 	//we store the resourceType for the created resource
 	@Override
-	public Long createResourceSynch(String jsonStr) {
+	public String createResourceSynch(String jsonStr) {
  		IBaseResource resource = ResourceUtility.buildResource(  jsonStr );
-		Long id = fhirclient.createSynch( resource );
-		resources.put(id.toString(), resource.fhirType());
+		String id = fhirclient.createSynchIdString( resource );
+		resources.put(id, resource.fhirType());
 		return id;
 	}
 	
@@ -60,6 +62,7 @@ public class HealthServiceFhir implements HealthServiceInterface {
 	public String readResourceSynch( String resourceType, String id ){
 		Class<? extends DomainResource> resource = ResourceUtility.getTheClass(  resourceType );
 		DomainResource answer  = fhirclient.readResourceSynch( resource, id );
+		System.out.println("readResourceSynch id=" + id + " answer="+answer);
 		return HealthService.fhirctx.newJsonParser().setPrettyPrint(true).encodeResourceToString(answer);	
 	}
 	
@@ -116,8 +119,8 @@ public class HealthServiceFhir implements HealthServiceInterface {
 	-------------------------- 
 	*/ 	
  	@Override
-	public Flux<String> readResourceAsynch(String resourceType, Long id) { 		
- 		Flux<String> result = fhirclient.readResourceAsynch( resourceType,id.toString());		 
+	public Flux<String> readResourceAsynch(String resourceType, String id) { 		
+ 		Flux<String> result = fhirclient.readResourceAsynch( resourceType,id );		 
  		System.out.println("HealthServiceFhir | readPatientAsynch result= " + result  );
 		return result;
 	}
@@ -218,6 +221,20 @@ public class HealthServiceFhir implements HealthServiceInterface {
 		} catch (Exception  e) {
 			System.out.println("HealthServiceFhir | error:" + e.getMessage() );
 		}
+	}
+
+
+	@Override
+	public void setHealthService(String choice, String serverAddr) { 
+ 		System.out.println("HealthService setHealthService " + serverAddr);
+		if( choice.equals("FHIR") ) buildHealthService( HealthCenterType.FHIR, serverAddr );
+		else if( choice.equals("HL7") ) buildHealthService( HealthCenterType.HL7, serverAddr );
+		//return getdHealthService();
+	}
+	
+	public void buildHealthService( HealthCenterType hct, String serverBase ) {
+		System.out.println("buildHealthService " + hct + " serverBase=" + serverBase);
+		fhirclient = new FhirServiceClient( serverBase );	
 	}
 
 }

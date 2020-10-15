@@ -27,7 +27,7 @@ public class HealthServiceHL7 implements HealthServiceInterface{
 	}
 
 	@Override
-	public Flux<String> readResourceAsynch(String resourceType,Long id) {
+	public Flux<String> readResourceAsynch(String resourceType,String id) {
  		return null;
 	}
 
@@ -57,7 +57,7 @@ public class HealthServiceHL7 implements HealthServiceInterface{
 	* =============================================================================
 	*/ 
 	@Override
-	public Long createResourceSynch(String jsonStr) {
+	public String createResourceSynch(String jsonStr) {
  		return null;
 	}
 
@@ -94,6 +94,11 @@ public class HealthServiceHL7 implements HealthServiceInterface{
 
 	public  Flux<String> docvthl7tofhir( String path, String data ) {
 		return null;
+	}
+
+	@Override
+	public void setHealthService(String choice, String serverAddr) {
+		// TODO Auto-generated method stub
 	}
 
  

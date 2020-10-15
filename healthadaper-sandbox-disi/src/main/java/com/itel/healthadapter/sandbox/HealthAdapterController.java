@@ -1,9 +1,12 @@
 package com.itel.healthadapter.sandbox;
 
 
+import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
- 
+import ca.uhn.fhir.rest.client.api.IRestfulClient;
+import ca.uhn.fhir.rest.client.interceptor.BasicAuthInterceptor;
+
 import com.itel.healthadapter.api.Constants;
 import com.itel.healthadapter.api.EnrollmentPayload;
 import com.itel.healthadapter.api.HealthAdapterAPI;
@@ -28,15 +31,24 @@ import java.io.ByteArrayInputStream;
 import java.lang.String;
 import java.nio.charset.StandardCharsets;
 
+import org.json.*;
+
 @RestController    
 public class HealthAdapterController implements HealthAdapterAPI {
 
     private Logger logger = LoggerFactory.getLogger(HealthAdapterController.class);
 
-    private final IGenericClient fhirClient;
+ 	private  IGenericClient fhirClient;
+	private  CDAParser parser;
+	private  String  serverAddr;
 
-    public HealthAdapterController(IGenericClient fhirClient) {
-        this.fhirClient = fhirClient;
+    public HealthAdapterController() { //IGenericClient fhirClient
+		serverAddr 		= "http://localhost:9442/fhir-server/api/v4/metadata";
+		//serverAddr 	= "https://hapi.fhir.org/baseR4";
+		//serverAddr 	= "http://34.78.71.250:80/fhir-server/api/v4/" ;
+		fhirClient     		= createFhirClient(serverAddr);
+		parser 				= new CDAParser();	
+	    System.out.println("		%%% HealthAdapterController | CREATED serverAddr=" + serverAddr);
     }
     
     //Added to show something in a browser
@@ -60,8 +72,7 @@ public class HealthAdapterController implements HealthAdapterAPI {
 
 
 		try {
-			CDAParser parser 	  = new CDAParser();  
-	        System.out.println("		%%% HealthAdapterController | Enrollment parser: " + parser);
+ 	        System.out.println("		%%% HealthAdapterController | Enrollment parser: " + parser);
 			CDAParseResult result = parser.parseCDA(is);
 	        System.out.println("		%%% HealthAdapterController | Enrollment parser result: " + result);
 			String patientTaxCode = result.patientTaxCode();
@@ -79,6 +90,29 @@ public class HealthAdapterController implements HealthAdapterAPI {
 	}
 
     private boolean savePatientOnFhir(String patientTaxCode) {
+		Patient patient = new Patient().addIdentifier(patientTaxCodeIdentifier(patientTaxCode));
+        System.out.println("		%%% HealthAdapterController | savePatientOnFhir patient="    + patient);
+        System.out.println("		%%% HealthAdapterController | savePatientOnFhir serverAddr=" + serverAddr);
+        try { //AN after using http://localhost:9442
+	        if( fhirClient != null ) {
+	        	MethodOutcome outcome = fhirClient  
+		        		.create()
+		        		.resource(patient)
+						.execute();
+	        	//Long idVal = outcome.getId().getIdPartAsLong();
+	        	String idVal = outcome.getId().getIdPart();
+	        	//https://hapifhir.io/hapi-fhir/apidocs/hapi-fhir-base/org/hl7/fhir/instance/model/api/IIdType.html
+	            System.out.println("		%%% HealthAdapterController | savePatientOnFhir idVal=  " + idVal );
+	        	return outcome.getCreated();
+	        }
+	        else return false;
+         
+        }catch( Exception e) {
+            System.out.println("		%%% HealthAdapterController | savePatientOnFhir ERROR:  " + e.getMessage() );
+        	return false;
+        }
+    	
+    	/*
         Patient patient = new Patient().addIdentifier(patientTaxCodeIdentifier(patientTaxCode));
         System.out.println("		%%% HealthAdapterController | savePatientOnFhir patient: " + patient);
         System.out.println("		%%% HealthAdapterController | savePatientOnFhir fhirClient: " + fhirClient);
@@ -86,8 +120,26 @@ public class HealthAdapterController implements HealthAdapterAPI {
         		.create()
         		.resource(patient)
         		.execute()
-        		.getCreated();  /* Added by AM to check the creation's result */
+        		.getCreated();  
+    	 */
     }
+    
+	private IGenericClient createFhirClient(String addr) {
+		FhirContext ctx = FhirContext.forR4();
+//		String publicFhirServer = addr;
+//		return ctx.newRestfulGenericClient(publicFhirServer);
+        String serverBase = addr; //configurationProperties.getFhirServerBaseUrl();
+        IGenericClient fhirClient = ctx.newRestfulGenericClient(serverBase);
+        addBasicAuthInterceptor(fhirClient);
+        return fhirClient;
+
+	}
+
+	private void addBasicAuthInterceptor(IRestfulClient client) {
+	  BasicAuthInterceptor authInterceptor = new BasicAuthInterceptor("fhiruser", "change-password");
+	  client.registerInterceptor(authInterceptor);
+	}
+    
 
     private Identifier patientTaxCodeIdentifier(String patientTaxCode) {
         return new Identifier().setUse(Identifier.IdentifierUse.OFFICIAL)
@@ -97,13 +149,52 @@ public class HealthAdapterController implements HealthAdapterAPI {
     }
 
     @Override
+	@PostMapping("import")
     public StatusReference _import(String identifier) {
-
-        System.out.println("Import performed with identifier:  " + identifier);
+    	
         logger.info("Import performed with identifier:  " + identifier);
+		System.out.println("		%%% HealthAdapterController | importPatient identifier=" + identifier);
+  		String patientId    = getFromJson(identifier, "pid");
+  		String answer		= "";
+  		if( patientId.length() > 0 ) { //answer= serviceHA.importPatient( patientId );
+  			// TODO Perform import
+  			answer = "importPatient: search in HCServer a patient with id=" + identifier 
+					+" and next do a PUT of (part of) the answer) to ITEL-FHIR";
+			System.out.println(answer);
 
-        // TODO Perform import
-
-        return new StatusReference("To be implemented"); // TODO
+  		}
+  		else answer = "Sorry, error on " + identifier;
+	 	return new StatusReference("imported patient with id; answer="+ answer);
     }
+    
+    /*
+     * -----------------------------------------------------
+     * UTILITIES
+     * -----------------------------------------------------
+     */
+    	
+    	//Is it better to throw the exception?
+    	private String getFromJson( String jsonStr, String key ) {
+     		try {
+    			JSONObject pidObj   = new JSONObject (jsonStr );	
+    			String v    		= pidObj.getString( key );
+     	 		return  v;
+    		} catch (JSONException e) {
+    			System.out.println("			 %%% MIController | getFromJson ERROR " + e.getMessage());
+    			return "";
+    		}		
+    	} 
 }
+
+/*
+
+Indirizzo email Slack: help@slack-corp.com
+https://www.javadevjournal.com/spring/feign/
+OUTPUT di savePatientOnFhir
+
+http://34.78.71.250/fhir-server/api/v4/Patient/17525deab7f-fbd2d111-4679-46d3-a32f-6c5da4085ca6/_history/1
+http:/34.78.71.250/fhir-server/api/v4/Patient?identifier=BNCPLA43S41D643Q
+http:/34.78.71.250/fhir-server/api/v4/Patient?id=17525deab7f-fbd2d111-4679-46d3-a32f-6c5da4085ca6
+
+http://localhost:9442/fhir-server/api/v4/$healthcheck
+*/

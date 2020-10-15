@@ -2,6 +2,9 @@ package it.unibo.HealthAdapterFacade;
 
 import java.time.Duration;
 import java.time.LocalTime;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -51,18 +54,18 @@ public class HealthAdapterMIController {
  */	 
 //CREATE SYNCH	 
 	 @PostMapping( HealthService.createResourceUriSynch )
-	 public Long createResourceSynch( @RequestBody String jsonStr ) {
-		 Long id = healthService.createResourceSynch(  jsonStr );
+	 public String createResourceSynch( @RequestBody String jsonStr ) {
+		 String id = healthService.createResourceSynch(  jsonStr );
 		 return id;
 	 }
 
 //READ SYNCH	
 	 @GetMapping( HealthService.readResourceUriSynch+"/{id}&{resourceType}" )	 
 	 public  String readResourceSynch(  
-	    		@PathVariable( value = "id" ) Long resourceId ,
+	    		@PathVariable( value = "id" ) String resourceId ,
 	    		@PathVariable( value = "resourceType" ) String resourceType ) {      	    
-	  	  System.out.println("----- HealthAdapterMIController readResourceSynch  id= " + resourceId  + " usejson=" + usejson );
-	  	  String answer = healthService.readResourceSynch(  resourceType, resourceId.toString()  );  
+	  	  System.out.println("----- HealthAdapterMIController readResourceSynch  id=" + resourceId  + " usejson=" + usejson );
+	  	  String answer = healthService.readResourceSynch(  resourceType, resourceId  );  
 	  	  return answer;
 	 }
 
@@ -115,7 +118,7 @@ public class HealthAdapterMIController {
 	 //https://projectreactor.io/docs/core/snapshot/reference/
     @GetMapping( HealthService.readResourceUri+"/{id}&{resourceType}" )	 
     public Flux<String> readResourceAsynch(   
-    		@PathVariable( value = "id" ) Long resourceId ,
+    		@PathVariable( value = "id" ) String resourceId ,
     		@PathVariable( value = "resourceType" ) String resourceType ) {     
     	
   	    System.out.println("----- HealthAdapterMIController readResourceAsynch  id= " + resourceId  + " usejson=" + usejson );
@@ -163,7 +166,32 @@ public class HealthAdapterMIController {
    	 	System.out.println("----- HealthAdapterMIController deleteResourceAsynch resourceType=" + resourceType + " id=" + id  );
    	 	return healthService.deleteResourceAsynch( resourceType, id );	 
     }
+    
+/*
+ * =========================================================================
+ * SELECT HEALTH CENTER
+ * =========================================================================
+*/	  
+     
 
+    @PostMapping( HealthService.selectHealthCenterUri  ) 
+    public String select( @RequestBody String choichejson ) {	 //, @RequestParam("hct")String hct
+   	 System.out.println("----- HealthAdapterMIController select healthService="  + healthService  );
+   	 try {
+			 JSONObject jo = new JSONObject(choichejson);
+			 String choice = (String) jo.get("argchoice"); 
+			 String addr   = (String) jo.get("argserveraddr");
+	    	 System.out.println("----- HealthAdapterMIController select choiche="  + choice + " addr=" + addr );
+	    	 healthService.setHealthService(choice,addr);
+	    	 return "select Done" + choice; 
+		} catch (JSONException e) {
+			String error = "select Done ERROR " + choichejson;
+			System.out.println("----- HealthAdapterMIController "  + error  );
+			return error; 
+		}
+    }
+    
+    
 /*
  * =========================================================================
  * DATAFLUX     (experiments)  

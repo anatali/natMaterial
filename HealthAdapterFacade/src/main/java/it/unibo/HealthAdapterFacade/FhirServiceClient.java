@@ -85,6 +85,17 @@ public class FhirServiceClient {
 		return idVal;		
  	}	
  	
+ 	public String createSynchIdString( IBaseResource theResource ) {
+		MethodOutcome outcome = client
+					.create()
+					.resource(theResource)
+					.execute(); 
+		IIdType id = outcome.getId();
+		String idVal = id.getIdPart();
+		System.out.println("FhirServiceClient | createSynch patient ID: " + id + " value=" + idVal );
+		return idVal;		
+ 	}	
+ 	
 //READ 	
  	public DomainResource readResourceSynch( Class<? extends DomainResource> clazz , String id ){
  	  DomainResource resource   = client

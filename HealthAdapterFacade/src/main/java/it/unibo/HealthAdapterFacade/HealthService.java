@@ -114,6 +114,7 @@ public class HealthService {
 	}
 	
 	public HealthServiceInterface setHealthService(String choice, String serverAddr) { 
+ 		System.out.println("HealthService setHealthService " + serverAddr);
 		if( choice.equals("FHIR") ) buildHealthService( HealthCenterType.FHIR, serverAddr );
 		else if( choice.equals("HL7") ) buildHealthService( HealthCenterType.HL7, serverAddr );
 		return getdHealthService();

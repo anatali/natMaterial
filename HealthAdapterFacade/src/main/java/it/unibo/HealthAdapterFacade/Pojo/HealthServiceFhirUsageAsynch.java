@@ -39,9 +39,9 @@ public class HealthServiceFhirUsageAsynch {
 	public static final String queryStr  = 
 			"{ \"resourceType\": \"Patient\", \"address\": { \"city\": \"Cesena\", \"country\": \"Italy\" } }"; 
   	
-  	private static String serverBase          ="https://hapi.fhir.org/baseR4"; //"http://localhost:9001/r4"; //"https://hapi.fhir.org/baseR4";   
-  	private static String currentResourceType = "Patient";
-  	private static Long   currentResourceId   = null;
+  	private static String serverBase           ="https://hapi.fhir.org/baseR4"; //"http://localhost:9001/r4"; //"https://hapi.fhir.org/baseR4";   
+  	private static String currentResourceType  = "Patient";
+  	private static String   currentResourceId  = null;
   			
  	public HealthServiceFhirUsageAsynch() {
  		healthService = new HealthServiceFhir( serverBase ) ;	
@@ -53,7 +53,7 @@ public class HealthServiceFhirUsageAsynch {
 			JSONObject jsonobj = new JSONObject( jsonRep );
 			String idstr        = jsonobj.getString("id");
 			currentResourceType = jsonobj.getString("resourceType");
-	  		currentResourceId   = Long.parseLong( idstr );
+	  		currentResourceId   = idstr;
 	  		System.out.println("extractValues id=:" + currentResourceId + " currentResourceType="  + currentResourceType);
 		} catch (JSONException e) {
 			System.out.println("extractValues ERROR" + e.getMessage() );
@@ -61,7 +61,7 @@ public class HealthServiceFhirUsageAsynch {
  	}
  	
 
-	public void createResourceFromFile( String fname, Consumer<Long> callback) {
+	public void createResourceFromFile( String fname, Consumer<String> callback) {
 		String jsonRep      = HttpFhirSupport.readFromFileJson( fname );
 		Flux<String> answer = healthService.createResourceAsynch( jsonRep );
  		final StringBuilder strbuild = new StringBuilder();  
@@ -76,12 +76,12 @@ public class HealthServiceFhirUsageAsynch {
  		);	
    	}
 	
-	public static void createResourceDone( Long id )   {
+	public static void createResourceDone( String id )   {
 		System.out.println("HealthServiceFhirUsage | createResourceDone id= " + id );
 		readResource( id,  HealthServiceFhirUsageAsynch::readResourceDone );
   	}
 
-	public static void readResource( Long id, Consumer<String> callback )   {
+	public static void readResource( String id, Consumer<String> callback )   {
  		Flux<String> answer  = healthService.readResourceAsynch(currentResourceType,id);
  		final StringBuilder strbuild = new StringBuilder();  
 		answer.subscribe(			
@@ -206,7 +206,7 @@ public class HealthServiceFhirUsageAsynch {
  	
  	public void doReadOnly() {
 		System.out.println(" %%% READ  ------------------------------ " );
- 		Flux<String> answer  = healthService.readResourceAsynch("Patient",1439336L);
+ 		Flux<String> answer  = healthService.readResourceAsynch("Patient","1439336");
  		final StringBuilder strbuild = new StringBuilder();  
 		answer.subscribe(			
  				item  -> {   System.out.println("%%%%% "+item); strbuild.append(item); }, // 

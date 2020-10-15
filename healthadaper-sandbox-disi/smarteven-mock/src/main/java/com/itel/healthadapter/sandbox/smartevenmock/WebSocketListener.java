@@ -41,7 +41,7 @@ public class WebSocketListener {
         this.configurationProperties = configurationProperties;
     }
 
-/*    
+    
     @PostConstruct
     public void init() throws NoSuchAlgorithmException, IOException, WebSocketException {
         WebSocketFactory factory = new WebSocketFactory();
@@ -69,6 +69,7 @@ public class WebSocketListener {
                             .filter(taxCodeIdentifier())
                             .findAny().map(Identifier::getValue);
 
+                    logger.info("POST import");
                     // TODO Handle import result
                     taxCode.map(s -> healthAdapterClient._import(taxCode.get()))
                             .orElseThrow(() -> new IllegalStateException("Tax code identifier not present in patient " + patient.getId()));
@@ -79,7 +80,7 @@ public class WebSocketListener {
         logger.info("Connecting to websocket " + configurationProperties.getFhirNotificationWebSocketUrl());
         ws.connect();
     }
-*/
+
     private Predicate<Identifier> taxCodeIdentifier() {
         return identifier -> identifier.getType().getCoding().stream().anyMatch(
                 coding -> coding.getSystem().equals(Constants.FHIR_IDENTIFIER_TYPE) && coding.getCode().equals(Constants.FHIR_IDENTIFIED_TYPE_TAX));
