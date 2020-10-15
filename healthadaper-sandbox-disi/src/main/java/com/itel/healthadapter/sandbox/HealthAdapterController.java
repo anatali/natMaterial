@@ -43,7 +43,7 @@ public class HealthAdapterController implements HealthAdapterAPI {
 	private  String  serverAddr;
 
     public HealthAdapterController() { //IGenericClient fhirClient
-		serverAddr 		= "http://localhost:9442/fhir-server/api/v4/metadata";
+		serverAddr 		= "http://localhost:9442/fhir-server/api/v4";
 		//serverAddr 	= "https://hapi.fhir.org/baseR4";
 		//serverAddr 	= "http://34.78.71.250:80/fhir-server/api/v4/" ;
 		fhirClient     		= createFhirClient(serverAddr);
