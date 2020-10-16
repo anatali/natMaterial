@@ -141,7 +141,7 @@ public class HealthAdapterController implements HealthAdapterAPI {
 	}
     
 
-    private Identifier patientTaxCodeIdentifier(String patientTaxCode) {
+    private Identifier patientTaxCodeIdentifier(String patientTaxCode) { 
         return new Identifier().setUse(Identifier.IdentifierUse.OFFICIAL)
                 .setType(new CodeableConcept().addCoding(new Coding().setSystem(Constants.FHIR_IDENTIFIER_TYPE).setCode(Constants.FHIR_IDENTIFIED_TYPE_TAX)))
                 .setSystem(Constants.FHIR_IDENTIFIER_TYPE)

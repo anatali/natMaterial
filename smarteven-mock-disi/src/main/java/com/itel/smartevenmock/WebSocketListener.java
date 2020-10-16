@@ -15,6 +15,7 @@ import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Patient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -23,12 +24,14 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 import java.util.function.Predicate;
 
+import com.itel.healthadapter.api.StatusReference;
+
 @Component
 public class WebSocketListener {
 
     private Logger logger = LoggerFactory.getLogger(WebSocketListener.class);
 
-    private final HealthAdapterAPI healthAdapterClient;
+    private final HealthAdapterAPI healthAdapterClient; //Miracles of @FeignClient 
     private final IGenericClient genericFhirClient;
     private final SmartEvenMockConfigurationProperties configurationProperties;
 
@@ -70,10 +73,14 @@ public class WebSocketListener {
                             .filter(taxCodeIdentifier())
                             .findAny().map(Identifier::getValue);
 
-                    // TODO Handle import result
+                    //Handle import result
                     logger.info("PUT import " + taxCode.get());	//See com.itel.healthadapter.api.HealthAdapterAPI
+                    StatusReference res = 
                     taxCode.map(s -> healthAdapterClient._import(taxCode.get()))
                             .orElseThrow(() -> new IllegalStateException("Tax code identifier not present in patient " + patient.getId()));
+                
+                    System.out.println("PUT import " + res.getLocation() ); 
+                
                 }
             }
         }); 

@@ -19,6 +19,7 @@ import java.util.function.Consumer;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.r4.model.DomainResource;
 import org.hl7.fhir.r4.model.IdType;
 import org.springframework.http.HttpHeaders;
@@ -117,7 +118,11 @@ public class FhirServiceClient {
 				   .search()			
 				   .byUrl(searchUrl)
 				   .returnBundle(Bundle.class)
- 				   .execute();	
+ 				   .execute();	 
+ 		//Experiments to write HAService
+// 		List<BundleEntryComponent> items = response.getEntry();
+// 		items.forEach(s -> { System.out.println("bundle item= " + s.getId());} );
+// 		items.get(0);
  		return response;
  	}
  	
