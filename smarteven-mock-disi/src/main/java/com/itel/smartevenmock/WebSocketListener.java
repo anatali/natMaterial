@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import javax.net.ssl.SSLContext;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
@@ -72,13 +71,13 @@ public class WebSocketListener {
                             .findAny().map(Identifier::getValue);
 
                     // TODO Handle import result
-                    logger.info("POST import");
+                    logger.info("PUT import " + taxCode.get());	//See com.itel.healthadapter.api.HealthAdapterAPI
                     taxCode.map(s -> healthAdapterClient._import(taxCode.get()))
                             .orElseThrow(() -> new IllegalStateException("Tax code identifier not present in patient " + patient.getId()));
                 }
             }
-        });
-
+        }); 
+ 
         logger.info("Connecting to websocket " + configurationProperties.getFhirNotificationWebSocketUrl());
         ws.connect();
     }

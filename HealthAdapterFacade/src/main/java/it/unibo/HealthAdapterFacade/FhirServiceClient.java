@@ -98,11 +98,13 @@ public class FhirServiceClient {
  	
 //READ 	
  	public DomainResource readResourceSynch( Class<? extends DomainResource> clazz , String id ){
- 	  DomainResource resource   = client
- 		.read()
+ 	  System.out.println("FhirServiceClient | readResourceSynch id=" + id + " client=" + client.getServerBase());
+	  DomainResource resource   = client
+ 		.read() 
 		.resource( clazz )
-		.withId(id)
+		.withId(id) 
 		.execute(); 
+ 	  System.out.println("FhirServiceClient | readResourceSynch resource=" + resource);
 		return resource  ;
  	}
 
