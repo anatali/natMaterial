@@ -13,5 +13,5 @@ public interface HealthAdapterAPI {
     StatusReference enrollment(@RequestBody EnrollmentPayload payload);
 
     @PutMapping(path ="import", consumes = "application/json", produces = "application/json")
-    StatusReference _import(@RequestParam("identifier") String identifier);
+    StatusReference _import(@RequestParam("resourceid") String resourceid, @RequestParam("identifier") String identifier);
 }

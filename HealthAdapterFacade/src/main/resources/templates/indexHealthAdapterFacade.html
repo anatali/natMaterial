@@ -43,9 +43,11 @@
  	}
  	
  	function selectHealthCenter( choice){
-		serveraddr = document.getElementById("serveraddr");
-		var message =  JSON.stringify( {argchoice: choice, argserveraddr: serveraddr.value} ) ;
-		//alert( message );
+		var serveraddr = serverAddr.options[serverAddr.selectedIndex].value;
+		alert( serveraddr );
+		//serveraddr = document.getElementById("serveraddr");
+		var message =  JSON.stringify( {argchoice: choice, argserveraddr: serveraddr} ) ;
+		alert( message );
         fetch("/selectHealthCenterSynch", {method: "POST", body: message}).then(function (response) {
         	if (response.ok) {
  	            $("i.infoArea").text(  "selectHealthCenter " + choice + "  done" );	
@@ -67,7 +69,9 @@ CRUD operations
 	    		$("pre.resultArea").text(  jsonObjStr );		
 	      		$("i.infoArea").text(  msg +  resourceid);	
 	      	}catch( e ){ //answer is not a json object
-	      		$("i.infoArea").text(  msg + e);
+				//alert(  "showResRepJson " +  e);
+	      		//$("i.infoArea").text(  msg + e);
+				throw(e);
 	      	}
 	}
 	function showJson(  answer ){
@@ -76,7 +80,7 @@ CRUD operations
 	      		var jsonObjStr     = JSON.stringify( resourceobj, null, 2 );    
  	    		alert(jsonObjStr);		
  	      	}catch( e ){ //answer is not a json object
- 	      		alert(e);
+ 	      		alert( e);
 	      		//$("i.infoArea").text(  e);
 	      	}
 	}
@@ -100,7 +104,13 @@ CRUD operations
       	//alert( answer );		//answer: the resource if asynch else a message
 		if( issynch ) msg = msg + " synch ";
       	//showResRepJson( msg + " done for resource id=", answer );
-      	showResRepJson( "", answer );
+      	try{ 
+			showResRepJson( "", answer );
+		}catch(e){
+      			alert( "showAnswer " + answer );		//answer: the resource if asynch else a message
+	    		//$("pre.resultArea").text(  answer );		
+	      		$("i.infoArea").text(  answer );				
+		}
 	}
 
 /*
@@ -161,7 +171,7 @@ READ
         	if (response.ok) {
         		console.log(  "read  done response.type=" + response.type  ); //promise
       			return response.text() ;		// 
-      		}}).then( function (answer) { //answer is the json rep of the created resource
+      		}}).then( function (answer) { //answer is the json rep of the resource
        			showAnswer( "read", issynch, answer );
        		});         								
     } 
@@ -448,7 +458,13 @@ APPLICATION
 <h2>State: <i class="infoArea"></i></h2> 
 
 <!-- SERVER --> 
-Server address: <input id="serveraddr" type="text" size="35" value="https://hapi.fhir.org/baseR4" autofocus></input> 
+Server address: 
+  <select name="serverAddr" id="serverAddr">	<!-- SEE it.unibo.HealthResource.ResourceUtility -->
+    <option value="http://localhost:9442/fhir-server/api/v4">ItelFHIR</option>
+    <option value="https://hapi.fhir.org/baseR4">PublicFHIR</option>
+  </select>
+
+<!-- <input id="serveraddr" type="text" size="35" value="https://hapi.fhir.org/baseR4" autofocus></input>  -->
 <button onclick="selectHealthCenter('FHIR')">selectFhir</button> 
 <button onclick="selectHealthCenter('HL7')">selectHL7</button> 
 
@@ -526,7 +542,7 @@ READ DELETE
   </select>
 
 </td>
-<td>Resource ident: <input id="resourceid" type="text" size="10" autofocus/>
+<td>Resource ident: <input id="resourceid" type="text" size="40" autofocus/>
 </td>
 <td> <button onclick="readAResource(   )">Read </button> 
        <button onclick="deleteAResource( )">Delete</button>
@@ -554,7 +570,7 @@ UPDATE
     <option value="Practitioner">Practitioner</option>
   </select>
 
-Rid <input id="updateresourceid" type="text" value="1439336" size="8" autofocus/></m>
+Rid <input id="updateresourceid" type="text" value="1439336" size="40" autofocus/></m>
 </td>
 <td><input type="file" id="jsonFileNameUpdate" /> 
 </td>

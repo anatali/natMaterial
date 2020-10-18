@@ -15,7 +15,7 @@ import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Patient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cloud.openfeign.FeignClient;
+//import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -53,11 +53,8 @@ public class WebSocketListener {
         ws.addListener(new WebSocketAdapter() {
             @Override
             public void onTextMessage(WebSocket websocket, String message) throws Exception {
-
                 IbmFhirEvent event =  new ObjectMapper().readValue(message, IbmFhirEvent.class);
-
                 logger.info("Received message on websocket " + configurationProperties.getFhirNotificationWebSocketUrl());
-
                 logger.info(message);
 
                 if (event.getResourceType().equals(Patient.class.getSimpleName())) {
@@ -67,17 +64,20 @@ public class WebSocketListener {
                             .returnBundle(Bundle.class)
                             .execute();
 
-                    Patient patient = (Patient)bundle.getEntry().get(0).getResource();
+                    Patient patient  = (Patient)bundle.getEntry().get(0).getResource();        
+                    String patientid = patient.getIdElement().getIdPart();
 
                     Optional<String> taxCode = patient.getIdentifier().stream()
                             .filter(taxCodeIdentifier())
                             .findAny().map(Identifier::getValue);
 
-                    //Handle import result
-                    logger.info("PUT import " + taxCode.get());	//See com.itel.healthadapter.api.HealthAdapterAPI
+                    //Handle import result See com.itel.healthadapter.api.HealthAdapterAPI
+                    logger.info("PUT import " + taxCode.get() + " for patientid=" + patientid);	 
+                    //healthAdapterClient._import(patientid, taxCode.get());
                     StatusReference res = 
-                    taxCode.map(s -> healthAdapterClient._import(taxCode.get()))
-                            .orElseThrow(() -> new IllegalStateException("Tax code identifier not present in patient " + patient.getId()));
+                    taxCode.map(s -> healthAdapterClient._import(patientid, taxCode.get()))
+                            .orElseThrow(() -> 
+                            new IllegalStateException("Tax code identifier not present in patient " + patient.getId()));
                 
                     System.out.println("PUT import " + res.getLocation() ); 
                 

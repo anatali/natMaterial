@@ -1,0 +1,30 @@
+{   
+    "resourceType": "Patient",
+    "active": true,
+    "identifier": [
+        {
+            "use": "official",
+            "type": {
+                "coding": [
+                    {
+                        "system": "https://www.hl7.org/fhir/valueset-identifier-type.html",
+                        "code": "TAX"
+                    }
+                ]
+            },
+            "system": "https://www.hl7.org/fhir/valueset-identifier-type.html",
+            "value": "BNCPLA43S41D643Z"
+        }
+    ],
+    "name": [
+        {
+            "family": "ChalmersUnibo",
+            "given": [
+                "PeterDisi",
+                "JamesDisi"
+            ]
+        } 
+    ],
+    "gender": "male",
+    "birthDate": "1974-12-25"
+}

@@ -22,12 +22,17 @@ import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.r4.model.DomainResource;
 import org.hl7.fhir.r4.model.IdType;
+import org.hl7.fhir.r4.model.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.web.reactive.function.client.WebClient;	
+import org.springframework.web.reactive.function.client.WebClient;
+
+import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.api.SearchStyleEnum;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
+import ca.uhn.fhir.rest.client.api.IRestfulClient;
+import ca.uhn.fhir.rest.client.interceptor.BasicAuthInterceptor;
 import it.unibo.HealthAdapter.Clients.HttpFhirSupport;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.FluxSink;
@@ -65,10 +70,26 @@ public class FhirServiceClient {
   	
  	public FhirServiceClient( String serverBase ) {
  		this.serverBase = serverBase;
- 		client 			= HealthService.fhirctx.newRestfulGenericClient(serverBase);
- 		System.out.println("FhirServiceClient created for " + serverBase  );
+ 		client 			= createFhirClient(serverBase);//HealthService.fhirctx.newRestfulGenericClient(serverBase);
   	}
  	
+	private  IGenericClient createFhirClient(String addr) {
+		FhirContext ctx = FhirContext.forR4();
+        String serverBase = addr; //configurationProperties.getFhirServerBaseUrl();
+        IGenericClient fhirClient = ctx.newRestfulGenericClient(serverBase);
+        if(  serverBase.contains("localhost:9442")  ) {
+        	addBasicAuthInterceptor(fhirClient);
+        }
+ 		System.out.println("FhirServiceClient created for:" + serverBase  );
+        return fhirClient; 
+	}
+
+	private  void addBasicAuthInterceptor(IRestfulClient client) {
+ 		System.out.println("FhirServiceClient addBasicAuthInterceptor for:" + serverBase  );
+		//TODO: get arguments from a   configuration
+	  BasicAuthInterceptor authInterceptor = new BasicAuthInterceptor("fhiruser", "change-password"); 
+	  client.registerInterceptor(authInterceptor);
+	}
 /*
  * =========================================================================
  * SYNCH   
@@ -100,12 +121,13 @@ public class FhirServiceClient {
 //READ 	
  	public DomainResource readResourceSynch( Class<? extends DomainResource> clazz , String id ){
  	  System.out.println("FhirServiceClient | readResourceSynch id=" + id + " client=" + client.getServerBase());
+ 	  System.out.println("FhirServiceClient | readResourceSynch clazz=" +  clazz);
 	  DomainResource resource   = client
  		.read() 
 		.resource( clazz )
 		.withId(id) 
 		.execute(); 
- 	  System.out.println("FhirServiceClient | readResourceSynch resource=" + resource);
+ 	     System.out.println("FhirServiceClient | readResourceSynch resource=" );
 		return resource  ;
  	}
 
@@ -122,7 +144,14 @@ public class FhirServiceClient {
  		//Experiments to write HAService
 // 		List<BundleEntryComponent> items = response.getEntry();
 // 		items.forEach(s -> { System.out.println("bundle item= " + s.getId());} );
-// 		items.get(0);
+//  		Resource resource = items.get(0).getResource();
+//  		Iterator<String> iterator = list.iterator();
+//  		while(iterator.hasNext()) {
+//  		    String next = iterator.next();
+//  		}
+//  		resource.setId(value);
+//  		
+  		//END Experimentsx
  		return response;
  	}
  	

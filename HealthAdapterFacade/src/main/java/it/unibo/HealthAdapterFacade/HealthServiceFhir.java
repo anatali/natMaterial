@@ -19,6 +19,7 @@ import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.DomainResource;
 
+import ca.uhn.fhir.parser.IParser;
 import it.unibo.HealthAdapterFacade.HealthService.HealthCenterType;
 import it.unibo.HealthResource.ResourceUtility;
 import reactor.core.publisher.Flux;
@@ -63,7 +64,19 @@ public class HealthServiceFhir implements HealthServiceInterface {
 		Class<? extends DomainResource> resource = ResourceUtility.getTheClass(  resourceType );
 		DomainResource answer  = fhirclient.readResourceSynch( resource, id );
 		System.out.println("readResourceSynch id=" + id + " answer="+answer);
-		return HealthService.fhirctx.newJsonParser().setPrettyPrint(true).encodeResourceToString(answer);	
+		IParser jsonParser = HealthService.fhirctx.newJsonParser();
+		try {
+			String outS =  jsonParser.setPrettyPrint(true).encodeResourceToString(answer);	
+			return outS;
+		}catch( Exception e) {
+			try {
+				IParser xmlParser = HealthService.fhirctx.newXmlParser();
+				String outS =   xmlParser.setPrettyPrint(true).encodeResourceToString(answer);
+				return outS;
+			}catch( Exception e1) {	//neither json nor xml 
+				return answer.toString();
+			}
+		}
 	}
 	
 //	SEARCH
