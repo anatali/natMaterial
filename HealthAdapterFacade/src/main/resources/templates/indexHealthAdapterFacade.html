@@ -44,10 +44,10 @@
  	
  	function selectHealthCenter( choice){
 		var serveraddr = serverAddr.options[serverAddr.selectedIndex].value;
-		alert( serveraddr );
+		//alert( serveraddr );
 		//serveraddr = document.getElementById("serveraddr");
 		var message =  JSON.stringify( {argchoice: choice, argserveraddr: serveraddr} ) ;
-		alert( message );
+		//alert( message );
         fetch("/selectHealthCenterSynch", {method: "POST", body: message}).then(function (response) {
         	if (response.ok) {
  	            $("i.infoArea").text(  "selectHealthCenter " + choice + "  done" );	
