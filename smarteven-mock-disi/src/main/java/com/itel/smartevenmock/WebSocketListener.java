@@ -10,6 +10,7 @@ import com.neovisionaries.ws.client.WebSocket;
 import com.neovisionaries.ws.client.WebSocketAdapter;
 import com.neovisionaries.ws.client.WebSocketException;
 import com.neovisionaries.ws.client.WebSocketFactory;
+import healthAdapter.itelData.ImportPayload;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Patient;
@@ -55,9 +56,14 @@ public class WebSocketListener {
             public void onTextMessage(WebSocket websocket, String message) throws Exception {
                 IbmFhirEvent event =  new ObjectMapper().readValue(message, IbmFhirEvent.class);
                 logger.info("Received message on websocket " + configurationProperties.getFhirNotificationWebSocketUrl());
-                logger.info(message);
+                System.out.println("WebSocketListener | message=" + message);
+                String resourceType = event.getResourceType();
+                System.out.println( "WebSocketListener | resourceType=" + resourceType);
+                String op           = event.getOperationType();
+                System.out.println( "WebSocketListener | OPERATION="+op  );
 
-                if (event.getResourceType().equals(Patient.class.getSimpleName())) {
+                if (resourceType.equals(Patient.class.getSimpleName())) {
+                 	if( op.equals("update")) return;    //AVOID LOOP
                     Bundle bundle = genericFhirClient.search()
                             .forResource(Patient.class)
                             .where(Patient.RES_ID.exactly().code(event.getResourceId()))
@@ -72,14 +78,20 @@ public class WebSocketListener {
                             .findAny().map(Identifier::getValue);
 
                     //Handle import result See com.itel.healthadapter.api.HealthAdapterAPI
-                    logger.info("PUT import " + taxCode.get() + " for patientid=" + patientid);	 
+                    System.out.println("WebSocketListener | import businessId=" + taxCode.get() + " for patientid=" + patientid);
                     //healthAdapterClient._import(patientid, taxCode.get());
-                    StatusReference res = 
-                    taxCode.map(s -> healthAdapterClient._import(patientid, taxCode.get()))
+                    ImportPayload payload = new ImportPayload();
+                    payload.setResourceId(patientid);
+                    payload.setBusinessId(taxCode.get());
+                    System.out.println("WebSocketListener | import payload=" + payload );
+                    //StatusReference sr = healthAdapterClient._import( payload.toString() );
+                    //System.out.println("WebSocketListener | sr= " + sr );
+                    StatusReference res =
+                            taxCode.map(s -> healthAdapterClient._importExisting( payload.toString() ))
                             .orElseThrow(() -> 
                             new IllegalStateException("Tax code identifier not present in patient " + patient.getId()));
                 
-                    System.out.println("PUT import " + res.getLocation() ); 
+                    System.out.println("WebSocketListener | import " + res.getLocation() );
                 
                 }
             }

@@ -27,6 +27,7 @@ public class ResourceUtility {
 		switch( resourceType ) {
 			case "CarePlan" 		: return CarePlan.class;
 			case "Patient"  		: return Patient.class;
+			case "Task"  			: return Task.class;
 			case "Organization"  	: return Organization.class;
 			case "Observation"  	: return Observation.class;
 			case "Endpoint"  		: return Endpoint.class;

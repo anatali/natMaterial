@@ -77,7 +77,7 @@ public class FhirServiceClient {
 		FhirContext ctx = FhirContext.forR4();
         String serverBase = addr; //configurationProperties.getFhirServerBaseUrl();
         IGenericClient fhirClient = ctx.newRestfulGenericClient(serverBase);
-        if(  serverBase.contains("localhost:9442")  ) {
+        if(  serverBase.contains("localhost:9442") || serverBase.contains("34.78.71.250") ){
         	addBasicAuthInterceptor(fhirClient);
         }
  		System.out.println("FhirServiceClient created for:" + serverBase  );
