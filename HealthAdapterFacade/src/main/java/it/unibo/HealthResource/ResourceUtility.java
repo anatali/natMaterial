@@ -25,16 +25,21 @@ public class ResourceUtility {
 	
 	public static Class<? extends DomainResource> getTheClass(String resourceType) {
 		switch( resourceType ) {
-			case "CarePlan" 		: return CarePlan.class;
-			case "Patient"  		: return Patient.class;
-			case "Task"  			: return Task.class;
-			case "Organization"  	: return Organization.class;
-			case "Observation"  	: return Observation.class;
-			case "Endpoint"  		: return Endpoint.class;
-			case "Encounter"  		: return Encounter.class;
-			case "CareTeam"  		: return CareTeam.class;
-			case "Practitioner"  	: return Practitioner.class;
-			case "Goal"  			: return Goal.class;
+			case "CarePlan" 		  	: return CarePlan.class;
+			case "Patient"  		  	: return Patient.class;
+			case "Task"  			  	: return Task.class;
+			//case "Timing"  			  	: return Timing.class; 	//org.hl7.fhir.r4.model.BackboneType
+			case "ActivityDefinition" 	: return ActivityDefinition.class;
+			case "ObservationDefinition": return ObservationDefinition.class;
+			case "Device" 			  	: return Device.class;
+			case "DeviceRequest" 	  	: return DeviceRequest.class;
+			case "Organization"  	  	: return Organization.class;
+			case "Observation"  	  	: return Observation.class;
+			case "Endpoint"  	     	: return Endpoint.class;
+			case "Encounter"  		  	: return Encounter.class;
+			case "CareTeam"  		  	: return CareTeam.class;
+			case "Practitioner"  	  	: return Practitioner.class;
+			case "Goal"  			  	: return Goal.class;
 			default: return null;
 		}
 	}
@@ -68,6 +73,7 @@ public class ResourceUtility {
 			switch( resourceType ) {
 				case "Patient"  : return parserfhir.parseResource(Patient.class, jsonrep); 
 				case "CarePlan" : return parserfhir.parseResource(CarePlan.class, jsonrep);
+				case "ObservationDefinition"  : return parserfhir.parseResource(ObservationDefinition.class, jsonrep);
 				default        : { 
 					System.out.println("HealthServiceFhir | createResourceFromJson resourceType UNKNONN"  );
 					return null;
@@ -145,6 +151,7 @@ public class ResourceUtility {
 			answer[0]           = resourceType;
 			switch( resourceType ) {
 				case "Patient"  : answer[1] = inspectPatient( resourceType, queryobj );  break;
+				//case "ObservationDefinition"  : answer[1] = inspectPatient( resourceType, queryobj );  break;
 				case "CarePlan" : answer[1] = inspectCarePlan( resourceType, queryobj );  break;
 				default        : { 
 					System.out.println("SearchResourceUtility | inspect resourceType UNKNONN"  );

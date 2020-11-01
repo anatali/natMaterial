@@ -64,7 +64,7 @@ public class HealthAdapterMIController {
 	 public  String readResourceSynch(  
 	    		@PathVariable( value = "id" ) String resourceId ,
 	    		@PathVariable( value = "resourceType" ) String resourceType ) {      	    
-	  	  System.out.println("----- HealthAdapterMIController readResourceSynch  id=" + resourceId  + " usejson=" + usejson );
+	  	  System.out.println("----- HealthAdapterMIController readResourceSynch  id=" + resourceId  + " resourceType=" + resourceType );
 	  	  String answer = healthService.readResourceSynch(  resourceType, resourceId  );  
 	  	  System.out.println("----- HealthAdapterMIController answer=" + answer );
 	  	  return answer;
