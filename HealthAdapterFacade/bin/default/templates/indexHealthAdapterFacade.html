@@ -44,7 +44,7 @@
  	
  	function selectHealthCenter( choice){
 		var serveraddr = serverAddr.options[serverAddr.selectedIndex].value;
-		//alert( serveraddr );
+		alert( serveraddr );
 		//serveraddr = document.getElementById("serveraddr");
 		var message =  JSON.stringify( {argchoice: choice, argserveraddr: serveraddr} ) ;
 		//alert( message );
@@ -100,14 +100,14 @@ CRUD operations
 	      		$("i.infoArea").text(  "ERROR:" + msg + e);
 	      	}
 	}	
-	function showAnswer( msg, issynch, answer ){
+	function showAnswer( msg, isasynch, answer ){
       	//alert( answer );		//answer: the resource if asynch else a message
-		if( issynch ) msg = msg + " synch ";
+		if( isasynch ) msg = msg + " asynch ";
       	//showResRepJson( msg + " done for resource id=", answer );
       	try{ 
 			showResRepJson( "", answer );
 		}catch(e){
-      			alert( "showAnswer " + answer );		//answer: the resource if asynch else a message
+      			//alert( "showAnswer " + answer );		//answer: the resource if asynch else a message
 	    		//$("pre.resultArea").text(  answer );		
 	      		$("i.infoArea").text(  answer );				
 		}
@@ -134,8 +134,8 @@ CREATE
 	//See https://www.html.it/pag/66525/fetch-api/
 	function createAResource(  fName, jsonStr ) {	 
         // --------- define the apiname -------------------------------------------
-		var issynch = document.getElementById('synchchoice').checked;
-		var apiname = issynch ? createResourceUriSynch : createResourceUri;   	
+		var isasynch = document.getElementById('asynchchoice').checked;
+		var apiname = isasynch ? createResourceUri : createResourceUriSynch  ;
         // --------- get the user input values -----------------------------------
      	var resourceobj  = JSON.parse(jsonStr);        
      	//alert( fName );
@@ -146,7 +146,7 @@ CREATE
         		console.log(  "creation from " +  fName + "  done response.type=" + response.type  ); //promise
       			return response.text() ;		
       		}}).then( function (answer) {  // promise
-      		    showAnswer( "create from " + fName, issynch, answer );
+      		    showAnswer( "create from " + fName, isasynch, answer );
       		});         
     }
        
@@ -157,8 +157,8 @@ READ
 */ 
    function readAResource(){		 
         // --------- define the apiname -------------------------------------------
-		var issynch = document.getElementById('synchchoice').checked;
-		var apiname = issynch ? readResourceUriSynch : readResourceUri;
+		var isasynch = document.getElementById('asynchchoice').checked;
+		var apiname = isasynch ? readResourceUri : readResourceUriSynch  ;
         // --------- read the user input values -----------------------------------
       	$("pre.resultArea").text(  "" );
      	//var resourceType = document.getElementById("resourcetype").value;
@@ -172,7 +172,7 @@ READ
         		console.log(  "read  done response.type=" + response.type  ); //promise
       			return response.text() ;		// 
       		}}).then( function (answer) { //answer is the json rep of the resource
-       			showAnswer( "read", issynch, answer );
+       			showAnswer( "read", isasynch, answer );
        		});         								
     } 
  	
@@ -203,8 +203,8 @@ SEARCH
 	*/
 	function searchResource( queryjsonStr ){		 
          // --------- define the apiname -------------------------------------------
-		var issynch = document.getElementById('synchchoice').checked;
-		var apiname = issynch ? searchResourceUriSynch : searchResourceUri;
+		var isasynch = document.getElementById('asynchchoice').checked;
+		var apiname = isasynch ? searchResourceUri : searchResourceUriSynch  ;
         // --------- read the user input values -----------------------------------
   		//alert(jsonStr);
       	var resourceobj  = JSON.parse(queryjsonStr);        
@@ -221,7 +221,7 @@ SEARCH
         		console.log(  "read  done response.type=" + response.type  ); //promise
       			return response.text() ;		// 
       		}}).then( function (answer) { //answer is the json rep of the created resource
-      			//showAnswer( "search", issynch, answer );	
+      			//showAnswer( "search", isasynch, answer );
       			//answer is now always a bundle ...
       			showResRepJson( "search result:", answer);
        		});         					
@@ -242,8 +242,8 @@ UDATE
 */ 		
 	function  updateAResource(   ) {		//ASYNCH API-> /updateResource  PUT
         // --------- define the apiname -------------------------------------------
-		var issynch = document.getElementById('synchchoice').checked
-		var apiname = issynch ? updateResourceUriSynch : updateResourceUri;
+		var isasynch = document.getElementById('asynchchoice').checked
+		var apiname = isasynch ? updateResourceUri : updateResourceUriSynch  ;
         // --------- read the user input values -----------------------------------
 	 	//resType  = document.getElementById("updateresourcetype").value;
 		var resType = Rtype.options[Rtype.selectedIndex].value;
@@ -268,7 +268,7 @@ UDATE
         		console.log(  "update  done response.type=" + response.type  ); //promise
       			return response.text() ;		// 
       		}}).then( function (answer) { //answer is the json rep of the created resource
-      			showAnswer( "update", issynch, answer );
+      			showAnswer( "update", isasynch, answer );
        		});         				
         } 		 
 		fr.readAsText( file, "UTF-8" ); 		  //
@@ -281,13 +281,13 @@ DELETE
 */ 	
    function deleteAResource() {		 
         // --------- define the apiname -------------------------------------------
-		var issynch = document.getElementById('synchchoice').checked;
-		var apiname = issynch ? deleteResourceUriSynch : deleteResourceUri;
+		var isasynch = document.getElementById('asynchchoice').checked;
+		var apiname = isasynch ? deleteResourceUri : deleteResourceUriSynch  ;
          // --------- read the user input values -----------------------------------
         //resourceType  = document.getElementById("resourcetype");
 		var resourceType = Resourcetype.options[Resourcetype.selectedIndex].value;
     	var resourceId   = document.getElementById("resourceid");
-	alert(resourceType + " " + resourceId.value);
+	    //alert(resourceType + " " + resourceId.value);
         var message   = resourceType  + "&"+ resourceId.value ;
     	console.log("deleteAResource  "+ message);
     	$("i.infoArea").text(  "deleting ..." );	
@@ -296,7 +296,7 @@ DELETE
         		console.log(  "delete  done response.type=" + response.type  ); 
       			return response.text() ;		//promise 
       		}}).then( function (answer) {  
-      			showAnswer( "delete " + resourceId, issynch, answer );
+      			showAnswer( "delete " + resourceId, isasynch, answer );
        		});         					         
     }
  
@@ -461,6 +461,7 @@ APPLICATION
 Server address: 
   <select name="serverAddr" id="serverAddr">	<!-- SEE it.unibo.HealthResource.ResourceUtility -->
     <option value="http://localhost:9442/fhir-server/api/v4">ItelFHIR</option>
+    <option value="http://34.78.71.250/fhir-server/api/v4">PublicItelFHIR</option>
     <option value="https://hapi.fhir.org/baseR4">PublicFHIR</option>
   </select>
 
@@ -477,7 +478,8 @@ InputArea
 -->  
 
 <h3>InputArea (SEARCH & CRUD operations) 
-<input id="synchchoice" type="checkbox"  name="synchchoice" value="asynch"><label for="synchchoice">SYNCH</label>
+<input id="asynchchoice" type="checkbox"  name="asynchchoice" value="asynch">
+  <label for="asynchchoice">ASYNCH</label>
 </h3>
 
 <!-- SEARCH --> 
@@ -531,6 +533,7 @@ READ DELETE
   <label for="Resourcetype">Resource type</label>
   <select name="Resourcetype" id="Resourcetype">	<!-- SEE it.unibo.HealthResource.ResourceUtility -->
     <option value="Patient">Patient</option>
+    <option value="Task">Task</option>
     <option value="Organization">Organization</option>
     <option value="Endpoint">Endpoint</option>
     <option value="Observation">Observation</option>
@@ -656,7 +659,7 @@ DATASTREAM
 ****************************************************************************
 -->  
  <h3>DataStream <button onclick="startDataFlux()">Start</button> <button onclick="stopDataFlux()">Stop</button> 
- <input id="datachoice" type="checkbox"  name="datachoice" value="datachoice"><label for="synchchoice">COLD GENERATOR</label>
+ <input id="datachoice" type="checkbox"  name="datachoice" value="datachoice"><label for="asynchchoice">COLD GENERATOR</label>
 || <button onclick="subscribeTheHotDataFlux()">Subscribe the hot dataFlux</button> 
  </h3> 
 <pre class="dataFluxArea"><span th:text="${outdataDluxField}">waiting ... </span></i></pre>
