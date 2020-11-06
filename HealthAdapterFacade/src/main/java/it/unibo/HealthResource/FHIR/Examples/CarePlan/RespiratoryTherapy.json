@@ -1,0 +1,70 @@
+{
+  "fullUrl": "http://hapi.fhir.org/baseR4/CarePlan/1608530",
+  "resource": {
+    "resourceType": "CarePlan",
+    "id": "1608530",
+    "meta": {
+      "versionId": "1",
+      "lastUpdated": "2020-10-16T04:14:00.987+00:00",
+      "source": "#sY5FdZFX5oaz8BH3"
+    },
+    "text": {
+      "status": "generated",
+      "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Care Plan for Respiratory therapy.<br/>Activities: <ul><li>Respiratory therapy</li><li>Respiratory therapy</li></ul><br/>Care plan is meant to treat Acute bronchitis (disorder).</div>"
+    },
+    "status": "completed",
+    "intent": "order",
+    "category": [ {
+      "coding": [ {
+        "system": "http://snomed.info/sct",
+        "code": "53950000",
+        "display": "Respiratory therapy"
+      } ],
+      "text": "Respiratory therapy"
+    } ],
+    "subject": {
+      "reference": "Patient/1608495"
+    },
+    "encounter": {
+      "reference": "Encounter/1608498"
+    },
+    "period": {
+      "start": "2012-01-26T12:11:44-05:00",
+      "end": "2012-06-29T13:11:44-04:00"
+    },
+    "activity": [ {
+      "detail": {
+        "code": {
+          "coding": [ {
+            "system": "http://snomed.info/sct",
+            "code": "304510005",
+            "display": "Recommendation to avoid exercise"
+          } ],
+          "text": "Recommendation to avoid exercise"
+        },
+        "status": "completed",
+        "location": {
+          "display": "LOWELL GENERAL HOSPITAL"
+        }
+      }
+    }, {
+      "detail": {
+        "code": {
+          "coding": [ {
+            "system": "http://snomed.info/sct",
+            "code": "371605008",
+            "display": "Deep breathing and coughing exercises"
+          } ],
+          "text": "Deep breathing and coughing exercises"
+        },
+        "status": "completed",
+        "location": {
+          "display": "LOWELL GENERAL HOSPITAL"
+        }
+      }
+    } ]
+  },
+  "search": {
+    "mode": "match"
+  }
+}

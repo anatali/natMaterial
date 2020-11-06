@@ -1,0 +1,61 @@
+{
+  "resourceType" : "MedicationRequest",
+  // from Resource: id, meta, implicitRules, and language
+  // from DomainResource: text, contained, extension, and modifierExtension
+  "identifier" : [{ Identifier }], // External ids for this request
+  "status" : "<code>", // R!  active | on-hold | cancelled | completed | entered-in-error | stopped | draft | unknown
+  "statusReason" : { CodeableConcept }, // Reason for current status
+  "intent" : "<code>", // R!  proposal | plan | order | original-order | reflex-order | filler-order | instance-order | option
+  "category" : [{ CodeableConcept }], // Type of medication usage
+  "priority" : "<code>", // routine | urgent | asap | stat
+  "doNotPerform" : <boolean>, // True if request is prohibiting action
+  // reported[x]: Reported rather than primary record. One of these 2:
+  "reportedBoolean" : <boolean>,
+  "reportedReference" : { Reference(Patient|Practitioner|PractitionerRole|
+    RelatedPerson|Organization) },
+  // medication[x]: Medication to be taken. One of these 2:
+  "medicationCodeableConcept" : { CodeableConcept },
+  "medicationReference" : { Reference(Medication) },
+  "subject" : { Reference(Patient|Group) }, // R!  Who or group medication request is for
+  "encounter" : { Reference(Encounter) }, // Encounter created as part of encounter/admission/stay
+  "supportingInformation" : [{ Reference(Any) }], // Information to support ordering of the medication
+  "authoredOn" : "<dateTime>", // When request was initially authored
+  "requester" : { Reference(Practitioner|PractitionerRole|Organization|
+    Patient|RelatedPerson|Device) }, // Who/What requested the Request
+  "performer" : { Reference(Practitioner|PractitionerRole|Organization|
+    Patient|Device|RelatedPerson|CareTeam) }, // Intended performer of administration
+  "performerType" : { CodeableConcept }, // Desired kind of performer of the medication administration
+  "recorder" : { Reference(Practitioner|PractitionerRole) }, // Person who entered the request
+  "reasonCode" : [{ CodeableConcept }], // Reason or indication for ordering or not ordering the medication
+  "reasonReference" : [{ Reference(Condition|Observation) }], // Condition or observation that supports why the prescription is being written
+  "instantiatesCanonical" : ["<canonical>"], // Instantiates FHIR protocol or definition
+  "instantiatesUri" : ["<uri>"], // Instantiates external protocol or definition
+  "basedOn" : [{ Reference(CarePlan|MedicationRequest|ServiceRequest|
+    ImmunizationRecommendation) }], // What request fulfills
+  "groupIdentifier" : { Identifier }, // Composite request this is part of
+  "courseOfTherapyType" : { CodeableConcept }, // Overall pattern of medication administration
+  "insurance" : [{ Reference(Coverage|ClaimResponse) }], // Associated insurance coverage
+  "note" : [{ Annotation }], // Information about the prescription
+  "dosageInstruction" : [{ Dosage }], // How the medication should be taken
+  "dispenseRequest" : { // Medication supply authorization
+    "initialFill" : { // First fill details
+      "quantity" : { Quantity(SimpleQuantity) }, // First fill quantity
+      "duration" : { Duration } // First fill duration
+    },
+    "dispenseInterval" : { Duration }, // Minimum period of time between dispenses
+    "validityPeriod" : { Period }, // Time period supply is authorized for
+    "numberOfRepeatsAllowed" : "<unsignedInt>", // Number of refills authorized
+    "quantity" : { Quantity(SimpleQuantity) }, // Amount of medication to supply per dispense
+    "expectedSupplyDuration" : { Duration }, // Number of days supply per dispense
+    "performer" : { Reference(Organization) } // Intended dispenser
+  },
+  "substitution" : { // Any restrictions on medication substitution
+    // allowed[x]: Whether substitution is allowed or not. One of these 2:
+    "allowedBoolean" : <boolean>,
+    "allowedCodeableConcept" : { CodeableConcept },
+    "reason" : { CodeableConcept } // Why should (not) substitution be made
+  },
+  "priorPrescription" : { Reference(MedicationRequest) }, // An order/prescription that is being replaced
+  "detectedIssue" : [{ Reference(DetectedIssue) }], // Clinical Issue with action
+  "eventHistory" : [{ Reference(Provenance) }] // A list of events of interest in the lifecycle
+}

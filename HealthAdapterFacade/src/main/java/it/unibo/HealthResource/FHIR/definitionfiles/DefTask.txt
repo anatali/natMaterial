@@ -1,0 +1,149 @@
+{
+  "resourceType" : "Task",
+  // from Resource: id, meta, implicitRules, and language
+  // from DomainResource: text, contained, extension, and modifierExtension
+  "identifier" : [{ Identifier }], // Task Instance Identifier
+  "instantiatesCanonical" : { canonical(ActivityDefinition) }, // Formal definition of task
+  "instantiatesUri" : "<uri>", // Formal definition of task
+  "basedOn" : [{ Reference(Any) }], // Request fulfilled by this task
+  "groupIdentifier" : { Identifier }, // Requisition or grouper id
+  "partOf" : [{ Reference(Task) }], // Composite task
+  "status" : "<code>", // R!  draft | requested | received | accepted | +
+  "statusReason" : { CodeableConcept }, // Reason for current status
+  "businessStatus" : { CodeableConcept }, // E.g. "Specimen collected", "IV prepped"
+  "intent" : "<code>", // R!  unknown | proposal | plan | order | original-order | reflex-order | filler-order | instance-order | option
+  "priority" : "<code>", // routine | urgent | asap | stat
+  "code" : { CodeableConcept }, // Task Type
+  "description" : "<string>", // Human-readable explanation of task
+  "focus" : { Reference(Any) }, // What task is acting on
+  "for" : { Reference(Any) }, // Beneficiary of the Task
+  "encounter" : { Reference(Encounter) }, // Healthcare event during which this task originated
+  "executionPeriod" : { Period }, // Start and end time of execution
+  "authoredOn" : "<dateTime>", // C? Task Creation Date
+  "lastModified" : "<dateTime>", // C? Task Last Modified Date
+  "requester" : { Reference(Device|Organization|Patient|Practitioner|
+    PractitionerRole|RelatedPerson) }, // Who is asking for task to be done
+  "performerType" : [{ CodeableConcept }], // Requested performer
+  "owner" : { Reference(Practitioner|PractitionerRole|Organization|CareTeam|
+    HealthcareService|Patient|Device|RelatedPerson) }, // Responsible individual
+  "location" : { Reference(Location) }, // Where task occurs
+  "reasonCode" : { CodeableConcept }, // Why task is needed
+  "reasonReference" : { Reference(Any) }, // Why task is needed
+  "insurance" : [{ Reference(Coverage|ClaimResponse) }], // Associated insurance coverage
+  "note" : [{ Annotation }], // Comments made about the task
+  "relevantHistory" : [{ Reference(Provenance) }], // Key events in history of the Task
+  "restriction" : { // Constraints on fulfillment tasks
+    "repetitions" : "<positiveInt>", // How many times to repeat
+    "period" : { Period }, // When fulfillment sought
+    "recipient" : [{ Reference(Patient|Practitioner|PractitionerRole|
+      RelatedPerson|Group|Organization) }] // For whom is fulfillment sought?
+  },
+  "input" : [{ // Information used to perform task
+    "type" : { CodeableConcept }, // R!  Label for the input
+    // value[x]: Content to use in performing the task. One of these 50:
+    "valueBase64Binary" : "<base64Binary>"
+    "valueBoolean" : <boolean>
+    "valueCanonical" : "<canonical>"
+    "valueCode" : "<code>"
+    "valueDate" : "<date>"
+    "valueDateTime" : "<dateTime>"
+    "valueDecimal" : <decimal>
+    "valueId" : "<id>"
+    "valueInstant" : "<instant>"
+    "valueInteger" : <integer>
+    "valueMarkdown" : "<markdown>"
+    "valueOid" : "<oid>"
+    "valuePositiveInt" : "<positiveInt>"
+    "valueString" : "<string>"
+    "valueTime" : "<time>"
+    "valueUnsignedInt" : "<unsignedInt>"
+    "valueUri" : "<uri>"
+    "valueUrl" : "<url>"
+    "valueUuid" : "<uuid>"
+    "valueAddress" : { Address }
+    "valueAge" : { Age }
+    "valueAnnotation" : { Annotation }
+    "valueAttachment" : { Attachment }
+    "valueCodeableConcept" : { CodeableConcept }
+    "valueCoding" : { Coding }
+    "valueContactPoint" : { ContactPoint }
+    "valueCount" : { Count }
+    "valueDistance" : { Distance }
+    "valueDuration" : { Duration }
+    "valueHumanName" : { HumanName }
+    "valueIdentifier" : { Identifier }
+    "valueMoney" : { Money }
+    "valuePeriod" : { Period }
+    "valueQuantity" : { Quantity }
+    "valueRange" : { Range }
+    "valueRatio" : { Ratio }
+    "valueReference" : { Reference }
+    "valueSampledData" : { SampledData }
+    "valueSignature" : { Signature }
+    "valueTiming" : { Timing }
+    "valueContactDetail" : { ContactDetail }
+    "valueContributor" : { Contributor }
+    "valueDataRequirement" : { DataRequirement }
+    "valueExpression" : { Expression }
+    "valueParameterDefinition" : { ParameterDefinition }
+    "valueRelatedArtifact" : { RelatedArtifact }
+    "valueTriggerDefinition" : { TriggerDefinition }
+    "valueUsageContext" : { UsageContext }
+    "valueDosage" : { Dosage }
+    "valueMeta" : { Meta }
+  }],
+  "output" : [{ // Information produced as part of task
+    "type" : { CodeableConcept }, // R!  Label for output
+    // value[x]: Result of output. One of these 50:
+    "valueBase64Binary" : "<base64Binary>"
+    "valueBoolean" : <boolean>
+    "valueCanonical" : "<canonical>"
+    "valueCode" : "<code>"
+    "valueDate" : "<date>"
+    "valueDateTime" : "<dateTime>"
+    "valueDecimal" : <decimal>
+    "valueId" : "<id>"
+    "valueInstant" : "<instant>"
+    "valueInteger" : <integer>
+    "valueMarkdown" : "<markdown>"
+    "valueOid" : "<oid>"
+    "valuePositiveInt" : "<positiveInt>"
+    "valueString" : "<string>"
+    "valueTime" : "<time>"
+    "valueUnsignedInt" : "<unsignedInt>"
+    "valueUri" : "<uri>"
+    "valueUrl" : "<url>"
+    "valueUuid" : "<uuid>"
+    "valueAddress" : { Address }
+    "valueAge" : { Age }
+    "valueAnnotation" : { Annotation }
+    "valueAttachment" : { Attachment }
+    "valueCodeableConcept" : { CodeableConcept }
+    "valueCoding" : { Coding }
+    "valueContactPoint" : { ContactPoint }
+    "valueCount" : { Count }
+    "valueDistance" : { Distance }
+    "valueDuration" : { Duration }
+    "valueHumanName" : { HumanName }
+    "valueIdentifier" : { Identifier }
+    "valueMoney" : { Money }
+    "valuePeriod" : { Period }
+    "valueQuantity" : { Quantity }
+    "valueRange" : { Range }
+    "valueRatio" : { Ratio }
+    "valueReference" : { Reference }
+    "valueSampledData" : { SampledData }
+    "valueSignature" : { Signature }
+    "valueTiming" : { Timing }
+    "valueContactDetail" : { ContactDetail }
+    "valueContributor" : { Contributor }
+    "valueDataRequirement" : { DataRequirement }
+    "valueExpression" : { Expression }
+    "valueParameterDefinition" : { ParameterDefinition }
+    "valueRelatedArtifact" : { RelatedArtifact }
+    "valueTriggerDefinition" : { TriggerDefinition }
+    "valueUsageContext" : { UsageContext }
+    "valueDosage" : { Dosage }
+    "valueMeta" : { Meta }
+  }]
+}

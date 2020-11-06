@@ -1,0 +1,70 @@
+{
+  "fullUrl": "http://hapi.fhir.org/baseR4/CarePlan/1601587",
+  "resource": {
+    "resourceType": "CarePlan",
+    "id": "1601587",
+    "meta": {
+      "versionId": "1",
+      "lastUpdated": "2020-10-14T00:12:54.098+00:00",
+      "source": "#78tsCd3ASXVq6tt2",
+      "tag": [ {
+        "system": "https://smarthealthit.org/tags",
+        "code": "synthea-5-2019"
+      } ]
+    },
+    "text": {
+      "status": "generated",
+      "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Care Plan for Cancer care plan.<br/>Activities: <ul><li>Cancer care plan</li><li>Cancer care plan</li></ul><br/>Care plan is meant to treat Neoplasm of prostate.</div>"
+    },
+    "status": "active",
+    "intent": "order",
+    "category": [ {
+      "coding": [ {
+        "system": "http://snomed.info/sct",
+        "code": "736252007",
+        "display": "Cancer care plan"
+      } ],
+      "text": "Cancer care plan"
+    } ],
+    "subject": {
+      "reference": "Patient/1600106"
+    },
+    "encounter": {
+      "reference": "Encounter/1601531"
+    },
+    "period": {
+      "start": "2016-02-14T19:41:27-05:00"
+    },
+    "addresses": [ {
+      "reference": "Condition/1601532"
+    } ],
+    "activity": [ {
+      "detail": {
+        "code": {
+          "coding": [ {
+            "system": "http://snomed.info/sct",
+            "code": "408580007",
+            "display": "Physical activity target light exercise"
+          } ],
+          "text": "Physical activity target light exercise"
+        },
+        "status": "in-progress"
+      }
+    }, {
+      "detail": {
+        "code": {
+          "coding": [ {
+            "system": "http://snomed.info/sct",
+            "code": "229578001",
+            "display": "Ice bath treatment"
+          } ],
+          "text": "Ice bath treatment"
+        },
+        "status": "in-progress"
+      }
+    } ]
+  },
+  "search": {
+    "mode": "match"
+  }
+}

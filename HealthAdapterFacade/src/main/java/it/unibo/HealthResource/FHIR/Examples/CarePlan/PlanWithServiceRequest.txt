@@ -1,0 +1,71 @@
+{
+    "fullUrl": "http://hapi.fhir.org/baseR4/CarePlan/1610236",
+    "resource": {
+      "resourceType": "CarePlan",
+      "id": "1610236",
+      "meta": {
+        "versionId": "5",
+        "lastUpdated": "2020-10-23T08:28:40.847+00:00",
+        "source": "#j3ufluoFcZMoKDtV"
+      },
+      "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      <p> A simple care plan to indicate a patient taking their weight once a day because of obesity.</p>\n    </div>"
+      },
+      "status": "completed",
+      "intent": "plan",
+      "category": [ {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "code": "698360004",
+          "display": "Diabetes No self management plan"
+        }, {
+          "system": "http://hl7.org/fhir/us/core/CodeSystem/careplan-category",
+          "code": "assess-plan"
+        } ],
+        "text": "Diabetes self management plan"
+      } ],
+      "subject": {
+        "reference": "Patient/1606874"
+      },
+      "encounter": {
+        "reference": "Encounter/1606878"
+      },
+      "period": {
+        "start": "1985-12-21T06:22:41-05:00"
+      },
+      "contributor": [ {
+        "reference": "CareTeam/1606890"
+      } ],
+      "activity": [ {
+        "reference": {
+          "reference": "ServiceRequest/1610346",
+          "display": "Prenatal vitamin MedicationRequest"
+        }
+      }, {
+        "extension": [ {
+          "url": "http://example.org/fhir/StructureDefinition/careplan#andetails",
+          "valueUri": "http://orionhealth.com/fhir/careplan/1andetails"
+        } ],
+        "detail": {
+          "code": {
+            "coding": [ {
+              "system": "http://snomed.info/sct",
+              "code": "160670007",
+              "display": "Diabetic No diet"
+            } ],
+            "text": "Diabetic  No diet"
+          },
+          "reasonReference": [ {
+            "reference": "Condition/1606954"
+          } ],
+          "status": "in-progress",
+          "location": {
+            "reference": "Location/1423322"
+          },
+          "performer": [ {
+            "reference": "Device/1606881"
+          } ]
+        }
+      } ]
+    }

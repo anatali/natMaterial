@@ -1,0 +1,69 @@
+{
+  "fullUrl": "http://hapi.fhir.org/baseR4/CarePlan/1608529",
+  "resource": {
+    "resourceType": "CarePlan",
+    "id": "1608529",
+    "meta": {
+      "versionId": "1",
+      "lastUpdated": "2020-10-16T04:14:00.987+00:00",
+      "source": "#sY5FdZFX5oaz8BH3"
+    },
+    "text": {
+      "status": "generated",
+      "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Care Plan for Hyperlipidemia clinical management plan.<br/>Activities: <ul><li>Hyperlipidemia clinical management plan</li><li>Hyperlipidemia clinical management plan</li></ul><br/>Care plan is meant to treat Hyperlipidemia.</div>"
+    },
+    "status": "active",
+    "intent": "order",
+    "category": [ {
+      "coding": [ {
+        "system": "http://snomed.info/sct",
+        "code": "736285004",
+        "display": "Hyperlipidemia clinical management plan"
+      } ],
+      "text": "Hyperlipidemia clinical management plan"
+    } ],
+    "subject": {
+      "reference": "Patient/1608495"
+    },
+    "encounter": {
+      "reference": "Encounter/1608498"
+    },
+    "period": {
+      "start": "2012-07-20T13:11:44-04:00"
+    },
+    "activity": [ {
+      "detail": {
+        "code": {
+          "coding": [ {
+            "system": "http://snomed.info/sct",
+            "code": "183063000",
+            "display": "low salt diet education"
+          } ],
+          "text": "low salt diet education"
+        },
+        "status": "in-progress",
+        "location": {
+          "display": "LOWELL GENERAL HOSPITAL"
+        }
+      }
+    }, {
+      "detail": {
+        "code": {
+          "coding": [ {
+            "system": "http://snomed.info/sct",
+            "code": "183301007",
+            "display": "physical exercise"
+          } ],
+          "text": "physical exercise"
+        },
+        "status": "in-progress",
+        "location": {
+          "display": "LOWELL GENERAL HOSPITAL"
+        }
+      }
+    } ]
+  },
+  "search": {
+    "mode": "match"
+  }
+}

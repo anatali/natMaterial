@@ -1,0 +1,145 @@
+{
+  "fullUrl": "http://hapi.fhir.org/baseR4/CarePlan/1435524",
+  "resource": {
+    "resourceType": "CarePlan",
+    "id": "1435524",
+    "meta": {
+      "versionId": "9",
+      "lastUpdated": "2020-10-23T14:51:28.648+00:00",
+      "source": "#oN1T6j96m3cDzqNM"
+    },
+    "text": {
+      "status": "additional",
+      "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      <p> A simple care plan to indicate a patient taking their weight once a day because of obesity.</p>\n    </div>"
+    },
+    "identifier": [ {
+      "value": "12ghjk345111"
+    } ],
+    "instantiatesUri": [ "http://example.org/protocol-for-obesity" ],
+    "status": "draft",
+    "intent": "plan",
+    "category": [ {
+      "coding": [ {
+        "system": "http://hl7.org/fhir/us/core/CodeSystem/careplan-category",
+        "code": "assess-plan",
+        "display": "Assessment and Plan of Treatment"
+      } ],
+      "text": "Care plan"
+    } ],
+    "description": "Manage obesity and weight loss",
+    "subject": {
+      "reference": "Patient/1433267",
+      "display": "Peter James Chalmers"
+    },
+    "encounter": {
+      "reference": "Encounter/1433279"
+    },
+    "period": {
+      "start": "2011-04-26",
+      "end": "2011-06-27"
+    },
+    "created": "2016-01-01",
+    "author": {
+      "reference": "Practitioner/1423320",
+      "display": "Ms. Kriti N Sanon"
+    },
+    "careTeam": [ {
+      "reference": "CareTeam/1435520"
+    } ],
+    "activity": [ {
+      "outcomeCodeableConcept": [ {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "code": "54777007",
+          "display": "Deficient knowledge"
+        } ]
+      } ],
+      "detail": {
+        "kind": "NutritionOrder",
+        "code": {
+          "coding": [ {
+            "system": "http://snomed.info/sct",
+            "code": "104001",
+            "display": "Excision of lesion of patella"
+          } ],
+          "text": "First Antenatal encounter"
+        },
+        "status": "scheduled",
+        "doNotPerform": false,
+        "scheduledTiming": {
+          "repeat": {
+            "boundsPeriod": {
+              "start": "2013-02-14",
+              "end": "2013-02-28"
+            }
+          }
+        },
+        "performer": [ {
+          "reference": "Practitioner/1423320",
+          "display": "Ms. Kriti N Sanon"
+        } ],
+        "description": "The first antenatal encounter. This is where a detailed physical examination is performed.             and the pregnanacy discussed with the mother-to-be."
+      }
+    }, {
+      "detail": {
+        "kind": "NutritionOrder",
+        "code": {
+          "coding": [ {
+            "system": "http://snomed.info/sct",
+            "code": "104001",
+            "display": "Excision of lesion of patella"
+          } ],
+          "text": "Follow-up Antenatal encounter"
+        },
+        "status": "not-started",
+        "doNotPerform": false,
+        "scheduledTiming": {
+          "repeat": {
+            "boundsPeriod": {
+              "start": "2013-03-01",
+              "end": "2013-03-14"
+            }
+          }
+        },
+        "performer": [ {
+          "reference": "Patient/1433267",
+          "display": "Ms. Kriti N Sanon"
+        } ],
+        "description": "The second antenatal encounter. Discuss any issues that arose from the first antenatal encounter"
+      }
+    }, {
+      "detail": {
+        "kind": "ServiceRequest",
+        "code": {
+          "coding": [ {
+            "system": "http://snomed.info/sct",
+            "code": "119000",
+            "display": "Thoracoscopic partial lobectomy of lung"
+          } ],
+          "text": "Delivery"
+        },
+        "status": "not-started",
+        "doNotPerform": false,
+        "scheduledTiming": {
+          "repeat": {
+            "boundsPeriod": {
+              "start": "2013-09-01",
+              "end": "2013-09-14"
+            }
+          }
+        },
+        "performer": [ {
+          "reference": "Organization/1423313",
+          "display": "Burgers University Medical Center"
+        } ],
+        "description": "The delivery."
+      }
+    } ],
+    "note": [ {
+      "text": "careplan for patient issue"
+    } ]
+  },
+  "search": {
+    "mode": "match"
+  }
+}

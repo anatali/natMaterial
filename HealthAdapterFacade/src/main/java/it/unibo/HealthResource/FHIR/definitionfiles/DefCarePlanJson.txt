@@ -1,4 +1,4 @@
-{doco
+{
   "resourceType" : "CarePlan",
   // from Resource: id, meta, implicitRules, and language
   // from DomainResource: text, contained, extension, and modifierExtension

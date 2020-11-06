@@ -1,0 +1,70 @@
+{
+  "fullUrl": "http://hapi.fhir.org/baseR4/CarePlan/1608528",
+  "resource": {
+    "resourceType": "CarePlan",
+    "id": "1608528",
+    "meta": {
+      "versionId": "1",
+      "lastUpdated": "2020-10-16T04:14:00.987+00:00",
+      "source": "#sY5FdZFX5oaz8BH3"
+    },
+    "text": {
+      "status": "generated",
+      "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Care Plan for Physical therapy procedure.<br/>Activities: <ul><li>Physical therapy procedure</li><li>Physical therapy procedure</li></ul><br/>Care plan is meant to treat Injury of tendon of the rotator cuff of shoulder.</div>"
+    },
+    "status": "completed",
+    "intent": "order",
+    "category": [ {
+      "coding": [ {
+        "system": "http://snomed.info/sct",
+        "code": "91251008",
+        "display": "Physical therapy procedure"
+      } ],
+      "text": "Physical therapy procedure"
+    } ],
+    "subject": {
+      "reference": "Patient/1608495"
+    },
+    "encounter": {
+      "reference": "Encounter/1608498"
+    },
+    "period": {
+      "start": "2013-04-27T13:11:44-04:00",
+      "end": "2013-05-27T13:11:44-04:00"
+    },
+    "activity": [ {
+      "detail": {
+        "code": {
+          "coding": [ {
+            "system": "http://snomed.info/sct",
+            "code": "229586001",
+            "display": "Rest, ice, compression and elevation treatment programme"
+          } ],
+          "text": "Rest, ice, compression and elevation treatment programme"
+        },
+        "status": "completed",
+        "location": {
+          "display": "LOWELL GENERAL HOSPITAL"
+        }
+      }
+    }, {
+      "detail": {
+        "code": {
+          "coding": [ {
+            "system": "http://snomed.info/sct",
+            "code": "229070002",
+            "display": "Stretching exercises"
+          } ],
+          "text": "Stretching exercises"
+        },
+        "status": "completed",
+        "location": {
+          "display": "LOWELL GENERAL HOSPITAL"
+        }
+      }
+    } ]
+  },
+  "search": {
+    "mode": "match"
+  }
+}

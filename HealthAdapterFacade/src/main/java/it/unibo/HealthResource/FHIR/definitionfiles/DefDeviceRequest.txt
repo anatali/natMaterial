@@ -1,0 +1,43 @@
+{
+  "resourceType" : "DeviceRequest",
+  // from Resource: id, meta, implicitRules, and language
+  // from DomainResource: text, contained, extension, and modifierExtension
+  "identifier" : [{ Identifier }], // External Request identifier
+  "instantiatesCanonical" : [{ canonical(ActivityDefinition|PlanDefinition) }], // Instantiates FHIR protocol or definition
+  "instantiatesUri" : ["<uri>"], // Instantiates external protocol or definition
+  "basedOn" : [{ Reference(Any) }], // What request fulfills
+  "priorRequest" : [{ Reference(Any) }], // What request replaces
+  "groupIdentifier" : { Identifier }, // Identifier of composite request
+  "status" : "<code>", // draft | active | on-hold | revoked | completed | entered-in-error | unknown
+  "intent" : "<code>", // R!  proposal | plan | directive | order | original-order | reflex-order | filler-order | instance-order | option
+  "priority" : "<code>", // routine | urgent | asap | stat
+  // code[x]: Device requested. One of these 2:
+  "codeReference" : { Reference(Device) },
+  "codeCodeableConcept" : { CodeableConcept },
+  "parameter" : [{ // Device details
+    "code" : { CodeableConcept }, // Device detail
+    // value[x]: Value of detail. One of these 4:
+    "valueCodeableConcept" : { CodeableConcept }
+    "valueQuantity" : { Quantity }
+    "valueRange" : { Range }
+    "valueBoolean" : <boolean>
+  }],
+  "subject" : { Reference(Patient|Group|Location|Device) }, // R!  Focus of request
+  "encounter" : { Reference(Encounter) }, // Encounter motivating request
+  // occurrence[x]: Desired time or schedule for use. One of these 3:
+  "occurrenceDateTime" : "<dateTime>",
+  "occurrencePeriod" : { Period },
+  "occurrenceTiming" : { Timing },
+  "authoredOn" : "<dateTime>", // When recorded
+  "requester" : { Reference(Device|Practitioner|PractitionerRole|Organization) }, // Who/what is requesting diagnostics
+  "performerType" : { CodeableConcept }, // Filler role
+  "performer" : { Reference(Practitioner|PractitionerRole|Organization|
+   CareTeam|HealthcareService|Patient|Device|RelatedPerson) }, // Requested Filler
+  "reasonCode" : [{ CodeableConcept }], // Coded Reason for request
+  "reasonReference" : [{ Reference(Condition|Observation|DiagnosticReport|
+   DocumentReference) }], // Linked Reason for request
+  "insurance" : [{ Reference(Coverage|ClaimResponse) }], // Associated insurance coverage
+  "supportingInfo" : [{ Reference(Any) }], // Additional clinical information
+  "note" : [{ Annotation }], // Notes or comments
+  "relevantHistory" : [{ Reference(Provenance) }] // Request provenance
+}

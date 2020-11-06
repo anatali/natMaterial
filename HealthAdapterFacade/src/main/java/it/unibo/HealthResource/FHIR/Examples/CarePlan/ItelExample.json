@@ -1,0 +1,25 @@
+{
+  "resourceType": "CarePlan",
+  "id": "ffe66d86-1a9b-4b24-994f-178de4019e38",
+  "meta": {
+    "versionId": "1",
+    "lastUpdated": "2020-11-03T09:56:08.882Z"
+  },
+  "status": "active",
+  "intent": "plan",
+  "subject": {
+    "reference": "Patient/8360dfc6-b95f-475a-b670-9518e1e74426"
+  },
+  "activity": [
+    {
+      "reference": {
+        "reference": "DeviceRequest/33198ab9-23a7-4086-b785-e8d41c4527b8"
+      }
+    },
+    {
+      "reference": {
+        "reference": "DeviceRequest/9a4c212b-f0a2-4cc3-9a59-9140db0a4163"
+      }
+    }
+  ]
+}
