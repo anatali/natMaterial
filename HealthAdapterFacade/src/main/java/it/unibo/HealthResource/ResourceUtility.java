@@ -28,7 +28,7 @@ public class ResourceUtility {
 			case "CarePlan" 		  	: return CarePlan.class;
 			case "Patient"  		  	: return Patient.class;
 			case "Task"  			  	: return Task.class;
-			//case "Timing"  			  	: return Timing.class; 	//org.hl7.fhir.r4.model.BackboneType
+			case "PlanDefinition"  		: return PlanDefinition.class;
 			case "ActivityDefinition" 	: return ActivityDefinition.class;
 			case "ObservationDefinition": return ObservationDefinition.class;
 			case "Device" 			  	: return Device.class;
@@ -73,6 +73,7 @@ public class ResourceUtility {
 			switch( resourceType ) {
 				case "Patient"  : return parserfhir.parseResource(Patient.class, jsonrep); 
 				case "CarePlan" : return parserfhir.parseResource(CarePlan.class, jsonrep);
+				case "PlanDefinition" : return parserfhir.parseResource(PlanDefinition.class, jsonrep);
 				case "ObservationDefinition"  : return parserfhir.parseResource(ObservationDefinition.class, jsonrep);
 				default        : { 
 					System.out.println("HealthServiceFhir | createResourceFromJson resourceType UNKNONN"  );

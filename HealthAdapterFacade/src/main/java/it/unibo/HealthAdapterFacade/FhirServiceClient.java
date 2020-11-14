@@ -103,7 +103,7 @@ public class FhirServiceClient {
 					.execute(); 
 		IIdType id = outcome.getId();
 		Long idVal = id.getIdPartAsLong();
-		System.out.println("FhirServiceClient | createSynch patient ID: " + id + " value=" + idVal );
+		System.out.println("FhirServiceClient | createSynch  ID: " + id + " value=" + idVal );
 		return idVal;		
  	}	
  	
@@ -114,7 +114,7 @@ public class FhirServiceClient {
 					.execute(); 
 		IIdType id = outcome.getId();
 		String idVal = id.getIdPart();
-		System.out.println("FhirServiceClient | createSynch patient ID: " + id + " value=" + idVal );
+		System.out.println("FhirServiceClient | createSynch  ID: " + id + " value=" + idVal );
 		return idVal;		
  	}	
  	

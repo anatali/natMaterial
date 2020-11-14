@@ -162,9 +162,9 @@ READ
         // --------- read the user input values -----------------------------------
       	$("pre.resultArea").text(  "" );
      	//var resourceType = document.getElementById("resourcetype").value;
-        var resourceType = Resourcetype.options[Resourcetype.selectedIndex].value;
-    	var resourceid   = document.getElementById("resourceid").value;
-    	//alert( resourceType  );
+        var resourceType   = Resourcetype.options[Resourcetype.selectedIndex].value;
+    	var resourceid     = document.getElementById("resourceid").value;
+    	alert( resourceType  );
 		// --------- read --------------------------------------------------
       	$("i.infoArea").text(  "reading " + resourceid + " ... ");		
         fetch(apiname+"/"+resourceid+"&"+resourceType, {method: "GET"}).then(function (response) {
@@ -540,6 +540,7 @@ READ DELETE
     <option value="Observation">Observation</option>
     <option value="ObservationDefinition">ObservationDefinition</option>
     <option value="ActivityDefinition">ActivityDefinition</option>
+    <option value="PlanDefinition">PlanDefinition</option>
     <option value="CarePlan">CarePlan</option>
     <option value="CareTeam">CareTeam</option>
     <option value="Goal">Goal</option>

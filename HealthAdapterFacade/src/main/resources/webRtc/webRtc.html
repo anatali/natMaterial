@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
+
+    <title>webRtc</title>
+</head>
+<body>
+See
+<ul>
+    <li>docker run -p 9000:9000 -d peerjs/peerjs-server</li>
+    <li>https://github.com/peers/peerjs-server</li>
+    <li>https://peerjs.com/docs.html#start</li>
+</ul>
+
+
+<div id="Container">
+    <hr/>
+    <video autoplay="true" width="640" height="480" id="videoElement"></video>
+    <hr/>
+    <input type="button" id="start" Value="START"  />
+</div>
+
+
+<script>
+    //alert("peer");
+    const peer = new Peer('site1', {
+      host: 'localhost',
+      port: 9000,
+      path: '/myapp'
+    });
+
+    peer.on('open', function(id) {
+        console.log('My peer ID is: ' + id);
+    });
+/*
+    var conn = peer.connect('dest-peer-id');
+
+    peer.on('connection', function(conn) { ... });
+
+    conn.on('open', function() {
+      // Receive messages
+      conn.on('data', function(data) {
+        console.log('Received', data);
+      });
+
+      // Send messages
+      conn.send('Hello!');
+    });
+
+
+
+    // Call a peer, providing our mediaStream
+    var call = peer.call('dest-peer-id', mediaStream);
+
+    peer.on('call', function(call) {
+      // Answer the call, providing our mediaStream
+      call.answer(mediaStream);
+    });
+
+    call.on('stream', function(stream) {
+      // `stream` is the MediaStream of the remote peer.
+      // Here you'd add it to an HTML video/canvas element.
+    });
+*/
+</script>
+
+
+<script>
+jQuery(document).ready(function(){
+      jQuery("#start").click(function () {
+             startVideo();
+     })
+})
+
+function startVideo() {
+        var video = document.querySelector('video'),canvas;
+        imageElement=video;
+        console.log("navigator  " + navigator.mediaDevices)
+        if (navigator.mediaDevices) {
+           // access the web cam
+            navigator.mediaDevices.getUserMedia({ video: true })
+                // permission granted:
+                .then(function(stream) {
+                 //video.src = window.URL.createObjectURL(stream);
+                     video.srcObject = stream;
+                })
+
+                // permission denied:
+                .catch(function(error) {
+                    document.body.textContent = 'Could not access the camera.Error:' + error.name;
+                });
+        }
+        return imageElement;
+    }
+</script>
+
+</body>
+</html>
