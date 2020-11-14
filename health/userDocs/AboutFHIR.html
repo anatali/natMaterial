@@ -1,0 +1,608 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+ 
+<style type="text/css">
+body
+{
+    margin-left:  30px;
+    margin-right: 30px;
+};
+
+P
+{
+    font-family: Tahoma;
+    font-size: 10pt;
+};
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #545454;
+    background-color: transparent;
+}
+
+a:hover {
+    background-color: #cccccc;
+}
+
+
+hr {
+    clear: both;
+    height: 1px;
+    color: #242424;
+    background-color: transparent;
+}
+
+h1, h2, h3 {
+    color: #242424;
+    clear: left;
+    font: 100% Tahoma, Helvetica, Arial, sans-serif;
+    margin-bottom: 0.5em;
+    padding-top: 0.5em;
+	border-radius: 10px;
+	padding: 5px;
+}
+
+top {
+	width: 100%;
+}
+
+
+#i {
+    color: #ff1010;
+}
+tt{
+	font-family: "Arial";
+    font-size: 80%;
+	color: #006600;
+}
+em{
+	font-family: "Arial";
+    font-size: 80%;
+	font-weight: bold;
+	border-style:solid;
+	border-color: #abe876;
+    color: #1632cc;
+}
+bc{
+	font-family: "Arial";
+	font-size: 80%;
+	font-weight: bold;
+    color: #990000;
+	background-color: #fcf8c7;
+}
+ks{
+	font-family: "Arial";
+	font-weight: bold;
+    color: #0000CD	;
+	 
+}
+kc{
+	font-family: "Arial";
+	font-weight: bold;
+    color: #008000	;
+	 
+}
+pre{
+	font-family: "Consolas";
+	font-size: 85%;
+	background-color: #f5f5f5;
+	border: 1.5px solid silver;
+	padding: 5px;
+}
+m{
+	font-family: "Helvetica";
+	line-height: 100%;
+ 	font-size: 75%;
+}
+div.body{
+	width: 700px;
+    font-size: 15px;
+}
+k{
+    color: #990000;
+	font-weight: bold;
+}
+h1 {
+    font-size: 150%;
+    background-color: #b2c0ff;
+	padding: 10px; 
+}
+
+h2 {
+    background-color: #9ed8ff;
+    font-size: 130%;
+}
+
+h3 {
+	background-color: #e6ccff;
+    font-size: 100%;
+}
+h4 {
+    background-color: #C0F0E0;
+    font-size: 100%;
+	width: 95%;
+	border-radius: 5px;
+	padding: 2px;
+}
+h5 {
+    background-color: #d5ffb0;
+    font-size: 100%;
+	
+}    
+div.req{
+	background-color: #d9ffb3;
+    font-size: 18px;
+	width: 700px;
+    border: 3px solid green;
+    padding: 15px;
+    margin: 10px;
+}       
+div.remark{
+	background-color: #E3F2FD;	
+    border: 1.5px solid #d5f2ed;
+    padding: 15px;
+    margin: 10px;
+	border-radius: 25px;
+}  
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+} 
+
+ol, ul, li {
+  margin: 0;
+  margin-left: 10px;
+  padding: 0;
+  padding-bottom: 5px;
+}     
+
+table, th, td {
+	border: 1px solid black;
+}
+
+img {
+	border: 1.5px solid #d5f2ed
+	
+}
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #545454;
+    background-color: transparent;
+}
+
+div.wrapdesc{
+	width: 90%;
+	margin: auto;
+}
+
+div.imagedesc{
+	width: 85%;
+	margin: auto;
+}
+</style>
+    
+<head>
+   
+<title>AboutFHIR</title></head>
+    
+<body>
+<div id="body">
+<h1>DISI | About FHIR (in natmaterial\health)<font size="5"></font> </h1>
+<li><a href="HealthReferences.html" target="web">DISI | HealthReferences.html</a></li>   
+<li><a href="HealthInteroperabilityEvolution.html" target="web">DISI | HealthInteroperabilityEvolution.html</a></li>   
+<li><a href=" http://hl7.org/fhir/directory.html" target="web">FHIR Publication (Version) History</a></li>    
+ 
+
+ 
+<h1>Introduction to FHIR (Fast Healthcare Interoperability Resources)</h1>
+
+
+Starting from mid-2009, the v3/RIM specifications were designed to
+address one of the principal limitations of the V2 specifications – the ad-hoc and
+inconsistent nature of the information exchanged using it.<br/> <br/> 
+
+CDA, which is part of the v3/RIM specifications, has been widely adopted for information exchange
+between loosely coupled healthcare systems around the world.
+<br/> <br/> 
+However, in spite of its success in these terms, it was clear that
+there were several issues that brought v3 and the HL7 organisation itself to a
+crossroads.
+<ul>
+<li> <i>Consistency</i>: Across the healthcare system, there is little
+consensus about what information should be used, how it should be represented,
+and when it should be exchanged. While v3 excelled at producing consistent definitions,
+the consequence of this was that it was actually harder to use it inconsistently,
+and v3's rigorous consistency turned out to be a false advantage,
+since across the healthcare system, there is little
+consensus about what information should be used, how it should be represented,
+and when it should be exchanged. (<tt>BG-330</tt>)  <br/>
+</li>
+<li><i>Complexity</i>: in order to implement successfully, the specification designers and the
+implementers must read and understand many layers of v3/RIM documents.  (<tt>BG-330</tt>) <br/>
+Further, the custom tooling stack that HL7 had to produce to string all the layers together
+requires its own expertise, and the end outcome is engineering artefacts that do not
+align with what else is commonly used in the industry. (<tt>BG-330</tt>) <br/>
+Truly successful implementations of v3 or CDA – and there are some – require an extensive custom stack of
+libraries and templates. (<tt>BG-330</tt>)  </li>
+</ul>
+
+ 
+While the <k>v3/RIM</k> program had met its own goals, it was unfortunately clear that
+it had not met HL7's wider goals of <b>making interoperability cheaper and easier</b> (or,
+alternatively, of <i>producing standards that could compete in the market</i>, since healthcare
+interoperability standards is a market of its own). (<tt>BG-330</tt>)  
+<br/> <br/> 
+In response to the growing awareness of this issue, HL7 created a ‘Fresh Look’
+task force that was asked to examine the best ways HL7 could create interoperability
+solutions, with no pre-conditions on what those solutions might be. (<tt>BG-330</tt>)  
+<br/> <br/> 
+The FHIR team has adopted a manifesto, a declaration of the goals and priorities of
+the FHIR project. (<tt>BG-344</tt>)  <br/>
+<br/>  
+Interoperability specifications can be grouped into one of several different
+approaches: (<tt>BG-331</tt>)
+<ul>
+<li><ks> Messages </ks>  : define a series of fixed information that can be exchanged between applications when a specifi c event occurs.</li>
+<li><ks> Services </ks>: define a set of functional operations that one system exposes for others
+to use, along with the expectations of behaviour around these.</li>
+<li><ks> Documents </ks>: define a set of fixed information packages that can be exchanged or stored for later use.</li> 
+</ul>
+
+
+
+<br/><br/>
+ 
+<table style="width:98%">
+<tbody>	
+
+<tr><td style="width:30%" >
+<h3>From: <a href="http://www.hl7.org/Special/committees/fiwg" target="web">HL7 / FHIR Infrastructure home</a></h3>
+The <ks>FHIR Core Work Group (FHIR)</ks> is a content development work group (peer of other domain content work groups) responsible 
+for the development and maintenance of a delineated set of core components of the FHIR specification, thereby enabling other work groups to develop FHIR resources, profiles and implementation guides.</td>
+
+</td>
+<td>
+<h3>From: <a href="http://www.hl7.org/Special/committees/fiwg/overview.cfm" target="web">HL7 / FHIR Infrastructure overview</a></h3>
+
+FHIR is a healthcare information exchange standard that makes use of an HL7-defined set of 'resources' to support information sharing by a variety of means, 
+including documents, messages, services and RESTful interfaces.  
+<br/><br/>
+FHIR defines resources for clinical and administrative content (e.g. Observation, Patient, etc.) as well as resources  for 'infrastructure' purposes.  <br/>
+Some of these infrastructure resources are used to define the standard itself – i.e. what the characteristics of resources are, what codes can be used in them, etc.  
+<br/>
+This set of infrastructure resources is referred to as the 'Conformance resources'. 
+
+<br/><br/>
+</tr>
+
+<tr><td>
+<h3>From:  <a href="https://www.hl7.org/fhir/overview-arch.html" target="web">FHIR 2.16 FHIR Overview - Architects</a>. </h3>
+At its core, FHIR contains two primary components:
+<ul>
+<li><ks>Resources</ks> - a collection of information models that define the data elements, constraints and relationships for the “business objects” most relevant to healthcare. 
+From a model-driven architecture perspective, FHIR resources are notionally equivalent to a physical model implemented in XML or JSON. </li>
+<li><ks>APIs</ks> - a collection of well-defined interfaces for interoperating between two applications. 
+Although not required, the FHIR specification targets RESTful interfaces for API implementation. 
+<br/><br/>
+
+When considering the 
+<a href="http://www.hl7.org/implement/standards/product_brief.cfm?product_id=3" target="web"><ks>HL7 Services Aware Interoperability Framework (SAIF)</ks></a>,
+FHIR resources and RESTful APIs represent the 'Physical Models' and 'Interface Implementations' within the 
+Platform Specific Specifications layer of the Information Models and the Behavioral Models Viewpoints, respectively.
+<br/><br/>
+See also: <a href="https://www.opengroup.org/togaf" target="web">from the TOGAF perspective</a>
+and <a href="https://www.zachman.com/" target="web">from the Zachman Framework</a>
+</li>
+</ul>
+</td>
+<td><img src="./img/HL7SAIF.png" alt="HL7SAIF.png" width="100%"></td>
+</tr>
+
+<tr><td>
+<h3>From:  <a href="https://www.hl7.org/fhir/modules.html" target="web">FHIR 1.9 Getting Started with FHIR</a>. </h3>
+
+FHIR is a platform specification that defines a set of capabilities use across the healthcare process, in all jurisdictions, and in lots of different contexts. 
+<br/><br/>
+While the basics of the FHIR specification are relatively straight-forward 
+(see the Overviews: 
+<ul>
+<li><a href="https://www.hl7.org/fhir/overview.html" target="web">2.13 FHIR Overview general</a> </li>
+
+<li><a href="https://www.hl7.org/fhir/overview-dev.html" target="web">2.14 FHIR Overview - Developers</a></li>
+
+<li><a href="https://www.hl7.org/fhir/overview-clinical.html" target="web">2.15 FHIR Overview - Clinicians </a></li>
+
+<li><a href="https://www.hl7.org/fhir/overview-arch.html" target="web">2.16 FHIR Overview - Architects  </a></li>
+</ul>
+) it can still be difficult to know where to start when implementing a solution based on FHIR.
+<br/><br/>
+Generally, an implementer needs to resolve:
+<br/><br/>
+<pre>
+How will information be exchanged? (see Foundation Module)
+How are terminologies being used? (see Terminology Module)
+How will the information be secured? (see Security and Privacy Module)
+When is information exchanged? (See Workflow Module)
+What information is going to be exchanged?
+</pre>
+
+In order to help implementers find their way around the specification and answer these questions, it is organized into a set of "modules". 
+Each module represents a different functional area of the specification.<br/><br/>
+
+Dependencies between the modules are mainly downwards, with some horizontal dependencies.<br/><br/>
+<div class="remark">
+In addition to the <k>use case</k> based assistance in the modules, these additional documentation pages may be useful:
+<a href="https://www.hl7.org/fhir/usecases.html" target="web">FHIR 7.9 Common Example Scenarios in FHIR</a>
+</div>
+
+
+
+</td>
+<td><img src="./img/FHIRModules.png" alt="FHIRModules.png" width="100%"></td>
+</tr>
+
+<tr><td>
+<h3>From: <a href="https://www.hl7.org/fhir/resourceguide.html" target="web">FHIR 2.31 Guide to Resources</a></h3>
+The FHIR specification defines a set of resources, and an infrastructure for handling resources. In order to use FHIR to create solutions 
+for integration requirements, implementers must map their problems to resources and their content.
+<br/><br/>
+This page describes the resources and their functional intent in more detail to assist implementers to understand their purpose and scope, 
+and their supporting classifications.
+</td>
+<td><img src="./img/FHIRResourceGuide.png" alt="FHIRResourceGuide.png" width="100%"></td>
+
+ 
+</tr>
+
+
+
+<tr><td>
+<h3>FHIR and REST</h3>
+FHIR aspires to follow RESTful principles as much as possible.... (<tt>BG-331</tt>)   <br/>
+... by adopting the form of interoperability, called an <i>Application Programming Interface</i> (<k>API</k>) ... (<tt>BG-331</tt>)  <br/> .
+... rather the form based on the <i>Service Orientated Architecture</i> (<k>SOA</k>). (<tt>BG-331</tt>) 
+<br/><br/>
+The <k>FHIR API</k> provides a <b>record centric approach</b> to data exchange. Instead of
+asking the server to perform some operation, the client tells the server what the
+contents of the record should be. These services are often called <ks>CRUD</ks> services (<tt>BG-334</tt>) 
+
+<h3>FHIR Resources</h3>
+As a RESTful specification, FHIR is organized around the concept of a repository which is a list of resources of a particular kind (<tt>BG-333</tt>) 
+<br/><br/>
+FHIR defines around 100 type of resources (<tt>BG-333</tt>), categorized as reported in
+<a href="https://www.hl7.org/fhir/resourcelist.html" target="web">FHIR 1.2 Resource Index</a>)
+
+</td>
+<td>
+<img src="./img/FHIRResourceCategorization.png" alt="FHIRResourceCategorization.png" width="100%">
+</td>
+</tr>
+
+
+<tr>
+<td>
+<h3>From: <a href="https://www.hl7.org/fhir/workflow.html#respatterns" target="web">FHIR 12.5.1 Workflow Resource Patterns</a></h3>
+ 
+Many FHIR resources are used to describe entities and roles (patients, medications, etc.) 
+or infrastructure (structure definitions, value sets, etc.). 
+<br/><br/>
+However, a large proportion of the FHIR resources are devoted to the <ks>description of activities</ks> in one fashion or another and almost all of these 
+fall into the realm of workflow - they describe things:<br/><br/>
+<ul>
+<li> that can be done (<a href="https://www.hl7.org/fhir/definition.html" target="web">FHIR 12.2 Pattern definition </a>)</li>	
+<li> that are desired to be done (<a href="https://www.hl7.org/fhir/request.html" target="web">FHIR 12.3 Pattern request  </a>) </li> 
+<li>that have been done (<a href="https://www.hl7.org/fhir/event.html" target="web">FHIR 12.4 Pattern event </a>)</li> 
+</ul>
+These three patterns of resources have a standard set of relationships, both with themselves, as well as with each other.<br/>
+<center><img src="./img/FHIRworkflow-relations.png" alt="FHIRworkflow-relations.png" width="50%"></center>
+ <br/>
+ Note that requests, events and definitions don't exist in a 1:1:1 relationship.
+The set of common linkages should be asserted in their respective resources. 
+The specific types of responses for a given request will be governed by the <ks>Request.code</ks>, any workflow definitions/protocols referenced and local convention.
+
+<br/><br/> 
+The table summarizes the list of workflow-relevant resources<br/>
+
+</td>
+<td><img src="./img/FHIRWorkflowResourcePatterns.png" alt="FHIRWorkflowResourcePatterns.png" width="100%">
+</td>
+</tr>
+<tr><td>
+</td>
+<td></td>
+</tr>
+
+
+<tr><td style="width:50%">
+ <h3 id="12.6">From <a href="https://www.hl7.org/fhir/workflow-communications.html" target="fhirweb">12.6 Workflow Execution and Communication Patterns</a></h3> 
+Many FHIR resources can be used within workflows <k>without using</k> FHIR to manage the execution of the workflows. <br/>
+When we want to manage workflow execution with FHIR, there are several mechanisms available. <br/>
+Prior to reviewing this list of options (
+<a href="https://www.hl7.org/fhir/workflow-communications.html#commpatternslist" target="fhirweb">12.6.3 List of patterns</a>), 
+readers are encouraged to be familiar with the following pages and resources: <br/><br/>
+<ul>
+<li><a href="https://www.hl7.org/fhir/http.html" target="fhirweb">3.1.0 RESTful API </a></li>
+<li><a href="https://www.hl7.org/fhir/messaging.html" target="fhirweb">3.4 Messaging using FHIR Resources</a></li>
+<li><a href="https://www.hl7.org/fhir/operations.html" target="fhirweb">3.2.0 Extended Operations on the RESTful API</a></li>
+<li><a href="https://www.hl7.org/fhir/services.html" target="fhirweb">3.5 Using Resources with Services and Service-oriented Architecture</a></li>
+<li><a href="https://www.hl7.org/fhir/subscription.html" target="fhirweb">2.46 Resource Subscription</a></li>
+
+</ul>
+ 
+<br/>
+The workflow state is represented by the 
+
+<a href="https://www.hl7.org/fhir/task.html" target="fhirweb">12.1 Resource <ks>Task</ks></a>
+. 
+
+<br/><br/>
+In addition to managing workflow with FHIR, there are also cases where management of workflow execution is not necessary, 
+and supporting workflow becomes simply the use of the resource patterns in an <ks>ad-hoc</ks> fashion
+(<a href="https://www.hl7.org/fhir/workflow-ad-hoc.html" target="fhirweb">12.7 Ad-Hoc Workflow Communication Patterns </a>).
+</td>
+<td>
+12.6.2 Workflow State. <br/>
+<img src="./img/task-state-machine.svg" alt="task-state-machine.svg" width="60%"><br/>
+<a href="#12.6.2.1">12.6.2.1 Example: Workflow states for a lab order for a blood test</a> <br/>
+<a href="#12.6.2.2">12.6.2.2 Example: Workflow states for a referral from a PCP to a specialist</a> <br/>
+<a href="#12.6.3">12.6.3 List of patterns</a> <br/> 
+</td>
+</tr>
+
+
+
+ </tbody>
+</table>
+ <br/><br/>
+ 
+
+
+<br/>
+
+
+<br/><br/>
+
+
+
+
+
+
+
+<br/><br/>
+From:  <a href="https://www.hl7.org/fhir/compartmentdefinition.html" target="web">FHIR 5.6 Resource CompartmentDefinition</a>: <br/>
+Each resource may belong to one or more logical compartments. A compartment is a logical grouping of resources which share a common property. 
+<br/><br/>
+
+
+
+ 
+
+<ol>
+<li>CSpace-FHIR: a standard vocabulary for health-care management </li>
+<li>The CSpace-FHIR is based on resources that can be accessed in RESTful way</li>
+<li>Each resources can be represented in several ways, by using several languages: UML, Xml, Json, Turtle (RDF)</li>
+<li></li>
+<li>FHIR defines around 100 type of resources (<tt>BG-333</tt>), categorized as follows 
+(see <a href="https://www.hl7.org/fhir/resourcelist.html" target="web">FHIR 1.2 Resource Index</a>) :
+
+<table style="width:98%">
+<tbody>	
+<tr>
+<td style="width:20%" >Administration
+</td>
+<td style="width:30%">
+</td>Patient, Encounter, Appointment, Order / OrderResponse
+<td></td>
+</tr>
+
+
+<tr><td>Clinical
+</td>
+<td>Summary, Diagnostics, Medications, Care Provision, Request & Response</td>
+<td></td>
+</tr>
+
+<tr><td>Infrastructure
+</td>
+<td>Bundle, List, AuditEvent</td>
+<td></td>
+</tr>
+
+<tr><td>Financial
+</td>
+<td>Claim, Coverage, ExplanationOfBenefit</td>
+<td></td>
+</tr>
+
+<tr><td>Conformance
+</td>
+<td>Conformance, StructureDefinition, ValueSet</td>
+<td></td>
+</tr>
+
+
+The set of resources for managing workflows is still yet to be developed (<tt>BG-333</tt>) .
+
+
+
+
+ </tbody>
+</table>
+</li>
+<li></li>
+<li></li>
+</ol>
+
+ <h3>FHIR (Fast Healthcare Interoperability Resources)</h3>
+
+ 
+As a <i>RESTful specification</i>, <k>FHIR</k> is organised around the concept of a <b>repository</b>,
+which is a list of resources of a particular kind. (<tt>BG-331</tt>)<br/>
+<br/>
+Most of the significant content of the FHIR specification is in the definition of the
+particular types of resource. FHIR defines around 100 types of resource, representing
+widely different types of content.(<tt>BG-334</tt>)
+ 
+Most of the functionality of a FHIR interface is provided by  three services   (pg. 334)<br/>
+<ul>
+<li><ks> Instance Service </ks></li>
+<li><ks> Type Service </ks></li>
+<li><ks> System Service </ks></li>
+</ul>
+
+
+
+<br/><br/>
+In addition to these base services that apply to all the types of resources defined
+by FHIR, FHIR allows for the <b>additional special services</b> that provide specific functionality
+beyond simple CRUD services. FHIR defi nes a number of useful services
+itself, such as asking a server whether it considers a resource is valid, linking two
+patients, or retrieving all the records associated with a particular patient. (pg. 334)<br/>
+
+Servers can define their own addition services.(pg. 334)<br/>
+
+
+
+<h3><a href="https://www.hl7.org/fhir/comparison.html" target="web">The Relationship between FHIR and other HL7 Standards</a>
+</h3>
+
+<ul>
+<li><a href="https://www.hl7.org/fhir/comparison-v3.html" target="web">7.17.2 HL7 v3 (and ISO 21090)</a></li>
+<li><a href="https://www.hl7.org/fhir/comparison-v3.html" target="web">7.17.2 HL7 v3 (and ISO 21090)</a> </li>
+<li><a href="https://www.hl7.org/fhir/comparison-cda.html" target="web">7.17.3 Clinical Document Architecture (CDA)</a></li>
+</ul>
+
+ 
+  
+
+
+ <br/><br/>
+<table style="width:98%">
+<tbody>	
+<tr>
+<td style="width:50%" >
+</td>
+<td>
+</td>
+</tr>
+<tr><td>
+</td>
+<td></td>
+</tr>
+ </tbody>
+</table>
+ <br/><br/>
+ </div>    
+
+ 
+
+<div style="background-color:rgba(86, 56, 253, 0.9); width:100%;text-align:center;font-size:small;color:white">
+By AN Unibo-DISI  
+</div> 
+
+</body>
+</html>
+
+
+ 
