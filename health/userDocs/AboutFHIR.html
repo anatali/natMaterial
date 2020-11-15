@@ -195,7 +195,7 @@ div.imagedesc{
  
 
  
-<h1>Introduction to FHIR (Fast Healthcare Interoperability Resources)</h1>
+<h2>Introduction to FHIR (Fast Healthcare Interoperability Resources)</h2>
 
 
 Starting from mid-2009, the v3/RIM specifications were designed to
@@ -408,10 +408,6 @@ The table summarizes the list of workflow-relevant resources<br/>
 <td><img src="./img/FHIRWorkflowResourcePatterns.png" alt="FHIRWorkflowResourcePatterns.png" width="100%">
 </td>
 </tr>
-<tr><td>
-</td>
-<td></td>
-</tr>
 
 
 <tr><td style="width:50%">
@@ -434,7 +430,7 @@ readers are encouraged to be familiar with the following pages and resources: <b
 The workflow state is represented by the 
 
 <a href="https://www.hl7.org/fhir/task.html" target="fhirweb">12.1 Resource <ks>Task</ks></a>
-. 
+
 
 <br/><br/>
 In addition to managing workflow with FHIR, there are also cases where management of workflow execution is not necessary, 
@@ -450,90 +446,16 @@ and supporting workflow becomes simply the use of the resource patterns in an <k
 </td>
 </tr>
 
-
-
  </tbody>
 </table>
- <br/><br/>
+ 
+ 
+<div class="remark">
+Si vedano anche le note di <a href="FhirWorkflow.html" target="fhirweb">DISI - FHIR workflow</a>.
+</div>
  
 
-
-<br/>
-
-
-<br/><br/>
-
-
-
-
-
-
-
-<br/><br/>
-From:  <a href="https://www.hl7.org/fhir/compartmentdefinition.html" target="web">FHIR 5.6 Resource CompartmentDefinition</a>: <br/>
-Each resource may belong to one or more logical compartments. A compartment is a logical grouping of resources which share a common property. 
-<br/><br/>
-
-
-
- 
-
-<ol>
-<li>CSpace-FHIR: a standard vocabulary for health-care management </li>
-<li>The CSpace-FHIR is based on resources that can be accessed in RESTful way</li>
-<li>Each resources can be represented in several ways, by using several languages: UML, Xml, Json, Turtle (RDF)</li>
-<li></li>
-<li>FHIR defines around 100 type of resources (<tt>BG-333</tt>), categorized as follows 
-(see <a href="https://www.hl7.org/fhir/resourcelist.html" target="web">FHIR 1.2 Resource Index</a>) :
-
-<table style="width:98%">
-<tbody>	
-<tr>
-<td style="width:20%" >Administration
-</td>
-<td style="width:30%">
-</td>Patient, Encounter, Appointment, Order / OrderResponse
-<td></td>
-</tr>
-
-
-<tr><td>Clinical
-</td>
-<td>Summary, Diagnostics, Medications, Care Provision, Request & Response</td>
-<td></td>
-</tr>
-
-<tr><td>Infrastructure
-</td>
-<td>Bundle, List, AuditEvent</td>
-<td></td>
-</tr>
-
-<tr><td>Financial
-</td>
-<td>Claim, Coverage, ExplanationOfBenefit</td>
-<td></td>
-</tr>
-
-<tr><td>Conformance
-</td>
-<td>Conformance, StructureDefinition, ValueSet</td>
-<td></td>
-</tr>
-
-
-The set of resources for managing workflows is still yet to be developed (<tt>BG-333</tt>) .
-
-
-
-
- </tbody>
-</table>
-</li>
-<li></li>
-<li></li>
-</ol>
-
+<!--
  <h3>FHIR (Fast Healthcare Interoperability Resources)</h3>
 
  
@@ -562,10 +484,9 @@ patients, or retrieving all the records associated with a particular patient. (p
 
 Servers can define their own addition services.(pg. 334)<br/>
 
+-->
 
-
-<h3><a href="https://www.hl7.org/fhir/comparison.html" target="web">The Relationship between FHIR and other HL7 Standards</a>
-</h3>
+<h2><a href="https://www.hl7.org/fhir/comparison.html" target="web">The Relationship between FHIR and other HL7 Standards</a></h2>
 
 <ul>
 <li><a href="https://www.hl7.org/fhir/comparison-v3.html" target="web">7.17.2 HL7 v3 (and ISO 21090)</a></li>
