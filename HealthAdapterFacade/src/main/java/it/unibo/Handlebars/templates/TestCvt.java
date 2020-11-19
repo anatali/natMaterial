@@ -3,7 +3,9 @@ package it.unibo.Handlebars.templates;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
- 
+import java.io.IOException;
+import java.net.URI;
+
 
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Helper;
@@ -14,12 +16,30 @@ import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.model.Message;
 import ca.uhn.hl7v2.model.v23.message.ADT_A01;
 import ca.uhn.hl7v2.util.Hl7InputStreamMessageIterator;
- 
+import it.unibo.Handlebars.Person;
+
 
 public class TestCvt {
 	//From https://www.baeldung.com/handlebars	
 	private static Handlebars handlebars = new Handlebars();
-	
+
+	public static String templateReference() {
+		try { //By default, Handlebars scans the classpath to load the given template
+			Template template     = handlebars.compile( "resources/templatesHbs/page" );
+			//Template template     = handlebars.compileInline( "Hello {{this }}" );	//include  header
+			Person person         = new Person();
+			person.setName( "somePerson" );
+			String templateString = template.apply(person.getName());
+			System.out.println( templateString );
+			return templateString;
+		} catch (IOException e) {
+			String s = "templateReference error " + e.getMessage();
+			System.out.println(s );
+			return s;
+		}
+
+	}
+
 	public static void elabFromFile() throws Exception {
 		File file                          = new File("C:/Progetti/natmaterial/HealthAdapterFacade/FHIR-Converter/examples/sample-data/hl7v2/ADT01-23.hl7");
 		BufferedInputStream is             = new BufferedInputStream(new FileInputStream(file));
@@ -86,7 +106,9 @@ public class TestCvt {
 	}	
 	
 	public static void main(String[] args) throws Exception {
-		elabFromFile();
+		System.out.println("----------------------------------- aaaa " );
+		templateReference();
+		//elabFromFile();
 	}
 
 }
