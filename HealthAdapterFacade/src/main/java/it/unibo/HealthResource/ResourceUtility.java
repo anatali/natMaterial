@@ -33,6 +33,7 @@ public class ResourceUtility {
 			case "ObservationDefinition": return ObservationDefinition.class;
 			case "Device" 			  	: return Device.class;
 			case "DeviceRequest" 	  	: return DeviceRequest.class;
+			case "ServiceRequest" 	  	: return ServiceRequest.class;
 			case "Organization"  	  	: return Organization.class;
 			case "Observation"  	  	: return Observation.class;
 			case "Endpoint"  	     	: return Endpoint.class;

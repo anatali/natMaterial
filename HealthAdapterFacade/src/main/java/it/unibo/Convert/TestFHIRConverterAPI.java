@@ -105,7 +105,8 @@ public class TestFHIRConverterAPI {
  	}
   	
   	
-    public static void main(String[] args)   {
+    public static void
+	main(String[] args)   {
     	
 //    	doGet( "/api-docs/" );							//ok
 //    	doGet( "/#/default/get_api_sample_data");		//ok 
