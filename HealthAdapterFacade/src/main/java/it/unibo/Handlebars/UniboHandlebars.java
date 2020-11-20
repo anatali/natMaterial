@@ -72,6 +72,7 @@ public class UniboHandlebars {
 			person.setName( "aDisiPerson" );
 			person.getAddress().setStreet("SenzaNome");
 			String templateString = template.apply(person);
+			System.out.println(templateString);
 			return templateString;
 		} catch (IOException e) {
 			String s = "usingWith error " + e.getMessage();
