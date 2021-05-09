@@ -9,7 +9,7 @@
     "babel-loader": "^8.1.0",
     "cls-hooked": "^4.2.2",
     "deepmerge": "^4.2.2",
-    "handlebars": "^4.7.6",
+    "handlebars": "^4.7.7",
     "path": "^0.12.7",
     "react": "~16.13.1",
     "react-dom": "~16.13.1",
